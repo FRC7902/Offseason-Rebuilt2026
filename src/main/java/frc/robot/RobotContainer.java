@@ -9,14 +9,33 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.indexer.IndexerSystem;
+import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
+import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
+import frc.robot.subsystems.indexer.roller.RollerFloorSubsystem;
 import frc.robot.subsystems.intake.IntakeSystem;
+import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
+import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
+import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
+import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class RobotContainer {
 
-    IndexerSystem m_indexerSystem;
-    IntakeSystem m_intakeSystem;
-    ShooterSystem m_shooterSystem;
+    private final IndexerBeltSubsystem m_indexerBeltSubsystem;
+    private final FeederSubsystem m_feederSubsystem;
+    private final RollerFloorSubsystem m_rollerFloorSubsystem;
+
+    private final LinearIntakeSubsystem m_linearIntakeSubsystem;
+    private final IntakeRollerSubsystem m_intakeRollerSubsystem;
+
+    private final FlywheelSubsystem m_flywheelSubsystem;
+    private final HoodSubsystem m_hoodSubsystem;
+    private final TurretSubsystem m_turretSubsystem;
+
+    private final IndexerSystem m_indexerSystem;
+    private final IntakeSystem m_intakeSystem;
+    private final ShooterSystem m_shooterSystem;
 
     public RobotContainer() {
 
@@ -25,9 +44,20 @@ public class RobotContainer {
         // Include DriverStation data in the log
         DriverStation.startDataLog(DataLogManager.getLog());
 
-        m_indexerSystem = new IndexerSystem();
-        m_intakeSystem = new IntakeSystem();
-        m_shooterSystem = new ShooterSystem();
+        m_indexerBeltSubsystem = new IndexerBeltSubsystem();
+        m_feederSubsystem = new FeederSubsystem();
+        m_rollerFloorSubsystem = new RollerFloorSubsystem();
+
+        m_linearIntakeSubsystem = new LinearIntakeSubsystem();
+        m_intakeRollerSubsystem = new IntakeRollerSubsystem();
+
+        m_flywheelSubsystem = new FlywheelSubsystem();
+        m_hoodSubsystem = new HoodSubsystem();
+        m_turretSubsystem = new TurretSubsystem();
+
+        m_indexerSystem = new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
+        m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
+        m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
         configureBindings();
     }
