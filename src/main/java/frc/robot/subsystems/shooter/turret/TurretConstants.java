@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.PivotConfig;
@@ -16,6 +17,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
+import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class TurretConstants {
 
@@ -34,7 +36,10 @@ public class TurretConstants {
             .withMotorInverted(false)
             .withFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0))
             .withSimFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0))
-            .withTelemetry("TurretMotor", TelemetryVerbosity.HIGH)
+            .withTelemetry("TurretMotor", new SmartMotorControllerTelemetryConfig()
+                    .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                    .withDataLogName("TurretMotor")
+                    .withNetworkTables(!DriverStation.isFMSAttached()))
             .withStatorCurrentLimit(Amps.of(60))
             .withStartingPosition(Degrees.of(0))
             .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01));

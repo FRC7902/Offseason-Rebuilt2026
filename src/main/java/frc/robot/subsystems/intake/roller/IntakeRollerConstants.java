@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
@@ -16,6 +17,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
+import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class IntakeRollerConstants {
 
@@ -28,7 +30,10 @@ public class IntakeRollerConstants {
             .withClosedLoopController(0.00016541, 0, 0)
             .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
             .withIdleMode(MotorMode.COAST)
-            .withTelemetry("IntakeRollerMotor", TelemetryVerbosity.HIGH)
+            .withTelemetry("IntakeRollerMotor", new SmartMotorControllerTelemetryConfig()
+                    .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                    .withDataLogName("IntakeRollerMotor")
+                    .withNetworkTables(!DriverStation.isFMSAttached()))
             .withStatorCurrentLimit(Amps.of(40))
             .withMotorInverted(false)
             .withClosedLoopRampRate(Seconds.of(0.25))

@@ -12,10 +12,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 public class RobotContainer {
     public RobotContainer() {
 
-        // Start logging to the data logger with NetworkTables
-        DataLogManager.logNetworkTables(true);
+        // Start data logging
         DataLogManager.start();
-        // Log DriverStation data
+        // Include DriverStation data in the log
         DriverStation.startDataLog(DataLogManager.getLog());
 
         configureBindings();

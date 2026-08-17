@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.ElevatorConfig;
@@ -19,6 +20,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
+import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class LinearIntakeConstants {
 
@@ -34,7 +36,10 @@ public class LinearIntakeConstants {
             .withSoftLimits(Meters.of(0), Meters.of(2))
             .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
             .withIdleMode(MotorMode.BRAKE)
-            .withTelemetry("LinearIntakeMotor", TelemetryVerbosity.HIGH)
+            .withTelemetry("LinearIntakeMotor", new SmartMotorControllerTelemetryConfig()
+                    .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                    .withDataLogName("LinearIntakeMotor")
+                    .withNetworkTables(!DriverStation.isFMSAttached()))
             .withStatorCurrentLimit(Amps.of(40))
             .withMotorInverted(false)
             .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
