@@ -81,6 +81,13 @@ public class RollerFloorSubsystem extends SubsystemBase {
         return m_rollerFloor.set(dutyCycle);
     }
 
+    public Command stop() {
+        return this.runOnce(() -> {
+            m_motor.stopClosedLoopController();
+            setDutyCycle(0);
+        });
+    }
+
     @Override
     public void periodic() {
         m_rollerFloor.updateTelemetry();

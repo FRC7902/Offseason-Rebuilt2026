@@ -23,26 +23,16 @@ public class HoodSubsystem extends SubsystemBase {
         m_hood = new Arm(HoodConstants.ARM_CONFIG, m_motor);
     }
 
-    @Override
-    public void periodic() {
-        m_hood.updateTelemetry();
-    }
-
-    @Override
-    public void simulationPeriodic() {
-        m_hood.simIterate();
-    }
-
     /**
      * Drives the hood open-loop at the given duty cycle.
      * Useful for manual adjustment and as a safe default command.
      *
-     * @param dutycycle Output fraction in [-1, 1]; positive moves the hood in the
+     * @param dutyCycle Output fraction in [-1, 1]; positive moves the hood in the
      *                  positive direction.
      * @return Command that runs while scheduled and stops when interrupted.
      */
-    public Command hoodCmd(double dutycycle) {
-        return m_hood.set(dutycycle);
+    public Command setDutyCycle(double dutyCycle) {
+        return m_hood.set(dutyCycle);
     }
 
     /**
@@ -56,5 +46,22 @@ public class HoodSubsystem extends SubsystemBase {
      */
     public Command setAngle(Angle angle) {
         return m_hood.runTo(angle, HoodConstants.TOLERANCE);
+    }
+
+    public Command stop() {
+        return this.runOnce(() -> {
+            m_motor.stopClosedLoopController();
+            setDutyCycle(0);
+        });
+    }
+
+    @Override
+    public void periodic() {
+        m_hood.updateTelemetry();
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        m_hood.simIterate();
     }
 }

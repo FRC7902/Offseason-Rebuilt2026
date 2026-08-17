@@ -75,26 +75,16 @@ public class TurretSubsystem extends SubsystemBase {
         return new ChassisSpeeds(turretVx, turretVy, turretOmega);
     }
 
-    @Override
-    public void periodic() {
-        m_turret.updateTelemetry();
-    }
-
-    @Override
-    public void simulationPeriodic() {
-        m_turret.simIterate();
-    }
-
     /**
      * Drives the turret in open-loop at the given duty cycle.
      *
-     * @param dutycycle Output fraction in [-1, 1]. Positive values move the turret
+     * @param dutyCycle Output fraction in [-1, 1]. Positive values move the turret
      *                  in
      *                  the positive direction.
      * @return Command that runs while scheduled and stops when interrupted.
      */
-    public Command turretCmd(double dutycycle) {
-        return m_turret.set(dutycycle);
+    public Command setDutyCycle(double dutyCycle) {
+        return m_turret.set(dutyCycle);
     }
 
     /**
@@ -116,5 +106,22 @@ public class TurretSubsystem extends SubsystemBase {
      */
     public void setAngleSetpoint(Angle measure) {
         m_turret.setMechanismPositionSetpoint(measure);
+    }
+
+    public Command stop() {
+        return this.runOnce(() -> {
+            m_motor.stopClosedLoopController();
+            setDutyCycle(0);
+        });
+    }
+
+    @Override
+    public void periodic() {
+        m_turret.updateTelemetry();
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        m_turret.simIterate();
     }
 }

@@ -82,6 +82,13 @@ public class FlywheelSubsystem extends SubsystemBase {
         return m_flywheel.set(dutyCycle);
     }
 
+    public Command stop() {
+        return this.runOnce(() -> {
+            m_motor.stopClosedLoopController();
+            setDutyCycle(0);
+        });
+    }
+
     @Override
     public void periodic() {
         m_flywheel.updateTelemetry();

@@ -87,6 +87,13 @@ public class IntakeRollerSubsystem extends SubsystemBase {
         return m_intakeRoller.set(dutyCycle);
     }
 
+    public Command stop() {
+        return this.runOnce(() -> {
+            m_motor.stopClosedLoopController();
+            setDutyCycle(0);
+        });
+    }
+
     @Override
     public void periodic() {
         m_intakeRoller.updateTelemetry();

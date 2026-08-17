@@ -25,25 +25,15 @@ public class LinearIntakeSubsystem extends SubsystemBase {
         m_linearIntake = new Elevator(LinearIntakeConstants.ELEVATOR_CONFIG, m_motor);
     }
 
-    @Override
-    public void periodic() {
-        m_linearIntake.updateTelemetry();
-    }
-
-    @Override
-    public void simulationPeriodic() {
-        m_linearIntake.simIterate();
-    }
-
     /**
      * Open-loop duty-cycle command for manual control or testing.
      * Positive duty cycle raises the carriage; negative lowers it.
      *
-     * @param dutycycle Fraction of bus voltage, [-1.0, 1.0].
+     * @param dutyCycle Fraction of bus voltage, [-1.0, 1.0].
      * @return Command that runs until interrupted.
      */
-    public Command elevCmd(double dutycycle) {
-        return m_linearIntake.set(dutycycle);
+    public Command setDutyCycle(double dutyCycle) {
+        return m_linearIntake.set(dutyCycle);
     }
 
     /**
@@ -61,4 +51,20 @@ public class LinearIntakeSubsystem extends SubsystemBase {
         return m_linearIntake.runTo(height, LinearIntakeConstants.TOLERANCE);
     }
 
+    public Command stop() {
+        return this.runOnce(() -> {
+            m_motor.stopClosedLoopController();
+            setDutyCycle(0);
+        });
+    }
+
+    @Override
+    public void periodic() {
+        m_linearIntake.updateTelemetry();
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        m_linearIntake.simIterate();
+    }
 }
