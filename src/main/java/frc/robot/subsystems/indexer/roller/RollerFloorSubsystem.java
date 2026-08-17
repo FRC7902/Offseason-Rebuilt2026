@@ -28,6 +28,8 @@ public class RollerFloorSubsystem extends SubsystemBase {
     /**
      * Returns the current roller floor angular velocity as measured by the motor
      * encoder.
+     *
+     * @return Current roller floor speed.
      */
     public AngularVelocity getVelocity() {
         return m_rollerFloor.getSpeed();

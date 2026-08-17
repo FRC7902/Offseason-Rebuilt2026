@@ -25,10 +25,12 @@ public class LinearIntakeSubsystem extends SubsystemBase {
         m_linearIntake = new Elevator(LinearIntakeConstants.ELEVATOR_CONFIG, m_motor);
     }
 
+    @Override
     public void periodic() {
         m_linearIntake.updateTelemetry();
     }
 
+    @Override
     public void simulationPeriodic() {
         m_linearIntake.simIterate();
     }

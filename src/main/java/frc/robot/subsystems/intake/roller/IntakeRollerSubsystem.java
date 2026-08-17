@@ -26,6 +26,12 @@ public class IntakeRollerSubsystem extends SubsystemBase {
         m_intakeRoller = new FlyWheel(IntakeRollerConstants.FLYWHEEL_CONFIG, m_motor);
     }
 
+    /**
+     * Returns the current intake roller angular velocity as measured by the motor
+     * encoder.
+     *
+     * @return Current roller speed.
+     */
     public AngularVelocity getVelocity() {
         return m_intakeRoller.getSpeed();
     }

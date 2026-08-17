@@ -28,6 +28,8 @@ public class FeederSubsystem extends SubsystemBase {
     /**
      * Returns the current feeder angular velocity as measured by the motor
      * encoder.
+     *
+     * @return Current feeder speed.
      */
     public AngularVelocity getVelocity() {
         return m_feeder.getSpeed();

@@ -34,19 +34,21 @@ public class HoodSubsystem extends SubsystemBase {
     }
 
     /**
-     * Drive the hood open-loop at the given duty cycle.
+     * Drives the hood open-loop at the given duty cycle.
      * Useful for manual adjustment and as a safe default command.
      *
-     * @param dutycycle Output fraction in [-1, 1]; positive moves the hood in the positive direction.
-     * @return Command that runs while held, stops when released.
+     * @param dutycycle Output fraction in [-1, 1]; positive moves the hood in the
+     *                  positive direction.
+     * @return Command that runs while scheduled and stops when interrupted.
      */
     public Command hoodCmd(double dutycycle) {
         return m_hood.set(dutycycle);
     }
 
     /**
-     * Move the hood to a fixed angle using the closed-loop controller.
-     * The trapezoidal profile ramps velocity so the hood does not slam into the setpoint.
+     * Moves the hood to a fixed angle using the closed-loop controller.
+     * The trapezoidal profile ramps velocity so the hood does not slam into the
+     * setpoint.
      *
      * @param angle Target angle. Must be within the configured soft limits.
      * @return Command that ends when the profile completes.

@@ -31,12 +31,28 @@ public class TurretSubsystem extends SubsystemBase {
         m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
     }
 
+    /**
+     * Returns the turret's estimated pose in the field frame based on the robot's
+     * pose and the fixed turret offset from the robot center.
+     *
+     * @param robotPose Current pose of the robot in the field coordinate system.
+     * @return Field-relative pose of the turret mounting point.
+     */
     public Pose2d getPose(Pose2d robotPose) {
         return robotPose.plus(new Transform2d(
                 TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
                 TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
     }
 
+    /**
+     * Computes the turret's linear and angular velocity in the field frame from the
+     * robot's chassis motion and the turret's own motor rotation rate.
+     *
+     * @param robotVelocity Current chassis velocity in the robot frame.
+     * @param robotAngle Current robot heading used to rotate the turret offset into the
+     *                  field frame.
+     * @return Turret velocity in field coordinates.
+     */
     public ChassisSpeeds getVelocity(ChassisSpeeds robotVelocity, Angle robotAngle) {
         Translation2d rRobot = TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(); // in robot frame
         Translation2d rWorld = rRobot.rotateBy(Rotation2d.fromRadians(robotAngle.in(Radians))); // rotate into field
@@ -58,22 +74,42 @@ public class TurretSubsystem extends SubsystemBase {
         return new ChassisSpeeds(turretVx, turretVy, turretOmega);
     }
 
+    @Override
     public void periodic() {
         m_turret.updateTelemetry();
     }
 
+    @Override
     public void simulationPeriodic() {
         m_turret.simIterate();
     }
 
+    /**
+     * Drives the turret in open-loop at the given duty cycle.
+     *
+     * @param dutycycle Output fraction in [-1, 1]. Positive values move the turret in
+     *                  the positive direction.
+     * @return Command that runs while scheduled and stops when interrupted.
+     */
     public Command turretCmd(double dutycycle) {
         return m_turret.set(dutycycle);
     }
 
+    /**
+     * Moves the turret to a fixed angular setpoint using the closed-loop controller.
+     *
+     * @param angle Target turret angle.
+     * @return Command that drives the turret toward the requested angle.
+     */
     public Command setAngle(Angle angle) {
         return m_turret.setAngle(angle);
     }
 
+    /**
+     * Sets the turret's mechanism position setpoint without creating a command.
+     *
+     * @param measure Desired turret angle reference.
+     */
     public void setAngleSetpoint(Angle measure) {
         m_turret.setMechanismPositionSetpoint(measure);
     }

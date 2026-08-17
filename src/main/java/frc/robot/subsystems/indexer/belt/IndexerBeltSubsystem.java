@@ -28,6 +28,8 @@ public class IndexerBeltSubsystem extends SubsystemBase {
     /**
      * Returns the current indexer belt angular velocity as measured by the motor
      * encoder.
+     *
+     * @return Current indexer belt speed.
      */
     public AngularVelocity getVelocity() {
         return m_indexerBelt.getSpeed();
