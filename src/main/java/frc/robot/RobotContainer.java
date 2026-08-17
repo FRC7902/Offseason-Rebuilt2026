@@ -4,15 +4,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 public class RobotContainer {
   public RobotContainer() {
+
+    // Start logging to the data logger with NetworkTables
+    DataLogManager.logNetworkTables(true);
+    DataLogManager.start();
+
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
