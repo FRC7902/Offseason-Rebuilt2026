@@ -28,8 +28,6 @@ public class RollerFloorSubsystem extends SubsystemBase {
     /**
      * Returns the current roller floor angular velocity as measured by the motor
      * encoder.
-     *
-     * @return Current roller floor speed.
      */
     public AngularVelocity getVelocity() {
         return m_rollerFloor.getSpeed();
@@ -41,10 +39,11 @@ public class RollerFloorSubsystem extends SubsystemBase {
      * and feedforward maintain this speed continuously until the command ends.
      *
      * @param speed Desired angular velocity at the roller floor (after gearing).
-     * @return A command that holds the given speed while scheduled.
+     * @return A command that runs until the roller floor reaches the target speed
+     *         within tolerance.
      */
     public Command setVelocity(AngularVelocity speed) {
-        return m_rollerFloor.run(speed);
+        return m_rollerFloor.runTo(speed, RollerFloorConstants.TOLERANCE);
     }
 
     /**
@@ -63,11 +62,12 @@ public class RollerFloorSubsystem extends SubsystemBase {
      * iteration.
      *
      * @param speed Supplier of the desired angular velocity.
-     * @return A command that continuously polls the supplier and updates the
-     *         setpoint.
+     * @return A command that runs until the roller floor reaches the target speed
+     *         setpoint. The setpoint is continuously polled from the supplier,
+     *         allowing for dynamic speed changes.
      */
     public Command setVelocity(Supplier<AngularVelocity> speed) {
-        return m_rollerFloor.run(speed);
+        return m_rollerFloor.runTo(speed, RollerFloorConstants.TOLERANCE);
     }
 
     /**

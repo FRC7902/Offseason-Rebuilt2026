@@ -54,10 +54,11 @@ public class LinearIntakeSubsystem extends SubsystemBase {
      *
      * @param height Target carriage height in meters, clamped by soft limits [0, 2
      *               m].
-     * @return Command that runs until the carriage reaches and holds the setpoint.
+     * @return Command that runs until the carriage reaches the target height within
+     *         the tolerance
      */
     public Command setHeight(Distance height) {
-        return m_linearIntake.setHeight(height);
+        return m_linearIntake.runTo(height, LinearIntakeConstants.TOLERANCE);
     }
 
 }

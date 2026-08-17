@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Seconds;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.AngularVelocity;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
@@ -20,6 +21,8 @@ public class IndexerBeltConstants {
 
         public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
         public static final int CAN_ID = 1;
+
+        public static final AngularVelocity TOLERANCE = RPM.of(10);
 
         public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
                         .withClosedLoopController(0.00016541, 0, 0)

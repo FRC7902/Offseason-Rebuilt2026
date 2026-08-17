@@ -49,8 +49,9 @@ public class TurretSubsystem extends SubsystemBase {
      * robot's chassis motion and the turret's own motor rotation rate.
      *
      * @param robotVelocity Current chassis velocity in the robot frame.
-     * @param robotAngle Current robot heading used to rotate the turret offset into the
-     *                  field frame.
+     * @param robotAngle    Current robot heading used to rotate the turret offset
+     *                      into the
+     *                      field frame.
      * @return Turret velocity in field coordinates.
      */
     public ChassisSpeeds getVelocity(ChassisSpeeds robotVelocity, Angle robotAngle) {
@@ -87,7 +88,8 @@ public class TurretSubsystem extends SubsystemBase {
     /**
      * Drives the turret in open-loop at the given duty cycle.
      *
-     * @param dutycycle Output fraction in [-1, 1]. Positive values move the turret in
+     * @param dutycycle Output fraction in [-1, 1]. Positive values move the turret
+     *                  in
      *                  the positive direction.
      * @return Command that runs while scheduled and stops when interrupted.
      */
@@ -96,13 +98,15 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     /**
-     * Moves the turret to a fixed angular setpoint using the closed-loop controller.
+     * Moves the turret to a fixed angular setpoint using the closed-loop
+     * controller.
      *
      * @param angle Target turret angle.
-     * @return Command that drives the turret toward the requested angle.
+     * @return Command that runs until the turret reaches the target angle within
+     *         tolerance.
      */
     public Command setAngle(Angle angle) {
-        return m_turret.setAngle(angle);
+        return m_turret.runTo(angle, TurretConstants.TOLERANCE);
     }
 
     /**

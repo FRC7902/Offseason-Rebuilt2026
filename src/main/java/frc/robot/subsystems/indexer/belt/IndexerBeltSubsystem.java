@@ -43,7 +43,7 @@ public class IndexerBeltSubsystem extends SubsystemBase {
      * @return A command that holds the given speed while scheduled.
      */
     public Command setVelocity(AngularVelocity speed) {
-        return m_indexerBelt.run(speed);
+        return m_indexerBelt.runTo(speed, IndexerBeltConstants.TOLERANCE);
     }
 
     /**
@@ -66,7 +66,7 @@ public class IndexerBeltSubsystem extends SubsystemBase {
      *         setpoint.
      */
     public Command setVelocity(Supplier<AngularVelocity> speed) {
-        return m_indexerBelt.run(speed);
+        return m_indexerBelt.runTo(speed, IndexerBeltConstants.TOLERANCE);
     }
 
     /**

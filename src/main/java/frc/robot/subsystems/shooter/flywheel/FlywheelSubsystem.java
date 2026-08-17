@@ -45,7 +45,7 @@ public class FlywheelSubsystem extends SubsystemBase {
      * @return A command that holds the given speed while scheduled.
      */
     public Command setVelocity(AngularVelocity speed) {
-        return m_flywheel.run(speed);
+        return m_flywheel.runTo(speed, FlywheelConstants.TOLERANCE);
     }
 
     /**
@@ -68,7 +68,7 @@ public class FlywheelSubsystem extends SubsystemBase {
      *         setpoint.
      */
     public Command setVelocity(Supplier<AngularVelocity> speed) {
-        return m_flywheel.run(speed);
+        return m_flywheel.runTo(speed, FlywheelConstants.TOLERANCE);
     }
 
     /**

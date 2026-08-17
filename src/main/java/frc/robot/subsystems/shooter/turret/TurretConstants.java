@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.Angle;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.PivotConfig;
@@ -21,6 +22,8 @@ public class TurretConstants {
     public static final double[] GEAR_RATIO = { 144 / 15, 5, 1.08 };
     public static final DCMotor MOTOR = DCMotor.getKrakenX60(1);
     public static final int CAN_ID = 12;
+
+    public static final Angle TOLERANCE = Degrees.of(1);
 
     public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
             .withControlMode(ControlMode.CLOSED_LOOP)

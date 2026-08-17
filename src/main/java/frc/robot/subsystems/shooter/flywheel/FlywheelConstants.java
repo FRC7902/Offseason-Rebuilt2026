@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Seconds;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.AngularVelocity;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
@@ -18,25 +19,27 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 
 public class FlywheelConstants {
 
-        public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-        public static final int CAN_ID = 1;
+    public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
+    public static final int CAN_ID = 1;
 
-        public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
-                        .withClosedLoopController(0.00016541, 0, 0)
-                        .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
-                        .withIdleMode(MotorMode.COAST)
-                        .withTelemetry("FlywheelMotor", TelemetryVerbosity.HIGH)
-                        .withStatorCurrentLimit(Amps.of(40))
-                        .withMotorInverted(false)
-                        .withClosedLoopRampRate(Seconds.of(0.25))
-                        .withOpenLoopRampRate(Seconds.of(0.25))
-                        .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
-                        .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
-                        .withMomentOfInertia(Inches.of(4), Pounds.of(1))
-                        .withControlMode(ControlMode.CLOSED_LOOP);
+        public static final AngularVelocity TOLERANCE = RPM.of(10);
 
-        public static final FlyWheelConfig FLY_WHEEL_CONFIG = new FlyWheelConfig()
-                        .withDiameter(Inches.of(4))
-                        .withTelemetry("FlywheelMech", TelemetryVerbosity.HIGH)
-                        .withSpeedometerSimulation(RPM.of(750));
+    public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
+            .withClosedLoopController(0.00016541, 0, 0)
+            .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
+            .withIdleMode(MotorMode.COAST)
+            .withTelemetry("ShooterFlywheelMotor", TelemetryVerbosity.HIGH)
+            .withStatorCurrentLimit(Amps.of(40))
+            .withMotorInverted(false)
+            .withClosedLoopRampRate(Seconds.of(0.25))
+            .withOpenLoopRampRate(Seconds.of(0.25))
+            .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
+            .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
+            .withMomentOfInertia(Inches.of(4), Pounds.of(1))
+            .withControlMode(ControlMode.CLOSED_LOOP);
+
+    public static final FlyWheelConfig FLY_WHEEL_CONFIG = new FlyWheelConfig()
+            .withDiameter(Inches.of(4))
+            .withTelemetry("ShooterFlywheelMech", TelemetryVerbosity.HIGH)
+            .withSpeedometerSimulation(RPM.of(750));
 }

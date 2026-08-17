@@ -42,10 +42,11 @@ public class IntakeRollerSubsystem extends SubsystemBase {
      * and feedforward maintain this speed continuously until the command ends.
      *
      * @param speed Desired angular velocity at the wheel (after gearing).
-     * @return A command that holds the given speed while scheduled.
+     * @return A command that runs until the intake roller reaches the target speed
+     *         within tolerance.
      */
     public Command setVelocity(AngularVelocity speed) {
-        return m_intakeRoller.run(speed);
+        return m_intakeRoller.runTo(speed, IntakeRollerConstants.TOLERANCE);
     }
 
     /**
@@ -66,11 +67,12 @@ public class IntakeRollerSubsystem extends SubsystemBase {
      * speed control where the setpoint changes each loop iteration.
      *
      * @param speed Supplier of the desired angular velocity.
-     * @return A command that continuously polls the supplier and updates the
-     *         setpoint.
+     * @return A command that runs until the intake roller reaches the target speed
+     *         within tolerance. The setpoint is continuously polled from the
+     *         supplier, allowing for dynamic speed changes.
      */
     public Command setVelocity(Supplier<AngularVelocity> speed) {
-        return m_intakeRoller.run(speed);
+        return m_intakeRoller.runTo(speed, IntakeRollerConstants.TOLERANCE);
     }
 
     /**

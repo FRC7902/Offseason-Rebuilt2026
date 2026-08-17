@@ -51,9 +51,10 @@ public class HoodSubsystem extends SubsystemBase {
      * setpoint.
      *
      * @param angle Target angle. Must be within the configured soft limits.
-     * @return Command that ends when the profile completes.
+     * @return Command that runs until the hood reaches the target angle within
+     *         tolerance.
      */
     public Command setAngle(Angle angle) {
-        return m_hood.setAngle(angle);
+        return m_hood.runTo(angle, HoodConstants.TOLERANCE);
     }
 }

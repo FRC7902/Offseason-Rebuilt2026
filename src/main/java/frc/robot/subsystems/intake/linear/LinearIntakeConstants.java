@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Pounds;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.Distance;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.ElevatorConfig;
@@ -23,6 +24,8 @@ public class LinearIntakeConstants {
 
     public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
     public static final int CAN_ID = 2;
+
+    public static final Distance TOLERANCE = Meters.of(0.1);
 
     public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
             .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
