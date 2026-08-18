@@ -26,6 +26,8 @@ public class IntakeRollerConstants {
 
     public static final AngularVelocity TOLERANCE = RPM.of(10);
 
+    // TODO: Create an AngularVelocity constant for intaking
+
     public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
             .withClosedLoopController(0.00016541, 0, 0)
             .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
