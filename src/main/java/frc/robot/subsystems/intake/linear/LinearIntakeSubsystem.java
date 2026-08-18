@@ -11,15 +11,14 @@ import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class LinearIntakeSubsystem extends SubsystemBase {
   private final TalonFX m_linearIntakeMotor;
-  private final SmartMotorControllerConfig motorConfig;
+  private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
-  ;
   private final Elevator m_linearIntake;
 
   public LinearIntakeSubsystem() {
     m_linearIntakeMotor = new TalonFX(LinearIntakeConstants.CAN_ID);
-    motorConfig = LinearIntakeConstants.SMC_CONFIG.withSubsystem(this);
-    m_motor = new TalonFXWrapper(m_linearIntakeMotor, LinearIntakeConstants.MOTOR, motorConfig);
+    m_motorConfig = LinearIntakeConstants.SMC_CONFIG.withSubsystem(this);
+    m_motor = new TalonFXWrapper(m_linearIntakeMotor, LinearIntakeConstants.MOTOR, m_motorConfig);
     m_linearIntake = new Elevator(LinearIntakeConstants.ELEVATOR_CONFIG, m_motor);
   }
 

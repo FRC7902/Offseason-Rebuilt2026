@@ -21,7 +21,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class TurretConstants {
 
-  public static final double[] GEAR_RATIO = {144 / 15, 5, 1.08};
+  public static final double[] GEAR_RATIO = {144.0 / 15.0, 5, 1.08};
   public static final DCMotor MOTOR = DCMotor.getKrakenX60(1);
   public static final int CAN_ID = 8;
 
