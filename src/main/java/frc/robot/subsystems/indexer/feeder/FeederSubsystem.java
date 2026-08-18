@@ -83,6 +83,12 @@ public class FeederSubsystem extends SubsystemBase {
         return m_feeder.set(dutyCycle);
     }
 
+    /**
+     * Stops the feeder by disabling closed-loop control and commanding zero duty
+     * cycle.
+     *
+     * @return A one-shot command that stops the mechanism.
+     */
     public Command stop() {
         return this.runOnce(() -> {
             m_motor.stopClosedLoopController();

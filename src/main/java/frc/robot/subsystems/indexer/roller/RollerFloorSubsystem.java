@@ -81,6 +81,12 @@ public class RollerFloorSubsystem extends SubsystemBase {
         return m_rollerFloor.set(dutyCycle);
     }
 
+    /**
+     * Stops the roller floor by disabling closed-loop control and commanding zero
+     * duty cycle.
+     *
+     * @return A one-shot command that stops the mechanism.
+     */
     public Command stop() {
         return this.runOnce(() -> {
             m_motor.stopClosedLoopController();

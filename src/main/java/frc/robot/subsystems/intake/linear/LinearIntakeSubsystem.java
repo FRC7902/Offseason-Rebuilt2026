@@ -51,6 +51,12 @@ public class LinearIntakeSubsystem extends SubsystemBase {
         return m_linearIntake.runTo(height, LinearIntakeConstants.TOLERANCE);
     }
 
+    /**
+     * Stops the linear intake by disabling closed-loop control and commanding zero
+     * duty cycle.
+     *
+     * @return A one-shot command that stops the mechanism.
+     */
     public Command stop() {
         return this.runOnce(() -> {
             m_motor.stopClosedLoopController();

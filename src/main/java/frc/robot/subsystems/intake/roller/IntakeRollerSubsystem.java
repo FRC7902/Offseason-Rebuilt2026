@@ -87,6 +87,12 @@ public class IntakeRollerSubsystem extends SubsystemBase {
         return m_intakeRoller.set(dutyCycle);
     }
 
+    /**
+     * Stops the intake roller by disabling closed-loop control and commanding zero
+     * duty cycle.
+     *
+     * @return A one-shot command that stops the mechanism.
+     */
     public Command stop() {
         return this.runOnce(() -> {
             m_motor.stopClosedLoopController();

@@ -48,6 +48,12 @@ public class HoodSubsystem extends SubsystemBase {
         return m_hood.runTo(angle, HoodConstants.TOLERANCE);
     }
 
+    /**
+     * Stops the hood by disabling closed-loop control and commanding zero duty
+     * cycle.
+     *
+     * @return A one-shot command that stops the mechanism.
+     */
     public Command stop() {
         return this.runOnce(() -> {
             m_motor.stopClosedLoopController();
