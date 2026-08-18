@@ -18,13 +18,26 @@ public class IndexerSystem {
     m_rollerFloor = rollerFloor;
   }
 
-  // Run roller floor, indexer belt, and feeder simultaneously indefinitely
+  /**
+   * Creates a command that runs the roller floor, indexer belt, and feeder simultaneously to move
+   * fuel through the indexer system.
+   *
+   * @return command that runs indefinitely until interrupted
+   */
   public Command feedFuel() {
+    // TODO: Use constants for roller/belt/feeder speeds
     throw new UnsupportedOperationException("Not yet implemented.");
   }
 
-  // Indefinitely run roller floor, but run indexer with low duty cycle (don't run the feeder)
+  /**
+   * Creates a command that runs the roller floor indefinitely while maintaining a lower duty cycle
+   * for the indexer belt and leaving the feeder off to store fuel without feeding it through the
+   * system.
+   *
+   * @return command that runs indefinitely until interrupted
+   */
   public Command storeFuel() {
+    // TODO: Use constants for roller/belt/feeder speeds
     throw new UnsupportedOperationException("Not yet implemented.");
   }
 }

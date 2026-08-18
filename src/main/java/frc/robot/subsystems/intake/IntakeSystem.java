@@ -21,6 +21,7 @@ public class IntakeSystem {
    * @return command that runs until the linear intake is fully extended
    */
   public Command extendAndIntake() {
+    // TODO: Use a constant for the intake roller speed
     throw new UnsupportedOperationException("Not yet implemented.");
   }
 
@@ -38,11 +39,12 @@ public class IntakeSystem {
    * Creates a command that shuffles the hopper by repeatedly moving the linear intake in and out.
    *
    * <p>If the linear intake starts farther extended than midpoint, the command runs the intake
-   * rollers until the intake retracts back to midpoint.
+   * rollers until the intake retracts back to midpoint. Otherwise, intake rollers should not be running.
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
   public Command shuffleHopper() {
+    // TODO: Use constants for shuffling positions
     throw new UnsupportedOperationException("Not yet implemented.");
   }
 }
