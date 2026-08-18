@@ -39,7 +39,8 @@ public class IntakeSystem {
    * Creates a command that shuffles the hopper by repeatedly moving the linear intake in and out.
    *
    * <p>If the linear intake starts farther extended than midpoint, the command runs the intake
-   * rollers until the intake retracts back to midpoint. Otherwise, intake rollers should not be running.
+   * rollers until the intake retracts back to midpoint. Otherwise, intake rollers should not be
+   * running.
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
