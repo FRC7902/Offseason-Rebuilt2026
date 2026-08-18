@@ -21,32 +21,36 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class IntakeRollerConstants {
 
-    public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-    public static final int CAN_ID = 5;
+  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
+  public static final int CAN_ID = 5;
 
-    public static final AngularVelocity TOLERANCE = RPM.of(10);
+  public static final AngularVelocity TOLERANCE = RPM.of(10);
 
-    // TODO: Create an AngularVelocity constant for intaking
+  // TODO: Create an AngularVelocity constant for intaking
 
-    public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
-            .withClosedLoopController(0.00016541, 0, 0)
-            .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
-            .withIdleMode(MotorMode.COAST)
-            .withTelemetry("IntakeRollerMotor", new SmartMotorControllerTelemetryConfig()
-                    .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
-                    .withDataLogName("IntakeRollerMotor")
-                    .withNetworkTables(!DriverStation.isFMSAttached()))
-            .withStatorCurrentLimit(Amps.of(40))
-            .withMotorInverted(false)
-            .withClosedLoopRampRate(Seconds.of(0.25))
-            .withOpenLoopRampRate(Seconds.of(0.25))
-            .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
-            .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
-            .withMomentOfInertia(Inches.of(4), Pounds.of(1))
-            .withControlMode(ControlMode.CLOSED_LOOP);
+  public static final SmartMotorControllerConfig SMC_CONFIG =
+      new SmartMotorControllerConfig()
+          .withClosedLoopController(0.00016541, 0, 0)
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
+          .withIdleMode(MotorMode.COAST)
+          .withTelemetry(
+              "IntakeRollerMotor",
+              new SmartMotorControllerTelemetryConfig()
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withDataLogName("IntakeRollerMotor")
+                  .withNetworkTables(!DriverStation.isFMSAttached()))
+          .withStatorCurrentLimit(Amps.of(40))
+          .withMotorInverted(false)
+          .withClosedLoopRampRate(Seconds.of(0.25))
+          .withOpenLoopRampRate(Seconds.of(0.25))
+          .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
+          .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
+          .withMomentOfInertia(Inches.of(4), Pounds.of(1))
+          .withControlMode(ControlMode.CLOSED_LOOP);
 
-    public static final FlyWheelConfig FLYWHEEL_CONFIG = new FlyWheelConfig()
-            .withDiameter(Inches.of(4))
-            .withTelemetry("IntakeRollerMech", TelemetryVerbosity.HIGH)
-            .withSpeedometerSimulation(RPM.of(750));
+  public static final FlyWheelConfig FLYWHEEL_CONFIG =
+      new FlyWheelConfig()
+          .withDiameter(Inches.of(4))
+          .withTelemetry("IntakeRollerMech", TelemetryVerbosity.HIGH)
+          .withSpeedometerSimulation(RPM.of(750));
 }

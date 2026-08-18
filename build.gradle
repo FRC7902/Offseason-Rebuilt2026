@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2026.2.1"
+    id "com.diffplug.spotless" version "6.12.0"
 }
 
 java {
@@ -100,6 +101,36 @@ jar {
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+spotless {
+    java {
+        target "src/**/*.java"
+        googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    groovyGradle {
+        target "*.gradle"
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    json {
+        target "**/*.json"
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format("misc") {
+        target "**/*.md", ".gitignore"
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+project.compileJava.dependsOn(spotlessApply)
 
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {

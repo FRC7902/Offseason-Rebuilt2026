@@ -22,50 +22,50 @@ import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class RobotContainer {
 
-    private final IndexerBeltSubsystem m_indexerBeltSubsystem;
-    private final FeederSubsystem m_feederSubsystem;
-    private final RollerFloorSubsystem m_rollerFloorSubsystem;
+  private final IndexerBeltSubsystem m_indexerBeltSubsystem;
+  private final FeederSubsystem m_feederSubsystem;
+  private final RollerFloorSubsystem m_rollerFloorSubsystem;
 
-    private final LinearIntakeSubsystem m_linearIntakeSubsystem;
-    private final IntakeRollerSubsystem m_intakeRollerSubsystem;
+  private final LinearIntakeSubsystem m_linearIntakeSubsystem;
+  private final IntakeRollerSubsystem m_intakeRollerSubsystem;
 
-    private final FlywheelSubsystem m_flywheelSubsystem;
-    private final HoodSubsystem m_hoodSubsystem;
-    private final TurretSubsystem m_turretSubsystem;
+  private final FlywheelSubsystem m_flywheelSubsystem;
+  private final HoodSubsystem m_hoodSubsystem;
+  private final TurretSubsystem m_turretSubsystem;
 
-    private final IndexerSystem m_indexerSystem;
-    private final IntakeSystem m_intakeSystem;
-    private final ShooterSystem m_shooterSystem;
+  private final IndexerSystem m_indexerSystem;
+  private final IntakeSystem m_intakeSystem;
+  private final ShooterSystem m_shooterSystem;
 
-    public RobotContainer() {
+  public RobotContainer() {
 
-        // Start data logging
-        DataLogManager.start();
-        // Include DriverStation data in the log
-        DriverStation.startDataLog(DataLogManager.getLog());
+    // Start data logging
+    DataLogManager.start();
+    // Include DriverStation data in the log
+    DriverStation.startDataLog(DataLogManager.getLog());
 
-        m_indexerBeltSubsystem = new IndexerBeltSubsystem();
-        m_feederSubsystem = new FeederSubsystem();
-        m_rollerFloorSubsystem = new RollerFloorSubsystem();
+    m_indexerBeltSubsystem = new IndexerBeltSubsystem();
+    m_feederSubsystem = new FeederSubsystem();
+    m_rollerFloorSubsystem = new RollerFloorSubsystem();
 
-        m_linearIntakeSubsystem = new LinearIntakeSubsystem();
-        m_intakeRollerSubsystem = new IntakeRollerSubsystem();
+    m_linearIntakeSubsystem = new LinearIntakeSubsystem();
+    m_intakeRollerSubsystem = new IntakeRollerSubsystem();
 
-        m_flywheelSubsystem = new FlywheelSubsystem();
-        m_hoodSubsystem = new HoodSubsystem();
-        m_turretSubsystem = new TurretSubsystem();
+    m_flywheelSubsystem = new FlywheelSubsystem();
+    m_hoodSubsystem = new HoodSubsystem();
+    m_turretSubsystem = new TurretSubsystem();
 
-        m_indexerSystem = new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
-        m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
-        m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
+    m_indexerSystem =
+        new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
+    m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
+    m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-        configureBindings();
-    }
+    configureBindings();
+  }
 
-    private void configureBindings() {
-    }
+  private void configureBindings() {}
 
-    public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
-    }
+  public Command getAutonomousCommand() {
+    return Commands.print("No autonomous command configured");
+  }
 }
