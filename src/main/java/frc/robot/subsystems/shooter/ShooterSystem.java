@@ -16,7 +16,8 @@ public class ShooterSystem {
     m_hood = hood;
     m_turret = turret;
 
-    // TODO: set turret default command to aim at target
+    // Set the default command for the turret to aim at the target
+    turret.setDefaultCommand(aimTurret());
   }
 
   public Command aimAndShoot() {
