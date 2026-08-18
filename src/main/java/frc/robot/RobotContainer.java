@@ -70,7 +70,22 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    /*
+     * TODO: Bind driver controller L2
+     * - When held, extend intake and run intake rollers
+     * - When held, but not shooting (operator's R2 not held), run indexer to store fuel
+     * - When released, retract intake and stop intake rollers
+     */
+
+    /*
+     * TODO: Bind operator controller R2
+     * - When held run shooter, and run indexer to feed balls into shooter when
+     * shooter is ready. Stop shooting when released
+     * - When held and shooter is ready, shuffle the hopper using the intake. Stop
+     * shuffling when released
+     */
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
