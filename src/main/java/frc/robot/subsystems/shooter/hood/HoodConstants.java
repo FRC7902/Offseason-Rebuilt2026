@@ -21,7 +21,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class HoodConstants {
 
     public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-    public static final int CAN_ID = 1;
+    public static final int CAN_ID = 7;
 
     public static final Angle TOLERANCE = Degrees.of(1);
 

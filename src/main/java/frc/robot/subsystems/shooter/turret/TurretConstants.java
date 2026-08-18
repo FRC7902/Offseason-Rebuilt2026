@@ -23,7 +23,7 @@ public class TurretConstants {
 
     public static final double[] GEAR_RATIO = { 144 / 15, 5, 1.08 };
     public static final DCMotor MOTOR = DCMotor.getKrakenX60(1);
-    public static final int CAN_ID = 12;
+    public static final int CAN_ID = 8;
 
     public static final Angle TOLERANCE = Degrees.of(1);
 

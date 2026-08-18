@@ -22,7 +22,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class FeederConstants {
 
     public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-    public static final int CAN_ID = 1;
+    public static final int CAN_ID = 2;
 
     public static final AngularVelocity TOLERANCE = RPM.of(10);
 

@@ -25,15 +25,19 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class LinearIntakeConstants {
 
     public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-    public static final int CAN_ID = 2;
+    public static final int CAN_ID = 4;
 
     public static final Distance TOLERANCE = Meters.of(0.1);
+
+    public static final Distance FULLY_RETRACTED = Meters.of(0);
+    public static final Distance FULLY_EXTENDED = Meters.of(2);
+    public static final Distance MIDPOINT = Meters.of(1);
 
     public static final SmartMotorControllerConfig SMC_CONFIG = new SmartMotorControllerConfig()
             .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
             .withClosedLoopController(4, 0, 0)
             .withTrapezoidalProfile(MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5))
-            .withSoftLimits(Meters.of(0), Meters.of(2))
+            .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
             .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
             .withIdleMode(MotorMode.BRAKE)
             .withTelemetry("LinearIntakeMotor", new SmartMotorControllerTelemetryConfig()
@@ -52,7 +56,7 @@ public class LinearIntakeConstants {
             .withRelativePosition(new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5)));
 
     public static final ElevatorConfig ELEVATOR_CONFIG = new ElevatorConfig()
-            .withHardLimits(Meters.of(0), Meters.of(3))
+            .withHardLimits(FULLY_RETRACTED, FULLY_EXTENDED)
             .withTelemetry("LinearIntakeMech", TelemetryVerbosity.HIGH)
             .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
             .withCarriageWeight(Pounds.of(16));
