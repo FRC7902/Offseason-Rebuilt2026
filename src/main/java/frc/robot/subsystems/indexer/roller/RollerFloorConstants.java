@@ -26,6 +26,8 @@ public class RollerFloorConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10);
 
+  // TODO: Add AngularVelocity constant for the roller floor speed when feeding fuel
+
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0)

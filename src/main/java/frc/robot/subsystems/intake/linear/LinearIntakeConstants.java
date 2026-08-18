@@ -31,7 +31,9 @@ public class LinearIntakeConstants {
 
   public static final Distance FULLY_RETRACTED = Meters.of(0);
   public static final Distance FULLY_EXTENDED = Meters.of(2);
-  public static final Distance MIDPOINT = Meters.of(1);
+  
+  // TODO: Add distance constant for midpoint (intake extended as far as possible without letting fuel loose)
+  // TODO: Add distance constants for positions to shuffle between
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
