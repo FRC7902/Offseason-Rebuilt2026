@@ -4,6 +4,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
 import yams.mechanisms.positional.Arm;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -55,6 +56,12 @@ public class HoodSubsystem extends SubsystemBase {
           m_motor.stopClosedLoopController();
           setDutyCycle(0);
         });
+  }
+
+  public boolean isAtSetpoint() {
+    return m_hood.getMechanismSetpoint()
+      .map(setpoint -> m_hood.isNear(setpoint, HoodConstants.TOLERANCE).getAsBoolean())
+      .orElse(false);
   }
 
   @Override
