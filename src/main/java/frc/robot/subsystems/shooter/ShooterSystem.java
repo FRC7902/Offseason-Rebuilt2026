@@ -1,8 +1,10 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class ShooterSystem {
@@ -21,12 +23,12 @@ public class ShooterSystem {
   }
 
   public Command aimAndShoot() {
-    // final var parameters = LaunchCalculator.getInstance().getParameters();
 
-    // parameters.hoodAngle();
-    // parameters.flywheelSpeed();
+    final var parameters = LaunchCalculator.getInstance().getParameters();
 
-    throw new UnsupportedOperationException("Not yet implemented.");
+    return Commands.sequence(
+        m_hood.setAngle(parameters.hoodAngle()),
+        m_flywheel.setVelocity(parameters.flywheelSpeed()));
   }
 
   public Command aimTurret() {
