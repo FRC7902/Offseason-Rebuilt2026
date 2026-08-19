@@ -4,6 +4,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
+
 import java.util.function.Supplier;
 import yams.mechanisms.velocity.FlyWheel;
 import yams.motorcontrollers.SmartMotorController;
@@ -86,6 +88,12 @@ public class FlywheelSubsystem extends SubsystemBase {
           m_motor.stopClosedLoopController();
           setDutyCycle(0);
         });
+  }
+
+  public boolean isAtSetpoint() {
+    return m_flywheel.getMechanismSetpointVelocity()
+      .map(setpoint -> m_flywheel.isNear(setpoint, FlywheelConstants.TOLERANCE).getAsBoolean())
+      .orElse(false);
   }
 
   @Override
