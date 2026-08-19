@@ -1,6 +1,7 @@
 package frc.robot.subsystems.indexer;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller.RollerFloorSubsystem;
@@ -10,6 +11,10 @@ public class IndexerSystem {
   private final IndexerBeltSubsystem m_indexerBelt;
   private final FeederSubsystem m_feeder;
   private final RollerFloorSubsystem m_rollerFloor;
+
+  private final double FLOOR_STORE_SPEED = 0.2;
+  private final double BELT_STORE_SPEED = 0.1;
+  private final double OFF_SPEED = 0;
 
   public IndexerSystem(
       IndexerBeltSubsystem indexerBelt, FeederSubsystem feeder, RollerFloorSubsystem rollerFloor) {
@@ -37,7 +42,10 @@ public class IndexerSystem {
    * @return command that runs indefinitely until interrupted
    */
   public Command storeFuel() {
-    // TODO: Use constants for roller/belt/feeder speeds
-    throw new UnsupportedOperationException("Not yet implemented.");
+    return Commands.parallel(
+      m_rollerFloor.setDutyCycle(FLOOR_STORE_SPEED),
+      m_indexerBelt.setDutyCycle(BELT_STORE_SPEED),
+      m_feeder.setDutyCycle(OFF_SPEED)
+    );
   }
 }
