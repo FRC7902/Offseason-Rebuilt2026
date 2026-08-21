@@ -35,8 +35,7 @@ public class ShooterSystem {
   }
 
   /**
-   * Creates a command that sets the turret angle based on the current launch calculator
-   * parameters.
+   * Creates a command that sets the turret angle based on the current launch calculator parameters.
    *
    * @return command that indefinitely aims the turret to the calculated target angle
    */

@@ -31,8 +31,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns the turret's estimated pose in the field frame based on the robot's
-   * pose and the fixed
+   * Returns the turret's estimated pose in the field frame based on the robot's pose and the fixed
    * turret offset from the robot center.
    *
    * @param robotPose Current pose of the robot in the field coordinate system.
@@ -46,18 +45,18 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Computes the turret's linear and angular velocity in the field frame from the
-   * robot's chassis
+   * Computes the turret's linear and angular velocity in the field frame from the robot's chassis
    * motion and the turret's own motor rotation rate.
    *
    * @param robotVelocity Current chassis velocity in the robot frame.
-   * @param robotAngle    Current robot heading used to rotate the turret offset
-   *                      into the field frame.
+   * @param robotAngle Current robot heading used to rotate the turret offset into the field frame.
    * @return Turret velocity in field coordinates.
    */
   public ChassisSpeeds getVelocity(ChassisSpeeds robotVelocity, Angle robotAngle) {
-    Translation2d rRobot = TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(); // in robot frame
-    Translation2d rWorld = rRobot.rotateBy(Rotation2d.fromRadians(robotAngle.in(Radians))); // rotate into field
+    Translation2d rRobot =
+        TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(); // in robot frame
+    Translation2d rWorld =
+        rRobot.rotateBy(Rotation2d.fromRadians(robotAngle.in(Radians))); // rotate into field
     // frame
 
     double omega = robotVelocity.omegaRadiansPerSecond; // robot yaw rate (rad/s)
@@ -79,9 +78,8 @@ public class TurretSubsystem extends SubsystemBase {
   /**
    * Drives the turret in open-loop at the given duty cycle.
    *
-   * @param dutyCycle Output fraction in [-1, 1]. Positive values move the turret
-   *                  in the positive
-   *                  direction.
+   * @param dutyCycle Output fraction in [-1, 1]. Positive values move the turret in the positive
+   *     direction.
    * @return Command that runs while scheduled and stops when interrupted.
    */
   public Command setDutyCycle(double dutyCycle) {
@@ -89,12 +87,10 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Moves the turret to a fixed angular setpoint using the closed-loop
-   * controller.
+   * Moves the turret to a fixed angular setpoint using the closed-loop controller.
    *
    * @param angle Target turret angle.
-   * @return Command that runs until the turret reaches the target angle within
-   *         tolerance.
+   * @return Command that runs until the turret reaches the target angle within tolerance.
    */
   public Command setAngle(Angle angle) {
     return m_turret.runTo(angle, TurretConstants.TOLERANCE);
@@ -110,8 +106,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Stops the turret by disabling closed-loop control and commanding zero duty
-   * cycle.
+   * Stops the turret by disabling closed-loop control and commanding zero duty cycle.
    *
    * @return A one-shot command that stops the mechanism.
    */
@@ -124,9 +119,10 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public boolean isAtSetpoint() {
-    return m_turret.getMechanismSetpoint()
-      .map(setpoint -> m_turret.isNear(setpoint, TurretConstants.TOLERANCE).getAsBoolean())
-      .orElse(false);
+    return m_turret
+        .getMechanismSetpoint()
+        .map(setpoint -> m_turret.isNear(setpoint, TurretConstants.TOLERANCE).getAsBoolean())
+        .orElse(false);
   }
 
   @Override
