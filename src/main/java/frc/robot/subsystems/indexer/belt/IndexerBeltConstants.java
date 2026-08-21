@@ -1,8 +1,6 @@
 package frc.robot.subsystems.indexer.belt;
 
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Seconds;
 
@@ -14,43 +12,39 @@ import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig;
-import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
 import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class IndexerBeltConstants {
 
-  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-  public static final int CAN_ID = 1;
+  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1); // TODO
+  public static final int CAN_ID = 1; // TODO
 
-  public static final AngularVelocity TOLERANCE = RPM.of(10);
+  public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
   // TODO: Add AngularVelocity constant for the indexer belt speed when feeding fuel
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(0.00016541, 0, 0)
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
-          .withIdleMode(MotorMode.COAST)
+          .withClosedLoopController(0.00016541, 0, 0) // TODO
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
+          .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
               "IndexerBeltMotor",
               new SmartMotorControllerTelemetryConfig()
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
                   .withDataLogName("IndexerBeltMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40))
-          .withMotorInverted(false)
+          .withStatorCurrentLimit(Amps.of(40)) // TODO
+          .withMotorInverted(false) // TODO
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
-          .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
-          .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
-          .withMomentOfInertia(Inches.of(4), Pounds.of(1))
-          .withControlMode(ControlMode.CLOSED_LOOP);
+          .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
+          .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)); // TODO
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withDiameter(Inches.of(4))
           .withTelemetry("IndexerBeltMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(750));
 }
