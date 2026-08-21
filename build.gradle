@@ -130,8 +130,6 @@ spotless {
     }
 }
 
-project.compileJava.dependsOn(spotlessApply)
-
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'

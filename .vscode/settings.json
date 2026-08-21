@@ -62,5 +62,7 @@
   "java.dependency.enableDependencyCheckup": false,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "editor.detectIndentation": false
+  "editor.detectIndentation": false,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true
 }

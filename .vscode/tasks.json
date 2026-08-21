@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Format Project",
+      "type": "shell",
+      "command": "./gradlew spotlessApply",
+      "windows": {
+        "command": ".\\gradlew.bat spotlessApply"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Check Formatting",
+      "type": "shell",
+      "command": "./gradlew spotlessCheck",
+      "windows": {
+        "command": ".\\gradlew.bat spotlessCheck"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
