@@ -21,6 +21,8 @@ import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+import yams.mechanisms.swerve.utility.SwerveInputStream;
 
 public class RobotContainer {
 
@@ -44,6 +46,9 @@ public class RobotContainer {
   private final IntakeSystem m_intakeSystem;
   private final ShooterSystem m_shooterSystem;
 
+  private final SwerveDriveSubsystem m_swerveDriveSubsystem;
+  private final SwerveInputStream driveAngularVelocity;
+
   public RobotContainer() {
 
     // Start data logging
@@ -62,6 +67,15 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
+    m_swerveDriveSubsystem = new SwerveDriveSubsystem();
+    driveAngularVelocity =
+        m_swerveDriveSubsystem
+            .getAngularVelocityStream(
+                m_driverController::getLeftY,
+                m_driverController::getLeftX,
+                () -> m_driverController.getRawAxis(2))
+            .withAllianceRelativeControl();
+
     m_indexerSystem =
         new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
@@ -71,10 +85,14 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
+
     /*
      * TODO: Bind driver controller L2
      * - When held, extend intake and run intake rollers
-     * - When held, but not shooting (operator's R2 not held), run indexer to store fuel
+     * - When held, but not shooting (operator's R2 not held), run indexer to store
+     * fuel
      * - When released, retract intake and stop intake rollers
      */
 
