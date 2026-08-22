@@ -29,7 +29,7 @@ public class ShooterSystem {
   public Command aimAndShoot() {
     final var parameters = LaunchCalculator.getInstance().getParameters();
 
-    return Commands.sequence(
+    return Commands.parallel(
         m_hood.setAngle(parameters.hoodAngle()),
         m_flywheel.setVelocity(parameters.flywheelSpeed()));
   }
