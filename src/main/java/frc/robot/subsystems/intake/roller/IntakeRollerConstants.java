@@ -23,9 +23,6 @@ public class IntakeRollerConstants {
   public static final int CAN_ID = 5; // TODO
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
-  public static final AngularVelocity ROLLER_SPEED = RPM.of(1000);
-  public static final AngularVelocity INDEXER_SPEED = RPM.of(1000);
-  public static final AngularVelocity FEEDER_SPEED = RPM.of(1000);
 
   // TODO: Create an AngularVelocity constant for intaking
 
