@@ -1,8 +1,14 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
+import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
+
+import static edu.wpi.first.units.Units.Meters;
+
+import java.lang.constant.Constable;
 
 public class IntakeSystem {
 
@@ -45,7 +51,9 @@ public class IntakeSystem {
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
   public Command shuffleHopper() {
-    // TODO: Use constants for shuffling positions
-    throw new UnsupportedOperationException("Not yet implemented.");
+    return Commands.sequence(
+      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
+      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED)
+    ).repeatedly();
   }
 }
