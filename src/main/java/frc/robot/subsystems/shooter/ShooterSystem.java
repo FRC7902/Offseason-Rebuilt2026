@@ -47,6 +47,10 @@ public class ShooterSystem {
         .repeatedly();
   }
 
+  public Command stop() {
+    return m_flywheel.stop();
+  }
+
   /**
    * Returns whether the shooter is ready to fire based on flywheel speed, hood angle, and turret
    * alignment.

@@ -120,19 +120,20 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
-    m_operatorController.rightTrigger().whileTrue(
-      Commands.parallel(
-        m_shooterSystem.aimAndShoot(),
-        m_indexerSystem.feedFuel(),
-        m_intakeSystem.shuffleHopper().unless(() -> !m_shooterSystem.isShooterReady())
-      )
-    ).onFalse(
-      Commands.sequence(
-        m_flywheelSubsystem.setDutyCycle(0),
-        m_feederSubsystem.setDutyCycle(0),
-        m_intakeSystem.retractThenStopIntake().unless(() -> !m_shooterSystem.isShooterReady())
-      )
-    );
+    m_operatorController
+        .rightTrigger()
+        .whileTrue(
+            Commands.parallel(
+                m_shooterSystem.aimAndShoot(),
+                m_indexerSystem.feedFuel(),
+                m_intakeSystem.shuffleHopper().unless(() -> !m_shooterSystem.isShooterReady())))
+        .onFalse(
+            Commands.sequence(
+                m_indexerSystem.stop(),
+                m_shooterSystem.stop(),
+                m_intakeSystem
+                    .retractToMidpointThenStopIntake()
+                    .unless(() -> !m_shooterSystem.isShooterReady())));
   }
 
   public Command getAutonomousCommand() {
