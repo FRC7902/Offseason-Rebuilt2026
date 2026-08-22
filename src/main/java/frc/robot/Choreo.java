@@ -1,6 +1,8 @@
 package frc.robot;
 
 import choreo.auto.AutoFactory;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.intake.IntakeSystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
@@ -18,5 +20,10 @@ public class Choreo {
     m_indexerSystem = robotContainer.m_indexerSystem;
     m_intakeSystem = robotContainer.m_intakeSystem;
     m_shooterSystem = robotContainer.m_shooterSystem;
+  }
+
+  public Command testPath() {
+    return Commands.sequence(
+        m_autoFactory.resetOdometry("NewPath"), m_autoFactory.trajectoryCmd("NewPath"));
   }
 }

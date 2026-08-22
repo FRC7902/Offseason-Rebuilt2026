@@ -104,6 +104,8 @@ public class RobotContainer {
     autoChooser = new AutoChooser();
     m_choreo = new Choreo(this);
 
+    autoChooser.addCmd("Test Auto", m_choreo::testPath);
+
     SmartDashboard.putData("Auto Chooser", autoChooser);
     RobotModeTriggers.autonomous().whileTrue(autoChooser.selectedCommandScheduler());
 
