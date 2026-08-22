@@ -94,8 +94,7 @@ public class RobotContainer {
         new AutoFactory(
             m_swerveDriveSubsystem::getPose, // A function that returns the current robot pose
             m_swerveDriveSubsystem
-                ::resetOdometry, // A function that resets the current robot pose to
-            // the provided
+                ::resetOdometry, // A function that resets the current robot pose to the provided
             // Pose2d
             m_swerveDriveSubsystem::followTrajectory, // The drive subsystem trajectory follower
             true, // If alliance flipping should be enabled
