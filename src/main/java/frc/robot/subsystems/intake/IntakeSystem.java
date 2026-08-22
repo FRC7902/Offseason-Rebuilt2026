@@ -2,6 +2,7 @@ package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
@@ -51,8 +52,28 @@ public class IntakeSystem {
    */
   public Command shuffleHopper() {
     return Commands.sequence(
-      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
-      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED)
-    ).repeatedly();
+            new ConditionalCommand(
+                Commands.sequence( // first shuffle, half to past half
+                    m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+                    m_linearIntake.setHeight(LinearIntakeConstants.SHUFFLE_MIDPOINT),
+                    m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+                    m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
+                Commands.sequence(
+                    new ConditionalCommand(
+                        Commands.sequence( // second shuffle, quarter to half
+                            m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
+                            m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+                            m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
+                            m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+                            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED)),
+                        Commands.sequence( // last repeating shuffle, retracted to quarter
+                            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED),
+                            m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
+                        () ->
+                            m_linearIntake
+                                .getHeight()
+                                .gte(LinearIntakeConstants.NEAR_FULLY_RETRACTED))),
+                () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.HALF_EXTENDED)))
+        .repeatedly();
   }
 }

@@ -34,6 +34,10 @@ public class LinearIntakeConstants {
   public static final Distance FULLY_EXTENDED = Inches.of(12.136079);
   public static final Distance MIDPOINT_DISTANCE = Inches.of(5); // TODO
 
+  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.5); // TODO
+  public static final Distance HALF_EXTENDED = Meters.of(1); // TODO
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(1.5); // TODO
+
   // TODO: Add distance constants for positions to shuffle between
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
