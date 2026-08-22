@@ -24,14 +24,9 @@ public class IntakeSystem {
    * @return command that runs until the linear intake is fully extended
    */
   public Command extendAndIntake() {
-    return Commands.parallel (
-      
-      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
-      m_intakeRoller.setVelocity(IntakeRollerConstants.INTAKE_SPEED)
-
-    );
-    
-    
+    return Commands.parallel(
+        m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
+        m_intakeRoller.setVelocity(IntakeRollerConstants.INTAKE_SPEED));
   }
 
   /**
