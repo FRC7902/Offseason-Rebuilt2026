@@ -14,7 +14,7 @@ public class Choreo {
 
   public Choreo(RobotContainer robotContainer) {
     m_autoFactory = robotContainer.m_autoFactory;
-    
+
     m_indexerSystem = robotContainer.m_indexerSystem;
     m_intakeSystem = robotContainer.m_intakeSystem;
     m_shooterSystem = robotContainer.m_shooterSystem;
