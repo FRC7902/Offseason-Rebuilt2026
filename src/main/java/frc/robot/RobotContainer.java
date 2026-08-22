@@ -122,18 +122,16 @@ public class RobotContainer {
      */
     m_operatorController
         .rightTrigger()
+        .whileTrue(Commands.parallel(m_shooterSystem.aimAndShoot(), m_indexerSystem.feedFuel()))
         .whileTrue(
-            Commands.parallel(
-                m_shooterSystem.aimAndShoot(),
-                m_indexerSystem.feedFuel(),
-                m_intakeSystem.shuffleHopper().unless(() -> !m_shooterSystem.isShooterReady())))
+            Commands.sequence(
+                Commands.waitUntil(m_shooterSystem::isShooterReady),
+                m_intakeSystem.shuffleHopper()))
         .onFalse(
             Commands.sequence(
                 m_indexerSystem.stop(),
                 m_shooterSystem.stop(),
-                m_intakeSystem
-                    .retractToMidpointThenStopIntake()
-                    .unless(() -> !m_shooterSystem.isShooterReady())));
+                m_intakeSystem.retractToMidpointThenStopIntake()));
   }
 
   public Command getAutonomousCommand() {
