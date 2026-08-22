@@ -1,6 +1,7 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
@@ -23,9 +24,13 @@ public class IntakeSystem {
    * @return command that runs until the linear intake is fully extended
    */
   public Command extendAndIntake() {
-    return m_linearIntake
-    .setHeight(LinearIntakeConstants.FULLY_EXTENDED)
-    .alongWith(m_intakeRoller.setVelocity(IntakeRollerConstants.INTAKE_SPEED));
+    return Commands.parallel (
+      
+      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
+      m_intakeRoller.setVelocity(IntakeRollerConstants.INTAKE_SPEED)
+
+    );
+    
     
   }
 
