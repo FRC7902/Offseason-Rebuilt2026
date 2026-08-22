@@ -30,8 +30,8 @@ public class ShooterSystem {
     final var parameters = LaunchCalculator.getInstance().getParameters();
 
     return Commands.parallel(
-        m_hood.setAngle(parameters.hoodAngle()),
-        m_flywheel.setVelocity(parameters.flywheelSpeed()));
+        m_hood.setAngle(parameters.hoodAngle()).repeatedly(),
+        m_flywheel.setVelocity(parameters.flywheelSpeed()).repeatedly());
   }
 
   /**
