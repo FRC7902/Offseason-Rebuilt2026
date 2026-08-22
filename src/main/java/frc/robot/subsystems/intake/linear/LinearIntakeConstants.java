@@ -32,7 +32,6 @@ public class LinearIntakeConstants {
 
   public static final Distance FULLY_RETRACTED = Inches.of(0); // TODO
   public static final Distance FULLY_EXTENDED = Inches.of(11.6875); // TODO
-
   public static final Distance MIDPOINT_DISTANCE = Inches.of(5); // TODO
 
   // TODO: Add distance constants for positions to shuffle between

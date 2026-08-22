@@ -16,7 +16,6 @@ public class IntakeSystem {
     m_linearIntake = linearIntake;
     m_intakeRoller = intakeRoller;
   }
-
   /**
    * Creates a command that extends the linear intake to its fully extended setpoint while running
    * the intake rollers.
@@ -51,6 +50,6 @@ public class IntakeSystem {
    */
   public Command shuffleHopper() {
     // TODO: Use constants for shuffling positions
-    throw new UnsupportedOperationException("Not `yet implemented.");
+    throw new UnsupportedOperationException("Not yet implemented.");
   }
 }
