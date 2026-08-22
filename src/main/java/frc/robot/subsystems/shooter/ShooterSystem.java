@@ -15,7 +15,6 @@ public class ShooterSystem {
     m_flywheel = flywheel;
     m_hood = hood;
     m_turret = turret;
-
     // TODO: Set the default command for the turret to aim at the target
   }
 
@@ -40,8 +39,7 @@ public class ShooterSystem {
    * @return command that indefinitely aims the turret to the calculated target angle
    */
   public Command aimTurret() {
-    // LaunchCalculator.getInstance().getParameters().turretAngle();
-    throw new UnsupportedOperationException("Not yet implemented.");
+    return m_turret.setAngle(LaunchCalculator.getInstance().getParameters().turretAngle());
   }
 
   /**
