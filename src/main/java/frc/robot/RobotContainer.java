@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import choreo.auto.AutoChooser;
+import choreo.auto.AutoFactory;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,12 +44,17 @@ public class RobotContainer {
   private final HoodSubsystem m_hoodSubsystem;
   private final TurretSubsystem m_turretSubsystem;
 
-  private final IndexerSystem m_indexerSystem;
-  private final IntakeSystem m_intakeSystem;
-  private final ShooterSystem m_shooterSystem;
+  public final IndexerSystem m_indexerSystem;
+  public final IntakeSystem m_intakeSystem;
+  public final ShooterSystem m_shooterSystem;
 
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
   private final SwerveInputStream driveAngularVelocity;
+
+  public final AutoFactory m_autoFactory;
+
+  private final AutoChooser autoChooser;
+  private final Choreo m_choreo;
 
   public RobotContainer() {
 
@@ -80,6 +87,21 @@ public class RobotContainer {
         new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
+
+    m_autoFactory =
+        new AutoFactory(
+            m_swerveDriveSubsystem::getPose, // A function that returns the current robot pose
+            m_swerveDriveSubsystem
+                ::resetOdometry, // A function that resets the current robot pose to
+            // the provided
+            // Pose2d
+            m_swerveDriveSubsystem::followTrajectory, // The drive subsystem trajectory follower
+            true, // If alliance flipping should be enabled
+            m_swerveDriveSubsystem // The drive subsystem
+            );
+
+    autoChooser = new AutoChooser();
+    m_choreo = new Choreo(this);
 
     configureBindings();
   }

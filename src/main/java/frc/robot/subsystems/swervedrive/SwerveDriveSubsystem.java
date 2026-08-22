@@ -2,6 +2,8 @@ package frc.robot.subsystems.swervedrive;
 
 import static edu.wpi.first.units.Units.*;
 
+import choreo.trajectory.SwerveSample;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -24,6 +26,10 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 public class SwerveDriveSubsystem extends SubsystemBase {
 
   private SwerveDrive drive;
+
+  private final PIDController m_choreoControllerX = new PIDController(10.0, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerY = new PIDController(10.0, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerHeading = new PIDController(7.5, 0.0, 0.0); // TODO
 
   public SwerveDriveSubsystem() {
     SmartDashboard.putData(this);
@@ -94,6 +100,35 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         .andThen(Commands.waitSeconds(1))
         .andThen(routine.dynamic(SysIdRoutine.Direction.kReverse))
         .withName("SysId " + moduleName + " Azimuth");
+  }
+
+  public void driveFieldOriented(ChassisSpeeds velocity) {
+    drive.setFieldRelativeChassisSpeeds(velocity);
+  }
+
+  public Pose2d getPose() {
+    return drive.getPose();
+  }
+
+  public void resetOdometry(Pose2d initialHolonomicPose) {
+    drive.resetOdometry(initialHolonomicPose);
+  }
+
+  public void followTrajectory(SwerveSample sample) {
+    // Get the current pose of the robot
+    Pose2d pose = getPose();
+
+    // Generate the next speeds for the robot
+    ChassisSpeeds speeds =
+        new ChassisSpeeds(
+            sample.vx + m_choreoControllerX.calculate(pose.getX(), sample.x),
+            sample.vy + m_choreoControllerY.calculate(pose.getY(), sample.y),
+            sample.omega
+                + m_choreoControllerHeading.calculate(
+                    pose.getRotation().getRadians(), sample.heading));
+
+    // Apply the generated speeds
+    driveFieldOriented(speeds);
   }
 
   public void periodic() {
