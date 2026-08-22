@@ -122,11 +122,11 @@ public class RobotContainer {
      */
     m_operatorController
         .rightTrigger()
-        .whileTrue(Commands.parallel(m_shooterSystem.aimAndShoot(), m_indexerSystem.feedFuel()))
+        .whileTrue(Commands.parallel(m_shooterSystem.aimAndShoot()))
         .whileTrue(
             Commands.sequence(
                 Commands.waitUntil(m_shooterSystem::isShooterReady),
-                m_intakeSystem.shuffleHopper()))
+                Commands.parallel(m_intakeSystem.shuffleHopper(), m_indexerSystem.feedFuel())))
         .onFalse(
             Commands.sequence(
                 m_indexerSystem.stop(),
