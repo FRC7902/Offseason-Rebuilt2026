@@ -21,6 +21,8 @@ public class IntakeRollerConstants {
 
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1); // TODO
   public static final int CAN_ID = 5; // TODO
+  
+  public static final AngularVelocity INTAKE_SPEED = RPM.of(750); // TODO
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
