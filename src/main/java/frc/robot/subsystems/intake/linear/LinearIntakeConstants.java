@@ -30,6 +30,9 @@ public class LinearIntakeConstants {
   public static final Distance TOLERANCE = Meters.of(0.1);
 
   public static final Distance FULLY_RETRACTED = Meters.of(0);
+  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.5);
+  public static final Distance HALF_EXTENDED = Meters.of(1);
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(1.5); // tune ts
   public static final Distance FULLY_EXTENDED = Meters.of(2);
 
   // TODO: Add distance constant for midpoint (intake extended as far as possible without letting
