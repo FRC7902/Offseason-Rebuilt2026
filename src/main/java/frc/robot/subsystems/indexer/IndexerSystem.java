@@ -1,12 +1,11 @@
 package frc.robot.subsystems.indexer;
 
-import static edu.wpi.first.units.Units.RPM;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller.RollerFloorSubsystem;
+import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
 
 public class IndexerSystem {
 
@@ -29,10 +28,11 @@ public class IndexerSystem {
    */
   public Command feedFuel() {
     // TODO: Use constants for roller/belt/feeder speeds
+
     return Commands.parallel(
-        m_rollerFloor.setVelocity(RPM.of(1000)),
-        m_indexerBelt.setVelocity(RPM.of(1000)),
-        m_feeder.setVelocity(RPM.of(1000)));
+        m_rollerFloor.setVelocity(IntakeRollerConstants.ROLLER_SPEED),
+        m_indexerBelt.setVelocity(IntakeRollerConstants.INDEXER_SPEED),
+        m_feeder.setVelocity(IntakeRollerConstants.FEEDER_SPEED));
   }
 
   /**
