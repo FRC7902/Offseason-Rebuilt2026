@@ -36,7 +36,8 @@ public class IntakeSystem {
    * @return command that runs until the linear intake is retracted and the rollers are stopped
    */
   public Command retractThenStopIntake() {
-    throw new UnsupportedOperationException("Not yet implemented.");
+    return Commands.sequence(
+        m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE), m_intakeRoller.stop());
   }
 
   /**
@@ -50,6 +51,6 @@ public class IntakeSystem {
    */
   public Command shuffleHopper() {
     // TODO: Use constants for shuffling positions
-    throw new UnsupportedOperationException("Not yet implemented.");
+    throw new UnsupportedOperationException("Not `yet implemented.");
   }
 }
