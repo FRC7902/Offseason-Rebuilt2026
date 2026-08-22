@@ -4,6 +4,15 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Radians;
+
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,6 +57,11 @@ public class RobotContainer {
 
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
   private final SwerveInputStream driveAngularVelocity;
+
+  private final StructArrayPublisher<Pose3d> posesPublisher =
+      NetworkTableInstance.getDefault()
+          .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
+          .publish();
 
   public RobotContainer() {
 
@@ -107,5 +121,29 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
+  }
+
+  public void publishComponentPoses() {
+
+    // Use Timer.getFPGATimestamp() to animate the turret angle over a sinusoidal path between 0 and 360 degrees over a period of 5 seconds. Use the current time in seconds as the input to the sine function, and scale the output to the desired range.
+    Angle turretOffset = Degrees.of(34);
+    Angle turretAngle = Degrees.of(
+        180 * (1 + Math.sin(2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 10)))).plus(turretOffset);
+
+    // Use Timer.getFPGATimestamp() to animate the hood angle over a sinusoidal path between 0 and 40 degrees over a period of 5 seconds. Use the current time in seconds as the input to the sine function, and scale the output to the desired range.
+    Angle hoodAngle = Degrees.of(
+        20 * (1 + Math.sin(2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 5))));
+
+    posesPublisher.set(
+        new Pose3d[] {
+          new Pose3d(),
+          new Pose3d(
+              new Translation3d(0.144, -0.152, 0.359),
+              new Rotation3d(0, 0, 0)),
+          new Pose3d(
+              new Translation3d(0.144, -0.152, 0.359),
+              new Rotation3d(0, 0, 0)),
+          new Pose3d()
+        });
   }
 }
