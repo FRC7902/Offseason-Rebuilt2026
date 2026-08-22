@@ -1,8 +1,5 @@
 package frc.robot.subsystems.indexer;
 
-import static edu.wpi.first.units.Units.RPM;
-
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.indexer.belt.IndexerBeltConstants;
@@ -17,10 +14,6 @@ public class IndexerSystem {
   private final IndexerBeltSubsystem m_indexerBelt;
   private final FeederSubsystem m_feeder;
   private final RollerFloorSubsystem m_rollerFloor;
-
-  private final AngularVelocity FLOOR_STORE_SPEED = RPM.of(2);
-  private final AngularVelocity BELT_STORE_SPEED = RPM.of(1);
-  private final AngularVelocity OFF_SPEED = RPM.of(0);
 
   public IndexerSystem(
       IndexerBeltSubsystem indexerBelt, FeederSubsystem feeder, RollerFloorSubsystem rollerFloor) {
@@ -51,8 +44,8 @@ public class IndexerSystem {
    */
   public Command storeFuel() {
     return Commands.parallel(
-        m_rollerFloor.setVelocity(FLOOR_STORE_SPEED),
-        m_indexerBelt.setVelocity(BELT_STORE_SPEED),
-        m_feeder.setVelocity(OFF_SPEED));
+        m_rollerFloor.setVelocity(RollerFloorConstants.FLOOR_STORE_SPEED),
+        m_indexerBelt.setVelocity(IndexerBeltConstants.BELT_STORE_SPEED),
+        m_feeder.stop());
   }
 }

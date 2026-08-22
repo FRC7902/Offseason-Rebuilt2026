@@ -24,7 +24,8 @@ public class RollerFloorConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  public static final AngularVelocity ROLLER_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
