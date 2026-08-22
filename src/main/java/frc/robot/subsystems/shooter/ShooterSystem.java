@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class ShooterSystem {
@@ -39,7 +40,9 @@ public class ShooterSystem {
    * @return command that indefinitely aims the turret to the calculated target angle
    */
   public Command aimTurret() {
-    return m_turret.setAngle(LaunchCalculator.getInstance().getParameters().turretAngle());
+    return m_turret
+        .setAngle(LaunchCalculator.getInstance().getParameters().turretAngle())
+        .repeatedly();
   }
 
   /**
