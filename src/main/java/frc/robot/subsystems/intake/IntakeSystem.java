@@ -50,7 +50,9 @@ public class IntakeSystem {
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
   public Command shuffleHopper() {
-    // TODO: Use constants for shuffling positions
-    throw new UnsupportedOperationException("Not yet implemented.");
+    return Commands.sequence(
+      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
+      m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED)
+    ).repeatedly();
   }
 }
