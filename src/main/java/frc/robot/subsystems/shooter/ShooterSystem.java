@@ -52,9 +52,10 @@ public class ShooterSystem {
    *     aimed correctly
    */
   public boolean isShooterReady() {
-    if (m_flywheel.isAtSetpoint() && m_hood.isAtSetpoint()&&m_turret.isAtSetpoint()) {
+    if (m_flywheel.isAtSetpoint() && m_hood.isAtSetpoint() && m_turret.isAtSetpoint()) {
       return true;
-    }else{ return
-
+    } else {
+      return false;
+    }
   }
 }
