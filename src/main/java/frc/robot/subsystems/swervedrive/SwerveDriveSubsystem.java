@@ -28,9 +28,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private SwerveDrive drive;
 
-  private final PIDController m_choreoControllerX = new PIDController(0, 0.0, 0.0); // TODO
-  private final PIDController m_choreoControllerY = new PIDController(0, 0.0, 0.0); // TODO
-  private final PIDController m_choreoControllerHeading = new PIDController(0.1, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerX = new PIDController(0.1, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerY = new PIDController(0.1, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerHeading = new PIDController(1.0, 0.0, 0.0); // TODO
 
   public SwerveDriveSubsystem() {
     SmartDashboard.putData(this);
