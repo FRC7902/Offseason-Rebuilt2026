@@ -5,10 +5,13 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -125,24 +128,42 @@ public class RobotContainer {
 
   public void publishComponentPoses() {
 
-    // Use Timer.getFPGATimestamp() to animate the turret angle over a sinusoidal path between 0 and 360 degrees over a period of 5 seconds. Use the current time in seconds as the input to the sine function, and scale the output to the desired range.
+    // Use Timer.getFPGATimestamp() to animate the turret angle over a sinusoidal path between 0 and
+    // 360 degrees over a period of 5 seconds. Use the current time in seconds as the input to the
+    // sine function, and scale the output to the desired range.
     Angle turretOffset = Degrees.of(34);
-    Angle turretAngle = Degrees.of(
-        180 * (1 + Math.sin(2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 10)))).plus(turretOffset);
+    Angle turretAngle =
+        Degrees.of(
+                180
+                    * (1
+                        + Math.sin(
+                            2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 10))))
+            .plus(turretOffset);
 
-    // Use Timer.getFPGATimestamp() to animate the hood angle over a sinusoidal path between 0 and 40 degrees over a period of 5 seconds. Use the current time in seconds as the input to the sine function, and scale the output to the desired range.
-    Angle hoodAngle = Degrees.of(
-        20 * (1 + Math.sin(2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 5))));
+    // Use Timer.getFPGATimestamp() to animate the hood angle over a sinusoidal path between 0 and
+    // 20 degrees over a period of 5 seconds. Use the current time in seconds as the input to the
+    // sine function, and scale the output to the desired range.
+    Angle hoodAngle =
+        Degrees.of(
+            10
+                * (1
+                    + Math.sin(
+                        2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 5))));
+
+    Pose3d turretPose =
+        new Pose3d(
+            new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0, 0, turretAngle.in(Radians)));
 
     posesPublisher.set(
         new Pose3d[] {
           new Pose3d(),
-          new Pose3d(
-              new Translation3d(0.144, -0.152, 0.359),
-              new Rotation3d(0, 0, 0)),
-          new Pose3d(
-              new Translation3d(0.144, -0.152, 0.359),
-              new Rotation3d(0, 0, 0)),
+          turretPose,
+          turretPose.transformBy(
+              new Transform3d(
+                  Inches.of(4.559248).in(Meters),
+                  0.0,
+                  Inches.of(4.339886).in(Meters),
+                  new Rotation3d(0.0, hoodAngle.in(Radians), 0.0))),
           new Pose3d()
         });
   }
