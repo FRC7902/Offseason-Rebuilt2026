@@ -105,6 +105,10 @@ public class TurretSubsystem extends SubsystemBase {
     m_turret.setMechanismPositionSetpoint(measure);
   }
 
+  public Angle getAngle() {
+    return m_turret.getAngle();
+  }
+
   /**
    * Stops the turret by disabling closed-loop control and commanding zero duty cycle.
    *

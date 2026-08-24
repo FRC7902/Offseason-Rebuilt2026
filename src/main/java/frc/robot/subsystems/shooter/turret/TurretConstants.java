@@ -24,6 +24,9 @@ public class TurretConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX60(1); // TODO
   public static final int CAN_ID = 8; // TODO
 
+  public static final Angle MIN_ANGLE = Degrees.of(-180); // TODO
+  public static final Angle MAX_ANGLE = Degrees.of(180); // TODO
+
   public static final Angle TOLERANCE = Degrees.of(1); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
@@ -47,7 +50,7 @@ public class TurretConstants {
 
   public static final PivotConfig PIVOT_CONFIG =
       new PivotConfig()
-          .withHardLimits(Degrees.of(-360), Degrees.of(360)) // TODO
+          .withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE) // TODO
           .withTelemetry("TurretMech", TelemetryVerbosity.HIGH);
 
   public static final Transform3d ROBOT_TO_TURRET =

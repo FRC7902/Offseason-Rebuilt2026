@@ -64,6 +64,10 @@ public class HoodSubsystem extends SubsystemBase {
         .orElse(false);
   }
 
+  public Angle getAngle() {
+    return m_hood.getAngle();
+  }
+
   @Override
   public void periodic() {
     m_hood.updateTelemetry();

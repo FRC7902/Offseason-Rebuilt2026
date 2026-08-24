@@ -33,7 +33,9 @@ import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
+import frc.robot.subsystems.shooter.hood.HoodConstants;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import yams.mechanisms.swerve.utility.SwerveInputStream;
@@ -134,16 +136,29 @@ public class RobotContainer {
     // 360 degrees over a period of 5 seconds. Use the current time in seconds as the input to the
     // sine function, and scale the output to the desired range.
     Angle turretAngle =
-        Degrees.of(180 * (1 + Math.sin(2 * Math.PI * (Timer.getFPGATimestamp() / 10))));
+        Degrees.of(
+            TurretConstants.MAX_ANGLE.in(Degrees)
+                * (1 + Math.sin(2 * Math.PI * (Timer.getFPGATimestamp() / 10))));
 
     // Use Timer.getFPGATimestamp() to animate the hood angle over a sinusoidal path between 0 and
     // 20 degrees over a period of 5 seconds. Use the current time in seconds as the input to the
     // sine function, and scale the output to the desired range.
-    Angle hoodAngle = Degrees.of(10 * (1 + Math.sin(2 * Math.PI * (Timer.getFPGATimestamp() / 5))));
+    Angle hoodAngle =
+        Degrees.of(
+            (HoodConstants.MAX_ANGLE.in(Degrees) / 2)
+                * (1 + Math.sin(2 * Math.PI * (Timer.getFPGATimestamp() / 5))));
 
     Pose3d turretPose =
         new Pose3d(
             new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0, 0, turretAngle.in(Radians)));
+
+    Pose3d hoodPose =
+        turretPose.transformBy(
+            new Transform3d(
+                Inches.of(4.559248).in(Meters),
+                0.0,
+                Inches.of(4.339886).in(Meters),
+                new Rotation3d(0.0, hoodAngle.in(Radians), 0.0)));
 
     // Linear Intake pose
     double angle = Math.toRadians(LinearIntakeConstants.MECHANISM_ANGLE.in(Degrees));
@@ -160,17 +175,6 @@ public class RobotContainer {
     double z = distance * Math.sin(angle);
     Pose3d linearIntakePose = new Pose3d(new Translation3d(x, 0.0, z), new Rotation3d());
 
-    posesPublisher.set(
-        new Pose3d[] {
-          linearIntakePose,
-          turretPose,
-          turretPose.transformBy(
-              new Transform3d(
-                  Inches.of(4.559248).in(Meters),
-                  0.0,
-                  Inches.of(4.339886).in(Meters),
-                  new Rotation3d(0.0, hoodAngle.in(Radians), 0.0))),
-          new Pose3d()
-        });
+    posesPublisher.set(new Pose3d[] {linearIntakePose, turretPose, hoodPose, new Pose3d()});
   }
 }

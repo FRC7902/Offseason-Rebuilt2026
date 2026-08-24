@@ -44,6 +44,10 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     return m_linearIntake.runTo(height, LinearIntakeConstants.TOLERANCE);
   }
 
+  public Distance getHeight() {
+    return m_linearIntake.getHeight();
+  }
+
   /**
    * Stops the linear intake by disabling closed-loop control and commanding zero duty cycle.
    *
