@@ -28,9 +28,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private SwerveDrive drive;
 
-  private final PIDController m_choreoControllerX = new PIDController(1.0, 0.0, 0.0); // TODO
-  private final PIDController m_choreoControllerY = new PIDController(1.0, 0.0, 0.0); // TODO
-  private final PIDController m_choreoControllerHeading = new PIDController(1, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerX = new PIDController(0.1, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerY = new PIDController(0.1, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerHeading = new PIDController(0.1, 0.0, 0.0); // TODO
 
   public SwerveDriveSubsystem() {
     SmartDashboard.putData(this);
@@ -122,6 +122,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   public void followTrajectory(SwerveSample sample) {
+
+    driveFieldOriented(new ChassisSpeeds(sample.vx, sample.vy, sample.omega));
+
     // Get the current pose of the robot
     Pose2d pose = getPose();
 
@@ -140,6 +143,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   public Command stop() {
     return new InstantCommand(() -> driveRobotOriented(new ChassisSpeeds(0, 0, 0)));
+  }
+
+  /** Zero the gyro heading. Bind this to a button combo for field recovery. */
+  public Command zeroGyro() {
+    return runOnce(() -> drive.zeroGyro());
   }
 
   public void periodic() {

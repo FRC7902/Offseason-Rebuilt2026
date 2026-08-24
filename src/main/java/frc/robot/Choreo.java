@@ -27,6 +27,8 @@ public class Choreo {
 
   public Command testPath() {
     return Commands.sequence(
-        m_autoFactory.resetOdometry("NewPath"), m_autoFactory.trajectoryCmd("NewPath"));
+        m_autoFactory.resetOdometry("NewPath"),
+        m_autoFactory.trajectoryCmd("NewPath"),
+        m_swerveDriveSubsystem.stop());
   }
 }
