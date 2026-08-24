@@ -28,8 +28,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private SwerveDrive drive;
 
-  private final PIDController m_choreoControllerX = new PIDController(0.1, 0.0, 0.0); // TODO
-  private final PIDController m_choreoControllerY = new PIDController(0.1, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerX = new PIDController(0, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerY = new PIDController(0, 0.0, 0.0); // TODO
   private final PIDController m_choreoControllerHeading = new PIDController(0.1, 0.0, 0.0); // TODO
 
   public SwerveDriveSubsystem() {
@@ -105,11 +105,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         .withName("SysId " + moduleName + " Azimuth");
   }
 
-  public void driveFieldOriented(ChassisSpeeds velocity) {
+  public void driveFieldRelative(ChassisSpeeds velocity) {
     drive.setFieldRelativeChassisSpeeds(velocity);
   }
 
-  public void driveRobotOriented(ChassisSpeeds velocity) {
+  public void driveRobotRelative(ChassisSpeeds velocity) {
     drive.setRobotRelativeChassisSpeeds(velocity);
   }
 
@@ -122,9 +122,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   public void followTrajectory(SwerveSample sample) {
-
-    driveFieldOriented(new ChassisSpeeds(sample.vx, sample.vy, sample.omega));
-
     // Get the current pose of the robot
     Pose2d pose = getPose();
 
@@ -138,11 +135,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                     pose.getRotation().getRadians(), sample.heading));
 
     // Apply the generated speeds
-    driveFieldOriented(speeds);
+    driveFieldRelative(speeds);
   }
 
   public Command stop() {
-    return new InstantCommand(() -> driveRobotOriented(new ChassisSpeeds(0, 0, 0)));
+    return new InstantCommand(() -> driveRobotRelative(new ChassisSpeeds(0, 0, 0)));
   }
 
   /** Zero the gyro heading. Bind this to a button combo for field recovery. */
