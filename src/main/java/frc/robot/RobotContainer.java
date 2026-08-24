@@ -18,6 +18,7 @@ import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
@@ -27,6 +28,7 @@ import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller.RollerFloorSubsystem;
 import frc.robot.subsystems.intake.IntakeSystem;
+import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
@@ -131,32 +133,36 @@ public class RobotContainer {
     // Use Timer.getFPGATimestamp() to animate the turret angle over a sinusoidal path between 0 and
     // 360 degrees over a period of 5 seconds. Use the current time in seconds as the input to the
     // sine function, and scale the output to the desired range.
-    Angle turretOffset = Degrees.of(34);
     Angle turretAngle =
-        Degrees.of(
-                180
-                    * (1
-                        + Math.sin(
-                            2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 10))))
-            .plus(turretOffset);
+        Degrees.of(180 * (1 + Math.sin(2 * Math.PI * (Timer.getFPGATimestamp() / 10))));
 
     // Use Timer.getFPGATimestamp() to animate the hood angle over a sinusoidal path between 0 and
     // 20 degrees over a period of 5 seconds. Use the current time in seconds as the input to the
     // sine function, and scale the output to the desired range.
-    Angle hoodAngle =
-        Degrees.of(
-            10
-                * (1
-                    + Math.sin(
-                        2 * Math.PI * (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() / 5))));
+    Angle hoodAngle = Degrees.of(10 * (1 + Math.sin(2 * Math.PI * (Timer.getFPGATimestamp() / 5))));
 
     Pose3d turretPose =
         new Pose3d(
             new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0, 0, turretAngle.in(Radians)));
 
+    // Linear Intake pose
+    double angle = Math.toRadians(LinearIntakeConstants.MECHANISM_ANGLE.in(Degrees));
+    // Use Timer.getFPGATimestamp() to animate the linear intake position over a sinusoidal path
+    // between 0 and MAX_DISTANCE over a period of 5 seconds. Use the current time in seconds as the
+    // input to the sine function, and scale the output to the desired range.
+    double distance =
+        LinearIntakeConstants.FULLY_EXTENDED.in(Meters)
+            - LinearIntakeConstants.FULLY_EXTENDED.in(Meters)
+                * (0.5 * Math.sin(Timer.getTimestamp()) + 0.5);
+
+    // Convert distance vector to x and z components based on angle
+    double x = distance * Math.cos(angle);
+    double z = distance * Math.sin(angle);
+    Pose3d linearIntakePose = new Pose3d(new Translation3d(x, 0.0, z), new Rotation3d());
+
     posesPublisher.set(
         new Pose3d[] {
-          new Pose3d(),
+          linearIntakePose,
           turretPose,
           turretPose.transformBy(
               new Transform3d(
