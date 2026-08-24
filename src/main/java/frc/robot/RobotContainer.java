@@ -50,7 +50,7 @@ public class RobotContainer {
   public final IntakeSystem m_intakeSystem;
   public final ShooterSystem m_shooterSystem;
 
-  private final SwerveDriveSubsystem m_swerveDriveSubsystem;
+  public final SwerveDriveSubsystem m_swerveDriveSubsystem;
   private final SwerveInputStream driveAngularVelocity;
 
   public final AutoFactory m_autoFactory;

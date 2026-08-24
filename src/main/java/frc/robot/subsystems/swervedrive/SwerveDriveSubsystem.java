@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.io.File;
@@ -27,9 +28,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private SwerveDrive drive;
 
-  private final PIDController m_choreoControllerX = new PIDController(10.0, 0.0, 0.0); // TODO
-  private final PIDController m_choreoControllerY = new PIDController(10.0, 0.0, 0.0); // TODO
-  private final PIDController m_choreoControllerHeading = new PIDController(7.5, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerX = new PIDController(1.0, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerY = new PIDController(1.0, 0.0, 0.0); // TODO
+  private final PIDController m_choreoControllerHeading = new PIDController(1, 0.0, 0.0); // TODO
 
   public SwerveDriveSubsystem() {
     SmartDashboard.putData(this);
@@ -48,6 +49,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       System.out.println(e);
       throw new RuntimeException(e);
     }
+
+    m_choreoControllerHeading.enableContinuousInput(-Math.PI, Math.PI);
   }
 
   public SwerveInputStream getAngularVelocityStream(
@@ -106,6 +109,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     drive.setFieldRelativeChassisSpeeds(velocity);
   }
 
+  public void driveRobotOriented(ChassisSpeeds velocity) {
+    drive.setRobotRelativeChassisSpeeds(velocity);
+  }
+
   public Pose2d getPose() {
     return drive.getPose();
   }
@@ -129,6 +136,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     // Apply the generated speeds
     driveFieldOriented(speeds);
+  }
+
+  public Command stop() {
+    return new InstantCommand(() -> driveRobotOriented(new ChassisSpeeds(0, 0, 0)));
   }
 
   public void periodic() {
