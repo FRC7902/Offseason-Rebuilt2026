@@ -9,6 +9,25 @@
           "data": {
             "pathName": "Example Path"
           }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Example Path 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "extendIntake"
+                }
+              }
+            ]
+          }
         }
       ]
     }
