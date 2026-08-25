@@ -16,6 +16,7 @@ public class IntakeSystem {
     m_linearIntake = linearIntake;
     m_intakeRoller = intakeRoller;
   }
+
   /**
    * Creates a command that extends the linear intake to its fully extended setpoint while running
    * the intake rollers.
