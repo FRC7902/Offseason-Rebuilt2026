@@ -78,7 +78,7 @@ public class HoodSubsystem extends SubsystemBase {
             Units.Inches.of(4.559248).in(Units.Meters),
             0.0,
             Units.Inches.of(4.339886).in(Units.Meters),
-            new Rotation3d(0.0, getAngle().in(Units.Radians), 0.0)));
+            new Rotation3d(0.0, getAngle().minus(HoodConstants.MIN_ANGLE).in(Units.Radians), 0.0)));
   }
 
   @Override
