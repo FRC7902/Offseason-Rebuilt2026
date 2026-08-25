@@ -42,4 +42,8 @@ public class LaunchCalculator {
 
     return latestParameters;
   }
+
+  public void clearLaunchingParameters() {
+    latestParameters = null;
+  }
 }
