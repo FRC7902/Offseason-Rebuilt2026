@@ -53,6 +53,6 @@ public class ShooterSystem {
    *     aimed correctly
    */
   public boolean isShooterReady() {
-    throw new UnsupportedOperationException("Not yet implemented.");
+   return m_flywheel.isAtSetpoint() && m_hood.isAtSetpoint() && m_turret.isAtSetpoint();
   }
 }
