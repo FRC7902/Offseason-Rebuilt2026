@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,6 +51,11 @@ public class RobotContainer {
 
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
   private final SwerveInputStream driveAngularVelocity;
+
+  private final StructArrayPublisher<Pose3d> posesPublisher =
+      NetworkTableInstance.getDefault()
+          .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
+          .publish();
 
   public RobotContainer() {
 
@@ -107,5 +115,13 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
+  }
+
+  public void publishComponentPoses() {
+    Pose3d turretPose = m_turretSubsystem.getPose3d();
+    Pose3d hoodPose = m_hoodSubsystem.getPose3d(turretPose);
+    Pose3d linearIntakePose = m_linearIntakeSubsystem.getPose3d();
+
+    posesPublisher.set(new Pose3d[] {linearIntakePose, turretPose, hoodPose, new Pose3d()});
   }
 }

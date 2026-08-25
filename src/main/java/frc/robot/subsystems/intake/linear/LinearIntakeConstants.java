@@ -1,6 +1,7 @@
 package frc.robot.subsystems.intake.linear;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -10,6 +11,7 @@ import static edu.wpi.first.units.Units.Pounds;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
@@ -29,7 +31,7 @@ public class LinearIntakeConstants {
   public static final Distance TOLERANCE = Meters.of(0.1); // TODO
 
   public static final Distance FULLY_RETRACTED = Meters.of(0); // TODO
-  public static final Distance FULLY_EXTENDED = Meters.of(2); // TODO
+  public static final Distance FULLY_EXTENDED = Inches.of(11.6875); // TODO
 
   // TODO: Add distance constant for midpoint (intake extended as far as possible without letting
   // fuel loose)
@@ -54,7 +56,7 @@ public class LinearIntakeConstants {
           .withMotorInverted(false) // TODO
           .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0)) // TODO
           .withSimFeedforward(new ElevatorFeedforward(0, 0, 0, 0)) // TODO
-          .withStartingPosition(Meters.of(0.5)); // TODO
+          .withStartingPosition(Meters.of(0.0)); // TODO
 
   private static final MechanismPositionConfig ROBOT_TO_MECHANISM =
       new MechanismPositionConfig()
@@ -63,10 +65,13 @@ public class LinearIntakeConstants {
           .withRelativePosition(
               new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5))); // TODO
 
+  public static final Angle MECHANISM_ANGLE = Degrees.of(15.626606);
+
   public static final ElevatorConfig ELEVATOR_CONFIG =
       new ElevatorConfig()
           .withHardLimits(FULLY_RETRACTED, FULLY_EXTENDED)
           .withTelemetry("LinearIntakeMech", TelemetryVerbosity.HIGH)
           .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
+          .withAngle(MECHANISM_ANGLE)
           .withCarriageWeight(Pounds.of(16)); // TODO
 }

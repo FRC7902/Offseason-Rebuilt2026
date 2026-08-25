@@ -5,9 +5,12 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -103,6 +106,15 @@ public class TurretSubsystem extends SubsystemBase {
    */
   public void setAngleSetpoint(Angle measure) {
     m_turret.setMechanismPositionSetpoint(measure);
+  }
+
+  public Angle getAngle() {
+    return m_turret.getAngle();
+  }
+
+  public Pose3d getPose3d() {
+    return new Pose3d(
+        new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0.0, 0.0, getAngle().in(Radians)));
   }
 
   /**

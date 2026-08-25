@@ -1,6 +1,10 @@
 package frc.robot.subsystems.shooter.hood;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -62,6 +66,19 @@ public class HoodSubsystem extends SubsystemBase {
         .getMechanismSetpoint()
         .map(setpoint -> m_hood.isNear(setpoint, HoodConstants.TOLERANCE).getAsBoolean())
         .orElse(false);
+  }
+
+  public Angle getAngle() {
+    return m_hood.getAngle();
+  }
+
+  public Pose3d getPose3d(Pose3d turretPose) {
+    return turretPose.transformBy(
+        new Transform3d(
+            Units.Inches.of(4.559248).in(Units.Meters),
+            0.0,
+            Units.Inches.of(4.339886).in(Units.Meters),
+            new Rotation3d(0.0, getAngle().in(Units.Radians), 0.0)));
   }
 
   @Override

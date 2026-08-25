@@ -24,8 +24,8 @@ public class HoodConstants {
 
   public static final Angle TOLERANCE = Degrees.of(1); // TODO
 
-  public static final Angle MIN_ANGLE = Degrees.of(-30); // TODO
-  public static final Angle MAX_ANGLE = Degrees.of(100); // TODO
+  public static final Angle MIN_ANGLE = Degrees.of(0); // TODO
+  public static final Angle MAX_ANGLE = Degrees.of(20); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()

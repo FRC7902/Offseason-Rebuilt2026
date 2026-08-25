@@ -1,6 +1,12 @@
 package frc.robot.subsystems.intake.linear;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,6 +48,19 @@ public class LinearIntakeSubsystem extends SubsystemBase {
    */
   public Command setHeight(Distance height) {
     return m_linearIntake.runTo(height, LinearIntakeConstants.TOLERANCE);
+  }
+
+  public Distance getHeight() {
+    return m_linearIntake.getHeight();
+  }
+
+  public Pose3d getPose3d() {
+    double angle = Math.toRadians(LinearIntakeConstants.MECHANISM_ANGLE.in(Degrees));
+    double distance = LinearIntakeConstants.FULLY_EXTENDED.in(Meters) - getHeight().in(Meters);
+
+    return new Pose3d(
+        new Translation3d(distance * Math.cos(angle), 0.0, distance * Math.sin(angle)),
+        new Rotation3d());
   }
 
   /**
