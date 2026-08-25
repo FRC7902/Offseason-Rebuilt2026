@@ -24,7 +24,7 @@ public class IntakeRollerConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  // TODO: Create an AngularVelocity constant for intaking
+  public static final AngularVelocity INTAKE_SPEED = RPM.of(750); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
