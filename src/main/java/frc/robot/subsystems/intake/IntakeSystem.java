@@ -35,8 +35,9 @@ public class IntakeSystem {
    *
    * @return command that runs until the linear intake is retracted and the rollers are stopped
    */
-  public Command retractThenStopIntake() {
-    throw new UnsupportedOperationException("Not yet implemented.");
+  public Command retractToMidpointThenStopIntake() {
+    return Commands.sequence(
+        m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE), m_intakeRoller.stop());
   }
 
   /**
