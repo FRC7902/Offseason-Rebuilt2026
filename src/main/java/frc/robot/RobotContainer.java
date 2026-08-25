@@ -90,7 +90,7 @@ public class RobotContainer {
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    NamedCommands.registerCommand("extendIntake", m_intakeSystem.extendAndIntake());
+    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
 
     configureBindings();
   }
