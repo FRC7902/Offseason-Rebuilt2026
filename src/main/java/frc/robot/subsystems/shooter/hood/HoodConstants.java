@@ -45,7 +45,7 @@ public class HoodConstants {
           .withClosedLoopRampRate(Seconds.of(0.25)) // TODO
           .withFeedforward(new ArmFeedforward(0, 0, 0, 0)) // TODO
           .withSimFeedforward(new ArmFeedforward(0, 0, 0, 0)) // TODO
-          .withSimStartingPosition(Degrees.of(0)); // TODO
+          .withSimStartingPosition(MIN_ANGLE);
 
   public static final ArmConfig ARM_CONFIG =
       new ArmConfig()
