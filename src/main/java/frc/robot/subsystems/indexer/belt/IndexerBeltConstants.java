@@ -25,7 +25,8 @@ public class IndexerBeltConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  public static final AngularVelocity INDEXER_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity STORING_SPEED = RPM.of(100); // TODO
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()

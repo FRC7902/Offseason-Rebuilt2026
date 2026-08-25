@@ -30,8 +30,8 @@ public class IndexerSystem {
    */
   public Command feedFuel() {
     return Commands.parallel(
-        m_rollerFloor.setVelocity(RollerFloorConstants.ROLLER_SPEED),
-        m_indexerBelt.setVelocity(IndexerBeltConstants.INDEXER_SPEED),
+        m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
+        m_indexerBelt.setVelocity(IndexerBeltConstants.FEEDING_SPEED),
         m_feeder.setVelocity(FeederConstants.FEEDER_SPEED));
   }
 
@@ -43,7 +43,9 @@ public class IndexerSystem {
    * @return command that runs indefinitely until interrupted
    */
   public Command storeFuel() {
-    // TODO: Use constants for roller/belt/feeder speeds
-    throw new UnsupportedOperationException("Not yet implemented.");
+    return Commands.parallel(
+        m_rollerFloor.setVelocity(RollerFloorConstants.STORING_SPEED),
+        m_indexerBelt.setVelocity(IndexerBeltConstants.STORING_SPEED),
+        m_feeder.stop());
   }
 }
