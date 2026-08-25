@@ -11,16 +11,28 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class IndexerBeltSubsystem extends SubsystemBase {
-  private final TalonFX m_indexerBeltMotor;
-  private final SmartMotorControllerConfig m_motorConfig;
-  private final SmartMotorController m_motor;
+  private final TalonFX m_indexerBeltLeaderMotor;
+  private final TalonFX m_indexerBeltFollowerMotor;
+  private final SmartMotorControllerConfig m_leaderMotorConfig;
+  private final SmartMotorControllerConfig m_followerMotorConfig;
+  private final SmartMotorController m_leaderMotor;
+  private final SmartMotorController m_followerMotor;
   private final FlyWheel m_indexerBelt;
 
   public IndexerBeltSubsystem() {
-    m_indexerBeltMotor = new TalonFX(IndexerBeltConstants.CAN_ID);
-    m_motorConfig = IndexerBeltConstants.SMC_CONFIG.withSubsystem(this);
-    m_motor = new TalonFXWrapper(m_indexerBeltMotor, IndexerBeltConstants.MOTOR, m_motorConfig);
-    m_indexerBelt = new FlyWheel(IndexerBeltConstants.FLY_WHEEL_CONFIG, m_motor);
+    m_indexerBeltLeaderMotor = new TalonFX(IndexerBeltConstants.LEADER_CAN_ID);
+    m_indexerBeltFollowerMotor = new TalonFX(IndexerBeltConstants.FOLLOWER_CAN_ID);
+    m_leaderMotorConfig = IndexerBeltConstants.LEADER_SMC_CONFIG.withSubsystem(this);
+    m_followerMotorConfig = IndexerBeltConstants.FOLLOWER_SMC_CONFIG.withSubsystem(this);
+    m_followerMotor =
+        new TalonFXWrapper(
+            m_indexerBeltFollowerMotor, IndexerBeltConstants.FOLLOWER_MOTOR, m_followerMotorConfig);
+    m_leaderMotor =
+        new TalonFXWrapper(
+            m_indexerBeltLeaderMotor,
+            IndexerBeltConstants.LEADER_MOTOR,
+            m_leaderMotorConfig.withLooselyCoupledFollowers(m_followerMotor));
+    m_indexerBelt = new FlyWheel(IndexerBeltConstants.FLY_WHEEL_CONFIG, m_leaderMotor);
   }
 
   /**
@@ -83,7 +95,7 @@ public class IndexerBeltSubsystem extends SubsystemBase {
   public Command stop() {
     return this.runOnce(
         () -> {
-          m_motor.stopClosedLoopController();
+          m_leaderMotor.stopClosedLoopController();
           setDutyCycle(0);
         });
   }
