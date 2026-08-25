@@ -25,8 +25,7 @@ public class IndexerBeltConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  // TODO: Add AngularVelocity constant for the indexer belt speed when feeding
-  // fuel
+  public static final AngularVelocity INDEXER_SPEED = RPM.of(750); // TODO
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()
