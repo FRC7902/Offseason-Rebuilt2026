@@ -28,6 +28,7 @@ public class FlywheelConstants {
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO
+          .withSimClosedLoopController(0.00016541, 0, 0) // TODO
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
           .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
