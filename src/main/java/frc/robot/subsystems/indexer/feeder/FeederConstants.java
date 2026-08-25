@@ -23,9 +23,7 @@ public class FeederConstants {
   public static final int CAN_ID = 2; // TODO
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
-  public static final AngularVelocity FEEDER_SPEED = RPM.of(1000);
-
-  // TODO: Add AngularVelocity constant for the feeder speed when feeding fuel
+  public static final AngularVelocity FEEDER_SPEED = RPM.of(750);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
