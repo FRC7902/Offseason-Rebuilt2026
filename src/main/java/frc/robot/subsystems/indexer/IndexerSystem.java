@@ -29,8 +29,6 @@ public class IndexerSystem {
    * @return command that runs indefinitely until interrupted
    */
   public Command feedFuel() {
-    // TODO: Use constants for roller/belt/feeder speeds
-
     return Commands.parallel(
         m_rollerFloor.setVelocity(RollerFloorConstants.ROLLER_SPEED),
         m_indexerBelt.setVelocity(IndexerBeltConstants.INDEXER_SPEED),

@@ -23,7 +23,7 @@ public class RollerFloorConstants {
   public static final int CAN_ID = 3; // TODO
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
-  public static final AngularVelocity ROLLER_SPEED = RPM.of(1000);
+  public static final AngularVelocity ROLLER_SPEED = RPM.of(1000); // TODO
   // TODO: Add AngularVelocity constant for the roller floor speed when feeding
   // fuel
 
