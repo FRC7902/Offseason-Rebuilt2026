@@ -17,6 +17,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   private final FlyWheel m_flywheel;
 
   public FlywheelSubsystem() {
+    // TODO: add second follower motor
     m_flywheelMotor = new TalonFX(FlywheelConstants.CAN_ID);
     m_motorConfig = FlywheelConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_flywheelMotor, FlywheelConstants.MOTOR, m_motorConfig);
