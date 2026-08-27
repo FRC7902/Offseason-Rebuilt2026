@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import yams.mechanisms.positional.Pivot;
 import yams.motorcontrollers.SmartMotorController;
@@ -124,8 +123,7 @@ public class TurretSubsystem extends SubsystemBase {
    * @return A one-shot command that stops the mechanism.
    */
   public Command stop() {
-    return Commands.parallel(
-        this.runOnce(() -> m_motor.stopClosedLoopController()), setDutyCycle(0));
+    return this.runOnce(() -> m_motor.stopClosedLoopController()).andThen(setDutyCycle(0));
   }
 
   public boolean isAtSetpoint() {

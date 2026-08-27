@@ -62,7 +62,8 @@ public class ShooterSystem {
    *
    * @return command that stops all shooter subsystems and runs indefinitely until interrupted
    */
-  public Command stop() {
-    return Commands.parallel(m_flywheel.stop(), m_hood.stop(), m_turret.stop());
+  public Command stopShooting() {
+    // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
+    return Commands.parallel(m_flywheel.stop(), m_hood.stop());
   }
 }
