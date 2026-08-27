@@ -1,12 +1,13 @@
 package frc.robot.subsystems.shooter.turret;
 
+import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Feet;
+
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.system.plant.DCMotor;
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Feet;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
@@ -31,7 +32,7 @@ public class TurretConstants {
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.0, 0.0, 0) // TODO
           .withSimClosedLoopController(0.0, 0.0, 0) // TODO
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(45))) 
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(45)))
           .withIdleMode(MotorMode.BRAKE) // TODO
           .withMotorInverted(false) // TODO
           .withFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0)) // TODO
