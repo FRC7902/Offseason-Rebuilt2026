@@ -38,7 +38,7 @@ public class TurretConstants {
           .withMotorInverted(false) // TODO
           .withFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0)) // TODO
           .withSimFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0)) // TODO
-          .withTelemetry(
+          .withTelemetry( // TODO
               "TurretMotor",
               new SmartMotorControllerTelemetryConfig()
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
