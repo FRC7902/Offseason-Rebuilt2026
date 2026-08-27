@@ -79,7 +79,7 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    m_swerveDriveSubsystem = new SwerveDriveSubsystem();
+    m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
     driveAngularVelocity =
         m_swerveDriveSubsystem
             .getAngularVelocityStream(
