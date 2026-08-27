@@ -11,6 +11,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -62,7 +63,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           "PathPlanner setup failed -- check deploy/pathplanner/settings.json exists", e);
     }
   }
-
   public static SwerveDriveSubsystem getInstance() {
     if (m_instance == null) {
       m_instance = new SwerveDriveSubsystem();
