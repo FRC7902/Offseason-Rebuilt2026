@@ -12,22 +12,33 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class FlywheelSubsystem extends SubsystemBase {
-  private final TalonFX m_flywheelMotor;
-  private final SmartMotorControllerConfig m_motorConfig;
-  private final SmartMotorController m_motor;
+  private final TalonFX m_flywheelLeaderMotor;
+  private final TalonFX m_flywheelFollowerMotor;
+  private final SmartMotorControllerConfig m_leaderMotorConfig;
+  private final SmartMotorControllerConfig m_followerMotorConfig;
+  private final SmartMotorController m_leaderMotor;
+  private final SmartMotorController m_followerMotor;
   private final FlyWheel m_flywheel;
 
   public FlywheelSubsystem() {
-    // TODO: add second follower motor
-    m_flywheelMotor = new TalonFX(FlywheelConstants.CAN_ID);
-    m_motorConfig = FlywheelConstants.SMC_CONFIG.withSubsystem(this);
-    m_motor = new TalonFXWrapper(m_flywheelMotor, FlywheelConstants.MOTOR, m_motorConfig);
-    m_flywheel = new FlyWheel(FlywheelConstants.FLY_WHEEL_CONFIG, m_motor);
+    m_flywheelLeaderMotor = new TalonFX(FlywheelConstants.LEADER_CAN_ID);
+    m_flywheelFollowerMotor = new TalonFX(FlywheelConstants.FOLLOWER_CAN_ID);
+    m_leaderMotorConfig = FlywheelConstants.LEADER_SMC_CONFIG.withSubsystem(this);
+    m_followerMotorConfig = FlywheelConstants.FOLLOWER_SMC_CONFIG.withSubsystem(this);
+    m_followerMotor =
+        new TalonFXWrapper(
+            m_flywheelFollowerMotor, FlywheelConstants.FOLLOWER_MOTOR, m_followerMotorConfig);
+    m_leaderMotor =
+        new TalonFXWrapper(
+            m_flywheelLeaderMotor,
+            FlywheelConstants.LEADER_MOTOR,
+            m_leaderMotorConfig.withLooselyCoupledFollowers(m_followerMotor));
+    m_flywheel = new FlyWheel(FlywheelConstants.FLY_WHEEL_CONFIG, m_leaderMotor);
   }
 
   /**
-   * Returns the current flywheel angular velocity as measured by the motor encoder.
-   *
+  * Returns the current flywheel angular velocity as measured by the motor encoder.
+  *
    * @return Current flywheel speed.
    */
   public AngularVelocity getVelocity() {
@@ -84,7 +95,7 @@ public class FlywheelSubsystem extends SubsystemBase {
    */
   public Command stop() {
     return Commands.parallel(
-        this.runOnce(() -> m_motor.stopClosedLoopController()), setDutyCycle(0));
+        this.runOnce(() -> m_leaderMotor.stopClosedLoopController()), setDutyCycle(0));
   }
 
   public boolean isAtSetpoint() {
