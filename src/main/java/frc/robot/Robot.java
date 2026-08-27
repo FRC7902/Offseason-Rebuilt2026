@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
+import frc.robot.utils.AutoHelper;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -30,7 +31,13 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    String selectedAutoName = m_robotContainer.getAutonomousCommand().getName();
+
+    if (!selectedAutoName.equals("InstantCommand")) {
+      AutoHelper.publishAutoPath(m_robotContainer.getAutonomousCommand().getName());
+    }
+  }
 
   @Override
   public void disabledExit() {}
