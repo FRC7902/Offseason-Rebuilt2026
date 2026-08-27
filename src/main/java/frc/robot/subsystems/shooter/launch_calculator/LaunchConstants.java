@@ -1,3 +1,12 @@
 package frc.robot.subsystems.shooter.launch_calculator;
 
-public class LaunchConstants {}
+import edu.wpi.first.math.util.Units;
+
+public class LaunchConstants {
+    public static final double towerPresetDistance = 2.5;
+    public static final double trenchPresetDistance = 3.03;
+    public static final double outpostPresetDistance = 4.84;
+    public static final double passingPresetDistance = 5.5;
+    public static final double xPassTarget = Units.inchesToMeters(37);
+    public static final double yPassTarget = Units.inchesToMeters(65);
+}
