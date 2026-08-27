@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter.launch_calculator;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.*;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.*;
