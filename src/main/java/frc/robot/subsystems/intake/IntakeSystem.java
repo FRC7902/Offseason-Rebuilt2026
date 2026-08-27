@@ -1,12 +1,14 @@
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
+import java.util.Arrays;
+import java.util.function.BooleanSupplier;
 
 public class IntakeSystem {
 
@@ -50,30 +52,54 @@ public class IntakeSystem {
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
-  public Command shuffleHopper() {
+  // public Command shuffleHopper() {
+  //   return Commands.sequence(
+  //           new ConditionalCommand(
+  //               Commands.sequence( // first shuffle, half to past half
+  //                   m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+  //                   m_linearIntake.setHeight(LinearIntakeConstants.SHUFFLE_MIDPOINT),
+  //                   m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+  //                   m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
+  //               Commands.sequence(
+  //                   new ConditionalCommand(
+  //                       Commands.sequence( // second shuffle, quarter to half
+  //                           m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
+  //                           m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+  //                           m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
+  //                           m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
+  //                           m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED)),
+  //                       Commands.sequence( // last repeating shuffle, retracted to quarter
+  //                           m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED),
+  //
+  // m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
+  //                       () ->
+  //                           m_linearIntake
+  //                               .getHeight()
+  //                               .gte(LinearIntakeConstants.NEAR_FULLY_RETRACTED))),
+  //               () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.HALF_EXTENDED)))
+  //       .repeatedly();
+  // }
+
+  private Command createSetpointSequence(Distance[] setpoints) {
     return Commands.sequence(
-            new ConditionalCommand(
-                Commands.sequence( // first shuffle, half to past half
-                    m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-                    m_linearIntake.setHeight(LinearIntakeConstants.SHUFFLE_MIDPOINT),
-                    m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-                    m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
-                Commands.sequence(
-                    new ConditionalCommand(
-                        Commands.sequence( // second shuffle, quarter to half
-                            m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
-                            m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-                            m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
-                            m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-                            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED)),
-                        Commands.sequence( // last repeating shuffle, retracted to quarter
-                            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED),
-                            m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
-                        () ->
-                            m_linearIntake
-                                .getHeight()
-                                .gte(LinearIntakeConstants.NEAR_FULLY_RETRACTED))),
-                () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.HALF_EXTENDED)))
-        .repeatedly();
+        Arrays.stream(setpoints).map(m_linearIntake::setHeight).toArray(Command[]::new));
+  }
+
+  public Command getShuffleCommand() {
+    Command firstShuffle = createSetpointSequence(LinearIntakeConstants.FIRST_SHUFFLE_DISTANCES);
+    Command secondShuffle = createSetpointSequence(LinearIntakeConstants.SECOND_SHUFFLE_DISTANCES);
+    Command repeatingShuffle =
+        createSetpointSequence(LinearIntakeConstants.REPEATING_SHUFFLE_DISTANCES);
+
+    BooleanSupplier isAtLeastHalf =
+        () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.HALF_EXTENDED);
+
+    BooleanSupplier isAtLeastNearRetracted =
+        () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.NEAR_FULLY_RETRACTED);
+
+    Command secondaryShuffle =
+        Commands.either(secondShuffle, repeatingShuffle, isAtLeastNearRetracted);
+
+    return Commands.either(firstShuffle, secondaryShuffle, isAtLeastHalf).repeatedly();
   }
 }

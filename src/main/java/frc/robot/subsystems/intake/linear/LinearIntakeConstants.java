@@ -38,7 +38,24 @@ public class LinearIntakeConstants {
   public static final Distance HALF_EXTENDED = Meters.of(1); // TODO
   public static final Distance SHUFFLE_MIDPOINT = Meters.of(1.5); // TODO
 
-  // TODO: Add distance constants for positions to shuffle between
+  public static final Distance[] FIRST_SHUFFLE_DISTANCES = { // TODO
+    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.SHUFFLE_MIDPOINT,
+    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.NEAR_FULLY_RETRACTED
+  };
+
+  public static final Distance[] SECOND_SHUFFLE_DISTANCES = { // TODO
+    LinearIntakeConstants.NEAR_FULLY_RETRACTED,
+    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.NEAR_FULLY_RETRACTED,
+    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.FULLY_RETRACTED
+  };
+
+  public static final Distance[] REPEATING_SHUFFLE_DISTANCES = { // TODO
+    LinearIntakeConstants.FULLY_RETRACTED, LinearIntakeConstants.NEAR_FULLY_RETRACTED
+  };
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
