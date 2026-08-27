@@ -37,8 +37,8 @@ public class FlywheelSubsystem extends SubsystemBase {
   }
 
   /**
-  * Returns the current flywheel angular velocity as measured by the motor encoder.
-  *
+   * Returns the current flywheel angular velocity as measured by the motor encoder.
+   *
    * @return Current flywheel speed.
    */
   public AngularVelocity getVelocity() {

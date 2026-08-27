@@ -56,4 +56,13 @@ public class ShooterSystem {
   public boolean isShooterReady() {
     return m_flywheel.isAtSetpoint() && m_hood.isAtSetpoint() && m_turret.isAtSetpoint();
   }
+
+  /**
+   * Creates a command that stops the flywheel, hood, and turret subsystems.
+   *
+   * @return command that stops all shooter subsystems and runs indefinitely until interrupted
+   */
+  public Command stop() {
+    return Commands.parallel(m_flywheel.stop(), m_hood.stop(), m_turret.stop());
+  }
 }

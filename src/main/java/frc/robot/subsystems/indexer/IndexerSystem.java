@@ -48,4 +48,13 @@ public class IndexerSystem {
         m_indexerBelt.setVelocity(IndexerBeltConstants.STORING_SPEED),
         m_feeder.stop());
   }
+
+  /**
+   * Creates a command that stops all motors in the indexer system.
+   *
+   * @return command that runs indefinitely until interrupted
+   */
+  public Command stop() {
+    return Commands.parallel(m_rollerFloor.stop(), m_indexerBelt.stop(), m_feeder.stop());
+  }
 }
