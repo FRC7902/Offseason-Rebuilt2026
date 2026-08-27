@@ -23,7 +23,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class LinearIntakeConstants {
 
-  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1); // TODO
+  public static final DCMotor MOTOR = DCMotor.getFalcon500(1); // TODO
   public static final int CAN_ID = 4; // TODO
 
   public static final Distance TOLERANCE = Meters.of(0.1); // TODO
@@ -41,7 +41,7 @@ public class LinearIntakeConstants {
           .withClosedLoopController(4, 0, 0) // TODO
           .withTrapezoidalProfile(MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5)) // TODO
           .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(1))) // TODO
           .withIdleMode(MotorMode.BRAKE) // TODO
           .withTelemetry(
               "LinearIntakeMotor",
