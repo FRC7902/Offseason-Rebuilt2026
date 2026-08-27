@@ -4,12 +4,14 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -57,6 +59,8 @@ public class RobotContainer {
           .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
           .publish();
 
+  private final SendableChooser<Command> autoChooser;
+
   public RobotContainer() {
 
     // Start data logging
@@ -91,6 +95,9 @@ public class RobotContainer {
 
     // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
 
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
     configureBindings();
   }
 
@@ -116,7 +123,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("New Auto");
+    return autoChooser.getSelected();
   }
 
   public void publishComponentPoses() {
