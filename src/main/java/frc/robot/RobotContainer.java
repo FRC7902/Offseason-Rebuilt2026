@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;

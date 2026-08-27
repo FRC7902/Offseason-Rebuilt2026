@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import yams.mechanisms.positional.Elevator;
 import yams.motorcontrollers.SmartMotorController;
@@ -69,11 +70,8 @@ public class LinearIntakeSubsystem extends SubsystemBase {
    * @return A one-shot command that stops the mechanism.
    */
   public Command stop() {
-    return this.runOnce(
-        () -> {
-          m_motor.stopClosedLoopController();
-          setDutyCycle(0);
-        });
+    return Commands.parallel(
+        this.runOnce(() -> m_motor.stopClosedLoopController()), setDutyCycle(0));
   }
 
   @Override

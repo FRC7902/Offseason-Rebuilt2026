@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter.flywheel;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
 import yams.mechanisms.velocity.FlyWheel;
@@ -82,11 +83,8 @@ public class FlywheelSubsystem extends SubsystemBase {
    * @return A one-shot command that stops the mechanism.
    */
   public Command stop() {
-    return this.runOnce(
-        () -> {
-          m_motor.stopClosedLoopController();
-          setDutyCycle(0);
-        });
+    return Commands.parallel(
+        this.runOnce(() -> m_motor.stopClosedLoopController()), setDutyCycle(0));
   }
 
   public boolean isAtSetpoint() {
