@@ -21,8 +21,6 @@ public class LaunchConstants {
     //TODO: Requires actual values
     public static final double minDist =0.1;
     public static final double maxDist =5;
-    public static final double passingMinDist =3;
-    public static final double passingMaxDist =10;
     public static final double phaseDelay =0.03;
 
     // Hub shooting maps
