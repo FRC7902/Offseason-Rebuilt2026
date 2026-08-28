@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter.turret;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
@@ -13,8 +14,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.FieldConstants;
 import yams.mechanisms.positional.Pivot;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -76,6 +79,36 @@ public class TurretSubsystem extends SubsystemBase {
     double turretOmega = omega + m_motor.getMechanismVelocity().in(RadiansPerSecond);
 
     return new ChassisSpeeds(turretVx, turretVy, turretOmega);
+  }
+
+  public Angle getTurretAngleToHub(Pose2d robotPose) {
+    Angle robotRotationCompensatedAngle =
+        getAngleToAllianceHub(robotPose).minus(robotPose.getRotation().getMeasure());
+    return wrapAngle(robotRotationCompensatedAngle);
+  }
+
+  private Angle getAngleToAllianceHub(Pose2d robotPose) {
+    Pose2d trueTurretPose = getPose(robotPose);
+    Translation2d allianceHub = getAllianceHubTranslation2d();
+    Translation2d hubDelta = allianceHub.minus(trueTurretPose.getTranslation());
+    Angle angleToHub = hubDelta.getAngle().getMeasure();
+    return angleToHub;
+  }
+
+  private Translation2d getAllianceHubTranslation2d() {
+    DriverStation.Alliance alliance = DriverStation.getAlliance().get();
+    if (alliance == DriverStation.Alliance.Red) {
+      return FieldConstants.RED_HUB_CENTER;
+    }
+    return FieldConstants.BLUE_HUB_CENTER;
+  }
+
+  private Angle wrapAngle(Angle angle) {
+    double degrees = angle.baseUnitMagnitude();
+
+    degrees = ((degrees + 180) % 360 + 360) % 360 - 180;
+
+    return Angle.ofBaseUnits(degrees, Degrees);
   }
 
   /**
