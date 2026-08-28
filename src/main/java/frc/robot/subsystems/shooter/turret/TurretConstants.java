@@ -2,7 +2,6 @@ package frc.robot.subsystems.shooter.turret;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Feet;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -24,8 +23,8 @@ public class TurretConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX60(1); // TODO
   public static final int CAN_ID = 8; // TODO
 
-  public static final Angle MIN_ANGLE = Degrees.of(-180); // TODO
-  public static final Angle MAX_ANGLE = Degrees.of(180); // TODO
+  public static final Angle MIN_ANGLE = Degrees.of(-178); // TODO
+  public static final Angle MAX_ANGLE = Degrees.of(178); // TODO
 
   public static final Angle TOLERANCE = Degrees.of(1); // TODO
 
@@ -54,5 +53,5 @@ public class TurretConstants {
           .withTelemetry("TurretMech", TelemetryVerbosity.HIGH);
 
   public static final Transform3d ROBOT_TO_TURRET =
-      new Transform3d(Feet.of(-1.5), Feet.of(0), Feet.of(0.5), Rotation3d.kZero); // TODO
+      new Transform3d(0.144, -0.152, 0.359, Rotation3d.kZero); // TODO
 }
