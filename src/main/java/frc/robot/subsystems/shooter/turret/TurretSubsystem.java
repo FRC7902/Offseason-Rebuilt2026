@@ -1,8 +1,6 @@
 package frc.robot.subsystems.shooter.turret;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -12,7 +10,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
@@ -93,8 +90,9 @@ public class TurretSubsystem extends SubsystemBase {
    * @return Command that runs until interrupted, tracking the supplied angle.
    */
   public Command setAngle(Supplier<Angle> angleSupplier) {
-    return m_turret.runTo(angleSupplier, TurretConstants.TOLERANCE);
+    return m_turret.runTo(angleSupplier.get(), TurretConstants.TOLERANCE);
   }
+
   /**
    * Sets the turret's mechanism position setpoint without creating a command.
    *
@@ -106,10 +104,6 @@ public class TurretSubsystem extends SubsystemBase {
 
   public Angle getAngle() {
     return m_turret.getAngle();
-  }
-
-  public Angle getAngleSetpoint() {
-    return m_turret.getMechanismSetpoint().orElse(Degrees.of(0.0));
   }
 
   public Pose3d getPose3d() {
@@ -136,11 +130,6 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_turret.updateTelemetry();
-
-    SmartDashboard.putNumber("TurretMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
-    SmartDashboard.putNumber("TurretMech/position (deg)", getAngle().in(Degrees));
-
-    SmartDashboard.putBoolean("TurretMech/isAtSetpoint", isAtSetpoint());
   }
 
   @Override
