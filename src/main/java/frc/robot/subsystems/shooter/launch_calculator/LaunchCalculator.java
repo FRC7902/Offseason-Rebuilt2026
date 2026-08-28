@@ -1,14 +1,10 @@
 package frc.robot.subsystems.shooter.launch_calculator;
 
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.RPM;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.*;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.*;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
-import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -32,17 +28,12 @@ public class LaunchCalculator {
   }
 
   public record LaunchingParameters(
-      // boolean isValid,
-      Rotation2d driveAngle,
-      // double driveVelocity,
+      Angle turretAngle,
       Angle hoodAngle,
-      // double hoodVelocity,
       AngularVelocity flywheelSpeed,
-      // double kickerSurfaceSpeed,
-      // double distance,
-      // double distanceNoLookahead,
-       double timeOfFlight,
-      boolean passing) {}
+      double timeOfFlight,
+      boolean passing
+  ) {}
 
   private LaunchingParameters latestParameters = null;
 
@@ -109,6 +100,8 @@ public class LaunchCalculator {
       lookaheadPose.transformBy(toTransform2d(robotToLauncher));
     Rotation2d driveAngle = getDriveAngleWithLauncherOffset(lookaheadRobotPose, target);
 
+    Angle turretAngle = getTurretAngleToHub(lookaheadRobotPose);
+
     Angle hoodAngle =
       (passing
               ? passingHoodAngleMap.get(lookaheadLauncherToTargetDistance)
@@ -123,63 +116,13 @@ public class LaunchCalculator {
 
     latestParameters =
       new LaunchingParameters(
-        driveAngle,
+        turretAngle,
         hoodAngle,
         flywheelVelocity,
         timeOfFlight,
         passing
       );
     return latestParameters;
-  }
-  public static Translation2d getPassingTarget(){
-    return new Translation2d(xPassTarget, yPassTarget);
-  }
-
-  private static ChassisSpeeds transformVelocity(
-    ChassisSpeeds velocity, Translation2d transform, Rotation2d currentRotation) {
-    return new ChassisSpeeds(
-      velocity.vxMetersPerSecond
-        - velocity.omegaRadiansPerSecond
-        * (transform.getX() * currentRotation.getSin()
-        + transform.getY() * currentRotation.getCos()),
-      velocity.vyMetersPerSecond
-        + velocity.omegaRadiansPerSecond
-        * (transform.getX() * currentRotation.getCos()
-        - transform.getY() * currentRotation.getSin()),
-      velocity.omegaRadiansPerSecond);
-  }
-  public static Transform2d toTransform2d(Transform3d transform3d) {
-    Translation3d t = transform3d.getTranslation();
-    Rotation3d r = transform3d.getRotation();
-
-    Translation2d translation2d = new Translation2d(t.getX(), t.getY());
-    Rotation2d rotation2d = new Rotation2d(r.getZ()); // yaw only
-
-    return new Transform2d(translation2d, rotation2d);
-  }
-  private static Rotation2d getDriveAngleWithLauncherOffset(
-    Pose2d robotPose, Translation2d target) {
-    Rotation2d fieldToHubAngle = target.minus(robotPose.getTranslation()).getAngle();
-    Rotation2d hubAngle =
-      new Rotation2d(
-        Math.asin(
-          MathUtil.clamp(
-            robotToLauncher.getTranslation().getY()
-              / target.getDistance(robotPose.getTranslation()),
-            -1.0,
-            1.0)));
-    return fieldToHubAngle.plus(hubAngle).plus(robotToLauncher.getRotation().toRotation2d());
-  }
-  public static Pose2d getStationaryAimedPose(Translation2d robotTranslation, boolean forceBlue) {
-    boolean passing =
-      LaunchCalculator.getInstance().getParameters().passing();
-
-    Translation2d target =
-      passing?
-        getPassingTarget() : SwerveDriveSubsystem.getAlliance() == DriverStation.Alliance.Red ? FieldConstants.RED_HUB_CENTER : FieldConstants.BLUE_HUB_CENTER;
-
-    return new Pose2d(
-      robotTranslation, getDriveAngleWithLauncherOffset(new Pose2d(robotTranslation, Rotation2d.kZero), target));
   }
 
   public void clearLaunchingParameters() {
