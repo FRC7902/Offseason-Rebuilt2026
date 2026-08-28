@@ -1,15 +1,12 @@
 package frc.robot.subsystems.shooter.turret;
 
-import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -34,20 +31,6 @@ public class TurretSubsystem extends SubsystemBase {
     m_motorConfig = TurretConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
-  }
-
-  /**
-   * Returns the turret's estimated pose in the field frame based on the robot's pose and the fixed
-   * turret offset from the robot center.
-   *
-   * @param robotPose Current pose of the robot in the field coordinate system.
-   * @return Field-relative pose of the turret mounting point.
-   */
-  public Pose2d getPose(Pose2d robotPose) {
-    return robotPose.plus(
-        new Transform2d(
-            TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
-            TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
   }
 
   /**
