@@ -46,7 +46,6 @@ public class LaunchCalculator {
 
   private LaunchingParameters latestParameters = null;
 
-
   public static double getMinTimeOfFlight(){
     return timeOfFlightMap.get(minDist);
   }
@@ -172,7 +171,6 @@ public class LaunchCalculator {
     return fieldToHubAngle.plus(hubAngle).plus(robotToLauncher.getRotation().toRotation2d());
   }
   public static Pose2d getStationaryAimedPose(Translation2d robotTranslation, boolean forceBlue) {
-    // Calculate target
     boolean passing =
       LaunchCalculator.getInstance().getParameters().passing();
 
