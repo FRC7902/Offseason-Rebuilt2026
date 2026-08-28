@@ -38,7 +38,6 @@ public class LaunchCalculator {
       Angle hoodAngle,
       // double hoodVelocity,
       AngularVelocity flywheelSpeed,
-      Angle turretAngle,
       // double kickerSurfaceSpeed,
       // double distance,
       // double distanceNoLookahead,
@@ -55,7 +54,7 @@ public class LaunchCalculator {
 
   // Hub shooting maps
   private static final InterpolatingTreeMap<Double, Angle> hoodAngleMap =
-          new InterpolatingTreeMap<>(InverseInterpolator.forDouble(),
+    new InterpolatingTreeMap<>(InverseInterpolator.forDouble(),
             (start, end, t) -> start.plus(end.minus(start).times(t)));
   private static final InterpolatingTreeMap<Double, AngularVelocity> flywheelSpeedMap =
     new InterpolatingTreeMap<>(
@@ -203,14 +202,11 @@ public class LaunchCalculator {
         ? passingFlywheelSpeedMap.get(lookaheadLauncherToTargetDistance)
         : flywheelSpeedMap.get(lookaheadLauncherToTargetDistance);
 
-    //Place holder TODO: Add method for turret Angle
-    Angle turretAngle = Degrees.of(0);
     latestParameters =
       new LaunchingParameters(
         driveAngle,
         hoodAngle,
         flywheelVelocity,
-        turretAngle,
         timeOfFlight,
         passing
       );
