@@ -2,7 +2,6 @@ package frc.robot.subsystems.shooter.turret;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Feet;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -54,5 +53,5 @@ public class TurretConstants {
           .withTelemetry("TurretMech", TelemetryVerbosity.HIGH);
 
   public static final Transform3d ROBOT_TO_TURRET =
-      new Transform3d(Feet.of(-1.5), Feet.of(0), Feet.of(0.5), Rotation3d.kZero); // TODO
+      new Transform3d(0.144, -0.152, 0.359, Rotation3d.kZero); // TODO
 }
