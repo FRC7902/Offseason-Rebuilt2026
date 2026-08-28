@@ -17,7 +17,8 @@ public class ShooterSystem {
     m_flywheel = flywheel;
     m_hood = hood;
     m_turret = turret;
-    // TODO: Set the default command for the turret to aim at the target
+
+    m_turret.setDefaultCommand(aimTurret());
   }
 
   /**
