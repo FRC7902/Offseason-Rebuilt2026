@@ -44,7 +44,7 @@ public class IndexerBeltConstants {
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
-          .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)); // TODO
+          .withSimFeedforward(new SimpleMotorFeedforward(0.01025395, 1.4822, 0)); // TODO
 
   public static final SmartMotorControllerConfig FOLLOWER_SMC_CONFIG =
       LEADER_SMC_CONFIG.clone().withMotorInverted(true); // TODO
