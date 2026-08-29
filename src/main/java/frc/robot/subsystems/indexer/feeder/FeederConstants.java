@@ -19,7 +19,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class FeederConstants {
 
-  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1); // TODO
+  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
   public static final int CAN_ID = 2; // TODO
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
@@ -29,7 +29,7 @@ public class FeederConstants {
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0.00016541, 0, 0) // TODO
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(1.5556)))
           .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
               "FeederMotor",
@@ -46,7 +46,7 @@ public class FeederConstants {
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withDiameter(Inches.of(4)) // TODO
+          .withDiameter(Inches.of(1.999302))
           .withTelemetry("FeederMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(750)); // TODO
 }
