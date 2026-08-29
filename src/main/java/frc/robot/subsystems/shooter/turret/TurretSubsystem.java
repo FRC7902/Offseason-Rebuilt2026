@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.Supplier;
 import yams.mechanisms.positional.Pivot;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -83,6 +84,15 @@ public class TurretSubsystem extends SubsystemBase {
     return m_turret.runTo(angle, TurretConstants.TOLERANCE);
   }
 
+  /**
+   * Creates a command that continuously moves the turret to a supplied angular setpoint.
+   *
+   * @param angleSupplier Supplier of the target turret angle, re-evaluated each cycle.
+   * @return Command that runs until interrupted, tracking the supplied angle.
+   */
+  public Command setAngle(Supplier<Angle> angleSupplier) {
+    return m_turret.runTo(angleSupplier, TurretConstants.TOLERANCE);
+  }
   /**
    * Sets the turret's mechanism position setpoint without creating a command.
    *
