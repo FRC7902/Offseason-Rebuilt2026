@@ -25,13 +25,13 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class LinearIntakeConstants {
 
-  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1); // TODO
+  public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
   public static final int CAN_ID = 4; // TODO
 
   public static final Distance TOLERANCE = Meters.of(0.1); // TODO
 
-  public static final Distance FULLY_RETRACTED = Inches.of(0); // TODO
-  public static final Distance FULLY_EXTENDED = Inches.of(11.6875); // TODO
+  public static final Distance FULLY_RETRACTED = Inches.of(0);
+  public static final Distance FULLY_EXTENDED = Inches.of(12.136079);
   public static final Distance MIDPOINT_DISTANCE = Inches.of(5); // TODO
 
   // TODO: Add distance constants for positions to shuffle between
@@ -43,7 +43,7 @@ public class LinearIntakeConstants {
           .withSimClosedLoopController(4, 0, 0) // TODO
           .withTrapezoidalProfile(MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5)) // TODO
           .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
           .withIdleMode(MotorMode.BRAKE) // TODO
           .withTelemetry(
               "LinearIntakeMotor",
@@ -72,5 +72,5 @@ public class LinearIntakeConstants {
           .withTelemetry("LinearIntakeMech", TelemetryVerbosity.HIGH)
           .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
           .withAngle(MECHANISM_ANGLE)
-          .withCarriageWeight(Pounds.of(16)); // TODO
+          .withCarriageWeight(Pounds.of(7.933));
 }
