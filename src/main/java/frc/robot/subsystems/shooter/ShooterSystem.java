@@ -18,7 +18,7 @@ public class ShooterSystem {
     m_hood = hood;
     m_turret = turret;
 
-    m_turret.setDefaultCommand(aimTurret());
+    // m_turret.setDefaultCommand(aimTurret());
   }
 
   /**
