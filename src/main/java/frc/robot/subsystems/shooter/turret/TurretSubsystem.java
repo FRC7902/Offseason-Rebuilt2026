@@ -1,7 +1,6 @@
 package frc.robot.subsystems.shooter.turret;
 
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -91,8 +90,9 @@ public class TurretSubsystem extends SubsystemBase {
    * @return Command that runs until interrupted, tracking the supplied angle.
    */
   public Command setAngle(Supplier<Angle> angleSupplier) {
-    return m_turret.runTo(angleSupplier, TurretConstants.TOLERANCE);
+    return m_turret.runTo(angleSupplier.get(), TurretConstants.TOLERANCE);
   }
+
   /**
    * Sets the turret's mechanism position setpoint without creating a command.
    *
