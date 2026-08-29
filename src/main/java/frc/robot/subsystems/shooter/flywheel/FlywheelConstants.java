@@ -52,7 +52,7 @@ public class FlywheelConstants {
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withDiameter(Inches.of(4)) // Done - Jt
+          .withDiameter(Inches.of(4)) 
           .withTelemetry("ShooterFlywheelMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(750)); // TODO
 }
