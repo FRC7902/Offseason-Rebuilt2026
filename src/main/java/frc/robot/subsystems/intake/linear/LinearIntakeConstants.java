@@ -23,13 +23,13 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class LinearIntakeConstants {
 
-  public static final DCMotor MOTOR = DCMotor.getFalcon500(1); // TODO
-  public static final int CAN_ID = 4; // TODO
+  public static final DCMotor MOTOR = DCMotor.getFalcon500(1); 
+  public static final int CAN_ID = 4; 
 
-  public static final Distance TOLERANCE = Meters.of(0.1); // TODO
+  public static final Distance TOLERANCE = Meters.of(0.1);
 
-  public static final Distance FULLY_RETRACTED = Meters.of(0); // TODO
-  public static final Distance FULLY_EXTENDED = Meters.of(2); // TODO
+  public static final Distance FULLY_RETRACTED = Meters.of(0);
+  public static final Distance FULLY_EXTENDED = Meters.of(2);
 
   // TODO: Add distance constant for midpoint (intake extended as far as possible without letting
   // fuel loose)
