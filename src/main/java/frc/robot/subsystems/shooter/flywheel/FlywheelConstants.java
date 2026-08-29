@@ -31,6 +31,7 @@ public class FlywheelConstants {
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
+          .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
           .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
@@ -44,7 +45,7 @@ public class FlywheelConstants {
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
-          .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 1.4805, 0))
+          .withSimFeedforward(new SimpleMotorFeedforward(0.01025, 1.475, 0))
           .withMomentOfInertia(Inches.of(4), Pounds.of(1)); // TODO
 
   public static final SmartMotorControllerConfig FOLLOWER_SMC_CONFIG =
