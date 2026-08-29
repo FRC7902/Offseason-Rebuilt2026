@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.RPM;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -103,11 +107,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
-    m_driverController
-        .cross()
-        .onTrue(
-            Commands.runOnce(
-                () -> System.out.println(LaunchCalculator.getInstance().getParameters())));
+    m_driverController.cross().onTrue(Commands.runOnce(() -> formattedPrint()));
     /*
      * TODO: Bind driver controller L2
      * - When held, extend intake and run intake rollers
@@ -123,6 +123,17 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
+  }
+
+  private void formattedPrint() {
+    LaunchCalculator calc = LaunchCalculator.getInstance();
+    double turretAngle = calc.getParameters().turretAngle().in(Degrees);
+    double hoodAngle = calc.getParameters().hoodAngle().in(Degrees);
+    double flywheelSpeed = calc.getParameters().flywheelSpeed().in(RPM);
+    double timeOfFlight = calc.getParameters().timeOfFlight();
+    System.out.printf(
+        "TurretAngle: %f deg, HoodAngle: %f deg, FlywheelSpeed: %f rpm, TimeOfFlight: %.2fs\n",
+        turretAngle, hoodAngle, flywheelSpeed, timeOfFlight);
   }
 
   public Command getAutonomousCommand() {
