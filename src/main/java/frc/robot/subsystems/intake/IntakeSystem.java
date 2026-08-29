@@ -92,7 +92,7 @@ public class IntakeSystem {
         createSetpointSequence(LinearIntakeConstants.REPEATING_SHUFFLE_DISTANCES);
 
     BooleanSupplier isAtLeastHalf =
-        () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.HALF_EXTENDED);
+        () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.MIDPOINT_DISTANCE);
 
     BooleanSupplier isAtLeastNearRetracted =
         () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.NEAR_FULLY_RETRACTED);

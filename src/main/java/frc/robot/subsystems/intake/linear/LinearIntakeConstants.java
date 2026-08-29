@@ -34,22 +34,22 @@ public class LinearIntakeConstants {
   public static final Distance FULLY_EXTENDED = Inches.of(12.136079);
   public static final Distance MIDPOINT_DISTANCE = Inches.of(5); // TODO
 
-  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.5); // TODO
-  public static final Distance HALF_EXTENDED = Meters.of(1); // TODO
-  public static final Distance SHUFFLE_MIDPOINT = Meters.of(1.5); // TODO
+  public static final Distance NEAR_FULLY_RETRACTED = Inches.of(2.9219); // TODO
+  //public static final Distance HALF_EXTENDED = Meters.of(1); // TODO
+  public static final Distance SHUFFLE_MIDPOINT = Inches.of(8.7656); // TODO
 
   public static final Distance[] FIRST_SHUFFLE_DISTANCES = { // TODO
-    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.MIDPOINT_DISTANCE,
     LinearIntakeConstants.SHUFFLE_MIDPOINT,
-    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.MIDPOINT_DISTANCE,
     LinearIntakeConstants.NEAR_FULLY_RETRACTED
   };
 
   public static final Distance[] SECOND_SHUFFLE_DISTANCES = { // TODO
     LinearIntakeConstants.NEAR_FULLY_RETRACTED,
-    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.MIDPOINT_DISTANCE,
     LinearIntakeConstants.NEAR_FULLY_RETRACTED,
-    LinearIntakeConstants.HALF_EXTENDED,
+    LinearIntakeConstants.MIDPOINT_DISTANCE,
     LinearIntakeConstants.FULLY_RETRACTED
   };
 
