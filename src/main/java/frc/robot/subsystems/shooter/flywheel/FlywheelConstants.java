@@ -1,13 +1,12 @@
 package frc.robot.subsystems.shooter.flywheel;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.system.plant.DCMotor;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Seconds;
-
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
@@ -44,7 +43,7 @@ public class FlywheelConstants {
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
-          .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
+          .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 1.4805, 0))
           .withMomentOfInertia(Inches.of(4), Pounds.of(1)); // TODO
 
   public static final SmartMotorControllerConfig FOLLOWER_SMC_CONFIG =
