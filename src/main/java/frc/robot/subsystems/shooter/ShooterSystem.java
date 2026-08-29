@@ -28,11 +28,11 @@ public class ShooterSystem {
    * @return command that indefinitely aims the shooter and runs the flywheel
    */
   public Command aimAndShoot() {
-    final var launchParameters = LaunchCalculator.getInstance().getParameters();
+    final var launchCalculator = LaunchCalculator.getInstance();
 
     return Commands.parallel(
-            m_hood.setAngle(launchParameters.hoodAngle()),
-            m_flywheel.setVelocity(launchParameters.flywheelSpeed()))
+            m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
+            m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()))
         .repeatedly();
   }
 
@@ -43,7 +43,7 @@ public class ShooterSystem {
    */
   public Command aimTurret() {
     return m_turret
-        .setAngle(LaunchCalculator.getInstance().getParameters().turretAngle())
+        .setAngle(() -> LaunchCalculator.getInstance().getParameters().turretAngle())
         .repeatedly();
   }
 
