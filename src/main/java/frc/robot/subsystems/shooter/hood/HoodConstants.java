@@ -30,7 +30,7 @@ public class HoodConstants {
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(4, 0, 0) // TODO
-          .withSimClosedLoopController(4, 0, 0) // TODO
+          .withSimClosedLoopController(10, 0, 0)
           .withSoftLimits(MIN_ANGLE, MAX_ANGLE) // TODO
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
           .withIdleMode(MotorMode.BRAKE) // TODO
@@ -44,7 +44,7 @@ public class HoodConstants {
           .withMotorInverted(false) // TODO
           .withClosedLoopRampRate(Seconds.of(0.25)) // TODO
           .withFeedforward(new ArmFeedforward(0, 0, 0, 0)) // TODO
-          .withSimFeedforward(new ArmFeedforward(0, 0, 0, 0)) // TODO
+          .withSimFeedforward(new ArmFeedforward(0, 0.24, 0, 0))
           .withSimStartingPosition(MIN_ANGLE);
 
   public static final ArmConfig ARM_CONFIG =
