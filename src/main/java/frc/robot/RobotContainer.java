@@ -106,7 +106,8 @@ public class RobotContainer {
   private void configureBindings() {
 
     m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
-    m_driverController.cross().onTrue(Commands.runOnce(() -> formattedPrint()));
+    m_driverController.cross().onTrue(Commands.runOnce(this::formattedPrint));
+
     /*
      * TODO: Bind driver controller L2
      * - When held, extend intake and run intake rollers
