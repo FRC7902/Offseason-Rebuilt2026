@@ -30,7 +30,7 @@ public class RollerFloorConstants {
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO
-          .withSimClosedLoopController(0.00016541, 0, 0) // TODO
+          .withSimClosedLoopController(0, 0, 0) // TODO
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
           .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
@@ -44,7 +44,7 @@ public class RollerFloorConstants {
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
-          .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)); // TODO
+          .withSimFeedforward(new SimpleMotorFeedforward(0.01025, 1.48331, 0)); // TODO
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
