@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
@@ -24,6 +25,7 @@ import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import yams.mechanisms.swerve.utility.SwerveInputStream;
@@ -101,7 +103,11 @@ public class RobotContainer {
   private void configureBindings() {
 
     m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
-
+    m_driverController
+        .cross()
+        .onTrue(
+            Commands.runOnce(
+                () -> System.out.println(LaunchCalculator.getInstance().getParameters())));
     /*
      * TODO: Bind driver controller L2
      * - When held, extend intake and run intake rollers
