@@ -8,6 +8,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.Supplier;
 import yams.mechanisms.positional.Arm;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -48,6 +49,9 @@ public class HoodSubsystem extends SubsystemBase {
     return m_hood.runTo(angle, HoodConstants.TOLERANCE);
   }
 
+  public Command setAngle(Supplier<Angle> angle) {
+    return m_hood.runTo(angle, HoodConstants.TOLERANCE);
+  }
   /**
    * Stops the hood by disabling closed-loop control and commanding zero duty cycle.
    *

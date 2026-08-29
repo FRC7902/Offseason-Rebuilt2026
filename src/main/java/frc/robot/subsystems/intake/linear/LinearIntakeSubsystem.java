@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.Supplier;
 import yams.mechanisms.positional.Elevator;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -48,6 +49,18 @@ public class LinearIntakeSubsystem extends SubsystemBase {
    */
   public Command setHeight(Distance height) {
     return m_linearIntake.runTo(height, LinearIntakeConstants.TOLERANCE);
+  }
+
+  /**
+   * Supplier-based closed-loop height command. Profiles to the target using the trapezoidal
+   * constraints defined in motorConfig, then holds the carriage at that height via the PID
+   * controller.
+   *
+   * @param heightSupplier
+   * @return Command that runs until the carriage reaches the target height within the tolerance
+   */
+  public Command setHeight(Supplier<Distance> heightSupplier) {
+    return m_linearIntake.runTo(heightSupplier, LinearIntakeConstants.TOLERANCE);
   }
 
   public Distance getHeight() {
