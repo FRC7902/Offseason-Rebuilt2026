@@ -1,14 +1,11 @@
 package frc.robot.subsystems.shooter.turret;
 
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -32,20 +29,6 @@ public class TurretSubsystem extends SubsystemBase {
     m_motorConfig = TurretConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
-  }
-
-  /**
-   * Returns the turret's estimated pose in the field frame based on the robot's pose and the fixed
-   * turret offset from the robot center.
-   *
-   * @param robotPose Current pose of the robot in the field coordinate system.
-   * @return Field-relative pose of the turret mounting point.
-   */
-  public Pose2d getPose(Pose2d robotPose) {
-    return robotPose.plus(
-        new Transform2d(
-            TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
-            TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
   }
 
   /**
@@ -101,14 +84,13 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Moves the turret to a variable angular setpoint using the closed-loop controller. The target
-   * angle is continuously polled from the supplier, allowing for dynamic aiming.
+   * Creates a command that continuously moves the turret to a supplied angular setpoint.
    *
-   * @param angle
-   * @return Command that runs until the turret reaches the target angle within tolerance.
+   * @param angleSupplier Supplier of the target turret angle, re-evaluated each cycle.
+   * @return Command that runs until interrupted, tracking the supplied angle.
    */
-  public Command setAngle(Supplier<Angle> angle) {
-    return m_turret.runTo(angle, TurretConstants.TOLERANCE);
+  public Command setAngle(Supplier<Angle> angleSupplier) {
+    return m_turret.runTo(angleSupplier.get(), TurretConstants.TOLERANCE);
   }
 
   /**
