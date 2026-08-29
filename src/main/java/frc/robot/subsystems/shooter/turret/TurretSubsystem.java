@@ -1,8 +1,5 @@
 package frc.robot.subsystems.shooter.turret;
 
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,6 +16,8 @@ import yams.mechanisms.positional.Pivot;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.remote.TalonFXWrapper;
+
+import static edu.wpi.first.units.Units.*;
 
 public class TurretSubsystem extends SubsystemBase {
   private final TalonFX m_turretMotor;
@@ -86,16 +85,14 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Moves the turret to a variable angular setpoint using the closed-loop controller. The target
-   * angle is continuously polled from the supplier, allowing for dynamic aiming.
+   * Creates a command that continuously moves the turret to a supplied angular setpoint.
    *
-   * @param angle
-   * @return Command that runs until the turret reaches the target angle within tolerance.
+   * @param angleSupplier Supplier of the target turret angle, re-evaluated each cycle.
+   * @return Command that runs until interrupted, tracking the supplied angle.
    */
-  public Command setAngle(Supplier<Angle> angle) {
-    return m_turret.runTo(angle, TurretConstants.TOLERANCE);
+  public Command setAngle(Supplier<Angle> angleSupplier) {
+    return m_turret.runTo(angleSupplier, TurretConstants.TOLERANCE);
   }
-
   /**
    * Sets the turret's mechanism position setpoint without creating a command.
    *
