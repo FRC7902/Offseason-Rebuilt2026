@@ -117,6 +117,12 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
+
+    Command shuffleHopperCommand = m_intakeSystem.getShuffleCommand();
+    Command extendAndIntakeCommand = m_intakeSystem.extendAndIntake();
+
+    m_driverController.button(1).whileTrue(shuffleHopperCommand);
+    m_driverController.button(2).toggleOnTrue(extendAndIntakeCommand);
   }
 
   public Command getAutonomousCommand() {

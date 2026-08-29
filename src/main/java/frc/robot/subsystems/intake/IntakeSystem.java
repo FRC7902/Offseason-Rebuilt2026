@@ -43,6 +43,11 @@ public class IntakeSystem {
         m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE), m_intakeRoller.stop());
   }
 
+  private Command createSetpointSequence(Distance[] setpoints) {
+    return Commands.sequence(
+        Arrays.stream(setpoints).map(m_linearIntake::setHeight).toArray(Command[]::new));
+  }
+
   /**
    * Creates a command that shuffles the hopper by repeatedly moving the linear intake in and out.
    *
@@ -52,39 +57,6 @@ public class IntakeSystem {
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
-  // public Command shuffleHopper() {
-  //   return Commands.sequence(
-  //           new ConditionalCommand(
-  //               Commands.sequence( // first shuffle, half to past half
-  //                   m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-  //                   m_linearIntake.setHeight(LinearIntakeConstants.SHUFFLE_MIDPOINT),
-  //                   m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-  //                   m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
-  //               Commands.sequence(
-  //                   new ConditionalCommand(
-  //                       Commands.sequence( // second shuffle, quarter to half
-  //                           m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
-  //                           m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-  //                           m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED),
-  //                           m_linearIntake.setHeight(LinearIntakeConstants.HALF_EXTENDED),
-  //                           m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED)),
-  //                       Commands.sequence( // last repeating shuffle, retracted to quarter
-  //                           m_linearIntake.setHeight(LinearIntakeConstants.FULLY_RETRACTED),
-  //
-  // m_linearIntake.setHeight(LinearIntakeConstants.NEAR_FULLY_RETRACTED)),
-  //                       () ->
-  //                           m_linearIntake
-  //                               .getHeight()
-  //                               .gte(LinearIntakeConstants.NEAR_FULLY_RETRACTED))),
-  //               () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.HALF_EXTENDED)))
-  //       .repeatedly();
-  // }
-
-  private Command createSetpointSequence(Distance[] setpoints) {
-    return Commands.sequence(
-        Arrays.stream(setpoints).map(m_linearIntake::setHeight).toArray(Command[]::new));
-  }
-
   public Command getShuffleCommand() {
     Command firstShuffle = createSetpointSequence(LinearIntakeConstants.FIRST_SHUFFLE_DISTANCES);
     Command secondShuffle = createSetpointSequence(LinearIntakeConstants.SECOND_SHUFFLE_DISTANCES);
