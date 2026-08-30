@@ -1,11 +1,14 @@
 package frc.robot.subsystems.shooter.hood;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
@@ -72,6 +75,10 @@ public class HoodSubsystem extends SubsystemBase {
     return m_hood.getAngle();
   }
 
+  public Angle getAngleSetpoint() {
+    return m_hood.getMechanismSetpoint().orElse(HoodConstants.MIN_ANGLE);
+  }
+
   public Pose3d getPose3d(Pose3d turretPose) {
     return turretPose.transformBy(
         new Transform3d(
@@ -89,5 +96,8 @@ public class HoodSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     m_hood.simIterate();
+
+    SmartDashboard.putNumber("HoodMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
+    SmartDashboard.putNumber("HoodMech/position (deg)", getAngle().in(Degrees));
   }
 }

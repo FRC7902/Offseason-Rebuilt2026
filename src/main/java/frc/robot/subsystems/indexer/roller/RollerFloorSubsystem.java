@@ -1,7 +1,10 @@
 package frc.robot.subsystems.indexer.roller;
 
+import static edu.wpi.first.units.Units.RPM;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
@@ -26,6 +29,16 @@ public class RollerFloorSubsystem extends SubsystemBase {
   /** Returns the current roller floor angular velocity as measured by the motor encoder. */
   public AngularVelocity getVelocity() {
     return m_rollerFloor.getSpeed();
+  }
+
+  /**
+   * Returns the current roller floor velocity setpoint, if one is active. If no setpoint is active,
+   * returns zero.
+   *
+   * @return Current roller floor velocity setpoint.
+   */
+  private AngularVelocity getVelocitySetpoint() {
+    return m_rollerFloor.getMechanismSetpointVelocity().orElse(RPM.of(0));
   }
 
   /**
@@ -89,5 +102,8 @@ public class RollerFloorSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     m_rollerFloor.simIterate();
+
+    SmartDashboard.putNumber("RollerFloorMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
+    SmartDashboard.putNumber("RollerFloorMech/velocity (RPM)", getVelocity().in(RPM));
   }
 }

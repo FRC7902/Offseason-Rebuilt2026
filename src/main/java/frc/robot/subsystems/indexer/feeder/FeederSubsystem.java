@@ -1,7 +1,10 @@
 package frc.robot.subsystems.indexer.feeder;
 
+import static edu.wpi.first.units.Units.RPM;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
@@ -30,6 +33,16 @@ public class FeederSubsystem extends SubsystemBase {
    */
   public AngularVelocity getVelocity() {
     return m_feeder.getSpeed();
+  }
+
+  /**
+   * Returns the current feeder velocity setpoint, if one is active. If no setpoint is active,
+   * returns zero.
+   *
+   * @return Current feeder velocity setpoint.
+   */
+  private AngularVelocity getVelocitySetpoint() {
+    return m_feeder.getMechanismSetpointVelocity().orElse(RPM.of(0));
   }
 
   /**
@@ -93,5 +106,8 @@ public class FeederSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     m_feeder.simIterate();
+
+    SmartDashboard.putNumber("FeederMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
+    SmartDashboard.putNumber("FeederMech/velocity (RPM)", getVelocity().in(RPM));
   }
 }

@@ -64,10 +64,21 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     return m_linearIntake.runTo(heightSupplier, LinearIntakeConstants.TOLERANCE);
   }
 
+  /**
+   * Returns the current height of the linear intake carriage as measured by the motor encoder.
+   *
+   * @return Current height of the linear intake carriage.
+   */
   public Distance getHeight() {
     return m_linearIntake.getHeight();
   }
 
+  /**
+   * Returns the current height setpoint of the linear intake, if one is active. If no setpoint is
+   * active, returns zero.
+   *
+   * @return Current height setpoint of the linear intake.
+   */
   private Distance getHeightSetpoint() {
     return m_linearIntake
         .getMechanismSetpoint()

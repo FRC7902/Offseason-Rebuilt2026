@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter.turret;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
@@ -13,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
@@ -124,6 +126,10 @@ public class TurretSubsystem extends SubsystemBase {
     return m_turret.getAngle();
   }
 
+  public Angle getAngleSetpoint() {
+    return m_turret.getMechanismSetpoint().orElse(Degrees.of(0.0));
+  }
+
   public Pose3d getPose3d() {
     return new Pose3d(
         new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0.0, 0.0, getAngle().in(Radians)));
@@ -153,5 +159,8 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     m_turret.simIterate();
+
+    SmartDashboard.putNumber("TurretMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
+    SmartDashboard.putNumber("TurretMech/position (deg)", getAngle().in(Degrees));
   }
 }
