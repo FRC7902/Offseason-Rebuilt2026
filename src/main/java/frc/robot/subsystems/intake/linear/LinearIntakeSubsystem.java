@@ -68,7 +68,7 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     return m_linearIntake.getHeight();
   }
 
-  private Distance getSetpoint() {
+  private Distance getHeightSetpoint() {
     return m_linearIntake
         .getMechanismSetpoint()
         .map(m_motorConfig::convertFromMechanism)
@@ -102,7 +102,7 @@ public class LinearIntakeSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     m_linearIntake.simIterate();
 
-    SmartDashboard.putNumber("LinearIntakeMech/setpoint (m)", getSetpoint().in(Meters));
+    SmartDashboard.putNumber("LinearIntakeMech/setpoint (m)", getHeightSetpoint().in(Meters));
     SmartDashboard.putNumber("LinearIntakeMech/position (m)", getHeight().in(Meters));
   }
 }
