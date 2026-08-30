@@ -31,7 +31,7 @@ public class FlywheelConstants {
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0.00016541, 0, 0) // TODO
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
           .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
               "ShooterFlywheelMotor",
@@ -52,7 +52,7 @@ public class FlywheelConstants {
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withDiameter(Inches.of(4)) // TODO
+          .withDiameter(Inches.of(4)) 
           .withTelemetry("ShooterFlywheelMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(750)); // TODO
 }
