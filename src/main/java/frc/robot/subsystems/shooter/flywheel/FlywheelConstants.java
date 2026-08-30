@@ -30,7 +30,7 @@ public class FlywheelConstants {
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO
-          .withSimClosedLoopController(0.00016541, 0, 0) // TODO
+          .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
           .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
@@ -44,7 +44,7 @@ public class FlywheelConstants {
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
-          .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
+          .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.12269, 0))
           .withMomentOfInertia(Inches.of(4), Pounds.of(1)); // TODO
 
   public static final SmartMotorControllerConfig FOLLOWER_SMC_CONFIG =
@@ -52,7 +52,7 @@ public class FlywheelConstants {
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withDiameter(Inches.of(4)) 
+          .withDiameter(Inches.of(4))
           .withTelemetry("ShooterFlywheelMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(750)); // TODO
 }
