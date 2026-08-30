@@ -44,6 +44,7 @@ public class TurretConstants {
                   .withDataLogName("TurretMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(60)) // TODO
+          .withSoftLimits(MIN_ANGLE, MAX_ANGLE)
           .withStartingPosition(Degrees.of(0)) // TODO
           .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01)); // TODO
 
