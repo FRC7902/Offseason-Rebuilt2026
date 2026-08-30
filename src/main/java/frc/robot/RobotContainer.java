@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
@@ -33,8 +32,6 @@ public class RobotContainer {
 
   private final CommandPS5Controller m_driverController =
       new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
-  private final CommandXboxController m_operatorController =
-      new CommandXboxController(Constants.OPERATOR_CONTROLLER_PORT);
 
   private final IndexerBeltSubsystem m_indexerBeltSubsystem;
   private final FeederSubsystem m_feederSubsystem;
