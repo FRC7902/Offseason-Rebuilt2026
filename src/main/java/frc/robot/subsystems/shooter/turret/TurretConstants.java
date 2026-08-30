@@ -4,7 +4,7 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Feet;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -35,8 +35,8 @@ public class TurretConstants {
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(45)))
           .withIdleMode(MotorMode.BRAKE) // TODO
           .withMotorInverted(false) // TODO
-          .withFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0)) // TODO
-          .withSimFeedforward(new ArmFeedforward(0.01025, 0.0, 0.0, 0)) // TODO
+          .withFeedforward(new SimpleMotorFeedforward(0.5, 0.0, 5.0, 0.02)) // TODO
+          .withSimFeedforward(new SimpleMotorFeedforward(0.01025, 0.0, 0.0, 0.02)) // TODO
           .withTelemetry(
               "TurretMotor",
               new SmartMotorControllerTelemetryConfig()
