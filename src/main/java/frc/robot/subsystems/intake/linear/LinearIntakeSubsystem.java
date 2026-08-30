@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.Supplier;
@@ -67,6 +68,13 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     return m_linearIntake.getHeight();
   }
 
+  private Distance getSetpoint() {
+    return m_linearIntake
+        .getMechanismSetpoint()
+        .map(m_motorConfig::convertFromMechanism)
+        .orElse(Meters.zero());
+  }
+
   public Pose3d getPose3d() {
     double angle = Math.toRadians(LinearIntakeConstants.MECHANISM_ANGLE.in(Degrees));
     double distance = LinearIntakeConstants.FULLY_EXTENDED.in(Meters) - getHeight().in(Meters);
@@ -93,5 +101,8 @@ public class LinearIntakeSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     m_linearIntake.simIterate();
+
+    SmartDashboard.putNumber("LinearIntakeMech/setpoint (m)", getSetpoint().in(Meters));
+    SmartDashboard.putNumber("LinearIntakeMech/position (m)", getHeight().in(Meters));
   }
 }
