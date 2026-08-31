@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
@@ -90,7 +91,8 @@ public class RobotContainer {
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
+    // NamedCommands.registerCommand("extendAndIntake",
+    // m_intakeSystem.extendAndIntake());
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -117,6 +119,48 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
+
+    m_driverController
+        .L2()
+        .and(m_driverController.R2().negate())
+        .onTrue(m_intakeSystem.extendAndIntake());
+
+    m_driverController
+        .L2()
+        .negate()
+        .and(m_driverController.R2().negate())
+        .onTrue(m_intakeSystem.retractToMidpointThenStopIntake());
+
+    /**
+     * Shuffle hopper when holding shoot button.
+     *
+     * <p>If intake button is being held, wait until it is released before shuffling. Then wait
+     * until shooter is ready before shuffling.
+     */
+    m_driverController
+        .R2()
+        .onTrue(
+            Commands.waitUntil(() -> m_driverController.L2().negate().getAsBoolean())
+                .andThen(
+                    Commands.waitUntil(m_shooterSystem::isShooterReady)
+                        .andThen(m_intakeSystem.getShuffleCommand())));
+
+    // TODO: Why not just `.and()` all possible states of L2 and R2?
+
+    m_driverController.R2().onTrue(m_indexerSystem.feedFuel());
+
+    // Stop indexer when neither intake nor shooter buttons are held
+    m_driverController
+        .R2()
+        .negate()
+        .and(m_driverController.L2().negate())
+        .onTrue(m_indexerSystem.stop());
+
+    /** Continue storing fuel when intake button is held and shooter button is not held. */
+    m_driverController
+        .L2()
+        .and(m_driverController.R2().negate())
+        .onTrue(m_indexerSystem.storeFuel());
   }
 
   public Command getAutonomousCommand() {
