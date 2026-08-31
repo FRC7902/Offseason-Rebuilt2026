@@ -91,13 +91,15 @@ public class HoodSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_hood.updateTelemetry();
+
+    SmartDashboard.putNumber("HoodMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
+    SmartDashboard.putNumber("HoodMech/position (deg)", getAngle().in(Degrees));
+
+    SmartDashboard.putBoolean("HoodMech/isAtSetpoint", isAtSetpoint());
   }
 
   @Override
   public void simulationPeriodic() {
     m_hood.simIterate();
-
-    SmartDashboard.putNumber("HoodMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
-    SmartDashboard.putNumber("HoodMech/position (deg)", getAngle().in(Degrees));
   }
 }

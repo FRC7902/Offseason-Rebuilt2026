@@ -101,13 +101,13 @@ public class FeederSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_feeder.updateTelemetry();
+
+    SmartDashboard.putNumber("FeederMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
+    SmartDashboard.putNumber("FeederMech/velocity (RPM)", getVelocity().in(RPM));
   }
 
   @Override
   public void simulationPeriodic() {
     m_feeder.simIterate();
-
-    SmartDashboard.putNumber("FeederMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
-    SmartDashboard.putNumber("FeederMech/velocity (RPM)", getVelocity().in(RPM));
   }
 }

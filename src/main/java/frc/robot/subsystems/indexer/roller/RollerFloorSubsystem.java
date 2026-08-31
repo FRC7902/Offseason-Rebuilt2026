@@ -97,13 +97,13 @@ public class RollerFloorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_rollerFloor.updateTelemetry();
+
+    SmartDashboard.putNumber("RollerFloorMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
+    SmartDashboard.putNumber("RollerFloorMech/velocity (RPM)", getVelocity().in(RPM));
   }
 
   @Override
   public void simulationPeriodic() {
     m_rollerFloor.simIterate();
-
-    SmartDashboard.putNumber("RollerFloorMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
-    SmartDashboard.putNumber("RollerFloorMech/velocity (RPM)", getVelocity().in(RPM));
   }
 }

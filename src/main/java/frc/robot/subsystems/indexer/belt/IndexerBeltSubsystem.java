@@ -112,13 +112,13 @@ public class IndexerBeltSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_indexerBelt.updateTelemetry();
+
+    SmartDashboard.putNumber("IndexerBeltMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
+    SmartDashboard.putNumber("IndexerBeltMech/velocity (RPM)", getVelocity().in(RPM));
   }
 
   @Override
   public void simulationPeriodic() {
     m_indexerBelt.simIterate();
-
-    SmartDashboard.putNumber("IndexerBeltMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
-    SmartDashboard.putNumber("IndexerBeltMech/velocity (RPM)", getVelocity().in(RPM));
   }
 }

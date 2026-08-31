@@ -30,7 +30,7 @@ public class IntakeRollerSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void simulationPeriodic() {
+  public void periodic() {
     SmartDashboard.putNumber("IntakeRollerMech/Duty Cycle", m_rollerMotor.get());
   }
 }

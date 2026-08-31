@@ -154,13 +154,15 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_turret.updateTelemetry();
+
+    SmartDashboard.putNumber("TurretMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
+    SmartDashboard.putNumber("TurretMech/position (deg)", getAngle().in(Degrees));
+
+    SmartDashboard.putBoolean("TurretMech/isAtSetpoint", isAtSetpoint());
   }
 
   @Override
   public void simulationPeriodic() {
     m_turret.simIterate();
-
-    SmartDashboard.putNumber("TurretMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
-    SmartDashboard.putNumber("TurretMech/position (deg)", getAngle().in(Degrees));
   }
 }

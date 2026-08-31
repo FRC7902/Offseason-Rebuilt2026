@@ -1,13 +1,15 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
-public class ShooterSystem {
+public class ShooterSystem extends SubsystemBase {
 
   private final FlywheelSubsystem m_flywheel;
   private final HoodSubsystem m_hood;
@@ -66,5 +68,10 @@ public class ShooterSystem {
   public Command stopShooting() {
     // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
     return Commands.parallel(m_flywheel.stop(), m_hood.stop());
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putBoolean("ShooterSystem/isShooterReady", isShooterReady());
   }
 }

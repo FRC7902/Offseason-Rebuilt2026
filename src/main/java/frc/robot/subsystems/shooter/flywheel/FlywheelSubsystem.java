@@ -119,13 +119,15 @@ public class FlywheelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_flywheel.updateTelemetry();
+
+    SmartDashboard.putNumber("ShooterFlywheelMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
+    SmartDashboard.putNumber("ShooterFlywheelMech/velocity (RPM)", getVelocity().in(RPM));
+
+    SmartDashboard.putBoolean("ShooterFlywheelMech/isAtSetpoint", isAtSetpoint());
   }
 
   @Override
   public void simulationPeriodic() {
     m_flywheel.simIterate();
-
-    SmartDashboard.putNumber("ShooterFlywheelMech/setpoint (RPM)", getVelocitySetpoint().in(RPM));
-    SmartDashboard.putNumber("ShooterFlywheelMech/velocity (RPM)", getVelocity().in(RPM));
   }
 }

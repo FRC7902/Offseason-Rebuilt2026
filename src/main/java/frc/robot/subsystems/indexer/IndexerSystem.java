@@ -2,6 +2,7 @@ package frc.robot.subsystems.indexer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.indexer.belt.IndexerBeltConstants;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederConstants;
@@ -9,7 +10,7 @@ import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller.RollerFloorConstants;
 import frc.robot.subsystems.indexer.roller.RollerFloorSubsystem;
 
-public class IndexerSystem {
+public class IndexerSystem extends SubsystemBase {
 
   private final IndexerBeltSubsystem m_indexerBelt;
   private final FeederSubsystem m_feeder;

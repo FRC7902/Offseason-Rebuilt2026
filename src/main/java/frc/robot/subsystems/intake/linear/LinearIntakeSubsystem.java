@@ -107,13 +107,13 @@ public class LinearIntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_linearIntake.updateTelemetry();
+
+    SmartDashboard.putNumber("LinearIntakeMech/setpoint (m)", getHeightSetpoint().in(Meters));
+    SmartDashboard.putNumber("LinearIntakeMech/position (m)", getHeight().in(Meters));
   }
 
   @Override
   public void simulationPeriodic() {
     m_linearIntake.simIterate();
-
-    SmartDashboard.putNumber("LinearIntakeMech/setpoint (m)", getHeightSetpoint().in(Meters));
-    SmartDashboard.putNumber("LinearIntakeMech/position (m)", getHeight().in(Meters));
   }
 }
