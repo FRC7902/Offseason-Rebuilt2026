@@ -1,8 +1,5 @@
 package frc.robot.subsystems.intake.linear;
 
-import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.system.plant.DCMotor;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
@@ -10,6 +7,10 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Pounds;
+
+import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -40,7 +41,7 @@ public class LinearIntakeConstants {
           .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22)) // TODO
           .withClosedLoopController(4, 0, 0) // TODO
           .withSimClosedLoopController(25, 0, 0.3)
-          .withTrapezoidalProfile(MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5)) // TODO
+          .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5)) // TODO
           .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
           .withIdleMode(MotorMode.BRAKE) // TODO
