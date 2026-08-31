@@ -28,13 +28,30 @@ public class LinearIntakeConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
   public static final int CAN_ID = 4; // TODO
 
-  public static final Distance TOLERANCE = Meters.of(0.1); // TODO
+  public static final Distance TOLERANCE = Inches.of(0.5); // TODO
 
   public static final Distance FULLY_RETRACTED = Inches.of(0);
   public static final Distance FULLY_EXTENDED = Inches.of(12.136079);
   public static final Distance MIDPOINT_DISTANCE = Inches.of(5); // TODO
 
-  // TODO: Add distance constants for positions to shuffle between
+  public static final Distance NEAR_FULLY_RETRACTED = Inches.of(2.9219); // TODO
+  public static final Distance SHUFFLE_MIDPOINT = Inches.of(8.7656); // TODO
+
+  public static final Distance[] FIRST_SHUFFLE_DISTANCES = { // TODO
+    SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
+  };
+
+  public static final Distance[] SECOND_SHUFFLE_DISTANCES = { // TODO
+    NEAR_FULLY_RETRACTED,
+    MIDPOINT_DISTANCE,
+    NEAR_FULLY_RETRACTED,
+    MIDPOINT_DISTANCE,
+    FULLY_RETRACTED
+  };
+
+  public static final Distance[] REPEATING_SHUFFLE_DISTANCES = { // TODO
+    FULLY_RETRACTED, NEAR_FULLY_RETRACTED
+  };
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
