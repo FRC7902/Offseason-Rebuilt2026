@@ -35,15 +35,10 @@ public class LinearIntakeConstants {
   public static final Distance MIDPOINT_DISTANCE = Inches.of(5); // TODO
 
   public static final Distance NEAR_FULLY_RETRACTED = Inches.of(2.9219); // TODO
-  // public static final Distance HALF_EXTENDED = Meters.of(1); // TODO
   public static final Distance SHUFFLE_MIDPOINT = Inches.of(8.7656); // TODO
 
   public static final Distance[] FIRST_SHUFFLE_DISTANCES = { // TODO
-    SHUFFLE_MIDPOINT,
-    FULLY_EXTENDED,
-    MIDPOINT_DISTANCE,
-    SHUFFLE_MIDPOINT,
-    NEAR_FULLY_RETRACTED
+    SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
   };
 
   public static final Distance[] SECOND_SHUFFLE_DISTANCES = { // TODO

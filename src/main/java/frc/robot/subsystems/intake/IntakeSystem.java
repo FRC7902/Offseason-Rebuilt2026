@@ -3,7 +3,6 @@ package frc.robot.subsystems.intake;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
