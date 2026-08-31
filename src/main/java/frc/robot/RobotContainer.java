@@ -82,7 +82,7 @@ public class RobotContainer {
             .getAngularVelocityStream(
                 m_driverController::getLeftY,
                 m_driverController::getLeftX,
-                () -> m_driverController.getRawAxis(2))
+                () -> -m_driverController.getRawAxis(2))
             .withAllianceRelativeControl();
 
     m_indexerSystem =
