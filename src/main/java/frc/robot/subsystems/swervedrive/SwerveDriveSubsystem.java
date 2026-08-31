@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants;
 import java.io.File;
 import java.io.IOException;
 import java.util.function.DoubleSupplier;
@@ -83,7 +84,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   public SwerveInputStream getAngularVelocityStream(
       DoubleSupplier x, DoubleSupplier y, DoubleSupplier rot) {
-    return new SwerveInputStream(drive, x, y, rot);
+    return new SwerveInputStream(drive, x, y, rot)
+        .withDeadband(Constants.DRIVER_CONTROLLER_DEADBAND);
   }
 
   public Command drive(SwerveInputStream stream) {
