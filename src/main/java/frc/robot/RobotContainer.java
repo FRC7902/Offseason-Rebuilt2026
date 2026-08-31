@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
@@ -117,6 +118,18 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
+    m_operatorController
+        .rightTrigger()
+        .whileTrue(Commands.parallel(m_shooterSystem.aimAndShoot()))
+        .whileTrue(
+            Commands.sequence(
+                Commands.waitUntil(m_shooterSystem::isShooterReady),
+                Commands.parallel(m_intakeSystem.shuffleHopper(), m_indexerSystem.feedFuel())))
+        .onFalse(
+            Commands.sequence(
+                m_indexerSystem.stop(),
+                m_shooterSystem.stop(),
+                m_intakeSystem.retractToMidpointThenStopIntake()));
   }
 
   public Command getAutonomousCommand() {
