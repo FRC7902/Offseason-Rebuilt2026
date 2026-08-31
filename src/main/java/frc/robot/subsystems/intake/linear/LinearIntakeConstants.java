@@ -40,8 +40,8 @@ public class LinearIntakeConstants {
       new SmartMotorControllerConfig()
           .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22)) // TODO
           .withClosedLoopController(4, 0, 0) // TODO
-          .withSimClosedLoopController(4, 0, 0) // TODO
-          .withTrapezoidalProfile(MetersPerSecond.of(0.5), MetersPerSecondPerSecond.of(0.5)) // TODO
+          .withSimClosedLoopController(25, 0, 0.3)
+          .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5)) // TODO
           .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
           .withIdleMode(MotorMode.BRAKE) // TODO
@@ -54,7 +54,7 @@ public class LinearIntakeConstants {
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false) // TODO
           .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0)) // TODO
-          .withSimFeedforward(new ElevatorFeedforward(0, 0, 0, 0)) // TODO
+          .withSimFeedforward(new ElevatorFeedforward(0, 0.1998, 0, 0))
           .withStartingPosition(Meters.of(0.0)); // TODO
 
   private static final MechanismPositionConfig ROBOT_TO_MECHANISM =
