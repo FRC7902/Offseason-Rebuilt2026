@@ -1,8 +1,12 @@
 package frc.robot.subsystems.shooter.launch_calculator;
 
+import static edu.wpi.first.units.Units.RPM;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import frc.robot.subsystems.shooter.hood.HoodConstants;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
 
 public class LaunchCalculator {
   private static LaunchCalculator m_instance;
@@ -39,6 +43,13 @@ public class LaunchCalculator {
     }
 
     // TODO: Calculate launch parameters
+    latestParameters =
+        new LaunchingParameters(
+            Rotation2d.fromDegrees(0), // driveAngle
+            HoodConstants.MIN_ANGLE, // hoodAngle
+            RPM.zero(), // flywheelSpeed
+            TurretConstants.MIN_ANGLE, // turretAngle
+            false); // passing
 
     return latestParameters;
   }
