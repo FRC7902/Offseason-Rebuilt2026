@@ -39,7 +39,7 @@ public class IntakeSystem extends SubsystemBase {
    *
    * @return command that runs until the linear intake is retracted and the rollers are stopped
    */
-  public Command retractToMidpointThenStopIntake() {
+  public Command stop() {
     return Commands.sequence(
         m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE), m_intakeRoller.stop());
   }
@@ -58,7 +58,7 @@ public class IntakeSystem extends SubsystemBase {
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
-  public Command getShuffleCommand() {
+  public Command shuffle() {
     Command firstShuffle = createSetpointSequence(LinearIntakeConstants.FIRST_SHUFFLE_DISTANCES);
     Command secondShuffle = createSetpointSequence(LinearIntakeConstants.SECOND_SHUFFLE_DISTANCES);
     Command repeatingShuffle =
