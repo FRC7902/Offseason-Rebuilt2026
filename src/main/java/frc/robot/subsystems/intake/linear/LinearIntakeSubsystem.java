@@ -142,8 +142,11 @@ public class LinearIntakeSubsystem extends SubsystemBase {
         Commands.print("Starting SysId!")
             .beforeStarting(Commands.runOnce(m_motor::stopClosedLoopController))
             .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.waitSeconds(1))
             .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.waitSeconds(1))
             .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.waitSeconds(1))
             .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse))
             .finallyDo(m_motor::startClosedLoopController)
             .andThen(Commands.print(getName() + " SysId test done."));
