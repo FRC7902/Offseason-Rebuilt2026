@@ -50,7 +50,7 @@ public class TurretConstants {
 
   public static final PivotConfig PIVOT_CONFIG =
       new PivotConfig()
-          .withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE) // TODO
+          .withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE)
           .withTelemetry("TurretMech", TelemetryVerbosity.HIGH);
 
   public static final Transform3d ROBOT_TO_TURRET =

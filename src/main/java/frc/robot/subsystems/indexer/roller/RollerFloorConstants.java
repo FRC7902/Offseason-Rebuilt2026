@@ -50,5 +50,5 @@ public class RollerFloorConstants {
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
           .withTelemetry("RollerFloorMech", TelemetryVerbosity.HIGH)
-          .withSpeedometerSimulation(RPM.of(750)); // TODO
+          .withSpeedometerSimulation(RPM.of(1619));
 }

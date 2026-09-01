@@ -48,5 +48,5 @@ public class FeederConstants {
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.999302))
           .withTelemetry("FeederMech", TelemetryVerbosity.HIGH)
-          .withSpeedometerSimulation(RPM.of(750)); // TODO
+          .withSpeedometerSimulation(RPM.of(3718));
 }

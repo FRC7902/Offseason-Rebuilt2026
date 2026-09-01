@@ -54,5 +54,5 @@ public class FlywheelConstants {
       new FlyWheelConfig()
           .withDiameter(Inches.of(4))
           .withTelemetry("ShooterFlywheelMech", TelemetryVerbosity.HIGH)
-          .withSpeedometerSimulation(RPM.of(750)); // TODO
+          .withSpeedometerSimulation(RPM.of(5785));
 }

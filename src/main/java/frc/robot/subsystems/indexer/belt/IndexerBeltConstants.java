@@ -18,8 +18,8 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class IndexerBeltConstants {
 
-  public static final DCMotor LEADER_MOTOR = DCMotor.getKrakenX60Foc(1); // TODO
-  public static final DCMotor FOLLOWER_MOTOR = DCMotor.getKrakenX60Foc(1); // TODO
+  public static final DCMotor LEADER_MOTOR = DCMotor.getKrakenX44Foc(1);
+  public static final DCMotor FOLLOWER_MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final int LEADER_CAN_ID = 1; // TODO
   public static final int FOLLOWER_CAN_ID = 9; // TODO
 
@@ -32,7 +32,7 @@ public class IndexerBeltConstants {
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4))) // TODO
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(2.1818)))
           .withIdleMode(MotorMode.COAST) // TODO
           .withTelemetry(
               "IndexerBeltMotor",
@@ -44,7 +44,7 @@ public class IndexerBeltConstants {
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
-          .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 1.4822, 0));
+          .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.21, 0));
 
   public static final SmartMotorControllerConfig FOLLOWER_SMC_CONFIG =
       LEADER_SMC_CONFIG.clone().withMotorInverted(true); // TODO
@@ -52,5 +52,5 @@ public class IndexerBeltConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withTelemetry("IndexerBeltMech", TelemetryVerbosity.HIGH)
-          .withSpeedometerSimulation(RPM.of(750));
+          .withSpeedometerSimulation(RPM.of(3377));
 }

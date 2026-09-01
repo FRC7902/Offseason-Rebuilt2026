@@ -50,6 +50,6 @@ public class HoodConstants {
   public static final ArmConfig ARM_CONFIG =
       new ArmConfig()
           .withLength(Meters.of(0.135)) // TODO
-          .withHardLimits(MIN_ANGLE, MAX_ANGLE) // TODO
-          .withTelemetry("HoodMech", TelemetryVerbosity.HIGH); // TODO
+          .withHardLimits(MIN_ANGLE, MAX_ANGLE)
+          .withTelemetry("HoodMech", TelemetryVerbosity.HIGH);
 }
