@@ -1,12 +1,17 @@
 package frc.robot.subsystems.indexer.roller;
 
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Volts;
 
+import com.ctre.phoenix6.SignalLogger;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.Supplier;
 import yams.mechanisms.velocity.FlyWheel;
 import yams.motorcontrollers.SmartMotorController;
@@ -92,6 +97,51 @@ public class RollerFloorSubsystem extends SubsystemBase {
    */
   public Command stop() {
     return this.runOnce(() -> m_motor.stopClosedLoopController()).andThen(setDutyCycle(0));
+  }
+
+  /**
+   * Runs a SysId routine on the roller floor mechanism. This command will run a series of
+   * quasistatic and dynamic tests, logging the results to the Phoenix SignalLogger. The routine
+   * will stop the closed-loop controller before starting and restart it after finishing.
+   *
+   * @return A command that runs the SysId routine.
+   */
+  public Command sysId() {
+    final VoltageOut m_voltReq = new VoltageOut(0.0);
+
+    final SysIdRoutine m_sysIdRoutine =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
+                // per second if left null.
+                null,
+                // The step voltage output used for dynamic test routines. Defaults to 7 volts
+                // if left null.
+                null,
+                // Safety timeout for the test routine commands. Defaults to 10 seconds if
+                // left null.
+                null,
+                // Log state with Phoenix SignalLogger class
+                (state) -> SignalLogger.writeString("state", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (volts) -> m_rollerFloorMotor.setControl(m_voltReq.withOutput(volts.in(Volts))),
+                null,
+                this));
+
+    Command group =
+        Commands.print("Starting SysId!")
+            .beforeStarting(Commands.runOnce(m_motor::stopClosedLoopController))
+            .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.waitSeconds(1))
+            .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.waitSeconds(1))
+            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.waitSeconds(1))
+            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse))
+            .finallyDo(m_motor::startClosedLoopController)
+            .andThen(Commands.print(getName() + " SysId test done."));
+
+    return group.beforeStarting(() -> SignalLogger.start()).finallyDo(() -> SignalLogger.stop());
   }
 
   @Override
