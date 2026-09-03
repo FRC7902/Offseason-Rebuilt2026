@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -90,7 +91,12 @@ public class RobotContainer {
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
+    NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
+    NamedCommands.registerCommand("aimAndShoot", m_shooterSystem.aimAndShoot());
+    NamedCommands.registerCommand("feedFuel", m_indexerSystem.feedFuel());
+    NamedCommands.registerCommand("storeFuel", m_indexerSystem.storeFuel());
+    NamedCommands.registerCommand("stopIntake", m_intakeSystem.stop());
+    NamedCommands.registerCommand("stopShooting", m_shooterSystem.stopShooting());
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
