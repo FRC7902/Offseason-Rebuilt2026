@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
@@ -90,7 +91,8 @@ public class RobotContainer {
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
+    // NamedCommands.registerCommand("extendAndIntake",
+    // m_intakeSystem.extendAndIntake());
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -102,21 +104,38 @@ public class RobotContainer {
 
     m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
 
-    /*
-     * TODO: Bind driver controller L2
-     * - When held, extend intake and run intake rollers
-     * - When held, but not shooting (operator's R2 not held), run indexer to store
-     * fuel
-     * - When released, retract intake and stop intake rollers
-     */
+    Trigger intakeTrigger = m_driverController.L2();
+    Trigger shootTrigger = m_driverController.R2();
 
-    /*
-     * TODO: Bind operator controller R2
-     * - When held run shooter, and run indexer to feed balls into shooter when
-     * shooter is ready. Stop shooting when released
-     * - When held and shooter is ready, shuffle the hopper using the intake. Stop
-     * shuffling when released
-     */
+    // Neither intake button nor shoot button is pressed
+    intakeTrigger
+        .negate()
+        .and(shootTrigger.negate())
+        .onTrue(m_intakeSystem.stop())
+        .onTrue(m_shooterSystem.stopShooting())
+        .onTrue(m_indexerSystem.stop());
+
+    // Intake button is pressed, but shoot button is not pressed
+    intakeTrigger
+        .negate()
+        .and(shootTrigger)
+        .onTrue(m_intakeSystem.shuffle())
+        .onTrue(m_shooterSystem.aimAndShoot())
+        .onTrue(m_indexerSystem.feedFuel());
+
+    // Shoot button is pressed, but intake button is not pressed
+    intakeTrigger
+        .and(shootTrigger.negate())
+        .onTrue(m_intakeSystem.extendAndIntake())
+        .onTrue(m_shooterSystem.stopShooting())
+        .onTrue(m_indexerSystem.storeFuel());
+
+    // Both intake button and shoot button are pressed
+    intakeTrigger
+        .and(shootTrigger)
+        .onTrue(m_intakeSystem.extendAndIntake())
+        .onTrue(m_shooterSystem.aimAndShoot())
+        .onTrue(m_indexerSystem.feedFuel());
   }
 
   public Command getAutonomousCommand() {
