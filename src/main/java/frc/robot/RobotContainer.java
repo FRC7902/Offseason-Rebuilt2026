@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
@@ -30,8 +32,7 @@ import yams.mechanisms.swerve.utility.SwerveInputStream;
 
 public class RobotContainer {
 
-  private final CommandPS5Controller m_driverController =
-      new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
+  private final CommandPS5Controller m_driverController = new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
 
   private final IndexerBeltSubsystem m_indexerBeltSubsystem;
   private final FeederSubsystem m_feederSubsystem;
@@ -51,10 +52,9 @@ public class RobotContainer {
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
   private final SwerveInputStream driveAngularVelocity;
 
-  private final StructArrayPublisher<Pose3d> posesPublisher =
-      NetworkTableInstance.getDefault()
-          .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
-          .publish();
+  private final StructArrayPublisher<Pose3d> posesPublisher = NetworkTableInstance.getDefault()
+      .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
+      .publish();
 
   private final SendableChooser<Command> autoChooser;
 
@@ -77,23 +77,34 @@ public class RobotContainer {
     m_turretSubsystem = new TurretSubsystem();
 
     m_swerveDriveSubsystem = new SwerveDriveSubsystem();
-    driveAngularVelocity =
-        m_swerveDriveSubsystem
-            .getAngularVelocityStream(
-                m_driverController::getLeftY,
-                m_driverController::getLeftX,
-                () -> -m_driverController.getRawAxis(2))
-            .withAllianceRelativeControl();
+    driveAngularVelocity = m_swerveDriveSubsystem
+        .getAngularVelocityStream(
+            m_driverController::getLeftY,
+            m_driverController::getLeftX,
+            () -> -m_driverController.getRawAxis(2))
+        .withAllianceRelativeControl();
 
-    m_indexerSystem =
-        new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
+    m_indexerSystem = new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
-
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
+
+    NamedCommands.registerCommand("intake", m_intakeSystem.extendAndIntake());
+    NamedCommands.registerCommand("retract", m_intakeSystem.stop());
+    // TODO: Add shuffle setpoints
+    NamedCommands.registerCommand(
+        "shoot",
+        Commands.parallel(
+            m_shooterSystem.aimAndShoot(),
+            Commands.sequence(
+                Commands.waitUntil(m_shooterSystem::isShooterReady),
+                Commands.parallel(m_intakeSystem.shuffle(), m_indexerSystem.feedFuel()))));
+    NamedCommands.registerCommand("stopShoot", Commands.sequence(
+        m_shooterSystem.stopShooting(),
+        m_intakeSystem.stop(),
+        m_indexerSystem.stop()));
 
     configureBindings();
   }
@@ -128,6 +139,6 @@ public class RobotContainer {
     Pose3d hoodPose = m_hoodSubsystem.getPose3d(turretPose);
     Pose3d linearIntakePose = m_linearIntakeSubsystem.getPose3d();
 
-    posesPublisher.set(new Pose3d[] {linearIntakePose, turretPose, hoodPose, new Pose3d()});
+    posesPublisher.set(new Pose3d[] { linearIntakePose, turretPose, hoodPose, new Pose3d() });
   }
 }
