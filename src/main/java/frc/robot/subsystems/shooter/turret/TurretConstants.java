@@ -2,9 +2,8 @@ package frc.robot.subsystems.shooter.turret;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Feet;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -50,10 +49,10 @@ public class TurretConstants {
           .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01)); // TODO
 
   public static final PivotConfig PIVOT_CONFIG =
-      new PivotConfig()
-          .withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE)
-          .withTelemetry("TurretMech", TelemetryVerbosity.HIGH);
+    new PivotConfig()
+      .withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE) // TODO
+      .withTelemetry("TurretMech", TelemetryVerbosity.HIGH);
 
   public static final Transform3d ROBOT_TO_TURRET =
-      new Transform3d(Feet.of(-1.5), Feet.of(0), Feet.of(0.5), Rotation3d.kZero); // TODO
+    new Transform3d(0.144, -0.152, 0.359, Rotation3d.kZero); // TODO
 }
