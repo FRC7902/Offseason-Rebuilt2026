@@ -3,6 +3,8 @@ package frc.robot.subsystems.shooter.turret;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.SignalLogger;
@@ -164,13 +166,13 @@ public class TurretSubsystem extends SubsystemBase {
             new SysIdRoutine.Config(
                 // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
                 // per second if left null.
-                null,
+                Volts.of(1).per(Second),
                 // The step voltage output used for dynamic test routines. Defaults to 7 volts
                 // if left null.
-                null,
+                Volts.of(1),
                 // Safety timeout for the test routine commands. Defaults to 10 seconds if
                 // left null.
-                null,
+                Seconds.of(3),
                 // Log state with Phoenix SignalLogger class
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
@@ -181,13 +183,21 @@ public class TurretSubsystem extends SubsystemBase {
     Command group =
         Commands.print("Starting SysId!")
             .beforeStarting(Commands.runOnce(m_motor::stopClosedLoopController))
+            .andThen(Commands.print("Running Quasistatic Forward."))
             .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.print("Stopping Quasistatic Forward."))
             .andThen(Commands.waitSeconds(1))
+            .andThen(Commands.print("Running Quasistatic Reverse."))
             .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.print("Stopping Quasistatic Reverse."))
             .andThen(Commands.waitSeconds(1))
+            .andThen(Commands.print("Running Dynamic Forward."))
             .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.print("Stopping Dynamic Forward."))
             .andThen(Commands.waitSeconds(1))
+            .andThen(Commands.print("Running Dynamic Reverse."))
             .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.print("Stopping Dynamic Reverse."))
             .finallyDo(m_motor::startClosedLoopController)
             .andThen(Commands.print(getName() + " SysId test done."));
 
