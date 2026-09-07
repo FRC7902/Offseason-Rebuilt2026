@@ -7,8 +7,8 @@ import frc.robot.subsystems.indexer.belt.IndexerBeltConstants;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederConstants;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
-import frc.robot.subsystems.indexer.roller.RollerFloorConstants;
-import frc.robot.subsystems.indexer.roller.RollerFloorSubsystem;
+import frc.robot.subsystems.indexer.roller_floor.RollerFloorConstants;
+import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
 
 public class IndexerSystem extends SubsystemBase {
 
