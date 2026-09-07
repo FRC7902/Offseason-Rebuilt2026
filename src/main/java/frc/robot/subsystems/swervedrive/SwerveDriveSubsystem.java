@@ -11,6 +11,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,9 +34,11 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
 
+  private static SwerveDriveSubsystem m_instance;
+
   private SwerveDrive drive;
 
-  public SwerveDriveSubsystem() {
+  private SwerveDriveSubsystem() {
     SmartDashboard.putData(this);
     var cfg =
         new SwerveDriveConfig()
@@ -59,6 +62,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       throw new RuntimeException(
           "PathPlanner setup failed -- check deploy/pathplanner/settings.json exists", e);
     }
+  }
+
+  public static SwerveDriveSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new SwerveDriveSubsystem();
+    }
+    return m_instance;
   }
 
   private void setupPathPlanner() throws IOException, ParseException {
@@ -133,6 +143,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         .andThen(Commands.waitSeconds(1))
         .andThen(routine.dynamic(SysIdRoutine.Direction.kReverse))
         .withName("SysId " + moduleName + " Azimuth");
+  }
+
+  public Angle getGyroAngle() {
+    return drive.getGyroAngle();
   }
 
   public void periodic() {

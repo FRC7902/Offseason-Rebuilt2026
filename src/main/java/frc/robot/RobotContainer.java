@@ -4,8 +4,12 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -27,6 +31,8 @@ import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+import limelight.networktables.LimelightSettings.ImuMode;
+import limelight.networktables.LimelightSettings.LEDMode;
 import yams.mechanisms.swerve.utility.SwerveInputStream;
 
 public class RobotContainer {
@@ -52,6 +58,8 @@ public class RobotContainer {
 
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
   private final SwerveInputStream driveAngularVelocity;
+
+  private LimelightWrapper m_limelight;
 
   private final StructArrayPublisher<Pose3d> posesPublisher =
       NetworkTableInstance.getDefault()
@@ -79,7 +87,7 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    m_swerveDriveSubsystem = new SwerveDriveSubsystem();
+    m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
     driveAngularVelocity =
         m_swerveDriveSubsystem
             .getAngularVelocityStream(
@@ -97,12 +105,41 @@ public class RobotContainer {
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
+    configureLimelight();
+
+    // NamedCommands.registerCommand("extendAndIntake",
+    // m_intakeSystem.extendAndIntake());
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     configureBindings();
+  }
+
+  private void configureLimelight() {
+    m_limelight = new LimelightWrapper("limelight");
+
+    Pose3d cameraOffset =
+        new Pose3d(
+            Inches.of(5).in(Meters),
+            Inches.of(5).in(Meters),
+            Inches.of(5).in(Meters),
+            Rotation3d.kZero);
+
+    m_limelight = new LimelightWrapper("limelight");
+    m_limelight
+        .getSettings()
+        .withLimelightLEDMode(LEDMode.PipelineControl)
+        .withCameraOffset(cameraOffset)
+        .save();
+  }
+
+  public void updateImuMode(ImuMode imuMode) {
+    m_limelight.getSettings().withImuMode(imuMode).save();
+  }
+
+  public void updateLimelightThrottle(double throttle) {
+    m_limelight.getSettings().withThrottle(throttle).save();
   }
 
   private void configureBindings() {
@@ -149,5 +186,9 @@ public class RobotContainer {
     } else if (leftRetracted || rightRetracted) {
       m_linearIntakeSubsystem.setEncoderPositionRetracted();
     }
+  }
+
+  public void updateLocalization() {
+    m_limelight.updateLocalization();
   }
 }

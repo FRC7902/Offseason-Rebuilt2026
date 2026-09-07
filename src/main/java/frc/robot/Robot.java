@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.utils.AutoHelper;
+import limelight.networktables.LimelightSettings.ImuMode;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -25,10 +26,18 @@ public class Robot extends TimedRobot {
 
     // Clear launching parameters
     LaunchCalculator.getInstance().clearLaunchingParameters();
+
+    // Update Limelight localization
+    m_robotContainer.updateLocalization();
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    // Sync internal IMU to external IMU when robot is disabled to avoid drift
+    m_robotContainer.updateImuMode(ImuMode.SyncInternalImu);
+    // Throttle Limelight when robot is disabled to reduce thermal output
+    m_robotContainer.updateLimelightThrottle(150);
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -45,6 +54,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     teleopAndAutonomousInit();
+
+    // Use internal IMU for autonomous to avoid drift from external IMU
+    m_robotContainer.updateImuMode(ImuMode.InternalImu);
+    // Disable Limelight throttle during autonomous to allow for full frame rate and reduce latency
+    m_robotContainer.updateLimelightThrottle(0);
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -61,6 +76,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     teleopAndAutonomousInit();
+
+    // Use internal IMU for teleop to avoid drift from external IMU
+    m_robotContainer.updateImuMode(ImuMode.InternalImu);
+    // Disable Limelight throttle during teleop to allow for full frame rate and reduce latency
+    m_robotContainer.updateLimelightThrottle(0);
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
