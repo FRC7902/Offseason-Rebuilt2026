@@ -135,13 +135,21 @@ public class FeederSubsystem extends SubsystemBase {
     Command group =
         Commands.print("Starting SysId!")
             .beforeStarting(Commands.runOnce(m_motor::stopClosedLoopController))
+            .andThen(Commands.print("Running Quasistatic Forward."))
             .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.print("Stopping Quasistatic Forward."))
             .andThen(Commands.waitSeconds(1))
+            .andThen(Commands.print("Running Quasistatic Reverse."))
             .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.print("Stopping Quasistatic Reverse."))
             .andThen(Commands.waitSeconds(1))
+            .andThen(Commands.print("Running Dynamic Forward."))
             .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
+            .andThen(Commands.print("Stopping Dynamic Forward."))
             .andThen(Commands.waitSeconds(1))
+            .andThen(Commands.print("Running Dynamic Reverse."))
             .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse))
+            .andThen(Commands.print("Stopping Dynamic Reverse."))
             .finallyDo(m_motor::startClosedLoopController)
             .andThen(Commands.print(getName() + " SysId test done."));
 
