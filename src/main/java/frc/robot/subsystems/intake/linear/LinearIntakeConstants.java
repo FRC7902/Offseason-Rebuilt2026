@@ -30,12 +30,12 @@ public class LinearIntakeConstants {
 
   public static final Distance TOLERANCE = Meters.of(0.05);
 
-  public static final Distance FULLY_RETRACTED = Meters.of(0.258915);
-  public static final Distance FULLY_EXTENDED = Meters.of(0);
-  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.15);
+  public static final Distance FULLY_RETRACTED = Meters.zero();
+  public static final Distance FULLY_EXTENDED = Meters.of(0.258915);
+  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.2);
 
-  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.2);
-  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.10);
+  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.1);
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.15);
 
   public static final Distance[] FIRST_SHUFFLE_DISTANCES = {
     SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
@@ -59,7 +59,7 @@ public class LinearIntakeConstants {
           .withClosedLoopController(5, 0, 0)
           .withSimClosedLoopController(25, 0, 0.3)
           .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5))
-          .withSoftLimits(FULLY_EXTENDED, FULLY_RETRACTED)
+          .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
           .withIdleMode(MotorMode.COAST)
           .withTelemetry(
@@ -70,10 +70,10 @@ public class LinearIntakeConstants {
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(10)) // TODO
-          .withMotorInverted(true)
-          .withFeedforward(new ElevatorFeedforward(0.28544, 0.047288, 0.64354, 0.028718))
+          .withMotorInverted(false)
+          .withFeedforward(new ElevatorFeedforward(0.28544, -0.047288, 0.64354, 0.028718))
           .withSimFeedforward(new ElevatorFeedforward(0, 0.1998, 0, 0))
-          .withStartingPosition(FULLY_RETRACTED);
+          .withSimStartingPosition(FULLY_RETRACTED);
 
   private static final MechanismPositionConfig ROBOT_TO_MECHANISM =
       new MechanismPositionConfig()
@@ -85,7 +85,7 @@ public class LinearIntakeConstants {
 
   public static final ElevatorConfig ELEVATOR_CONFIG =
       new ElevatorConfig()
-          .withHardLimits(FULLY_EXTENDED, FULLY_RETRACTED)
+          .withHardLimits(FULLY_RETRACTED, FULLY_EXTENDED)
           .withTelemetry("LinearIntakeMech", TelemetryVerbosity.HIGH)
           .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
           .withAngle(MECHANISM_ANGLE)
