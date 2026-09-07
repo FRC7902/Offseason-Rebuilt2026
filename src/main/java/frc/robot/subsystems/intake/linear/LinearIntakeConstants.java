@@ -35,27 +35,29 @@ public class LinearIntakeConstants {
 
   public static final Distance TOLERANCE = Meters.of(0.05);
 
-  public static final Distance FULLY_RETRACTED = Meters.zero();
-  public static final Distance FULLY_EXTENDED = Meters.of(0.258915);
-  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.2);
+  public static final Distance FULLY_RETRACTED = Meters.zero(); // TODO
+  public static final Distance FULLY_EXTENDED = Meters.of(0.258915); // TODO
+  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.2); // TODO
 
-  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.1);
-  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.15);
+  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.1); // TODO
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.15); // TODO
 
-  public static final Distance[] FIRST_SHUFFLE_DISTANCES = {
-    SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
-  };
+  // public static final Distance[] FIRST_SHUFFLE_DISTANCES = {
+  //   SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
+  // };
+ 
+  // public static final Distance[] SECOND_SHUFFLE_DISTANCES = {
+  //   NEAR_FULLY_RETRACTED,
+  //   MIDPOINT_DISTANCE,
+  //   NEAR_FULLY_RETRACTED,
+  //   MIDPOINT_DISTANCE,
+  //   FULLY_RETRACTED
+  // };
 
-  public static final Distance[] SECOND_SHUFFLE_DISTANCES = {
-    NEAR_FULLY_RETRACTED,
-    MIDPOINT_DISTANCE,
-    NEAR_FULLY_RETRACTED,
-    MIDPOINT_DISTANCE,
-    FULLY_RETRACTED
-  };
-
+  // changed values to account for turret interference
   public static final Distance[] REPEATING_SHUFFLE_DISTANCES = {
-    FULLY_RETRACTED, NEAR_FULLY_RETRACTED
+    // FULLY_RETRACTED, NEAR_FULLY_RETRACTED
+    FULLY_EXTENDED, MIDPOINT_DISTANCE
   };
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
