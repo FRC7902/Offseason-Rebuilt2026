@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter.hood;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.SignalLogger;
@@ -84,13 +85,13 @@ public class HoodSubsystem extends SubsystemBase {
             new SysIdRoutine.Config(
                 // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
                 // per second if left null.
-                null,
+                Volts.of(0.5).per(Seconds),
                 // The step voltage output used for dynamic test routines. Defaults to 7 volts
                 // if left null.
-                null,
+                Volts.of(0.5),
                 // Safety timeout for the test routine commands. Defaults to 10 seconds if
                 // left null.
-                null,
+                Seconds.of(3),
                 // Log state with Phoenix SignalLogger class
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
