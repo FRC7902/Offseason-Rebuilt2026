@@ -1,6 +1,8 @@
 package frc.robot.subsystems.shooter.flywheel;
 
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.SignalLogger;
@@ -130,13 +132,13 @@ public class FlywheelSubsystem extends SubsystemBase {
             new SysIdRoutine.Config(
                 // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
                 // per second if left null.
-                null,
+                Volts.of(1).per(Second),
                 // The step voltage output used for dynamic test routines. Defaults to 7 volts
                 // if left null.
-                null,
+                Volts.of(12),
                 // Safety timeout for the test routine commands. Defaults to 10 seconds if
                 // left null.
-                null,
+                Seconds.of(12),
                 // Log state with Phoenix SignalLogger class
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
