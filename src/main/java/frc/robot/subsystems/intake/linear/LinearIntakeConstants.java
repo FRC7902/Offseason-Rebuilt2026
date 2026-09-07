@@ -26,22 +26,22 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class LinearIntakeConstants {
 
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-  public static final int CAN_ID = 4; // TODO
+  public static final int CAN_ID = 20;
 
-  public static final Distance TOLERANCE = Inches.of(0.5); // TODO
+  public static final Distance TOLERANCE = Meters.of(0.05);
 
-  public static final Distance FULLY_RETRACTED = Inches.of(0);
-  public static final Distance FULLY_EXTENDED = Inches.of(12.136079);
-  public static final Distance MIDPOINT_DISTANCE = Inches.of(5); // TODO
+  public static final Distance FULLY_RETRACTED = Meters.of(0.572);
+  public static final Distance FULLY_EXTENDED = Meters.of(0);
+  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.4);
 
-  public static final Distance NEAR_FULLY_RETRACTED = Inches.of(2.9219); // TODO
-  public static final Distance SHUFFLE_MIDPOINT = Inches.of(8.7656); // TODO
+  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.5);
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.3);
 
-  public static final Distance[] FIRST_SHUFFLE_DISTANCES = { // TODO
+  public static final Distance[] FIRST_SHUFFLE_DISTANCES = {
     SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
   };
 
-  public static final Distance[] SECOND_SHUFFLE_DISTANCES = { // TODO
+  public static final Distance[] SECOND_SHUFFLE_DISTANCES = {
     NEAR_FULLY_RETRACTED,
     MIDPOINT_DISTANCE,
     NEAR_FULLY_RETRACTED,
@@ -49,43 +49,42 @@ public class LinearIntakeConstants {
     FULLY_RETRACTED
   };
 
-  public static final Distance[] REPEATING_SHUFFLE_DISTANCES = { // TODO
+  public static final Distance[] REPEATING_SHUFFLE_DISTANCES = {
     FULLY_RETRACTED, NEAR_FULLY_RETRACTED
   };
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22)) // TODO
-          .withClosedLoopController(4, 0, 0) // TODO
+          .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
+          .withClosedLoopController(4, 0, 0)
           .withSimClosedLoopController(25, 0, 0.3)
-          .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5)) // TODO
-          .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
+          .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5))
+          .withSoftLimits(FULLY_EXTENDED, FULLY_RETRACTED)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
-          .withIdleMode(MotorMode.BRAKE) // TODO
+          .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "LinearIntakeMotor",
               new SmartMotorControllerTelemetryConfig()
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
                   .withDataLogName("LinearIntakeMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40)) // TODO
-          .withMotorInverted(false) // TODO
-          .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0)) // TODO
+          .withStatorCurrentLimit(Amps.of(40))
+          .withMotorInverted(true)
+          .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
           .withSimFeedforward(new ElevatorFeedforward(0, 0.1998, 0, 0))
-          .withStartingPosition(Meters.of(0.0)); // TODO
+          .withStartingPosition(FULLY_RETRACTED);
 
   private static final MechanismPositionConfig ROBOT_TO_MECHANISM =
       new MechanismPositionConfig()
-          .withMaxRobotHeight(Meters.of(1.5)) // TODO
-          .withMaxRobotLength(Meters.of(0.75)) // TODO
-          .withRelativePosition(
-              new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5))); // TODO
+          .withMaxRobotHeight(Meters.of(1.5))
+          .withMaxRobotLength(Meters.of(0.75))
+          .withRelativePosition(new Translation3d(Meters.of(-0.25), Meters.of(0), Meters.of(0.5)));
 
   public static final Angle MECHANISM_ANGLE = Degrees.of(15.626606);
 
   public static final ElevatorConfig ELEVATOR_CONFIG =
       new ElevatorConfig()
-          .withHardLimits(FULLY_RETRACTED, FULLY_EXTENDED)
+          .withHardLimits(FULLY_EXTENDED, FULLY_RETRACTED)
           .withTelemetry("LinearIntakeMech", TelemetryVerbosity.HIGH)
           .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
           .withAngle(MECHANISM_ANGLE)
