@@ -30,12 +30,12 @@ public class LinearIntakeConstants {
 
   public static final Distance TOLERANCE = Meters.of(0.05);
 
-  public static final Distance FULLY_RETRACTED = Meters.of(0.572);
+  public static final Distance FULLY_RETRACTED = Meters.of(0.258915);
   public static final Distance FULLY_EXTENDED = Meters.of(0);
-  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.4);
+  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.15);
 
-  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.5);
-  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.3);
+  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.2);
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.10);
 
   public static final Distance[] FIRST_SHUFFLE_DISTANCES = {
     SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
@@ -55,11 +55,11 @@ public class LinearIntakeConstants {
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 22))
-          .withClosedLoopController(4, 0, 0)
+          .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 10))
+          .withClosedLoopController(5, 0, 0)
           .withSimClosedLoopController(25, 0, 0.3)
           .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5))
-          .withSoftLimits(FULLY_EXTENDED, FULLY_RETRACTED)
+          // .withSoftLimits(FULLY_EXTENDED, FULLY_RETRACTED)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
           .withIdleMode(MotorMode.COAST)
           .withTelemetry(
@@ -70,7 +70,7 @@ public class LinearIntakeConstants {
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40))
           .withMotorInverted(true)
-          .withFeedforward(new ElevatorFeedforward(0, 0, 0, 0))
+          .withFeedforward(new ElevatorFeedforward(0.28544, 0.047288, 0.64354, 0.028718))
           .withSimFeedforward(new ElevatorFeedforward(0, 0.1998, 0, 0))
           .withStartingPosition(FULLY_RETRACTED);
 

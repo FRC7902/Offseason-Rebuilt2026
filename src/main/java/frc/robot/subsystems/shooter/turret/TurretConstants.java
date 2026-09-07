@@ -21,21 +21,21 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class TurretConstants {
 
   public static final DCMotor MOTOR = DCMotor.getKrakenX44Foc(1);
-  public static final int CAN_ID = 8; // TODO
+  public static final int CAN_ID = 42;
 
-  public static final Angle MIN_ANGLE = Degrees.of(-179);
-  public static final Angle MAX_ANGLE = Degrees.of(179);
+  public static final Angle MIN_ANGLE = Degrees.of(-160);
+  public static final Angle MAX_ANGLE = Degrees.of(190);
 
   public static final Angle TOLERANCE = Degrees.of(1); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(0.0, 0.0, 0) // TODO
+          .withClosedLoopController(150.0, 0.0, 1)
           .withSimClosedLoopController(42.65, 0.0, 3)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(45)))
-          .withIdleMode(MotorMode.BRAKE) // TODO
-          .withMotorInverted(false) // TODO
-          .withFeedforward(new SimpleMotorFeedforward(0.5, 0.0, 5.0, 0.02)) // TODO
+          .withIdleMode(MotorMode.BRAKE)
+          .withMotorInverted(false)
+          .withFeedforward(new SimpleMotorFeedforward(0.042757, 5.5173, 0.83544, 0.02))
           .withSimFeedforward(new SimpleMotorFeedforward(0.01025, 0.0, 0.0, 0.02))
           .withTelemetry(
               "TurretMotor",
