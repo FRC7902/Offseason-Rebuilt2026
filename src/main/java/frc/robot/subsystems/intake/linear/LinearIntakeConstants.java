@@ -28,6 +28,11 @@ public class LinearIntakeConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
   public static final int CAN_ID = 20;
 
+  public static final int LEFT_EXTENDED_LIMIT_SWITCH_DIO = 3; // TODO
+  public static final int LEFT_RETRACTED_LIMIT_SWITCH_DIO = 4; // TODO
+  public static final int RIGHT_EXTENDED_LIMIT_SWITCH_DIO = 5; // TODO
+  public static final int RIGHT_RETRACTED_LIMIT_SWITCH_DIO = 7; // TODO
+
   public static final Distance TOLERANCE = Meters.of(0.05);
 
   public static final Distance FULLY_RETRACTED = Meters.zero();

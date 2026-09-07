@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    teleopAndAutonomousInit();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -59,6 +60,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    teleopAndAutonomousInit();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -80,6 +83,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+  private void teleopAndAutonomousInit() {
+    // Check the linear intake position and set the encoder position accordingly
+    m_robotContainer.calibrateLinearIntakePosition();
+
+    // CommandScheduler.getInstance().schedule(m_robotContainer.stopAllSubsystems());
+
+    // Start the flywheel at the default RPM when teleop starts
+    // CommandScheduler.getInstance().schedule(m_robotContainer.m_shooterSubsystem.startFlywheelDefaultRPM());
+  }
 
   @Override
   public void simulationPeriodic() {

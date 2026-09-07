@@ -130,4 +130,17 @@ public class RobotContainer {
 
     posesPublisher.set(new Pose3d[] {linearIntakePose, turretPose, hoodPose, new Pose3d()});
   }
+
+  public void calibrateLinearIntakePosition() {
+    boolean leftExtended = m_linearIntakeSubsystem.getLeftExtendedLimitSwitch();
+    boolean rightExtended = m_linearIntakeSubsystem.getRightExtendedLimitSwitch();
+    boolean leftRetracted = m_linearIntakeSubsystem.getLeftRetractedLimitSwitch();
+    boolean rightRetracted = m_linearIntakeSubsystem.getRightRetractedLimitSwitch();
+
+    if (leftExtended || rightExtended) {
+      m_linearIntakeSubsystem.setEncoderPositionExtended();
+    } else if (leftRetracted || rightRetracted) {
+      m_linearIntakeSubsystem.setEncoderPositionRetracted();
+    }
+  }
 }

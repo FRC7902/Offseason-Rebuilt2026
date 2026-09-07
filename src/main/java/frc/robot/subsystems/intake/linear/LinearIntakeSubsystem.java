@@ -13,10 +13,12 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.Supplier;
 import yams.mechanisms.positional.Elevator;
@@ -30,11 +32,40 @@ public class LinearIntakeSubsystem extends SubsystemBase {
   private final SmartMotorController m_motor;
   private final Elevator m_linearIntake;
 
+  private final DigitalInput m_leftExtendedLimitSwitch;
+  private final DigitalInput m_leftRetractedLimitSwitch;
+  private final DigitalInput m_rightExtendedLimitSwitch;
+  private final DigitalInput m_rightRetractedLimitSwitch;
+
+  private final Trigger m_leftExtendedTrigger;
+  private final Trigger m_rightExtendedTrigger;
+  private final Trigger m_leftRetractedTrigger;
+  private final Trigger m_rightRetractedTrigger;
+
   public LinearIntakeSubsystem() {
     m_linearIntakeMotor = new TalonFX(LinearIntakeConstants.CAN_ID);
     m_motorConfig = LinearIntakeConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_linearIntakeMotor, LinearIntakeConstants.MOTOR, m_motorConfig);
     m_linearIntake = new Elevator(LinearIntakeConstants.ELEVATOR_CONFIG, m_motor);
+
+    m_leftExtendedLimitSwitch =
+        new DigitalInput(LinearIntakeConstants.LEFT_EXTENDED_LIMIT_SWITCH_DIO);
+    m_leftRetractedLimitSwitch =
+        new DigitalInput(LinearIntakeConstants.LEFT_RETRACTED_LIMIT_SWITCH_DIO);
+    m_rightExtendedLimitSwitch =
+        new DigitalInput(LinearIntakeConstants.RIGHT_EXTENDED_LIMIT_SWITCH_DIO);
+    m_rightRetractedLimitSwitch =
+        new DigitalInput(LinearIntakeConstants.RIGHT_RETRACTED_LIMIT_SWITCH_DIO);
+
+    m_leftExtendedTrigger = new Trigger(this::getLeftExtendedLimitSwitch);
+    m_rightExtendedTrigger = new Trigger(this::getRightExtendedLimitSwitch);
+    m_leftRetractedTrigger = new Trigger(this::getLeftRetractedLimitSwitch);
+    m_rightRetractedTrigger = new Trigger(this::getRightRetractedLimitSwitch);
+
+    m_leftExtendedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionExtended));
+    m_rightExtendedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionExtended));
+    m_leftRetractedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionRetracted));
+    m_rightRetractedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionRetracted));
   }
 
   /**
@@ -162,6 +193,38 @@ public class LinearIntakeSubsystem extends SubsystemBase {
             .andThen(Commands.print(getName() + " SysId test done."));
 
     return group.beforeStarting(() -> SignalLogger.start()).finallyDo(() -> SignalLogger.stop());
+  }
+
+  public boolean getLeftExtendedLimitSwitch() {
+    return m_leftExtendedLimitSwitch.get();
+  }
+
+  public boolean getRightExtendedLimitSwitch() {
+    return m_rightExtendedLimitSwitch.get();
+  }
+
+  public boolean getLeftRetractedLimitSwitch() {
+    return m_leftRetractedLimitSwitch.get();
+  }
+
+  public boolean getRightRetractedLimitSwitch() {
+    return m_rightRetractedLimitSwitch.get();
+  }
+
+  public boolean getExtendedLimitSwitch() {
+    return getLeftExtendedLimitSwitch() || getRightExtendedLimitSwitch();
+  }
+
+  public boolean getRetractedLimitSwitch() {
+    return getLeftRetractedLimitSwitch() || getRightRetractedLimitSwitch();
+  }
+
+  public void setEncoderPositionExtended() {
+    m_motor.setEncoderPosition(LinearIntakeConstants.FULLY_EXTENDED);
+  }
+
+  public void setEncoderPositionRetracted() {
+    m_motor.setEncoderPosition(LinearIntakeConstants.FULLY_RETRACTED);
   }
 
   @Override
