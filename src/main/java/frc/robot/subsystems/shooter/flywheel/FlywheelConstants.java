@@ -27,7 +27,7 @@ public class FlywheelConstants {
 
   public static final AngularVelocity MAX_RPM = RPM.of(5785); // TODO
 
-  public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
+  public static final AngularVelocity TOLERANCE = RPM.of(50);
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()
@@ -42,12 +42,13 @@ public class FlywheelConstants {
                   .withDataLogName("ShooterFlywheelMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(80)) // TODO
-          .withMotorInverted(false) // TODO
+          .withSupplyCurrentLimit(Amps.of(30)) // TODO
+          .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.38435, 0.12, 0.010946))
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.12269, 0))
-          .withMomentOfInertia(Inches.of(4), Pounds.of(1)); // TODO
+          .withMomentOfInertia(Inches.of(4), Pounds.of(1));
 
   public static final SmartMotorControllerConfig FOLLOWER_SMC_CONFIG =
       LEADER_SMC_CONFIG.clone().withMotorInverted(true);

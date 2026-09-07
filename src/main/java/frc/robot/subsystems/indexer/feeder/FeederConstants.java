@@ -30,7 +30,7 @@ public class FeederConstants {
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(2, 0, 0.1)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(1.5556)))
-          .withIdleMode(MotorMode.COAST) // TODO
+          .withIdleMode(MotorMode.BRAKE)
           .withTelemetry(
               "FeederMotor",
               new SmartMotorControllerTelemetryConfig()
@@ -38,6 +38,7 @@ public class FeederConstants {
                   .withDataLogName("FeederMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
+          .withSupplyCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false) // TODO
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))

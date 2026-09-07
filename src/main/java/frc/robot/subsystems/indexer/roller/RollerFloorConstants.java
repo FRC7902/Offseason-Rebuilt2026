@@ -32,7 +32,7 @@ public class RollerFloorConstants {
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3.57142857143)))
-          .withIdleMode(MotorMode.COAST) // TODO
+          .withIdleMode(MotorMode.BRAKE)
           .withTelemetry(
               "RollerFloorMotor",
               new SmartMotorControllerTelemetryConfig()
@@ -40,6 +40,7 @@ public class RollerFloorConstants {
                   .withDataLogName("RollerFloorMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
+          .withSupplyCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false) // TODO
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))

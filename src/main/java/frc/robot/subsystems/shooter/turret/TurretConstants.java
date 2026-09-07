@@ -26,7 +26,7 @@ public class TurretConstants {
   public static final Angle MIN_ANGLE = Degrees.of(-160);
   public static final Angle MAX_ANGLE = Degrees.of(190);
 
-  public static final Angle TOLERANCE = Degrees.of(1); // TODO
+  public static final Angle TOLERANCE = Degrees.of(1);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
@@ -43,9 +43,10 @@ public class TurretConstants {
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
                   .withDataLogName("TurretMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(60)) // TODO
+          .withStatorCurrentLimit(Amps.of(40))
+          .withSupplyCurrentLimit(Amps.of(40))
           .withSoftLimits(MIN_ANGLE, MAX_ANGLE)
-          .withStartingPosition(Degrees.of(0)) // TODO
+          .withSimStartingPosition(Degrees.zero())
           .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01)); // TODO
 
   public static final PivotConfig PIVOT_CONFIG =

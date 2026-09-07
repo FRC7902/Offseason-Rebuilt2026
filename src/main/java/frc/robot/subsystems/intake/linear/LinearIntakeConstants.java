@@ -59,7 +59,7 @@ public class LinearIntakeConstants {
           .withClosedLoopController(5, 0, 0)
           .withSimClosedLoopController(25, 0, 0.3)
           .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5))
-          // .withSoftLimits(FULLY_EXTENDED, FULLY_RETRACTED)
+          .withSoftLimits(FULLY_EXTENDED, FULLY_RETRACTED)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
           .withIdleMode(MotorMode.COAST)
           .withTelemetry(
@@ -68,7 +68,8 @@ public class LinearIntakeConstants {
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
                   .withDataLogName("LinearIntakeMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40))
+          .withStatorCurrentLimit(Amps.of(40)) // TODO
+          .withSupplyCurrentLimit(Amps.of(10)) // TODO
           .withMotorInverted(true)
           .withFeedforward(new ElevatorFeedforward(0.28544, 0.047288, 0.64354, 0.028718))
           .withSimFeedforward(new ElevatorFeedforward(0, 0.1998, 0, 0))

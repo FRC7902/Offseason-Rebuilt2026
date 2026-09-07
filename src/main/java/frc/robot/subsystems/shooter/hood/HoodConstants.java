@@ -22,30 +22,31 @@ public class HoodConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final int CAN_ID = 0;
 
-  public static final Angle TOLERANCE = Degrees.of(1); // TODO
+  public static final Angle TOLERANCE = Degrees.of(0.5);
 
-  public static final Angle MIN_ANGLE = Degrees.of(19);
-  public static final Angle MAX_ANGLE = Degrees.of(19 + 24.3457);
+  public static final Angle MIN_ANGLE = Degrees.of(0);
+  public static final Angle MAX_ANGLE = Degrees.of(24.3457);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(160, 0, 0) // TODO
+          .withClosedLoopController(160, 0, 0)
           .withSimClosedLoopController(51, 0, 10)
-          .withSoftLimits(MIN_ANGLE, MAX_ANGLE) // TODO
+          .withSoftLimits(MIN_ANGLE, MAX_ANGLE)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(147)))
-          .withIdleMode(MotorMode.BRAKE) // TODO
+          .withIdleMode(MotorMode.BRAKE)
           .withTelemetry(
               "HoodMotor",
               new SmartMotorControllerTelemetryConfig()
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
                   .withDataLogName("HoodMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40)) // TODO
+          .withStatorCurrentLimit(Amps.of(40))
+          .withSupplyCurrentLimit(Amps.of(40))
           .withMotorInverted(true)
-          .withClosedLoopRampRate(Seconds.of(0.25)) // TODO
+          .withClosedLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new ArmFeedforward(0.353, 0.3, 13.076, 0.22999))
           .withSimFeedforward(new ArmFeedforward(0.0, 0.0465, 0, 0))
-          .withStartingPosition(MIN_ANGLE);
+          .withSimStartingPosition(Degrees.zero());
 
   public static final ArmConfig ARM_CONFIG =
       new ArmConfig()

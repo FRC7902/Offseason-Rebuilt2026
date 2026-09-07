@@ -33,7 +33,7 @@ public class IndexerBeltConstants {
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(2.1818)))
-          .withIdleMode(MotorMode.COAST) // TODO
+          .withIdleMode(MotorMode.BRAKE)
           .withTelemetry(
               "IndexerBeltMotor",
               new SmartMotorControllerTelemetryConfig()
@@ -41,6 +41,8 @@ public class IndexerBeltConstants {
                   .withDataLogName("IndexerBeltMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
+          .withSupplyCurrentLimit(Amps.of(40)) // TODO
+          .withMotorInverted(false) // TODO
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
