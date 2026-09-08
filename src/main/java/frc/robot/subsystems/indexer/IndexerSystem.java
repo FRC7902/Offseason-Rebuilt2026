@@ -9,18 +9,25 @@ import frc.robot.subsystems.indexer.feeder.FeederConstants;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorConstants;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
+import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerConstants;
+import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerSubsystem;
 
 public class IndexerSystem extends SubsystemBase {
 
   private final IndexerBeltSubsystem m_indexerBelt;
   private final FeederSubsystem m_feeder;
   private final RollerFloorSubsystem m_rollerFloor;
+  private final VerticalRollerSubsystem m_verticalRoller;
 
   public IndexerSystem(
-      IndexerBeltSubsystem indexerBelt, FeederSubsystem feeder, RollerFloorSubsystem rollerFloor) {
+      IndexerBeltSubsystem indexerBelt,
+      FeederSubsystem feeder,
+      RollerFloorSubsystem rollerFloor,
+      VerticalRollerSubsystem verticalRoller) {
     m_indexerBelt = indexerBelt;
     m_feeder = feeder;
     m_rollerFloor = rollerFloor;
+    m_verticalRoller = verticalRoller;
   }
 
   /**
@@ -33,7 +40,8 @@ public class IndexerSystem extends SubsystemBase {
     return Commands.parallel(
         m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
         m_indexerBelt.setVelocity(IndexerBeltConstants.FEEDING_SPEED),
-        m_feeder.setVelocity(FeederConstants.FEEDER_SPEED));
+        m_feeder.setVelocity(FeederConstants.FEEDER_SPEED),
+        m_verticalRoller.setVelocity(VerticalRollerConstants.FEEDING_SPEED));
   }
 
   /**
@@ -47,6 +55,7 @@ public class IndexerSystem extends SubsystemBase {
     return Commands.parallel(
         m_rollerFloor.setVelocity(RollerFloorConstants.STORING_SPEED),
         m_indexerBelt.setVelocity(IndexerBeltConstants.STORING_SPEED),
+        m_verticalRoller.setVelocity(VerticalRollerConstants.STORING_SPEED),
         m_feeder.stop());
   }
 
@@ -56,6 +65,7 @@ public class IndexerSystem extends SubsystemBase {
    * @return command that runs indefinitely until interrupted
    */
   public Command stop() {
-    return Commands.parallel(m_rollerFloor.stop(), m_indexerBelt.stop(), m_feeder.stop());
+    return Commands.parallel(
+        m_rollerFloor.stop(), m_indexerBelt.stop(), m_feeder.stop(), m_verticalRoller.stop());
   }
 }
