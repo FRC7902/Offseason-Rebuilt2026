@@ -18,6 +18,7 @@ import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
+import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerSubsystem;
 import frc.robot.subsystems.intake.IntakeSystem;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
@@ -36,6 +37,7 @@ public class RobotContainer {
   private final IndexerBeltSubsystem m_indexerBeltSubsystem;
   private final FeederSubsystem m_feederSubsystem;
   private final RollerFloorSubsystem m_rollerFloorSubsystem;
+  private final VerticalRollerSubsystem m_verticalRollerSubsystem;
 
   private final LinearIntakeSubsystem m_linearIntakeSubsystem;
   private final IntakeRollerSubsystem m_intakeRollerSubsystem;
@@ -68,6 +70,7 @@ public class RobotContainer {
     m_indexerBeltSubsystem = new IndexerBeltSubsystem();
     m_feederSubsystem = new FeederSubsystem();
     m_rollerFloorSubsystem = new RollerFloorSubsystem();
+    m_verticalRollerSubsystem = new VerticalRollerSubsystem();
 
     m_linearIntakeSubsystem = new LinearIntakeSubsystem();
     m_intakeRollerSubsystem = new IntakeRollerSubsystem();
@@ -86,7 +89,11 @@ public class RobotContainer {
             .withAllianceRelativeControl();
 
     m_indexerSystem =
-        new IndexerSystem(m_indexerBeltSubsystem, m_feederSubsystem, m_rollerFloorSubsystem);
+        new IndexerSystem(
+            m_indexerBeltSubsystem,
+            m_feederSubsystem,
+            m_rollerFloorSubsystem,
+            m_verticalRollerSubsystem);
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 

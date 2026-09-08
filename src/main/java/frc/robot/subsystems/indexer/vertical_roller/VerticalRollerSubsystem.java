@@ -1,34 +1,29 @@
 package frc.robot.subsystems.indexer.vertical_roller;
 
 import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Volts;
 
-import com.ctre.phoenix6.SignalLogger;
-import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.Supplier;
 import yams.mechanisms.velocity.FlyWheel;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
-import yams.motorcontrollers.remote.TalonFXWrapper;
+import yams.motorcontrollers.local.SparkWrapper;
 
 public class VerticalRollerSubsystem extends SubsystemBase {
-  private final TalonFX m_verticalRollerMotor;
+  private final SparkMax m_verticalRollerMotor;
   private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
   private final FlyWheel m_verticalRoller;
 
   public VerticalRollerSubsystem() {
-    m_verticalRollerMotor = new TalonFX(VerticalRollerConstants.CAN_ID);
+    m_verticalRollerMotor = new SparkMax(VerticalRollerConstants.CAN_ID, MotorType.kBrushless);
     m_motorConfig = VerticalRollerConstants.SMC_CONFIG.withSubsystem(this);
-    m_motor =
-        new TalonFXWrapper(m_verticalRollerMotor, VerticalRollerConstants.MOTOR, m_motorConfig);
+    m_motor = new SparkWrapper(m_verticalRollerMotor, VerticalRollerConstants.MOTOR, m_motorConfig);
     m_verticalRoller = new FlyWheel(VerticalRollerConstants.FLY_WHEEL_CONFIG, m_motor);
   }
 
@@ -99,59 +94,6 @@ public class VerticalRollerSubsystem extends SubsystemBase {
    */
   public Command stop() {
     return this.runOnce(() -> m_motor.stopClosedLoopController()).andThen(setDutyCycle(0));
-  }
-
-  /**
-   * Runs a SysId routine on the vertical roller mechanism. This command will run a series of
-   * quasistatic and dynamic tests, logging the results to the Phoenix SignalLogger. The routine
-   * will stop the closed-loop controller before starting and restart it after finishing.
-   *
-   * @return A command that runs the SysId routine.
-   */
-  public Command sysId() {
-    final VoltageOut m_voltReq = new VoltageOut(0.0);
-
-    final SysIdRoutine m_sysIdRoutine =
-        new SysIdRoutine(
-            new SysIdRoutine.Config(
-                // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
-                // per second if left null.
-                null,
-                // The step voltage output used for dynamic test routines. Defaults to 7 volts
-                // if left null.
-                null,
-                // Safety timeout for the test routine commands. Defaults to 10 seconds if
-                // left null.
-                null,
-                // Log state with Phoenix SignalLogger class
-                (state) -> SignalLogger.writeString("state", state.toString())),
-            new SysIdRoutine.Mechanism(
-                (volts) -> m_verticalRollerMotor.setControl(m_voltReq.withOutput(volts.in(Volts))),
-                null,
-                this));
-
-    Command group =
-        Commands.print("Starting SysId!")
-            .beforeStarting(Commands.runOnce(m_motor::stopClosedLoopController))
-            .andThen(Commands.print("Running Quasistatic Forward."))
-            .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward))
-            .andThen(Commands.print("Stopping Quasistatic Forward."))
-            .andThen(Commands.waitSeconds(1))
-            .andThen(Commands.print("Running Quasistatic Reverse."))
-            .andThen(m_sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse))
-            .andThen(Commands.print("Stopping Quasistatic Reverse."))
-            .andThen(Commands.waitSeconds(1))
-            .andThen(Commands.print("Running Dynamic Forward."))
-            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward))
-            .andThen(Commands.print("Stopping Dynamic Forward."))
-            .andThen(Commands.waitSeconds(1))
-            .andThen(Commands.print("Running Dynamic Reverse."))
-            .andThen(m_sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse))
-            .andThen(Commands.print("Stopping Dynamic Reverse."))
-            .finallyDo(m_motor::startClosedLoopController)
-            .andThen(Commands.print(getName() + " SysId test done."));
-
-    return group.beforeStarting(() -> SignalLogger.start()).finallyDo(() -> SignalLogger.stop());
   }
 
   @Override
