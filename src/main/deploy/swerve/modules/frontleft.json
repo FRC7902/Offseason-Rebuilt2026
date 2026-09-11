@@ -1,22 +1,22 @@
 {
     "location": {
-        "front": 10.8375,
-        "left": 10.8375
+        "front": 10.875,
+        "left": 10.875
     },
-    "absoluteEncoderOffset": 355.7,
+    "absoluteEncoderOffset": 0.0,
     "drive": {
-        "type": "krakenx60foc",
-        "id": 16,
+        "type": "falcon500foc",
+        "id": 55,
         "canbus": null
     },
     "angle": {
         "type": "falcon500foc",
-        "id": 12,
+        "id": 10,
         "canbus": null
     },
     "encoder": {
         "type": "cancoder",
-        "id": 40,
+        "id": 32,
         "canbus": null
     },
     "inverted": {
