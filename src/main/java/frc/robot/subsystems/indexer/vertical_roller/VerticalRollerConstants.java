@@ -39,7 +39,6 @@ public class VerticalRollerConstants {
                   .withDataLogName("VerticalRollerMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
-          .withSupplyCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false) // TODO
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
