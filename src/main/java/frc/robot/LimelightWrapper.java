@@ -30,6 +30,7 @@ public class LimelightWrapper extends Limelight {
                     Radians.zero(),
                     SwerveDriveSubsystem.getInstance().getGyroAngle()),
                 new AngularVelocity3d(
-                    DegreesPerSecond.of(0), DegreesPerSecond.of(0), DegreesPerSecond.of(0))));
+                    DegreesPerSecond.of(0), DegreesPerSecond.of(0), DegreesPerSecond.of(0))))
+        .save();
   }
 }
