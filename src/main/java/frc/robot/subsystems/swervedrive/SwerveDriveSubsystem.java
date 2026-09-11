@@ -1,7 +1,10 @@
 package frc.robot.subsystems.swervedrive;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindingCommand;
@@ -9,6 +12,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -19,8 +23,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import limelight.Limelight;
+import limelight.networktables.AngularVelocity3d;
+import limelight.networktables.LimelightPoseEstimator;
+import limelight.networktables.LimelightPoseEstimator.EstimationMode;
+import limelight.networktables.LimelightSettings.LEDMode;
+import limelight.networktables.Orientation3d;
+import limelight.networktables.PoseEstimate;
+
 import java.io.File;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import swervelib.SwerveController;
@@ -34,6 +47,9 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 public class SwerveDriveSubsystem extends SubsystemBase {
   private final SwerveDrive swerveDrive;
 
+  Limelight m_limelight = new Limelight("limelight"); // TODO: Update limelight name
+  LimelightPoseEstimator m_poseEstimator;
+
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -41,17 +57,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public SwerveDriveSubsystem(File directory) {
     boolean blueAlliance = false;
-    Pose2d startingPose =
-        blueAlliance
-            ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
-            : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
+    Pose2d startingPose = blueAlliance
+        ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
+        : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary
     // objects being created.
     SwerveDriveTelemetry.verbosity = SwerveDriveTelemetry.TelemetryVerbosity.LOW;
     try {
-      swerveDrive =
-          new SwerveParser(directory)
-              .createSwerveDrive(SwerveDriveConstants.MAX_SPEED, startingPose);
+      swerveDrive = new SwerveParser(directory)
+          .createSwerveDrive(SwerveDriveConstants.MAX_SPEED, startingPose);
       // Alternative method if you don't want to supply the conversion factor via JSON
       // files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed,
@@ -77,10 +91,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // possible
 
     setupPathPlanner();
+    setupLimelight();
   }
 
   /** Setup AutoBuilder for PathPlanner. */
-  public void setupPathPlanner() {
+  private void setupPathPlanner() {
     // Load the RobotConfig from the GUI settings. You should probably
     // store this in your Constants file
     RobotConfig config;
@@ -106,20 +121,23 @@ public class SwerveDriveSubsystem extends SubsystemBase {
               swerveDrive.setChassisSpeeds(speedsRobotRelative);
             }
           },
-          // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally
+          // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
+          // optionally
           // outputs individual module feedforwards
           new PPHolonomicDriveController(
-              // PPHolonomicController is the built in path following controller for holonomic drive
+              // PPHolonomicController is the built in path following controller for holonomic
+              // drive
               // trains
               new PIDConstants(5.0, 0.0, 0.0),
               // Translation PID constants
               new PIDConstants(5.0, 0.0, 0.0)
-              // Rotation PID constants
-              ),
+          // Rotation PID constants
+          ),
           config,
           // The robot configuration
           () -> {
-            // Boolean supplier that controls when the path will be mirrored for the red alliance
+            // Boolean supplier that controls when the path will be mirrored for the red
+            // alliance
             // This will flip the path being followed to the red side of the field.
             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
@@ -130,8 +148,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             return false;
           },
           this
-          // Reference to this subsystem to set requirements
-          );
+      // Reference to this subsystem to set requirements
+      );
 
     } catch (Exception e) {
       // Handle exception as needed
@@ -141,6 +159,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // Preload PathPlanner Path finding
     // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
     CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
+  }
+
+  private void setupLimelight() {
+    m_limelight.getSettings()
+        .withLimelightLEDMode(LEDMode.PipelineControl)
+        .withCameraOffset(Pose3d.kZero) // TODO: Update camera offset
+        .save();
+
+    m_poseEstimator = m_limelight.createPoseEstimator(EstimationMode.MEGATAG2);
   }
 
   /**
@@ -176,26 +203,30 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns a Command that tells the robot to drive forward until the command ends.
+   * Returns a Command that tells the robot to drive forward until the command
+   * ends.
    *
-   * @return a Command that tells the robot to drive forward until the command ends
+   * @return a Command that tells the robot to drive forward until the command
+   *         ends
    */
   public Command driveForward() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(1, 0), 0, false, false);
-        })
+      swerveDrive.drive(new Translation2d(1, 0), 0, false, false);
+    })
         .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
   /**
-   * Returns a Command that tells the robot to drive backward until the command ends.
+   * Returns a Command that tells the robot to drive backward until the command
+   * ends.
    *
-   * @return a Command that tells the robot to drive backward until the command ends
+   * @return a Command that tells the robot to drive backward until the command
+   *         ends
    */
   public Command driveBackward() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(-1, 0), 0, false, false);
-        })
+      swerveDrive.drive(new Translation2d(-1, 0), 0, false, false);
+    })
         .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
@@ -206,8 +237,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command driveLeft() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(0, 1), 0, false, false);
-        })
+      swerveDrive.drive(new Translation2d(0, 1), 0, false, false);
+    })
         .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
@@ -218,17 +249,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command driveRight() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(0, -1), 0, false, false);
-        })
+      swerveDrive.drive(new Translation2d(0, -1), 0, false, false);
+    })
         .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
   /**
-   * Command to drive the robot using translative values and heading as angular velocity.
+   * Command to drive the robot using translative values and heading as angular
+   * velocity.
    *
-   * @param translationX Translation in the X direction. Cubed for smoother controls.
-   * @param translationY Translation in the Y direction. Cubed for smoother controls.
-   * @param angularRotationX Angular velocity of the robot to set. Cubed for smoother controls.
+   * @param translationX     Translation in the X direction. Cubed for smoother
+   *                         controls.
+   * @param translationY     Translation in the Y direction. Cubed for smoother
+   *                         controls.
+   * @param angularRotationX Angular velocity of the robot to set. Cubed for
+   *                         smoother controls.
    * @return Drive command.
    */
   public Command driveCommand(
@@ -250,12 +285,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Command to drive the robot using translative values and heading as a setpoint.
+   * Command to drive the robot using translative values and heading as a
+   * setpoint.
    *
-   * @param translationX Translation in the X direction. Cubed for smoother controls.
-   * @param translationY Translation in the Y direction. Cubed for smoother controls.
-   * @param headingX Heading X to calculate angle of the joystick.
-   * @param headingY Heading Y to calculate angle of the joystick.
+   * @param translationX Translation in the X direction. Cubed for smoother
+   *                     controls.
+   * @param translationY Translation in the Y direction. Cubed for smoother
+   *                     controls.
+   * @param headingX     Heading X to calculate angle of the joystick.
+   * @param headingY     Heading Y to calculate angle of the joystick.
    * @return Drive command.
    */
   public Command driveCommand(
@@ -267,9 +305,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // correction for this kind of control.
     return run(
         () -> {
-          Translation2d scaledInputs =
-              SwerveMath.scaleTranslation(
-                  new Translation2d(translationX.getAsDouble(), translationY.getAsDouble()), 0.8);
+          Translation2d scaledInputs = SwerveMath.scaleTranslation(
+              new Translation2d(translationX.getAsDouble(), translationY.getAsDouble()), 0.8);
 
           // Make the robot move
           driveFieldOriented(
@@ -284,19 +321,28 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * The primary method for controlling the drivebase. Takes a {@link Translation2d} and a rotation
-   * rate, and calculates and commands module states accordingly. Can use either open-loop or
-   * closed-loop velocity control for the wheel velocities. Also has field- and robot-relative
+   * The primary method for controlling the drivebase. Takes a
+   * {@link Translation2d} and a rotation
+   * rate, and calculates and commands module states accordingly. Can use either
+   * open-loop or
+   * closed-loop velocity control for the wheel velocities. Also has field- and
+   * robot-relative
    * modes, which affect how the translation vector is used.
    *
-   * @param translation {@link Translation2d} that is the commanded linear velocity of the robot, in
-   *     meters per second. In robot-relative mode, positive x is torwards the bow (front) and
-   *     positive y is torwards port (left). In field-relative mode, positive x is away from the
-   *     alliance wall (field North) and positive y is torwards the left wall when looking through
-   *     the driver station glass (field West).
-   * @param rotation Robot angular rate, in radians per second. CCW positive. Unaffected by
-   *     field/robot relativity.
-   * @param fieldRelative Drive mode. True for field-relative, false for robot-relative.
+   * @param translation   {@link Translation2d} that is the commanded linear
+   *                      velocity of the robot, in
+   *                      meters per second. In robot-relative mode, positive x is
+   *                      torwards the bow (front) and
+   *                      positive y is torwards port (left). In field-relative
+   *                      mode, positive x is away from the
+   *                      alliance wall (field North) and positive y is torwards
+   *                      the left wall when looking through
+   *                      the driver station glass (field West).
+   * @param rotation      Robot angular rate, in radians per second. CCW positive.
+   *                      Unaffected by
+   *                      field/robot relativity.
+   * @param fieldRelative Drive mode. True for field-relative, false for
+   *                      robot-relative.
    */
   public void drive(Translation2d translation, double rotation, boolean fieldRelative) {
     swerveDrive.drive(
@@ -337,8 +383,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets odometry to the given pose. Gyro angle and module positions do not need to be reset when
-   * calling this method. However, if either gyro angle or module position is reset, this must be
+   * Resets odometry to the given pose. Gyro angle and module positions do not
+   * need to be reset when
+   * calling this method. However, if either gyro angle or module position is
+   * reset, this must be
    * called in order for odometry to keep working.
    *
    * @param initialHolonomicPose The pose to set the odometry to
@@ -348,7 +396,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Gets the current pose (position and rotation) of the robot, as reported by odometry.
+   * Gets the current pose (position and rotation) of the robot, as reported by
+   * odometry.
    *
    * @return The robot's pose
    */
@@ -375,7 +424,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Resets the gyro angle to zero and resets odometry to the same position, but facing toward 0.
+   * Resets the gyro angle to zero and resets odometry to the same position, but
+   * facing toward 0.
    */
   public void zeroGyro() {
     swerveDrive.zeroGyro();
@@ -384,7 +434,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   /**
    * Checks if the alliance is red, defaults to false if alliance isn't available.
    *
-   * @return true if the red alliance, false if blue. Defaults to false if none is available.
+   * @return true if the red alliance, false if blue. Defaults to false if none is
+   *         available.
    */
   public boolean isRedAlliance() {
     var alliance = DriverStation.getAlliance();
@@ -392,9 +443,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * This will zero (calibrate) the robot to assume the current position is facing forward
+   * This will zero (calibrate) the robot to assume the current position is facing
+   * forward
    *
-   * <p>If red alliance rotate the robot 180 after the drviebase zero command
+   * <p>
+   * If red alliance rotate the robot 180 after the drviebase zero command
    */
   public void zeroGyroWithAlliance() {
     if (isRedAlliance()) {
@@ -420,8 +473,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Gets the current yaw angle of the robot, as reported by the swerve pose estimator in the
-   * underlying drivebase. Note, this is not the raw gyro reading, this may be corrected from calls
+   * Gets the current yaw angle of the robot, as reported by the swerve pose
+   * estimator in the
+   * underlying drivebase. Note, this is not the raw gyro reading, this may be
+   * corrected from calls
    * to resetOdometry().
    *
    * @return The yaw angle
@@ -431,11 +486,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Get the chassis speeds based on controller input of 2 joysticks. One for speeds in which
+   * Get the chassis speeds based on controller input of 2 joysticks. One for
+   * speeds in which
    * direction. The other for the angle of the robot.
    *
-   * @param xInput X joystick input for the robot to move in the X direction.
-   * @param yInput Y joystick input for the robot to move in the Y direction.
+   * @param xInput   X joystick input for the robot to move in the X direction.
+   * @param yInput   Y joystick input for the robot to move in the Y direction.
    * @param headingX X joystick which controls the angle of the robot.
    * @param headingY Y joystick which controls the angle of the robot.
    * @return {@link ChassisSpeeds} which can be sent to the Swerve Drive.
@@ -453,12 +509,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Get the chassis speeds based on controller input of 1 joystick and one angle. Control the robot
+   * Get the chassis speeds based on controller input of 1 joystick and one angle.
+   * Control the robot
    * at an offset of 90deg.
    *
    * @param xInput X joystick input for the robot to move in the X direction.
    * @param yInput Y joystick input for the robot to move in the Y direction.
-   * @param angle The angle in as a {@link Rotation2d}.
+   * @param angle  The angle in as a {@link Rotation2d}.
    * @return {@link ChassisSpeeds} which can be sent to the Swerve Drive.
    */
   public ChassisSpeeds getTargetSpeeds(double xInput, double yInput, Rotation2d angle) {
@@ -529,5 +586,24 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
+  }
+
+  public void localize() {
+    m_limelight.getSettings()
+        .withRobotOrientation(new Orientation3d(swerveDrive.getGyroRotation3d(),
+            new AngularVelocity3d(RadiansPerSecond.of(swerveDrive.getRobotVelocity().omegaRadiansPerSecond),
+                RadiansPerSecond.of(0),
+                RadiansPerSecond.of(0))))
+        .save();
+
+    Optional<PoseEstimate> visionEstimate = m_poseEstimator.getPoseEstimate();
+    visionEstimate.ifPresent((PoseEstimate poseEstimate) -> {
+      // Reject long-range or ambiguous reads before fusing.
+      if (poseEstimate.avgTagDist < 4
+          && poseEstimate.tagCount > 0
+          && poseEstimate.getMinTagAmbiguity() < 0.3) {
+        m_poseEstimator.addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
+      }
+    });
   }
 }
