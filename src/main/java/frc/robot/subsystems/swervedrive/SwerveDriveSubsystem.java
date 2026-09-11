@@ -558,7 +558,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     return swerveDrive;
   }
 
-  public void localize() {
+  private void localize() {
     m_limelight
         .getSettings()
         .withRobotOrientation(
@@ -581,5 +581,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                 .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
           }
         });
+  }
+
+  @Override
+  public void periodic() {
+    localize();
   }
 }
