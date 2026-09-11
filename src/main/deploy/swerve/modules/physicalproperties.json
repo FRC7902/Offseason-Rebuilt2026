@@ -1,16 +1,24 @@
 {
-  "$schema": "https://example.com/schemas/physicalproperties.json",
-  "gearing": {
-    "drive": {
-      "gearRatio": 6.75,
-      "diameter": 4
+    "optimalVoltage": 12,
+    "robotMass": 133,
+    "wheelGripCoefficientOfFriction": 1.43,
+    "currentLimit": {
+        "drive": 50,
+        "angle": 50
     },
-    "angle": {
-      "gearRatio": 12.8
+    "conversionFactors": {
+        "angle": {
+            "gearRatio": 21.43,
+            "factor": 0
+        },
+        "drive": {
+            "diameter": 3.875,
+            "gearRatio": 6.12,
+            "factor": 0
+        }
     },
-    "statorCurrentLimit": {
-      "drive": 40,
-      "angle": 40
+    "rampRate": {
+        "drive": 0.40,
+        "angle": 0.25
     }
-  }
 }

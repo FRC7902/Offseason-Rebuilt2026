@@ -9,6 +9,9 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
@@ -24,11 +27,17 @@ import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
+import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+import java.io.File;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import swervelib.SwerveInputStream;
 
 public class RobotContainer {
 
-  private final CommandPS5Controller m_driverController =
-      new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
+  private final CommandPS5Controller m_driverController;
 
   private final IndexerBeltSubsystem m_indexerBeltSubsystem;
   private final FeederSubsystem m_feederSubsystem;
@@ -46,17 +55,86 @@ public class RobotContainer {
   private final IntakeSystem m_intakeSystem;
   private final ShooterSystem m_shooterSystem;
 
-  // private final SwerveDriveSubsystem m_swerveDriveSubsystem;
-  // private final SwerveInputStream driveAngularVelocity;
+  private final SwerveDriveSubsystem m_swerveDriveSubsystem;
 
-  private final StructArrayPublisher<Pose3d> posesPublisher =
-      NetworkTableInstance.getDefault()
-          .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
-          .publish();
+  private double applyDriverTranslationStickCurve(double input) {
+    return Math.copySign(
+        Math.pow(Math.abs(input), SwerveDriveConstants.DRIVER_TRANSLATION_STICK_CURVE_EXPONENT),
+        input);
+  }
 
-  // private final SendableChooser<Command> autoChooser;
+  private double getCurvedDriverLeftX() {
+    return applyDriverTranslationStickCurve(-m_driverController.getLeftX());
+  }
+
+  private double getCurvedDriverLeftY() {
+    return applyDriverTranslationStickCurve(-m_driverController.getLeftY());
+  }
+
+  /**
+   * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular
+   * velocity.
+   */
+  public SwerveInputStream driveAngularVelocity;
+
+  /** Clone's the angular velocity input stream and converts it to a fieldRelative input stream. */
+  SwerveInputStream driveDirectAngle;
+
+  /** Clone's the angular velocity input stream and converts it to a robotRelative input stream. */
+  SwerveInputStream driveRobotOriented;
+
+  SwerveInputStream driveAngularVelocityKeyboard;
+
+  Command driveFieldOrientedAngularVelocity;
+  Command driveFieldOrientedDirectAngle;
+
+  private final StructArrayPublisher<Pose3d> posesPublisher;
+
+  private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
+
+    m_driverController = new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
+
+    /*
+     * Swerve drive subsystem and input streams
+     */
+    m_swerveDriveSubsystem =
+        new SwerveDriveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
+    driveAngularVelocity =
+        SwerveInputStream.of(
+                m_swerveDriveSubsystem.getSwerveDrive(),
+                this::getCurvedDriverLeftY,
+                this::getCurvedDriverLeftX)
+            .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
+            .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
+            .scaleTranslation(1.0)
+            .allianceRelativeControl(true);
+    driveDirectAngle =
+        driveAngularVelocity
+            .copy()
+            .withControllerHeadingAxis(m_driverController::getRightX, m_driverController::getRightY)
+            .headingWhile(true);
+    driveRobotOriented =
+        driveAngularVelocity.copy().robotRelative(true).allianceRelativeControl(false);
+    driveAngularVelocityKeyboard =
+        SwerveInputStream.of(
+                m_swerveDriveSubsystem.getSwerveDrive(),
+                this::getCurvedDriverLeftY,
+                this::getCurvedDriverLeftX)
+            .withControllerRotationAxis(() -> m_driverController.getRawAxis(2))
+            .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
+            .scaleTranslation(0.8)
+            .allianceRelativeControl(true);
+    driveFieldOrientedAngularVelocity =
+        m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
+    driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
+
+    // Publish the poses of the components to NetworkTables for visualization in 3D
+    posesPublisher =
+        NetworkTableInstance.getDefault()
+            .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
+            .publish();
 
     // Start data logging
     DataLogManager.start();
@@ -75,15 +153,6 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    // m_swerveDriveSubsystem = new SwerveDriveSubsystem();
-    // driveAngularVelocity =
-    //     m_swerveDriveSubsystem
-    //         .getAngularVelocityStream(
-    //             m_driverController::getLeftY,
-    //             m_driverController::getLeftX,
-    //             () -> -m_driverController.getRawAxis(2))
-    //         .withAllianceRelativeControl();
-
     m_indexerSystem =
         new IndexerSystem(
             m_indexerBeltSubsystem,
@@ -93,17 +162,19 @@ public class RobotContainer {
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
+    // NamedCommands.registerCommand("extendAndIntake",
+    // m_intakeSystem.extendAndIntake());
 
-    // autoChooser = AutoBuilder.buildAutoChooser();
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    autoChooser.setDefaultOption("Do Nothing", Commands.none());
 
     configureBindings();
   }
 
   private void configureBindings() {
 
-    // m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
+    m_swerveDriveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
 
     /*
      * TODO: Bind driver controller L2

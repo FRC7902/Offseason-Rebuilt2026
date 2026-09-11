@@ -1,16 +1,14 @@
 {
-  "$schema": "https://example.com/schemas/swervedrive.json",
-  "gyro": {
-    "type": "pigeon2_can",
-    "id": 1,
-    "canbus": ""
-  },
-  "gyroAxis": "yaw",
-  "gyroInvert": false,
-  "modules": [
-    "frontleft.json",
-    "frontright.json",
-    "backleft.json",
-    "backright.json"
-  ]
+    "imu": {
+        "type": "canandgyro",
+        "id": 5,
+        "canbus": null
+    },
+    "invertedIMU": false,
+    "modules": [
+        "frontleft.json",
+        "frontright.json",
+        "backleft.json",
+        "backright.json"
+    ]
 }
