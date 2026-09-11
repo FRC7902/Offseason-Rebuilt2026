@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.indexer.belt.IndexerBeltConstants;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
-import frc.robot.subsystems.indexer.feeder.FeederConstants;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorConstants;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
@@ -38,10 +37,10 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command feedFuel() {
     return Commands.parallel(
-        m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
-        m_indexerBelt.setVelocity(IndexerBeltConstants.FEEDING_SPEED),
-        m_feeder.setVelocity(FeederConstants.FEEDER_SPEED),
-        m_verticalRoller.setVelocity(VerticalRollerConstants.FEEDING_SPEED));
+        m_rollerFloor.setDutyCycle(1),
+        m_indexerBelt.setDutyCycle(1),
+        m_feeder.setDutyCycle(1),
+        m_verticalRoller.setDutyCycle(-1));
   }
 
   /**

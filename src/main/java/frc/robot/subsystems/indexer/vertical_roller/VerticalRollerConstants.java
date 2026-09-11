@@ -19,7 +19,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class VerticalRollerConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-  public static final int CAN_ID = 3; // TODO
+  public static final int CAN_ID = 34;
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
