@@ -33,7 +33,7 @@ public class IndexerBeltConstants {
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(2.1818)))
-          .withIdleMode(MotorMode.BRAKE)
+          .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "IndexerBeltMotor",
               new SmartMotorControllerTelemetryConfig()

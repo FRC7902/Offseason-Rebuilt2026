@@ -127,6 +127,8 @@ public class RobotContainer {
 
     m_driverController.cross().onTrue(m_indexerSystem.feedFuel());
     m_driverController.cross().onFalse(m_indexerSystem.stop());
+    m_driverController.circle().onTrue(m_indexerSystem.reverseRollerFloor());
+    m_driverController.circle().onFalse(m_indexerSystem.stop());
   }
 
   public Command getAutonomousCommand() {

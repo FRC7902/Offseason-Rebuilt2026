@@ -37,10 +37,14 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command feedFuel() {
     return Commands.parallel(
-        m_rollerFloor.setDutyCycle(1),
+        m_rollerFloor.setDutyCycle(0.6),
         m_indexerBelt.setDutyCycle(1),
         m_feeder.setDutyCycle(1),
-        m_verticalRoller.setDutyCycle(-1));
+        m_verticalRoller.setDutyCycle(1));
+  }
+
+  public Command reverseRollerFloor() {
+    return m_rollerFloor.setDutyCycle(-0.6);
   }
 
   /**

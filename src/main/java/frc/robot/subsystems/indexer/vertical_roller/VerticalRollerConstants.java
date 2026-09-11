@@ -31,7 +31,7 @@ public class VerticalRollerConstants {
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3.57142857143)))
-          .withIdleMode(MotorMode.BRAKE)
+          .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "VerticalRollerMotor",
               new SmartMotorControllerTelemetryConfig()
