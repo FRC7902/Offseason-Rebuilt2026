@@ -19,34 +19,33 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class TurretConstants {
 
-  public static final DCMotor MOTOR = DCMotor.getKrakenX44Foc(1);
-  public static final int CAN_ID = 42;
+  public static final double[] GEAR_RATIO = {144.0 / 15.0, 5, 1.08}; // TODO
+  public static final DCMotor MOTOR = DCMotor.getKrakenX60(1); // TODO
+  public static final int CAN_ID = 8; // TODO
 
-  public static final Angle MIN_ANGLE = Degrees.of(-160);
-  public static final Angle MAX_ANGLE = Degrees.of(190);
+  public static final Angle MIN_ANGLE = Degrees.of(-178); // TODO
+  public static final Angle MAX_ANGLE = Degrees.of(178); // TODO
 
   public static final Angle TOLERANCE = Degrees.of(1);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
-      new SmartMotorControllerConfig()
-          .withClosedLoopController(150.0, 0.0, 1)
-          .withSimClosedLoopController(42.65, 0.0, 3)
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(45)))
-          .withIdleMode(MotorMode.BRAKE)
-          .withMotorInverted(false)
-          .withFeedforward(new SimpleMotorFeedforward(0.042757, 5.5173, 0.83544, 0.02))
-          .withSimFeedforward(new SimpleMotorFeedforward(0.01025, 0.0, 0.0, 0.02))
-          .withTelemetry(
-              "TurretMotor",
-              new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
-                  .withDataLogName("TurretMotor")
-                  .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40))
-          .withSupplyCurrentLimit(Amps.of(40))
-          .withSoftLimits(MIN_ANGLE, MAX_ANGLE)
-          .withSimStartingPosition(Degrees.zero())
-          .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01)); // TODO
+    new SmartMotorControllerConfig()
+      .withClosedLoopController(0.0, 0.0, 0) // TODO
+      .withSimClosedLoopController(0.0, 0.0, 0) // TODO
+      .withGearing(new MechanismGearing(new GearBox(GEAR_RATIO))) // TODO
+      .withIdleMode(MotorMode.BRAKE) // TODO
+      .withMotorInverted(false) // TODO
+      .withFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0)) // TODO
+      .withSimFeedforward(new ArmFeedforward(0.5, 0.0, 5.0, 0)) // TODO
+      .withTelemetry(
+        "TurretMotor",
+        new SmartMotorControllerTelemetryConfig()
+          .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+          .withDataLogName("TurretMotor")
+          .withNetworkTables(!DriverStation.isFMSAttached()))
+      .withStatorCurrentLimit(Amps.of(60)) // TODO
+      .withStartingPosition(Degrees.of(0)) // TODO
+      .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01)); // TODO
 
   public static final PivotConfig PIVOT_CONFIG =
     new PivotConfig()
