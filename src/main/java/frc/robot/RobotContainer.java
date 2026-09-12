@@ -188,6 +188,7 @@ public class RobotContainer {
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
         .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
+    // TODO: Add slow driving mode
 
     // Both intake button and shoot button are pressed
     intakeTrigger
@@ -195,6 +196,7 @@ public class RobotContainer {
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
         .onTrue(m_indexerSystem.feedFuel()); // Feed fuel to shooter
+    // TODO: Add slow driving mode
   }
 
   public Command getAutonomousCommand() {
