@@ -33,12 +33,12 @@ public class LinearIntakeConstants {
   public static final int RIGHT_EXTENDED_LIMIT_SWITCH_DIO = 5; // TODO
   public static final int RIGHT_RETRACTED_LIMIT_SWITCH_DIO = 7; // TODO
 
-  public static final Distance TOLERANCE = Meters.of(0.05);
+  public static final Distance TOLERANCE = Meters.of(0.01);
 
   public static final Distance FULLY_RETRACTED = Meters.zero();
-  public static final Distance FULLY_EXTENDED = Meters.of(0.258915);
+  public static final Distance FULLY_EXTENDED = Meters.of(0.2630);
   public static final Distance MIDPOINT_DISTANCE = Meters.of(0.2251); // TODO
-  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.2251); // TODO
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.22363); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
