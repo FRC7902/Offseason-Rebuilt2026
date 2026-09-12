@@ -90,9 +90,9 @@ public class ShooterSystem extends SubsystemBase {
     // TODO: Make sure stop() does not run
     if (m_intakeSystem.stop().isScheduled()) {
       Angle compareAngle =
-          m_turret.getAngle().isNear(TurretConstants.ANGLE_180, TurretConstants.TOLERANCE)
+          m_turret.getAngle().isNear(TurretConstants.ANGLE_180, TurretConstants.RIGHT_ANGLE_TOLERANCE)
               ? TurretConstants.ANGLE_180
-              : m_turret.getAngle().isNear(TurretConstants.CCW_90_ANGLE, TurretConstants.TOLERANCE)
+              : m_turret.getAngle().isNear(TurretConstants.CCW_90_ANGLE, TurretConstants.RIGHT_ANGLE_TOLERANCE)
                   ? TurretConstants.CCW_90_ANGLE
                   : TurretConstants.CW_90_ANGLE;
       m_turret.setAngle(compareAngle);

@@ -30,6 +30,7 @@ public class TurretConstants {
   public static final Angle ANGLE_180 = Degrees.of(180);
 
   public static final Angle TOLERANCE = Degrees.of(1);
+  public static final Angle RIGHT_ANGLE_TOLERANCE = Degrees.of(45);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
