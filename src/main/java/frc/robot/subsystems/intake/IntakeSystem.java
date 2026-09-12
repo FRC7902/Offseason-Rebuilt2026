@@ -13,12 +13,21 @@ import java.util.function.BooleanSupplier;
 
 public class IntakeSystem extends SubsystemBase {
 
+  private static IntakeSystem m_instance;
+
   private final LinearIntakeSubsystem m_linearIntake;
   private final IntakeRollerSubsystem m_intakeRoller;
 
-  public IntakeSystem(LinearIntakeSubsystem linearIntake, IntakeRollerSubsystem intakeRoller) {
-    m_linearIntake = linearIntake;
-    m_intakeRoller = intakeRoller;
+  public IntakeSystem() {
+    m_linearIntake = LinearIntakeSubsystem.getInstance();
+    m_intakeRoller = IntakeRollerSubsystem.getInstance();
+  }
+
+  public static IntakeSystem getInstance(){
+    if (m_instance == null){
+      m_instance = new IntakeSystem();
+    }
+    return m_instance;
   }
 
   /**
