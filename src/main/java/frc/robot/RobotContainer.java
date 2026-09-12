@@ -170,31 +170,31 @@ public class RobotContainer {
     intakeTrigger
         .negate()
         .and(shootTrigger.negate())
-        .onTrue(m_intakeSystem.stop())
-        .onTrue(m_shooterSystem.stopShooting())
-        .onTrue(m_indexerSystem.stop());
+        .onTrue(m_intakeSystem.stop()) // Stop intaking
+        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_indexerSystem.stop()); // Stop indexing
 
     // Intake button is pressed, but shoot button is not pressed
     intakeTrigger
         .negate()
         .and(shootTrigger)
-        .onTrue(m_intakeSystem.shuffle())
-        .onTrue(m_shooterSystem.aimAndShoot())
-        .onTrue(m_indexerSystem.feedFuel());
+        .onTrue(m_intakeSystem.shuffle()) // Shuffle hopper
+        .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        .onTrue(m_indexerSystem.feedFuel()); // Feed fuel to shooter
 
     // Shoot button is pressed, but intake button is not pressed
     intakeTrigger
         .and(shootTrigger.negate())
-        .onTrue(m_intakeSystem.extendAndIntake())
-        .onTrue(m_shooterSystem.stopShooting())
-        .onTrue(m_indexerSystem.storeFuel());
+        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
+        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
 
     // Both intake button and shoot button are pressed
     intakeTrigger
         .and(shootTrigger)
-        .onTrue(m_intakeSystem.extendAndIntake())
-        .onTrue(m_shooterSystem.aimAndShoot())
-        .onTrue(m_indexerSystem.feedFuel());
+        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
+        .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        .onTrue(m_indexerSystem.feedFuel()); // Feed fuel to shooter
   }
 
   public Command getAutonomousCommand() {
