@@ -183,8 +183,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return autoChooser.getSelected();
-    return Commands.none();
+    return autoChooser.getSelected();
   }
 
   public void publishComponentPoses() {
