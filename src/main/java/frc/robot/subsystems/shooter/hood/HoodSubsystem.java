@@ -147,6 +147,10 @@ public class HoodSubsystem extends SubsystemBase {
             new Rotation3d(0.0, getAngle().minus(HoodConstants.MIN_ANGLE).in(Units.Radians), 0.0)));
   }
 
+  public boolean isHoodReadyToShoot() {
+    return isAtSetpoint(); // TODO: Add check for if robot is near trench. If so, return false.
+  }
+
   @Override
   public void periodic() {
     m_hood.updateTelemetry();
