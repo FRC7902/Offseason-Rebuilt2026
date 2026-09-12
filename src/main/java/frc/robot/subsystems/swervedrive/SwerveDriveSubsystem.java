@@ -29,7 +29,8 @@ import yams.mechanisms.swerve.SwerveDrive;
 import yams.mechanisms.swerve.SwerveModule;
 import yams.mechanisms.swerve.utility.SwerveInputStream;
 import yams.motorcontrollers.SmartMotorController;
-import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
+import yams.motorcontrollers.SmartMotorControllerConfig;
+import yams.telemetry.SwerveDriveTelemetryConfig;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
 
@@ -41,9 +42,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         new SwerveDriveConfig()
             .withStartingPose(new Pose2d(3, 3, Rotation2d.kZero))
             .withSubsystem(this)
-            .withTelemetry(TelemetryVerbosity.HIGH);
+            .withTelemetry(
+                "SwerveDrive",
+                new SwerveDriveTelemetryConfig()
+                    .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                    .withDataLogName("SwerveDrive")
+                    .withNetworkTables(!DriverStation.isFMSAttached()));
     try {
-      // TODO: Update swerve configuration files
       drive =
           new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve"))
               .createSwerveDrive(cfg);
