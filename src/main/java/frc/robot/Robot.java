@@ -85,8 +85,9 @@ public class Robot extends TimedRobot {
   public void testExit() {}
 
   private void teleopAndAutonomousInit() {
+    // TODO: Re-enable this once limit switches are tested
     // Check the linear intake position and set the encoder position accordingly
-    m_robotContainer.calibrateLinearIntakePosition();
+    // m_robotContainer.calibrateLinearIntakePosition();
 
     // CommandScheduler.getInstance().schedule(m_robotContainer.stopAllSubsystems());
 

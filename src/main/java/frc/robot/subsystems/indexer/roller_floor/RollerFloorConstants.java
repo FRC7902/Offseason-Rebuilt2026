@@ -47,7 +47,7 @@ public class RollerFloorConstants {
           .withMotorInverted(true)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
-          .withFeedforward(new SimpleMotorFeedforward(0.35, 0.43, 0.0)) 
+          .withFeedforward(new SimpleMotorFeedforward(0.35, 0.43, 0.0))
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.4382, 0));
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
