@@ -16,7 +16,7 @@ public class ShooterSystem extends SubsystemBase {
   private final TurretSubsystem m_turret;
   private static ShooterSystem m_instance;
 
-  public ShooterSystem() {
+  private ShooterSystem() {
     m_flywheel = FlywheelSubsystem.getInstance();
     m_hood = HoodSubsystem.getInstance();
     m_turret = TurretSubsystem.getInstance();

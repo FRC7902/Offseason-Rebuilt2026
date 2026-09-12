@@ -18,7 +18,7 @@ public class IntakeSystem extends SubsystemBase {
   private final LinearIntakeSubsystem m_linearIntake;
   private final IntakeRollerSubsystem m_intakeRoller;
 
-  public IntakeSystem() {
+  private IntakeSystem() {
     m_linearIntake = LinearIntakeSubsystem.getInstance();
     m_intakeRoller = IntakeRollerSubsystem.getInstance();
   }

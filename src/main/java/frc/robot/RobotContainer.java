@@ -88,12 +88,7 @@ public class RobotContainer {
                 () -> -m_driverController.getRawAxis(2))
             .withAllianceRelativeControl();
 
-    m_indexerSystem =
-        new IndexerSystem(
-            m_indexerBeltSubsystem,
-            m_feederSubsystem,
-            m_rollerFloorSubsystem,
-            m_verticalRollerSubsystem);
+    m_indexerSystem = IndexerSystem.getInstance();
     m_intakeSystem = IntakeSystem.getInstance();
     m_shooterSystem = ShooterSystem.getInstance();
 

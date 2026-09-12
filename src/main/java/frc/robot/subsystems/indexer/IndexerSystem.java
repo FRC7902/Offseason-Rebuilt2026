@@ -18,16 +18,20 @@ public class IndexerSystem extends SubsystemBase {
   private final FeederSubsystem m_feeder;
   private final RollerFloorSubsystem m_rollerFloor;
   private final VerticalRollerSubsystem m_verticalRoller;
+  private static IndexerSystem m_instance;
 
-  public IndexerSystem(
-      IndexerBeltSubsystem indexerBelt,
-      FeederSubsystem feeder,
-      RollerFloorSubsystem rollerFloor,
-      VerticalRollerSubsystem verticalRoller) {
-    m_indexerBelt = indexerBelt;
-    m_feeder = feeder;
-    m_rollerFloor = rollerFloor;
-    m_verticalRoller = verticalRoller;
+  private IndexerSystem() {
+    m_indexerBelt = IndexerBeltSubsystem.getInstance();
+    m_feeder = FeederSubsystem.getInstance();
+    m_rollerFloor = RollerFloorSubsystem.getInstance();
+    m_verticalRoller = VerticalRollerSubsystem.getInstance();
+  }
+
+  public static IndexerSystem getInstance(){
+    if (m_instance == null){
+      m_instance = new IndexerSystem();
+    }
+    return m_instance;
   }
 
   /**
