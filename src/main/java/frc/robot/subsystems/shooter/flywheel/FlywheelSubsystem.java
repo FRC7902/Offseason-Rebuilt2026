@@ -82,7 +82,16 @@ public class FlywheelSubsystem extends SubsystemBase {
    * @return A command that applies the given duty cycle while scheduled.
    */
   public Command setDutyCycle(double dutyCycle) {
-    return m_flywheel.set(dutyCycle);
+    return Commands.parallel(
+            Commands.startRun(
+                    m_leaderMotor::stopClosedLoopController,
+                    () -> m_leaderMotor.setDutyCycle(dutyCycle))
+                .finallyDo(m_leaderMotor::startClosedLoopController),
+            Commands.startRun(
+                    m_followerMotor::stopClosedLoopController,
+                    () -> m_followerMotor.setDutyCycle(dutyCycle))
+                .finallyDo(m_followerMotor::startClosedLoopController))
+        .withName(this.getName() + " SetDutyCycle");
   }
 
   /**
@@ -104,7 +113,16 @@ public class FlywheelSubsystem extends SubsystemBase {
    * @return A command that continuously polls the supplier.
    */
   public Command setDutyCycle(Supplier<Double> dutyCycle) {
-    return m_flywheel.set(dutyCycle);
+    return Commands.parallel(
+            Commands.startRun(
+                    m_leaderMotor::stopClosedLoopController,
+                    () -> m_leaderMotor.setDutyCycle(dutyCycle.get()))
+                .finallyDo(m_leaderMotor::startClosedLoopController),
+            Commands.startRun(
+                    m_followerMotor::stopClosedLoopController,
+                    () -> m_followerMotor.setDutyCycle(dutyCycle.get()))
+                .finallyDo(m_followerMotor::startClosedLoopController))
+        .withName(this.getName() + " SetDutyCycle");
   }
 
   /**
