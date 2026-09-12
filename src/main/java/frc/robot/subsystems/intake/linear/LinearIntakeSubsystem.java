@@ -42,6 +42,8 @@ public class LinearIntakeSubsystem extends SubsystemBase {
   private final Trigger m_leftRetractedTrigger;
   private final Trigger m_rightRetractedTrigger;
 
+  private static LinearIntakeSubsystem m_instance;
+
   public LinearIntakeSubsystem() {
     m_linearIntakeMotor = new TalonFX(LinearIntakeConstants.CAN_ID);
     m_motorConfig = LinearIntakeConstants.SMC_CONFIG.withSubsystem(this);
@@ -66,6 +68,13 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     m_rightExtendedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionExtended));
     m_leftRetractedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionRetracted));
     m_rightRetractedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionRetracted));
+  }
+
+  public static LinearIntakeSubsystem getInstance(){
+    if (m_instance == null){
+      m_instance = new LinearIntakeSubsystem();
+    }
+    return m_instance;
   }
 
   /**
