@@ -42,7 +42,7 @@ public class IndexerBeltConstants {
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(40)) // TODO
-          .withMotorInverted(false) // TODO
+          .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
