@@ -20,7 +20,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class FeederConstants {
 
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-  public static final int CAN_ID = 2; // TODO
+  public static final int CAN_ID = 4;
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
   public static final AngularVelocity FEEDER_SPEED = RPM.of(750);
@@ -39,7 +39,7 @@ public class FeederConstants {
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(40)) // TODO
-          .withMotorInverted(false) // TODO
+          .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO

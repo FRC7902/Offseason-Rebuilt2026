@@ -20,8 +20,8 @@ public class IndexerBeltConstants {
 
   public static final DCMotor LEADER_MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final DCMotor FOLLOWER_MOTOR = DCMotor.getKrakenX44Foc(1);
-  public static final int LEADER_CAN_ID = 1; // TODO
-  public static final int FOLLOWER_CAN_ID = 9; // TODO
+  public static final int LEADER_CAN_ID = 1;
+  public static final int FOLLOWER_CAN_ID = 53;
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
@@ -33,7 +33,7 @@ public class IndexerBeltConstants {
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(2.1818)))
-          .withIdleMode(MotorMode.BRAKE)
+          .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "IndexerBeltMotor",
               new SmartMotorControllerTelemetryConfig()

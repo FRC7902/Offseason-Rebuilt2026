@@ -20,7 +20,7 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class RollerFloorConstants {
 
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-  public static final int CAN_ID = 3; // TODO
+  public static final int CAN_ID = 52;
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
@@ -32,7 +32,7 @@ public class RollerFloorConstants {
           .withClosedLoopController(0.00016541, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3.57142857143)))
-          .withIdleMode(MotorMode.BRAKE)
+          .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "RollerFloorMotor",
               new SmartMotorControllerTelemetryConfig()
@@ -41,7 +41,7 @@ public class RollerFloorConstants {
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(40)) // TODO
-          .withMotorInverted(false) // TODO
+          .withMotorInverted(true)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
