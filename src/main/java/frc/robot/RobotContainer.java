@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.RPM;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -13,6 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
@@ -25,6 +29,7 @@ import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import yams.mechanisms.swerve.utility.SwerveInputStream;
@@ -79,7 +84,7 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    m_swerveDriveSubsystem = new SwerveDriveSubsystem();
+    m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
     driveAngularVelocity =
         m_swerveDriveSubsystem
             .getAngularVelocityStream(
@@ -108,6 +113,10 @@ public class RobotContainer {
   private void configureBindings() {
 
     m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
+    m_driverController.cross().onTrue(Commands.runOnce(this::formattedPrint));
+    m_driverController.circle().onTrue(m_shooterSystem.aimParameters(Degrees.of(10), RPM.of(1000)));
+
+    m_driverController.triangle().whileTrue(m_indexerSystem.feedFuel());
 
     /*
      * TODO: Bind driver controller L2
@@ -124,6 +133,17 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
+  }
+
+  private void formattedPrint() {
+    LaunchCalculator calc = LaunchCalculator.getInstance();
+    double turretAngle = calc.getParameters().turretAngle().in(Degrees);
+    double hoodAngle = calc.getParameters().hoodAngle().in(Degrees);
+    double flywheelSpeed = calc.getParameters().flywheelSpeed().in(RPM);
+    double timeOfFlight = calc.getParameters().timeOfFlight();
+    System.out.printf(
+        "TurretAngle: %f deg, HoodAngle: %f deg, FlywheelSpeed: %f rpm, TimeOfFlight: %.2fs\n",
+        turretAngle, hoodAngle, flywheelSpeed, timeOfFlight);
   }
 
   public Command getAutonomousCommand() {

@@ -35,7 +35,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private SwerveDrive drive;
 
-  public SwerveDriveSubsystem() {
+  private static SwerveDriveSubsystem m_instance;
+
+  private SwerveDriveSubsystem() {
     SmartDashboard.putData(this);
     var cfg =
         new SwerveDriveConfig()
@@ -59,6 +61,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       throw new RuntimeException(
           "PathPlanner setup failed -- check deploy/pathplanner/settings.json exists", e);
     }
+  }
+
+  public static SwerveDriveSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new SwerveDriveSubsystem();
+    }
+    return m_instance;
   }
 
   private void setupPathPlanner() throws IOException, ParseException {
@@ -93,6 +102,27 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         () ->
             ChassisSpeeds.fromFieldRelativeSpeeds(
                 stream.get(), new Rotation2d(drive.getGyroAngle())));
+  }
+
+  public Pose2d getPose() {
+    return drive.getPose();
+  }
+
+  public ChassisSpeeds getRobotVelocity() {
+    return drive.getRobotRelativeSpeed();
+  }
+
+  public ChassisSpeeds getFieldSetpointVelocity() {
+    return drive.getFieldRelativeSpeed();
+  }
+
+  public Rotation2d getRotation() {
+    return drive.getPose().getRotation();
+  }
+
+  public static DriverStation.Alliance getAlliance() {
+    var alliance = DriverStation.getAlliance();
+    return alliance.orElse(null);
   }
 
   /**

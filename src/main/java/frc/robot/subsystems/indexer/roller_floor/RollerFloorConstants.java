@@ -20,11 +20,11 @@ import yams.telemetry.SmartMotorControllerTelemetryConfig;
 public class RollerFloorConstants {
 
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
-  public static final int CAN_ID = 3; // TODO
+  public static final int CAN_ID = 52; // TODO
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity FEEDING_SPEED = RPM.of(-1500); // TODO
   public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
