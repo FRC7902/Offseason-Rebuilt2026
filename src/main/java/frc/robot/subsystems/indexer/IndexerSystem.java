@@ -39,9 +39,9 @@ public class IndexerSystem extends SubsystemBase {
   public Command feedFuel() {
     return Commands.parallel(
         m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
-        m_indexerBelt.setVelocity(IndexerBeltConstants.FEEDING_SPEED),
-        m_feeder.setVelocity(FeederConstants.FEEDER_SPEED),
-        m_verticalRoller.setVelocity(VerticalRollerConstants.FEEDING_SPEED));
+        m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
+        m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
+        m_verticalRoller.setDutyCycle(VerticalRollerConstants.FEEDING_DUTY_CYCLE));
   }
 
   /**
@@ -54,8 +54,8 @@ public class IndexerSystem extends SubsystemBase {
   public Command storeFuel() {
     return Commands.parallel(
         m_rollerFloor.setVelocity(RollerFloorConstants.STORING_SPEED),
-        m_indexerBelt.setVelocity(IndexerBeltConstants.STORING_SPEED),
-        m_verticalRoller.setVelocity(VerticalRollerConstants.STORING_SPEED),
+        m_indexerBelt.setDutyCycle(IndexerBeltConstants.STORING_DUTY_CYCLE),
+        m_verticalRoller.setDutyCycle(VerticalRollerConstants.STORING_DUTY_CYCLE),
         m_feeder.stop());
   }
 

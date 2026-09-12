@@ -26,6 +26,9 @@ public class VerticalRollerConstants {
   public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
   public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
 
+  public static final double FEEDING_DUTY_CYCLE = 1.0;
+  public static final double STORING_DUTY_CYCLE = 0.2;
+
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO

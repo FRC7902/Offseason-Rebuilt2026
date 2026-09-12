@@ -25,6 +25,8 @@ public class FeederConstants {
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
   public static final AngularVelocity FEEDER_SPEED = RPM.of(750);
 
+  public static final double FEEDING_DUTY_CYCLE = 1.0;
+
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(0.00016541, 0, 0) // TODO

@@ -24,8 +24,11 @@ public class RollerFloorConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
-  public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
+  private static final AngularVelocity MAX_SPEED_RPM =
+      RPM.of(1619); // Theoretical max speed of the motor with gearing applied
+
+  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED_RPM.times(0.60); // 60% of max speed
+  public static final AngularVelocity STORING_SPEED = MAX_SPEED_RPM.times(0.20); // 20% of max speed
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
@@ -51,5 +54,5 @@ public class RollerFloorConstants {
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
           .withTelemetry("RollerFloorMech", TelemetryVerbosity.HIGH)
-          .withSpeedometerSimulation(RPM.of(1619));
+          .withSpeedometerSimulation(MAX_SPEED_RPM);
 }
