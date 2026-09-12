@@ -2,7 +2,6 @@ package frc.robot.subsystems.indexer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.indexer.belt.IndexerBeltConstants;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
@@ -31,11 +30,12 @@ public class IndexerSystem extends SubsystemBase {
     m_verticalRoller = verticalRoller;
   }
 
-  public Command isStuck() {
-    return new ConditionalCommand(
-        m_rollerFloor.setDutyCycle(-1),
-        m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
-        () -> m_rollerFloor.getVelocity().lt(RollerFloorConstants.FEEDING_SPEED.times(0.75)));
+  public boolean isStuck() {
+    return m_rollerFloor.getVelocity().lt(RollerFloorConstants.FEEDING_SPEED.times(0.75));
+  }
+
+  public boolean isReversing() {
+    return m_rollerFloor.getVelocity().lt(RollerFloorConstants.IS_REVERSING_SPEED_MIN);
   }
 
   /**
@@ -47,7 +47,11 @@ public class IndexerSystem extends SubsystemBase {
   public Command feedFuel() {
     return Commands.parallel(
         Commands.sequence(
-            m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED), isStuck().repeatedly()),
+                m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED).withTimeout(1),
+                Commands.waitUntil(() -> isStuck()),
+                m_rollerFloor.setDutyCycle(-1).withTimeout(0.2),
+                Commands.waitUntil(() -> isReversing()))
+            .repeatedly(),
         m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
         m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
         m_verticalRoller.setDutyCycle(VerticalRollerConstants.FEEDING_DUTY_CYCLE));
