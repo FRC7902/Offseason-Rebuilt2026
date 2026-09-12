@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -30,9 +31,6 @@ import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import java.io.File;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
