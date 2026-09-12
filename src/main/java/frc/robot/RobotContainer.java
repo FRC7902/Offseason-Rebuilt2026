@@ -71,21 +71,12 @@ public class RobotContainer {
     return applyDriverTranslationStickCurve(-m_driverController.getLeftY());
   }
 
-  /**
-   * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular
-   * velocity.
-   */
-  public SwerveInputStream driveAngularVelocity;
-
-  /** Clone's the angular velocity input stream and converts it to a fieldRelative input stream. */
+  SwerveInputStream driveAngularVelocity;
+  SwerveInputStream driveSlowAngularVelocity;
   SwerveInputStream driveDirectAngle;
 
-  /** Clone's the angular velocity input stream and converts it to a robotRelative input stream. */
-  SwerveInputStream driveRobotOriented;
-
-  SwerveInputStream driveAngularVelocityKeyboard;
-
   Command driveFieldOrientedAngularVelocity;
+  Command driveSlowFieldOrientedAngularVelocity;
   Command driveFieldOrientedDirectAngle;
 
   private final StructArrayPublisher<Pose3d> posesPublisher;
@@ -110,24 +101,17 @@ public class RobotContainer {
             .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
             .scaleTranslation(1.0)
             .allianceRelativeControl(true);
+    driveSlowAngularVelocity =
+        driveAngularVelocity.copy().scaleTranslation(SwerveDriveConstants.SLOW_MODE_SCALE);
     driveDirectAngle =
         driveAngularVelocity
             .copy()
             .withControllerHeadingAxis(m_driverController::getRightX, m_driverController::getRightY)
             .headingWhile(true);
-    driveRobotOriented =
-        driveAngularVelocity.copy().robotRelative(true).allianceRelativeControl(false);
-    driveAngularVelocityKeyboard =
-        SwerveInputStream.of(
-                m_swerveDriveSubsystem.getSwerveDrive(),
-                this::getCurvedDriverLeftY,
-                this::getCurvedDriverLeftX)
-            .withControllerRotationAxis(() -> m_driverController.getRawAxis(2))
-            .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
-            .scaleTranslation(0.8)
-            .allianceRelativeControl(true);
     driveFieldOrientedAngularVelocity =
         m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
+    driveSlowFieldOrientedAngularVelocity =
+        m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity);
     driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
 
     // Publish the poses of the components to NetworkTables for visualization in 3D
@@ -191,6 +175,11 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
+
+    m_driverController
+        .options()
+        .onTrue((Commands.runOnce(m_swerveDriveSubsystem::zeroGyroWithAlliance)));
+    m_driverController.create().whileTrue(m_swerveDriveSubsystem.centerModulesCommand());
   }
 
   public Command getAutonomousCommand() {

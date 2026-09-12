@@ -12,6 +12,7 @@ public final class SwerveDriveConstants {
   // does
   // anything
   public static final double DRIVER_TRANSLATION_STICK_CURVE_EXPONENT = 2.0;
+  public static final double SLOW_MODE_SCALE = 0.10;
 
   public static final double AUTO_AIM_VELOCITY_COMPENSATION_FACTOR = 1.2; // TODO
   public static final Angle AUTO_AIM_ANGLE_TARGET_ERROR = Degrees.of(2.5);
