@@ -174,15 +174,20 @@ public class RobotContainer {
         .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
         .onTrue(m_indexerSystem.stop()); // Stop indexing
 
-    // Intake button is pressed, but shoot button is not pressed
+    // Shoot button is pressed, but intake button is not pressed
     intakeTrigger
         .negate()
         .and(shootTrigger)
-        .onTrue(m_intakeSystem.shuffle()) // Shuffle hopper
         .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
-        .onTrue(m_indexerSystem.feedFuel()); // Feed fuel to shooter
+        .onTrue(
+            Commands.waitUntil(m_shooterSystem::isShooterReady)
+                .andThen(
+                    Commands.parallel(
+                        m_intakeSystem.shuffle(), // Shuffle hopper
+                        m_indexerSystem.feedFuel() // Feed fuel to shooter
+                        )));
 
-    // Shoot button is pressed, but intake button is not pressed
+    // Intake button is pressed, but shoot button is not pressed
     intakeTrigger
         .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
