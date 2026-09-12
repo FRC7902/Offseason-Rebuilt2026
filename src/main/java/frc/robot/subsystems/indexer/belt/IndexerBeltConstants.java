@@ -33,7 +33,7 @@ public class IndexerBeltConstants {
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(0.00016541, 0, 0) // TODO
+          .withClosedLoopController(0.0, 0, 0) // TODO
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(2.1818)))
           .withIdleMode(MotorMode.COAST)
@@ -48,7 +48,7 @@ public class IndexerBeltConstants {
           .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
-          .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
+          .withFeedforward(new SimpleMotorFeedforward(0.35, 0.217, 0)) 
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.21, 0));
 
   public static final SmartMotorControllerConfig FOLLOWER_SMC_CONFIG =
