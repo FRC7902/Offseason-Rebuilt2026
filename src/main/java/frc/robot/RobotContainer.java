@@ -114,6 +114,9 @@ public class RobotContainer {
 
     m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
     m_driverController.cross().onTrue(Commands.runOnce(this::formattedPrint));
+    m_driverController.circle().onTrue(m_shooterSystem.aimParameters(Degrees.of(10), RPM.of(1000)));
+
+    m_driverController.triangle().whileTrue(m_indexerSystem.feedFuel());
 
     /*
      * TODO: Bind driver controller L2

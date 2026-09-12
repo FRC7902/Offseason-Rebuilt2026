@@ -1,9 +1,9 @@
 package frc.robot.subsystems.shooter.turret;
+
+import static edu.wpi.first.units.Units.*;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
-
-import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -18,9 +18,8 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.Supplier;
-
 import yams.mechanisms.positional.Pivot;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -44,14 +43,14 @@ public class TurretSubsystem extends SubsystemBase {
    * motion and the turret's own motor rotation rate.
    *
    * @param robotVelocity Current chassis velocity in the robot frame.
-   * @param robotAngle    Current robot heading used to rotate the turret offset into the field frame.
+   * @param robotAngle Current robot heading used to rotate the turret offset into the field frame.
    * @return Turret velocity in field coordinates.
    */
   public ChassisSpeeds getVelocity(ChassisSpeeds robotVelocity, Angle robotAngle) {
     Translation2d rRobot =
-      TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(); // in robot frame
+        TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(); // in robot frame
     Translation2d rWorld =
-      rRobot.rotateBy(Rotation2d.fromRadians(robotAngle.in(Radians))); // rotate into field
+        rRobot.rotateBy(Rotation2d.fromRadians(robotAngle.in(Radians))); // rotate into field
     // frame
 
     double omega = robotVelocity.omegaRadiansPerSecond; // robot yaw rate (rad/s)
@@ -74,7 +73,7 @@ public class TurretSubsystem extends SubsystemBase {
    * Drives the turret in open-loop at the given duty cycle.
    *
    * @param dutyCycle Output fraction in [-1, 1]. Positive values move the turret in the positive
-   *                  direction.
+   *     direction.
    * @return Command that runs while scheduled and stops when interrupted.
    */
   public Command setDutyCycle(double dutyCycle) {
@@ -116,7 +115,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public Pose3d getPose3d() {
     return new Pose3d(
-      new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0.0, 0.0, getAngle().in(Radians)));
+        new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0.0, 0.0, getAngle().in(Radians)));
   }
 
   /**
@@ -183,9 +182,9 @@ public class TurretSubsystem extends SubsystemBase {
 
   public boolean isAtSetpoint() {
     return m_turret
-      .getMechanismSetpoint()
-      .map(setpoint -> m_turret.isNear(setpoint, TurretConstants.TOLERANCE).getAsBoolean())
-      .orElse(false);
+        .getMechanismSetpoint()
+        .map(setpoint -> m_turret.isNear(setpoint, TurretConstants.TOLERANCE).getAsBoolean())
+        .orElse(false);
   }
 
   @Override

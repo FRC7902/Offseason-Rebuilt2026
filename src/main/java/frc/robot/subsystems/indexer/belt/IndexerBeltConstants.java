@@ -21,11 +21,11 @@ public class IndexerBeltConstants {
   public static final DCMotor LEADER_MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final DCMotor FOLLOWER_MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final int LEADER_CAN_ID = 1; // TODO
-  public static final int FOLLOWER_CAN_ID = 9; // TODO
+  public static final int FOLLOWER_CAN_ID = 53; // TODO
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity FEEDING_SPEED = RPM.of(1500); // TODO
   public static final AngularVelocity STORING_SPEED = RPM.of(100); // TODO
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =

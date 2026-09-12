@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -34,6 +36,11 @@ public class ShooterSystem extends SubsystemBase {
     return Commands.parallel(
             m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
             m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()))
+        .repeatedly();
+  }
+
+  public Command aimParameters(Angle hoodAngle, AngularVelocity flywheelVelocity) {
+    return Commands.parallel(m_hood.setAngle(hoodAngle), m_flywheel.setVelocity(flywheelVelocity))
         .repeatedly();
   }
 
