@@ -27,8 +27,8 @@ public class IndexerSystem extends SubsystemBase {
     m_verticalRoller = VerticalRollerSubsystem.getInstance();
   }
 
-  public static IndexerSystem getInstance(){
-    if (m_instance == null){
+  public static IndexerSystem getInstance() {
+    if (m_instance == null) {
       m_instance = new IndexerSystem();
     }
     return m_instance;

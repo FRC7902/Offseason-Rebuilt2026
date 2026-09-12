@@ -1,12 +1,15 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.intake.IntakeSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class ShooterSystem extends SubsystemBase {
@@ -16,16 +19,20 @@ public class ShooterSystem extends SubsystemBase {
   private final TurretSubsystem m_turret;
   private static ShooterSystem m_instance;
 
+  private static IntakeSystem m_intakeSystem;
+
   private ShooterSystem() {
     m_flywheel = FlywheelSubsystem.getInstance();
     m_hood = HoodSubsystem.getInstance();
     m_turret = TurretSubsystem.getInstance();
 
+    m_intakeSystem = IntakeSystem.getInstance();
+
     // m_turret.setDefaultCommand(aimTurret());
   }
 
-  public static ShooterSystem getInstance(){
-    if (m_instance == null){
+  public static ShooterSystem getInstance() {
+    if (m_instance == null) {
       m_instance = new ShooterSystem();
     }
     return m_instance;
@@ -80,6 +87,17 @@ public class ShooterSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // TODO: Make sure stop() does not run
+    if (m_intakeSystem.stop().isScheduled()) {
+      Angle compareAngle =
+          m_turret.getAngle().isNear(TurretConstants.ANGLE_180, TurretConstants.TOLERANCE)
+              ? TurretConstants.ANGLE_180
+              : m_turret.getAngle().isNear(TurretConstants.CCW_90_ANGLE, TurretConstants.TOLERANCE)
+                  ? TurretConstants.CCW_90_ANGLE
+                  : TurretConstants.CW_90_ANGLE;
+      m_turret.setAngle(compareAngle);
+    }
+
     SmartDashboard.putBoolean("ShooterSystem/isShooterReady", isShooterReady());
   }
 }

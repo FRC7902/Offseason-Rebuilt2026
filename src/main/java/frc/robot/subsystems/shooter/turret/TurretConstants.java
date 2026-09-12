@@ -25,6 +25,9 @@ public class TurretConstants {
 
   public static final Angle MIN_ANGLE = Degrees.of(-160);
   public static final Angle MAX_ANGLE = Degrees.of(190);
+  public static final Angle CCW_90_ANGLE = Degrees.of(90);
+  public static final Angle CW_90_ANGLE = Degrees.of(-90);
+  public static final Angle ANGLE_180 = Degrees.of(180);
 
   public static final Angle TOLERANCE = Degrees.of(1);
 

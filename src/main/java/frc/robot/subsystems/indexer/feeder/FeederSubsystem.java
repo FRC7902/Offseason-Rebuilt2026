@@ -31,8 +31,9 @@ public class FeederSubsystem extends SubsystemBase {
     m_motor = new TalonFXWrapper(m_feederMotor, FeederConstants.MOTOR, m_motorConfig);
     m_feeder = new FlyWheel(FeederConstants.FLY_WHEEL_CONFIG, m_motor);
   }
-  public static FeederSubsystem getInstance(){
-    if (m_instance == null){
+
+  public static FeederSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new FeederSubsystem();
     }
     return m_instance;

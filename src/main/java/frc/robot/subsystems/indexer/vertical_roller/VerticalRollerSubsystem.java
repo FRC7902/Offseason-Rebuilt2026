@@ -28,8 +28,8 @@ public class VerticalRollerSubsystem extends SubsystemBase {
     m_verticalRoller = new FlyWheel(VerticalRollerConstants.FLY_WHEEL_CONFIG, m_motor);
   }
 
-  public static VerticalRollerSubsystem getInstance(){
-    if (m_instance == null){
+  public static VerticalRollerSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new VerticalRollerSubsystem();
     }
     return m_instance;

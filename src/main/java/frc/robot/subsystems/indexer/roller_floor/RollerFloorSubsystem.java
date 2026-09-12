@@ -31,8 +31,9 @@ public class RollerFloorSubsystem extends SubsystemBase {
     m_motor = new TalonFXWrapper(m_rollerFloorMotor, RollerFloorConstants.MOTOR, m_motorConfig);
     m_rollerFloor = new FlyWheel(RollerFloorConstants.FLY_WHEEL_CONFIG, m_motor);
   }
-  public static RollerFloorSubsystem getInstance(){
-    if (m_instance == null){
+
+  public static RollerFloorSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new RollerFloorSubsystem();
     }
     return m_instance;

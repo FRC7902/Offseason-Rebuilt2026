@@ -70,8 +70,8 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     m_rightRetractedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionRetracted));
   }
 
-  public static LinearIntakeSubsystem getInstance(){
-    if (m_instance == null){
+  public static LinearIntakeSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new LinearIntakeSubsystem();
     }
     return m_instance;

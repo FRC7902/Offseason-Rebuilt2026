@@ -47,7 +47,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   }
 
   public static FlywheelSubsystem getInstance() {
-    if (m_instance == null){
+    if (m_instance == null) {
       m_instance = new FlywheelSubsystem();
     }
     return m_instance;

@@ -17,8 +17,8 @@ public class IntakeRollerSubsystem extends SubsystemBase {
     m_rollerMotor = new PWMTalonFX(IntakeRollerConstants.PWM_ID);
   }
 
-  public static IntakeRollerSubsystem getInstance(){
-    if (m_instance == null){
+  public static IntakeRollerSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new IntakeRollerSubsystem();
     }
     return m_instance;
