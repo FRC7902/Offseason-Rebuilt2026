@@ -36,7 +36,7 @@ public class LinearIntakeConstants {
   public static final Distance TOLERANCE = Meters.of(0.05);
 
   public static final Distance FULLY_RETRACTED = Meters.zero(); // TODO
-  public static final Distance FULLY_EXTENDED = Meters.of(0.258915); // TODO
+  public static final Distance FULLY_EXTENDED = Meters.of(0.258915);
   public static final Distance MIDPOINT_DISTANCE = Meters.of(0.2); // TODO
 
   public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.1); // TODO
@@ -45,7 +45,7 @@ public class LinearIntakeConstants {
   // public static final Distance[] FIRST_SHUFFLE_DISTANCES = {
   //   SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
   // };
- 
+
   // public static final Distance[] SECOND_SHUFFLE_DISTANCES = {
   //   NEAR_FULLY_RETRACTED,
   //   MIDPOINT_DISTANCE,
