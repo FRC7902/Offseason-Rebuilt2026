@@ -30,7 +30,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   private final FlyWheel m_flywheel;
   private static FlywheelSubsystem m_instance;
 
-  public FlywheelSubsystem() {
+  private FlywheelSubsystem() {
     m_flywheelLeaderMotor = new TalonFX(FlywheelConstants.LEADER_CAN_ID);
     m_flywheelFollowerMotor = new TalonFX(FlywheelConstants.FOLLOWER_CAN_ID);
     m_leaderMotorConfig = FlywheelConstants.LEADER_SMC_CONFIG.withSubsystem(this);

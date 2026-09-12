@@ -23,12 +23,19 @@ public class RollerFloorSubsystem extends SubsystemBase {
   private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
   private final FlyWheel m_rollerFloor;
+  public static RollerFloorSubsystem m_instance;
 
-  public RollerFloorSubsystem() {
+  private RollerFloorSubsystem() {
     m_rollerFloorMotor = new TalonFX(RollerFloorConstants.CAN_ID);
     m_motorConfig = RollerFloorConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_rollerFloorMotor, RollerFloorConstants.MOTOR, m_motorConfig);
     m_rollerFloor = new FlyWheel(RollerFloorConstants.FLY_WHEEL_CONFIG, m_motor);
+  }
+  public static RollerFloorSubsystem getInstance(){
+    if (m_instance == null){
+      m_instance = new RollerFloorSubsystem();
+    }
+    return m_instance;
   }
 
   /** Returns the current roller floor angular velocity as measured by the motor encoder. */

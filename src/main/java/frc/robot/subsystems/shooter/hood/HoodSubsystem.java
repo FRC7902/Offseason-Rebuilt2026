@@ -30,7 +30,7 @@ public class HoodSubsystem extends SubsystemBase {
   private final Arm m_hood;
   private static HoodSubsystem m_instance;
 
-  public HoodSubsystem() {
+  private HoodSubsystem() {
     m_hoodMotor = new TalonFX(HoodConstants.CAN_ID);
     m_motorConfig = HoodConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_hoodMotor, HoodConstants.MOTOR, m_motorConfig);

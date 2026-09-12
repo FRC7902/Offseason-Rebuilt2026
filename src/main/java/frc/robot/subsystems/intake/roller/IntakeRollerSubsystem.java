@@ -12,7 +12,7 @@ public class IntakeRollerSubsystem extends SubsystemBase {
   private static IntakeRollerSubsystem m_instance;
 
   /** Constructs the intake subsystem and initializes the motor controller. */
-  public IntakeRollerSubsystem() {
+  private IntakeRollerSubsystem() {
 
     m_rollerMotor = new PWMTalonFX(IntakeRollerConstants.PWM_ID);
   }

@@ -44,7 +44,7 @@ public class LinearIntakeSubsystem extends SubsystemBase {
 
   private static LinearIntakeSubsystem m_instance;
 
-  public LinearIntakeSubsystem() {
+  private LinearIntakeSubsystem() {
     m_linearIntakeMotor = new TalonFX(LinearIntakeConstants.CAN_ID);
     m_motorConfig = LinearIntakeConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_linearIntakeMotor, LinearIntakeConstants.MOTOR, m_motorConfig);

@@ -37,7 +37,7 @@ public class TurretSubsystem extends SubsystemBase {
   private final Pivot m_turret;
   private static TurretSubsystem m_instance;
 
-  public TurretSubsystem() {
+  private TurretSubsystem() {
     m_turretMotor = new TalonFX(TurretConstants.CAN_ID);
     m_motorConfig = TurretConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);

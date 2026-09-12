@@ -67,19 +67,19 @@ public class RobotContainer {
     // Include DriverStation data in the log
     DriverStation.startDataLog(DataLogManager.getLog());
 
-    m_indexerBeltSubsystem = new IndexerBeltSubsystem();
-    m_feederSubsystem = new FeederSubsystem();
-    m_rollerFloorSubsystem = new RollerFloorSubsystem();
-    m_verticalRollerSubsystem = new VerticalRollerSubsystem();
+    m_indexerBeltSubsystem = IndexerBeltSubsystem.getInstance();
+    m_feederSubsystem = FeederSubsystem.getInstance();
+    m_rollerFloorSubsystem = RollerFloorSubsystem.getInstance();
+    m_verticalRollerSubsystem = VerticalRollerSubsystem.getInstance();
 
-    m_linearIntakeSubsystem = new LinearIntakeSubsystem();
-    m_intakeRollerSubsystem = new IntakeRollerSubsystem();
+    m_linearIntakeSubsystem = LinearIntakeSubsystem.getInstance();
+    m_intakeRollerSubsystem = IntakeRollerSubsystem.getInstance();
 
-    m_flywheelSubsystem = new FlywheelSubsystem();
-    m_hoodSubsystem = new HoodSubsystem();
-    m_turretSubsystem = new TurretSubsystem();
+    m_flywheelSubsystem = FlywheelSubsystem.getInstance();
+    m_hoodSubsystem = HoodSubsystem.getInstance();
+    m_turretSubsystem = TurretSubsystem.getInstance();
 
-    m_swerveDriveSubsystem = new SwerveDriveSubsystem();
+    m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
     driveAngularVelocity =
         m_swerveDriveSubsystem
             .getAngularVelocityStream(

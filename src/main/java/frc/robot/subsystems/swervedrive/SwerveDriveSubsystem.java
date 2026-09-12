@@ -34,9 +34,11 @@ import yams.telemetry.SwerveDriveTelemetryConfig;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
 
+  public static SwerveDriveSubsystem m_instance;
+
   private SwerveDrive drive;
 
-  public SwerveDriveSubsystem() {
+  private SwerveDriveSubsystem() {
     SmartDashboard.putData(this);
     var cfg =
         new SwerveDriveConfig()
@@ -64,6 +66,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       throw new RuntimeException(
           "PathPlanner setup failed -- check deploy/pathplanner/settings.json exists", e);
     }
+  }
+
+  public static SwerveDriveSubsystem getInstance(){
+    if (m_instance == null){
+      m_instance = new SwerveDriveSubsystem();
+    }
+    return m_instance;
   }
 
   private void setupPathPlanner() throws IOException, ParseException {

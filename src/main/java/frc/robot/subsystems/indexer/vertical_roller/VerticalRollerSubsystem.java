@@ -19,12 +19,20 @@ public class VerticalRollerSubsystem extends SubsystemBase {
   private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
   private final FlyWheel m_verticalRoller;
+  private static VerticalRollerSubsystem m_instance;
 
-  public VerticalRollerSubsystem() {
+  private VerticalRollerSubsystem() {
     m_verticalRollerMotor = new SparkMax(VerticalRollerConstants.CAN_ID, MotorType.kBrushless);
     m_motorConfig = VerticalRollerConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new SparkWrapper(m_verticalRollerMotor, VerticalRollerConstants.MOTOR, m_motorConfig);
     m_verticalRoller = new FlyWheel(VerticalRollerConstants.FLY_WHEEL_CONFIG, m_motor);
+  }
+
+  public static VerticalRollerSubsystem getInstance(){
+    if (m_instance == null){
+      m_instance = new VerticalRollerSubsystem();
+    }
+    return m_instance;
   }
 
   /** Returns the current vertical roller angular velocity as measured by the motor encoder. */
