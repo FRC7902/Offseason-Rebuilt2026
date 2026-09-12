@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
+import frc.robot.subsystems.shooter.hood.HoodConstants;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
@@ -47,6 +48,10 @@ public class ShooterSystem extends SubsystemBase {
     return m_turret
         .setAngle(() -> LaunchCalculator.getInstance().getParameters().turretAngle())
         .repeatedly();
+  }
+
+  public Command stop() {
+    return Commands.sequence(m_flywheel.stop(), m_hood.setAngle(HoodConstants.MIN_ANGLE));
   }
 
   /**
