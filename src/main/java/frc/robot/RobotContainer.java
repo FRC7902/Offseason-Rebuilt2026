@@ -4,15 +4,13 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
@@ -26,8 +24,6 @@ import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
-import yams.mechanisms.swerve.utility.SwerveInputStream;
 
 public class RobotContainer {
 
@@ -50,15 +46,15 @@ public class RobotContainer {
   private final IntakeSystem m_intakeSystem;
   private final ShooterSystem m_shooterSystem;
 
-  private final SwerveDriveSubsystem m_swerveDriveSubsystem;
-  private final SwerveInputStream driveAngularVelocity;
+  // private final SwerveDriveSubsystem m_swerveDriveSubsystem;
+  // private final SwerveInputStream driveAngularVelocity;
 
   private final StructArrayPublisher<Pose3d> posesPublisher =
       NetworkTableInstance.getDefault()
           .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
           .publish();
 
-  private final SendableChooser<Command> autoChooser;
+  // private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
 
@@ -79,14 +75,14 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    m_swerveDriveSubsystem = new SwerveDriveSubsystem();
-    driveAngularVelocity =
-        m_swerveDriveSubsystem
-            .getAngularVelocityStream(
-                m_driverController::getLeftY,
-                m_driverController::getLeftX,
-                () -> -m_driverController.getRawAxis(2))
-            .withAllianceRelativeControl();
+    // m_swerveDriveSubsystem = new SwerveDriveSubsystem();
+    // driveAngularVelocity =
+    //     m_swerveDriveSubsystem
+    //         .getAngularVelocityStream(
+    //             m_driverController::getLeftY,
+    //             m_driverController::getLeftX,
+    //             () -> -m_driverController.getRawAxis(2))
+    //         .withAllianceRelativeControl();
 
     m_indexerSystem =
         new IndexerSystem(
@@ -99,15 +95,15 @@ public class RobotContainer {
 
     // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // autoChooser = AutoBuilder.buildAutoChooser();
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
 
     configureBindings();
   }
 
   private void configureBindings() {
 
-    m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
+    // m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
 
     /*
      * TODO: Bind driver controller L2
@@ -127,7 +123,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    // return autoChooser.getSelected();
+    return Commands.none();
   }
 
   public void publishComponentPoses() {
