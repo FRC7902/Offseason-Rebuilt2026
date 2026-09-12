@@ -80,6 +80,10 @@ public class IndexerBeltSubsystem extends SubsystemBase {
    * @return A command that applies the given duty cycle while scheduled.
    */
   public Command setDutyCycle(double dutyCycle) {
+    /*
+     * Since duty cycle is not automatically applied to the follower motor,
+     * apply the same duty cycle to both motors in parallel.
+     */
     return Commands.parallel(
             Commands.startRun(
                     m_leaderMotor::stopClosedLoopController,
@@ -111,6 +115,10 @@ public class IndexerBeltSubsystem extends SubsystemBase {
    * @return A command that continuously polls the supplier.
    */
   public Command setDutyCycle(Supplier<Double> dutyCycle) {
+    /*
+     * Since duty cycle is not automatically applied to the follower motor,
+     * apply the same duty cycle to both motors in parallel.
+     */
     return Commands.parallel(
             Commands.startRun(
                     m_leaderMotor::stopClosedLoopController,
