@@ -14,13 +14,21 @@ public class ShooterSystem extends SubsystemBase {
   private final FlywheelSubsystem m_flywheel;
   private final HoodSubsystem m_hood;
   private final TurretSubsystem m_turret;
+  private static ShooterSystem m_instance;
 
-  public ShooterSystem(FlywheelSubsystem flywheel, HoodSubsystem hood, TurretSubsystem turret) {
-    m_flywheel = flywheel;
-    m_hood = hood;
-    m_turret = turret;
+  public ShooterSystem() {
+    m_flywheel = FlywheelSubsystem.getInstance();
+    m_hood = HoodSubsystem.getInstance();
+    m_turret = TurretSubsystem.getInstance();
 
     // m_turret.setDefaultCommand(aimTurret());
+  }
+
+  public static ShooterSystem getInstance(){
+    if (m_instance == null){
+      m_instance = new ShooterSystem();
+    }
+    return m_instance;
   }
 
   /**

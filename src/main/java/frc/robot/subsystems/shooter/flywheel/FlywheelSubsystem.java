@@ -28,6 +28,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   private final SmartMotorController m_leaderMotor;
   private final SmartMotorController m_followerMotor;
   private final FlyWheel m_flywheel;
+  private static FlywheelSubsystem m_instance;
 
   public FlywheelSubsystem() {
     m_flywheelLeaderMotor = new TalonFX(FlywheelConstants.LEADER_CAN_ID);
@@ -43,6 +44,13 @@ public class FlywheelSubsystem extends SubsystemBase {
             FlywheelConstants.LEADER_MOTOR,
             m_leaderMotorConfig.withLooselyCoupledFollowers(m_followerMotor));
     m_flywheel = new FlyWheel(FlywheelConstants.FLY_WHEEL_CONFIG, m_leaderMotor);
+  }
+
+  public static FlywheelSubsystem getInstance() {
+    if (m_instance == null){
+      m_instance = new FlywheelSubsystem();
+    }
+    return m_instance;
   }
 
   /**

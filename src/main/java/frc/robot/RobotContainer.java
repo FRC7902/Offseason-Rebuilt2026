@@ -95,7 +95,7 @@ public class RobotContainer {
             m_rollerFloorSubsystem,
             m_verticalRollerSubsystem);
     m_intakeSystem = IntakeSystem.getInstance();
-    m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
+    m_shooterSystem = ShooterSystem.getInstance();
 
     // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
 
