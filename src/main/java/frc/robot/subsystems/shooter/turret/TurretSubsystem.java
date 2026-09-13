@@ -43,8 +43,9 @@ public class TurretSubsystem extends SubsystemBase {
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
   }
-  public static TurretSubsystem getInstance(){
-    if (m_instance == null){
+
+  public static TurretSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new TurretSubsystem();
     }
     return m_instance;

@@ -24,8 +24,8 @@ public class ShooterSystem extends SubsystemBase {
     // m_turret.setDefaultCommand(aimTurret());
   }
 
-  public static ShooterSystem getInstance(){
-    if (m_instance == null){
+  public static ShooterSystem getInstance() {
+    if (m_instance == null) {
       m_instance = new ShooterSystem();
     }
     return m_instance;

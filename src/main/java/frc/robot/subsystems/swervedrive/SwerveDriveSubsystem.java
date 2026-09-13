@@ -68,8 +68,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
   }
 
-  public static SwerveDriveSubsystem getInstance(){
-    if (m_instance == null){
+  public static SwerveDriveSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new SwerveDriveSubsystem();
     }
     return m_instance;

@@ -43,8 +43,9 @@ public class IndexerBeltSubsystem extends SubsystemBase {
             m_leaderMotorConfig.withLooselyCoupledFollowers(m_followerMotor));
     m_indexerBelt = new FlyWheel(IndexerBeltConstants.FLY_WHEEL_CONFIG, m_leaderMotor);
   }
-  public static IndexerBeltSubsystem getInstance(){
-    if (m_instance == null){
+
+  public static IndexerBeltSubsystem getInstance() {
+    if (m_instance == null) {
       m_instance = new IndexerBeltSubsystem();
     }
     return m_instance;

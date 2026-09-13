@@ -38,7 +38,7 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   public static HoodSubsystem getInstance() {
-    if (m_instance == null){
+    if (m_instance == null) {
       m_instance = new HoodSubsystem();
     }
     return m_instance;

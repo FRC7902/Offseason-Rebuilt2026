@@ -23,8 +23,8 @@ public class IntakeSystem extends SubsystemBase {
     m_intakeRoller = IntakeRollerSubsystem.getInstance();
   }
 
-  public static IntakeSystem getInstance(){
-    if (m_instance == null){
+  public static IntakeSystem getInstance() {
+    if (m_instance == null) {
       m_instance = new IntakeSystem();
     }
     return m_instance;
