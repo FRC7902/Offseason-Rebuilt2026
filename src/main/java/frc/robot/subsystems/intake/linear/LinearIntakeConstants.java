@@ -51,7 +51,7 @@ public class LinearIntakeConstants {
           .withTelemetry(
               "LinearIntakeMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("LinearIntakeMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -73,7 +73,7 @@ public class LinearIntakeConstants {
   public static final ElevatorConfig ELEVATOR_CONFIG =
       new ElevatorConfig()
           .withHardLimits(FULLY_RETRACTED, FULLY_EXTENDED)
-          .withTelemetry("LinearIntakeMech", TelemetryVerbosity.HIGH)
+          .withTelemetry("LinearIntakeMech", TelemetryVerbosity.LOW)
           .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
           .withAngle(MECHANISM_ANGLE)
           .withCarriageWeight(Pounds.of(7.933));

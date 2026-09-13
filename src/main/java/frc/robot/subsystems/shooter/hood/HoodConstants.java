@@ -37,7 +37,7 @@ public class HoodConstants {
           .withTelemetry(
               "HoodMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("HoodMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -53,5 +53,5 @@ public class HoodConstants {
       new ArmConfig()
           .withLength(Meters.of(0.135)) // TODO
           .withHardLimits(MIN_ANGLE, MAX_ANGLE)
-          .withTelemetry("HoodMech", TelemetryVerbosity.HIGH);
+          .withTelemetry("HoodMech", TelemetryVerbosity.LOW);
 }
