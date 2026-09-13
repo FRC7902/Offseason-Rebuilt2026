@@ -99,7 +99,10 @@ public class RobotContainer {
             .scaleTranslation(1.0)
             .allianceRelativeControl(true);
     driveSlowAngularVelocity =
-        driveAngularVelocity.copy().scaleTranslation(SwerveDriveConstants.SLOW_MODE_SCALE);
+        driveAngularVelocity
+            .copy()
+            .scaleTranslation(SwerveDriveConstants.SLOW_MODE_TRANSLATION_SCALE)
+            .scaleRotation(SwerveDriveConstants.SLOW_MODE_ROTATION_SCALE);
     driveDirectAngle =
         driveAngularVelocity
             .copy()
@@ -192,16 +195,16 @@ public class RobotContainer {
         .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
-        .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
-    // TODO: Add slow driving mode
+        .onTrue(m_indexerSystem.storeFuel()) // Funnel fuel inside indexer
+        .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Both intake button and shoot button are pressed
     intakeTrigger
         .and(shootTrigger)
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         // .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
-        .onTrue(m_indexerSystem.feedFuel()); // Feed fuel to shooter
-    // TODO: Add slow driving mode
+        .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+        .whileTrue(driveSlowFieldOrientedAngularVelocity);
   }
 
   public Command getAutonomousCommand() {
