@@ -14,9 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
+import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerSubsystem;
 import frc.robot.subsystems.intake.IntakeSystem;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
@@ -36,7 +39,7 @@ public class RobotContainer {
   private final IndexerBeltSubsystem m_indexerBeltSubsystem;
   private final FeederSubsystem m_feederSubsystem;
   private final RollerFloorSubsystem m_rollerFloorSubsystem;
-  // private final VerticalRollerSubsystem m_verticalRollerSubsystem;
+  private final VerticalRollerSubsystem m_verticalRollerSubsystem;
 
   private final LinearIntakeSubsystem m_linearIntakeSubsystem;
   private final IntakeRollerSubsystem m_intakeRollerSubsystem;
@@ -45,7 +48,7 @@ public class RobotContainer {
   private final HoodSubsystem m_hoodSubsystem;
   private final TurretSubsystem m_turretSubsystem;
 
-  // private final IndexerSystem m_indexerSystem;
+  private final IndexerSystem m_indexerSystem;
   private final IntakeSystem m_intakeSystem;
   private final ShooterSystem m_shooterSystem;
 
@@ -123,7 +126,7 @@ public class RobotContainer {
     m_indexerBeltSubsystem = new IndexerBeltSubsystem();
     m_feederSubsystem = new FeederSubsystem();
     m_rollerFloorSubsystem = new RollerFloorSubsystem();
-    // m_verticalRollerSubsystem = new VerticalRollerSubsystem();
+    m_verticalRollerSubsystem = new VerticalRollerSubsystem();
 
     m_linearIntakeSubsystem = new LinearIntakeSubsystem();
     m_intakeRollerSubsystem = new IntakeRollerSubsystem();
@@ -132,12 +135,12 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    // m_indexerSystem =
-    //     new IndexerSystem(
-    //         m_indexerBeltSubsystem,
-    //         m_feederSubsystem,
-    //         m_rollerFloorSubsystem,
-    //         m_verticalRollerSubsystem);
+    m_indexerSystem =
+        new IndexerSystem(
+            m_indexerBeltSubsystem,
+            m_feederSubsystem,
+            m_rollerFloorSubsystem,
+            m_verticalRollerSubsystem);
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
@@ -155,26 +158,50 @@ public class RobotContainer {
 
     m_swerveDriveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
 
-    /*
-     * TODO: Bind driver controller L2
-     * - When held, extend intake and run intake rollers
-     * - When held, but not shooting (operator's R2 not held), run indexer to store
-     * fuel
-     * - When released, retract intake and stop intake rollers
-     */
-
-    /*
-     * TODO: Bind operator controller R2
-     * - When held run shooter, and run indexer to feed balls into shooter when
-     * shooter is ready. Stop shooting when released
-     * - When held and shooter is ready, shuffle the hopper using the intake. Stop
-     * shuffling when released
-     */
+    Trigger intakeTrigger = m_driverController.L2();
+    Trigger shootTrigger = m_driverController.R2();
 
     m_driverController
         .options()
         .onTrue((Commands.runOnce(m_swerveDriveSubsystem::zeroGyroWithAlliance)));
     m_driverController.create().whileTrue(m_swerveDriveSubsystem.centerModulesCommand());
+
+    // Neither intake button nor shoot button is pressed
+    intakeTrigger
+        .negate()
+        .and(shootTrigger.negate())
+        .onTrue(m_intakeSystem.stop()) // Stop intaking
+        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_indexerSystem.stop()); // Stop indexing
+
+    // Shoot button is pressed, but intake button is not pressed
+    intakeTrigger
+        .negate()
+        .and(shootTrigger)
+        .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        .onTrue(
+            Commands.waitUntil(m_shooterSystem::isShooterReady)
+                .andThen(
+                    Commands.parallel(
+                        m_intakeSystem.shuffle(), // Shuffle hopper
+                        m_indexerSystem.feedFuel() // Feed fuel to shooter
+                        )));
+
+    // Intake button is pressed, but shoot button is not pressed
+    intakeTrigger
+        .and(shootTrigger.negate())
+        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
+        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
+    // TODO: Add slow driving mode
+
+    // Both intake button and shoot button are pressed
+    intakeTrigger
+        .and(shootTrigger)
+        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
+        // .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        .onTrue(m_indexerSystem.feedFuel()); // Feed fuel to shooter
+    // TODO: Add slow driving mode
   }
 
   public Command getAutonomousCommand() {
