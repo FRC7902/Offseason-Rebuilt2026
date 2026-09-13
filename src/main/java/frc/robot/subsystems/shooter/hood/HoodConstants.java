@@ -27,6 +27,8 @@ public class HoodConstants {
   public static final Angle MIN_ANGLE = Degrees.of(0);
   public static final Angle MAX_ANGLE = Degrees.of(24.3457);
 
+  public static final Angle DEFAULT_ANGLE = Degrees.of(5);
+
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(160, 0, 0)

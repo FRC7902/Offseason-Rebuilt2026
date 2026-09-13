@@ -69,7 +69,7 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command storeFuel() {
     return Commands.parallel(
-        m_rollerFloor.setVelocity(RollerFloorConstants.STORING_SPEED),
+        m_rollerFloor.setDutyCycle(RollerFloorConstants.STORING_DUTY_CYCLE),
         m_indexerBelt.setDutyCycle(IndexerBeltConstants.STORING_DUTY_CYCLE),
         m_verticalRoller.setDutyCycle(VerticalRollerConstants.STORING_DUTY_CYCLE),
         m_feeder.stop());

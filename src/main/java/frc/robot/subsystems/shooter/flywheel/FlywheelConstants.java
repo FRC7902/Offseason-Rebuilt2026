@@ -26,6 +26,7 @@ public class FlywheelConstants {
   public static final int FOLLOWER_CAN_ID = 25;
 
   public static final AngularVelocity MAX_RPM = RPM.of(5785); // TODO
+  public static final AngularVelocity DEFAULT_RPM = MAX_RPM.times(0.10);
 
   public static final AngularVelocity TOLERANCE = RPM.of(50);
 

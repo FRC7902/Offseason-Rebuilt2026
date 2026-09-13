@@ -205,6 +205,46 @@ public class RobotContainer {
         // .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
         .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
+
+    // Manual Shoot Button Bindings
+    Trigger manualShootTrigger = m_driverController.R1();
+
+    // Neither intake button nor manual shoot button is pressed
+    intakeTrigger
+        .negate()
+        .and(manualShootTrigger.negate())
+        .onTrue(m_intakeSystem.stop()) // Stop intaking
+        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_indexerSystem.stop()); // Stop indexing
+
+    // manual Shoot button is pressed, but intake button is not pressed
+    intakeTrigger
+        .negate()
+        .and(manualShootTrigger)
+        .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
+        .onTrue(
+            Commands.waitSeconds(0.5)
+                .andThen(
+                    Commands.parallel(
+                        m_intakeSystem.shuffle(), // Shuffle hopper
+                        m_indexerSystem.feedFuel() // Feed fuel to shooter
+                        )));
+
+    // Intake button is pressed, but manual shoot button is not pressed
+    intakeTrigger
+        .and(manualShootTrigger.negate())
+        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
+        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_indexerSystem.storeFuel()) // Funnel fuel inside indexer
+        .whileTrue(driveSlowFieldOrientedAngularVelocity);
+
+    // Both intake button and manual shoot button are pressed
+    intakeTrigger
+        .and(manualShootTrigger)
+        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
+        .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
+        .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+        .whileTrue(driveSlowFieldOrientedAngularVelocity);
   }
 
   public Command getAutonomousCommand() {
