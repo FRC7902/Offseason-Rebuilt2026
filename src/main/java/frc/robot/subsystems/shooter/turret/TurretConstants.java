@@ -40,7 +40,7 @@ public class TurretConstants {
           .withTelemetry(
               "TurretMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("TurretMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -53,7 +53,7 @@ public class TurretConstants {
   public static final PivotConfig PIVOT_CONFIG =
       new PivotConfig()
           .withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE)
-          .withTelemetry("TurretMech", TelemetryVerbosity.HIGH);
+          .withTelemetry("TurretMech", TelemetryVerbosity.LOW);
 
   public static final Transform3d ROBOT_TO_TURRET =
       new Transform3d(Feet.of(-1.5), Feet.of(0), Feet.of(0.5), Rotation3d.kZero); // TODO

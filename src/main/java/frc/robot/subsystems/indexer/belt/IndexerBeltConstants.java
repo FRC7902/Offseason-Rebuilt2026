@@ -40,7 +40,7 @@ public class IndexerBeltConstants {
           .withTelemetry(
               "IndexerBeltMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("IndexerBeltMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -57,6 +57,6 @@ public class IndexerBeltConstants {
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withTelemetry("IndexerBeltMech", TelemetryVerbosity.HIGH)
+          .withTelemetry("IndexerBeltMech", TelemetryVerbosity.LOW)
           .withSpeedometerSimulation(RPM.of(3377));
 }

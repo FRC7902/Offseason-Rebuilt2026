@@ -41,7 +41,7 @@ public class RollerFloorConstants {
           .withTelemetry(
               "RollerFloorMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("RollerFloorMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -56,6 +56,6 @@ public class RollerFloorConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
-          .withTelemetry("RollerFloorMech", TelemetryVerbosity.HIGH)
+          .withTelemetry("RollerFloorMech", TelemetryVerbosity.LOW)
           .withSpeedometerSimulation(MAX_SPEED_RPM);
 }

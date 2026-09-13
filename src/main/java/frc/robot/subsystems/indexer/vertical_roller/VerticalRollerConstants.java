@@ -38,7 +38,7 @@ public class VerticalRollerConstants {
           .withTelemetry(
               "VerticalRollerMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("VerticalRollerMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -52,6 +52,6 @@ public class VerticalRollerConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
-          .withTelemetry("VerticalRollerMech", TelemetryVerbosity.HIGH)
+          .withTelemetry("VerticalRollerMech", TelemetryVerbosity.LOW)
           .withSpeedometerSimulation(RPM.of(1619));
 }
