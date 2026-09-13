@@ -37,7 +37,7 @@ public class HoodConstants {
           .withTelemetry(
               "HoodMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   .withDataLogName("HoodMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40))
@@ -52,5 +52,5 @@ public class HoodConstants {
       new ArmConfig()
           .withLength(Meters.of(0.135)) // TODO
           .withHardLimits(MIN_ANGLE, MAX_ANGLE)
-          .withTelemetry("HoodMech", TelemetryVerbosity.HIGH);
+          .withTelemetry("HoodMech", TelemetryVerbosity.LOW);
 }

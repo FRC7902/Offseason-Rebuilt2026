@@ -38,7 +38,7 @@ public class FlywheelConstants {
           .withTelemetry(
               "ShooterFlywheelMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   .withDataLogName("ShooterFlywheelMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(80)) // TODO
@@ -56,6 +56,6 @@ public class FlywheelConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(4))
-          .withTelemetry("ShooterFlywheelMech", TelemetryVerbosity.HIGH)
+          .withTelemetry("ShooterFlywheelMech", TelemetryVerbosity.LOW)
           .withSpeedometerSimulation(MAX_RPM);
 }

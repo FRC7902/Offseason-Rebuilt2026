@@ -8,8 +8,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.wpilibj.DataLogManager;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -117,9 +115,9 @@ public class RobotContainer {
             .publish();
 
     // Start data logging
-    DataLogManager.start();
+    // DataLogManager.start();
     // Include DriverStation data in the log
-    DriverStation.startDataLog(DataLogManager.getLog());
+    // DriverStation.startDataLog(DataLogManager.getLog());
 
     m_indexerBeltSubsystem = new IndexerBeltSubsystem();
     m_feederSubsystem = new FeederSubsystem();
