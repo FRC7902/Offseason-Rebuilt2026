@@ -2,6 +2,7 @@ package frc.robot.subsystems.swervedrive;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindingCommand;
@@ -9,6 +10,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,8 +23,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import limelight.Limelight;
+import limelight.networktables.AngularVelocity3d;
+import limelight.networktables.LimelightPoseEstimator;
+import limelight.networktables.LimelightPoseEstimator.EstimationMode;
+import limelight.networktables.LimelightSettings.LEDMode;
+import limelight.networktables.Orientation3d;
+import limelight.networktables.PoseEstimate;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -33,6 +43,9 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
   private final SwerveDrive swerveDrive;
+
+  Limelight m_limelight = new Limelight("limelight"); // TODO: Update limelight name
+  LimelightPoseEstimator m_poseEstimator;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -77,10 +90,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // possible
 
     setupPathPlanner();
+    setupLimelight();
   }
 
   /** Setup AutoBuilder for PathPlanner. */
-  public void setupPathPlanner() {
+  private void setupPathPlanner() {
     // Load the RobotConfig from the GUI settings. You should probably
     // store this in your Constants file
     RobotConfig config;
@@ -106,10 +120,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
               swerveDrive.setChassisSpeeds(speedsRobotRelative);
             }
           },
-          // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally
+          // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
+          // optionally
           // outputs individual module feedforwards
           new PPHolonomicDriveController(
-              // PPHolonomicController is the built in path following controller for holonomic drive
+              // PPHolonomicController is the built in path following controller for holonomic
+              // drive
               // trains
               new PIDConstants(5.0, 0.0, 0.0),
               // Translation PID constants
@@ -119,7 +135,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           config,
           // The robot configuration
           () -> {
-            // Boolean supplier that controls when the path will be mirrored for the red alliance
+            // Boolean supplier that controls when the path will be mirrored for the red
+            // alliance
             // This will flip the path being followed to the red side of the field.
             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
@@ -141,6 +158,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // Preload PathPlanner Path finding
     // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
     CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
+  }
+
+  private void setupLimelight() {
+    m_limelight
+        .getSettings()
+        .withLimelightLEDMode(LEDMode.PipelineControl)
+        .withCameraOffset(Pose3d.kZero) // TODO: Update camera offset
+        .save();
+
+    m_poseEstimator = m_limelight.createPoseEstimator(EstimationMode.MEGATAG2);
   }
 
   /**
@@ -529,5 +556,35 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
+  }
+
+  private void localize() {
+    m_limelight
+        .getSettings()
+        .withRobotOrientation(
+            new Orientation3d(
+                swerveDrive.getGyroRotation3d(),
+                new AngularVelocity3d(
+                    RadiansPerSecond.of(swerveDrive.getRobotVelocity().omegaRadiansPerSecond),
+                    RadiansPerSecond.of(0),
+                    RadiansPerSecond.of(0))))
+        .save();
+
+    Optional<PoseEstimate> visionEstimate = m_poseEstimator.getPoseEstimate();
+    visionEstimate.ifPresent(
+        (PoseEstimate poseEstimate) -> {
+          // Reject long-range or ambiguous reads before fusing.
+          if (poseEstimate.avgTagDist < 4
+              && poseEstimate.tagCount > 0
+              && poseEstimate.getMinTagAmbiguity() < 0.3) {
+            getSwerveDrive()
+                .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
+          }
+        });
+  }
+
+  @Override
+  public void periodic() {
+    localize();
   }
 }
