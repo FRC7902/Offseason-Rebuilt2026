@@ -51,8 +51,8 @@ public class LinearIntakeConstants {
           .withTelemetry(
               "LinearIntakeMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
-                  .withDataLogName("LinearIntakeMotor")
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  // .withDataLogName("LinearIntakeMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(10)) // TODO
@@ -72,7 +72,7 @@ public class LinearIntakeConstants {
   public static final ElevatorConfig ELEVATOR_CONFIG =
       new ElevatorConfig()
           .withHardLimits(FULLY_RETRACTED, FULLY_EXTENDED)
-          .withTelemetry("LinearIntakeMech", TelemetryVerbosity.LOW)
+          .withTelemetry("LinearIntakeMech", TelemetryVerbosity.HIGH)
           .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
           .withAngle(MECHANISM_ANGLE)
           .withCarriageWeight(Pounds.of(7.933));

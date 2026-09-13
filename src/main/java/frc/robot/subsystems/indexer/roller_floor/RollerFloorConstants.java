@@ -41,8 +41,8 @@ public class RollerFloorConstants {
           .withTelemetry(
               "RollerFloorMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
-                  .withDataLogName("RollerFloorMotor")
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  // .withDataLogName("RollerFloorMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(40)) // TODO
@@ -55,6 +55,6 @@ public class RollerFloorConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
-          .withTelemetry("RollerFloorMech", TelemetryVerbosity.LOW)
+          .withTelemetry("RollerFloorMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(MAX_SPEED_RPM);
 }

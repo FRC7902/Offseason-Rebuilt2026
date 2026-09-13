@@ -38,8 +38,8 @@ public class VerticalRollerConstants {
           .withTelemetry(
               "VerticalRollerMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
-                  .withDataLogName("VerticalRollerMotor")
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  // .withDataLogName("VerticalRollerMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false)
@@ -51,6 +51,6 @@ public class VerticalRollerConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
-          .withTelemetry("VerticalRollerMech", TelemetryVerbosity.LOW)
+          .withTelemetry("VerticalRollerMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(1619));
 }

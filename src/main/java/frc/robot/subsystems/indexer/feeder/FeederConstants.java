@@ -36,8 +36,8 @@ public class FeederConstants {
           .withTelemetry(
               "FeederMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
-                  .withDataLogName("FeederMotor")
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  // .withDataLogName("FeederMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(40)) // TODO
@@ -50,6 +50,6 @@ public class FeederConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.999302))
-          .withTelemetry("FeederMech", TelemetryVerbosity.LOW)
+          .withTelemetry("FeederMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(3718));
 }

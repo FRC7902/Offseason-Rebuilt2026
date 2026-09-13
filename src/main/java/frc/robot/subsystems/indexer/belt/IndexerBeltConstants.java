@@ -40,8 +40,8 @@ public class IndexerBeltConstants {
           .withTelemetry(
               "IndexerBeltMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
-                  .withDataLogName("IndexerBeltMotor")
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  // .withDataLogName("IndexerBeltMotor")
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(40)) // TODO
@@ -56,6 +56,6 @@ public class IndexerBeltConstants {
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withTelemetry("IndexerBeltMech", TelemetryVerbosity.LOW)
+          .withTelemetry("IndexerBeltMech", TelemetryVerbosity.HIGH)
           .withSpeedometerSimulation(RPM.of(3377));
 }
