@@ -50,7 +50,7 @@ public class IndexerSystem extends SubsystemBase {
                 m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED).withTimeout(1),
                 Commands.waitUntil(() -> isStuck()),
                 m_rollerFloor.setDutyCycle(-1).withTimeout(0.2),
-                Commands.waitUntil(() -> isReversing()))
+                Commands.waitUntil(() -> isReversing()).withTimeout(3))
             .repeatedly(),
         m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
         m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
