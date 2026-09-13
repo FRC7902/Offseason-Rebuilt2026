@@ -199,7 +199,7 @@ public class RobotContainer {
     intakeTrigger
         .and(shootTrigger)
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        // .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
         .onTrue(m_indexerSystem.feedFuel()); // Feed fuel to shooter
     // TODO: Add slow driving mode
   }
