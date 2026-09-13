@@ -30,6 +30,14 @@ public class IndexerSystem extends SubsystemBase {
     m_verticalRoller = verticalRoller;
   }
 
+  public boolean isStuck() {
+    return m_rollerFloor.getVelocity().lt(RollerFloorConstants.FEEDING_SPEED.times(0.75));
+  }
+
+  public boolean isReversing() {
+    return m_rollerFloor.getVelocity().lt(RollerFloorConstants.IS_REVERSING_SPEED_MIN);
+  }
+
   /**
    * Creates a command that runs the roller floor, indexer belt, and feeder simultaneously to move
    * fuel through the indexer system.
@@ -38,7 +46,12 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command feedFuel() {
     return Commands.parallel(
-        m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
+        Commands.sequence(
+                m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED).withTimeout(1),
+                Commands.waitUntil(() -> isStuck()),
+                m_rollerFloor.setDutyCycle(-1).withTimeout(0.2),
+                Commands.waitUntil(() -> isReversing()))
+            .repeatedly(),
         m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
         m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
         m_verticalRoller.setDutyCycle(VerticalRollerConstants.FEEDING_DUTY_CYCLE));
