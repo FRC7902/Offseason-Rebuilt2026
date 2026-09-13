@@ -47,12 +47,15 @@ public class IndexerSystem extends SubsystemBase {
   public Command feedFuel() {
     return Commands.parallel(
         Commands.sequence(
-                m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED).withTimeout(1),
+                Commands.parallel(
+                        m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
+                        m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED))
+                    .withTimeout(1),
                 Commands.waitUntil(() -> isStuck()),
-                m_rollerFloor.setDutyCycle(-1).withTimeout(0.2),
-                Commands.waitUntil(() -> isReversing()).withTimeout(3))
+                Commands.parallel(m_rollerFloor.setDutyCycle(-1), m_indexerBelt.setDutyCycle(-1))
+                    .withTimeout(0.2),
+                Commands.waitUntil(() -> isReversing()).withTimeout(1))
             .repeatedly(),
-        m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
         m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
         m_verticalRoller.setDutyCycle(VerticalRollerConstants.FEEDING_DUTY_CYCLE));
   }
