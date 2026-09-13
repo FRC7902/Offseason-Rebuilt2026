@@ -29,7 +29,7 @@ public class IndexerBeltConstants {
   public static final AngularVelocity STORING_SPEED = RPM.of(100); // TODO
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
-  public static final double STORING_DUTY_CYCLE = 0.2;
+  public static final double STORING_DUTY_CYCLE = 0.05;
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()
