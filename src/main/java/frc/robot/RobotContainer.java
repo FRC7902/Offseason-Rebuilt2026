@@ -183,12 +183,13 @@ public class RobotContainer {
         .and(shootTrigger)
         .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
         .onTrue(
-            Commands.waitUntil(m_shooterSystem::isShooterReady)
-                .andThen(
-                    Commands.parallel(
-                        m_intakeSystem.shuffle(), // Shuffle hopper
-                        m_indexerSystem.feedFuel() // Feed fuel to shooter
-                        )));
+            Commands.sequence(
+                Commands.waitUntil(m_shooterSystem::isShooterReady),
+                m_indexerSystem.reverseIndexer().withTimeout(0.5),
+                Commands.parallel(
+                    m_intakeSystem.shuffle(), // Shuffle hopper
+                    m_indexerSystem.feedFuel() // Feed fuel to shooter
+                    )));
 
     // Intake button is pressed, but shoot button is not pressed
     intakeTrigger
@@ -223,7 +224,9 @@ public class RobotContainer {
         .and(manualShootTrigger)
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(
-            Commands.waitSeconds(0.5)
+            m_indexerSystem
+                .reverseIndexer()
+                .withTimeout(0.5)
                 .andThen(
                     Commands.parallel(
                         m_intakeSystem.shuffle(), // Shuffle hopper
