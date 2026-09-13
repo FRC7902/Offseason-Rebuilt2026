@@ -34,14 +34,14 @@ public class RollerFloorConstants {
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(200, 0, 0) // TODO
+          .withClosedLoopController(200, 0, 0)
           .withSimClosedLoopController(0, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(3.57142857143)))
           .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "RollerFloorMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("RollerFloorMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
