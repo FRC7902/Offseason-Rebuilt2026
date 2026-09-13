@@ -8,7 +8,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,7 +28,6 @@ import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
-import java.io.File;
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
@@ -87,8 +85,7 @@ public class RobotContainer {
     /*
      * Swerve drive subsystem and input streams
      */
-    m_swerveDriveSubsystem =
-        new SwerveDriveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
+    m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
     driveAngularVelocity =
         SwerveInputStream.of(
                 m_swerveDriveSubsystem.getSwerveDrive(),

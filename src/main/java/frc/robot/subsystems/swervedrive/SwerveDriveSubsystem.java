@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,6 +45,8 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 public class SwerveDriveSubsystem extends SubsystemBase {
   private final SwerveDrive swerveDrive;
 
+  private static SwerveDriveSubsystem m_instance;
+
   Limelight m_limelight = new Limelight("limelight"); // TODO: Update limelight name
   LimelightPoseEstimator m_poseEstimator;
 
@@ -52,7 +55,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    *
    * @param directory Directory of swerve drive config files.
    */
-  public SwerveDriveSubsystem(File directory) {
+  private SwerveDriveSubsystem(File directory) {
     boolean blueAlliance = false;
     Pose2d startingPose =
         blueAlliance
@@ -91,6 +94,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     setupPathPlanner();
     setupLimelight();
+  }
+
+  public static SwerveDriveSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new SwerveDriveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
+    }
+
+    return m_instance;
   }
 
   /** Setup AutoBuilder for PathPlanner. */
