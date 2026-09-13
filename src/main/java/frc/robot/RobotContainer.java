@@ -4,19 +4,19 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.wpilibj.DataLogManager;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import frc.robot.subsystems.indexer.IndexerSystem;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederSubsystem;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
-import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerSubsystem;
 import frc.robot.subsystems.intake.IntakeSystem;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
@@ -24,16 +24,19 @@ import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
+import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+import java.io.File;
+import swervelib.SwerveInputStream;
 
 public class RobotContainer {
 
-  private final CommandPS5Controller m_driverController =
-      new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
+  private final CommandPS5Controller m_driverController;
 
   private final IndexerBeltSubsystem m_indexerBeltSubsystem;
   private final FeederSubsystem m_feederSubsystem;
   private final RollerFloorSubsystem m_rollerFloorSubsystem;
-  private final VerticalRollerSubsystem m_verticalRollerSubsystem;
+  // private final VerticalRollerSubsystem m_verticalRollerSubsystem;
 
   private final LinearIntakeSubsystem m_linearIntakeSubsystem;
   private final IntakeRollerSubsystem m_intakeRollerSubsystem;
@@ -42,31 +45,85 @@ public class RobotContainer {
   private final HoodSubsystem m_hoodSubsystem;
   private final TurretSubsystem m_turretSubsystem;
 
-  private final IndexerSystem m_indexerSystem;
+  // private final IndexerSystem m_indexerSystem;
   private final IntakeSystem m_intakeSystem;
   private final ShooterSystem m_shooterSystem;
 
-  // private final SwerveDriveSubsystem m_swerveDriveSubsystem;
-  // private final SwerveInputStream driveAngularVelocity;
+  private final SwerveDriveSubsystem m_swerveDriveSubsystem;
 
-  private final StructArrayPublisher<Pose3d> posesPublisher =
-      NetworkTableInstance.getDefault()
-          .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
-          .publish();
+  private double applyDriverTranslationStickCurve(double input) {
+    return Math.copySign(
+        Math.pow(Math.abs(input), SwerveDriveConstants.DRIVER_TRANSLATION_STICK_CURVE_EXPONENT),
+        input);
+  }
 
-  // private final SendableChooser<Command> autoChooser;
+  private double getCurvedDriverLeftX() {
+    return applyDriverTranslationStickCurve(-m_driverController.getLeftX());
+  }
+
+  private double getCurvedDriverLeftY() {
+    return applyDriverTranslationStickCurve(-m_driverController.getLeftY());
+  }
+
+  SwerveInputStream driveAngularVelocity;
+  SwerveInputStream driveSlowAngularVelocity;
+  SwerveInputStream driveDirectAngle;
+
+  Command driveFieldOrientedAngularVelocity;
+  Command driveSlowFieldOrientedAngularVelocity;
+  Command driveFieldOrientedDirectAngle;
+
+  private final StructArrayPublisher<Pose3d> posesPublisher;
+
+  private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
 
+    m_driverController = new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
+
+    /*
+     * Swerve drive subsystem and input streams
+     */
+    m_swerveDriveSubsystem =
+        new SwerveDriveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
+    driveAngularVelocity =
+        SwerveInputStream.of(
+                m_swerveDriveSubsystem.getSwerveDrive(),
+                this::getCurvedDriverLeftY,
+                this::getCurvedDriverLeftX)
+            .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
+            .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
+            .scaleTranslation(1.0)
+            .allianceRelativeControl(true);
+    driveSlowAngularVelocity =
+        driveAngularVelocity.copy().scaleTranslation(SwerveDriveConstants.SLOW_MODE_SCALE);
+    driveDirectAngle =
+        driveAngularVelocity
+            .copy()
+            .withControllerHeadingAxis(m_driverController::getRightX, m_driverController::getRightY)
+            .headingWhile(true);
+    driveFieldOrientedAngularVelocity =
+        m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
+    driveSlowFieldOrientedAngularVelocity =
+        m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity);
+    driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
+
+    // Publish the poses of the components to NetworkTables for visualization in 3D
+    posesPublisher =
+        NetworkTableInstance.getDefault()
+            .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
+            .publish();
+
+    // TODO: Enable data logging once USB stick is connected
     // Start data logging
-    DataLogManager.start();
+    // DataLogManager.start();
     // Include DriverStation data in the log
-    DriverStation.startDataLog(DataLogManager.getLog());
+    // DriverStation.startDataLog(DataLogManager.getLog());
 
     m_indexerBeltSubsystem = new IndexerBeltSubsystem();
     m_feederSubsystem = new FeederSubsystem();
     m_rollerFloorSubsystem = new RollerFloorSubsystem();
-    m_verticalRollerSubsystem = new VerticalRollerSubsystem();
+    // m_verticalRollerSubsystem = new VerticalRollerSubsystem();
 
     m_linearIntakeSubsystem = new LinearIntakeSubsystem();
     m_intakeRollerSubsystem = new IntakeRollerSubsystem();
@@ -75,35 +132,28 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    // m_swerveDriveSubsystem = new SwerveDriveSubsystem();
-    // driveAngularVelocity =
-    //     m_swerveDriveSubsystem
-    //         .getAngularVelocityStream(
-    //             m_driverController::getLeftY,
-    //             m_driverController::getLeftX,
-    //             () -> -m_driverController.getRawAxis(2))
-    //         .withAllianceRelativeControl();
-
-    m_indexerSystem =
-        new IndexerSystem(
-            m_indexerBeltSubsystem,
-            m_feederSubsystem,
-            m_rollerFloorSubsystem,
-            m_verticalRollerSubsystem);
+    // m_indexerSystem =
+    //     new IndexerSystem(
+    //         m_indexerBeltSubsystem,
+    //         m_feederSubsystem,
+    //         m_rollerFloorSubsystem,
+    //         m_verticalRollerSubsystem);
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
-    // NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
+    // NamedCommands.registerCommand("extendAndIntake",
+    // m_intakeSystem.extendAndIntake());
 
-    // autoChooser = AutoBuilder.buildAutoChooser();
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    autoChooser.setDefaultOption("Do Nothing", Commands.none());
 
     configureBindings();
   }
 
   private void configureBindings() {
 
-    // m_swerveDriveSubsystem.setDefaultCommand(m_swerveDriveSubsystem.drive(driveAngularVelocity));
+    m_swerveDriveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
 
     /*
      * TODO: Bind driver controller L2
@@ -120,11 +170,15 @@ public class RobotContainer {
      * - When held and shooter is ready, shuffle the hopper using the intake. Stop
      * shuffling when released
      */
+
+    m_driverController
+        .options()
+        .onTrue((Commands.runOnce(m_swerveDriveSubsystem::zeroGyroWithAlliance)));
+    m_driverController.create().whileTrue(m_swerveDriveSubsystem.centerModulesCommand());
   }
 
   public Command getAutonomousCommand() {
-    // return autoChooser.getSelected();
-    return Commands.none();
+    return autoChooser.getSelected();
   }
 
   public void publishComponentPoses() {

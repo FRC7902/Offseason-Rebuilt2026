@@ -39,7 +39,8 @@ public class VerticalRollerConstants {
               "VerticalRollerMotor",
               new SmartMotorControllerTelemetryConfig()
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
-                  .withDataLogName("VerticalRollerMotor")
+                  // .withDataLogName("VerticalRollerMotor") // TODO: Enable data logging once USB
+                  // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false)

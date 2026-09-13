@@ -39,7 +39,8 @@ public class FlywheelConstants {
               "ShooterFlywheelMotor",
               new SmartMotorControllerTelemetryConfig()
                   .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
-                  .withDataLogName("ShooterFlywheelMotor")
+                  // .withDataLogName("ShooterFlywheelMotor") // TODO: Enable data logging once USB
+                  // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(80)) // TODO
           .withSupplyCurrentLimit(Amps.of(30)) // TODO
