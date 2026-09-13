@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.shooter.flywheel.FlywheelConstants;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
+import frc.robot.subsystems.shooter.hood.HoodConstants;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
@@ -38,6 +40,12 @@ public class ShooterSystem extends SubsystemBase {
         .repeatedly();
   }
 
+  public Command manualAimAndShoot() {
+    return Commands.parallel(
+        m_hood.setAngle(HoodConstants.DEFAULT_ANGLE),
+        m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM));
+  }
+
   /**
    * Creates a command that sets the turret angle based on the current launch calculator parameters.
    *
@@ -67,7 +75,7 @@ public class ShooterSystem extends SubsystemBase {
    */
   public Command stopShooting() {
     // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
-    return Commands.parallel(m_flywheel.stop(), m_hood.stop());
+    return Commands.parallel(m_flywheel.stop(), m_hood.setAngle(HoodConstants.MIN_ANGLE));
   }
 
   @Override
