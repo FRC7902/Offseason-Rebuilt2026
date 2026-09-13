@@ -114,6 +114,7 @@ public class RobotContainer {
             .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
             .publish();
 
+    // TODO: Enable data logging once USB stick is connected
     // Start data logging
     // DataLogManager.start();
     // Include DriverStation data in the log
