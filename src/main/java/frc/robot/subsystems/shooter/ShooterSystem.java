@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.intake.IntakeSystem;
+import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
+import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
@@ -19,14 +20,14 @@ public class ShooterSystem extends SubsystemBase {
   private final TurretSubsystem m_turret;
   private static ShooterSystem m_instance;
 
-  private static IntakeSystem m_intakeSystem;
+  private static LinearIntakeSubsystem m_linearIntakeSubsystem;
 
   private ShooterSystem() {
     m_flywheel = FlywheelSubsystem.getInstance();
     m_hood = HoodSubsystem.getInstance();
     m_turret = TurretSubsystem.getInstance();
 
-    m_intakeSystem = IntakeSystem.getInstance();
+    m_linearIntakeSubsystem = LinearIntakeSubsystem.getInstance();
 
     // m_turret.setDefaultCommand(aimTurret());
   }
@@ -87,12 +88,15 @@ public class ShooterSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // TODO: Make sure stop() does not run
-    if (m_intakeSystem.stop().isScheduled()) {
+    if (m_linearIntakeSubsystem.getHeight().lt(LinearIntakeConstants.MIDPOINT_DISTANCE)) {
       Angle compareAngle =
-          m_turret.getAngle().isNear(TurretConstants.ANGLE_180, TurretConstants.RIGHT_ANGLE_TOLERANCE)
+          m_turret
+                  .getAngle()
+                  .isNear(TurretConstants.ANGLE_180, TurretConstants.RIGHT_ANGLE_TOLERANCE)
               ? TurretConstants.ANGLE_180
-              : m_turret.getAngle().isNear(TurretConstants.CCW_90_ANGLE, TurretConstants.RIGHT_ANGLE_TOLERANCE)
+              : m_turret
+                      .getAngle()
+                      .isNear(TurretConstants.CCW_90_ANGLE, TurretConstants.RIGHT_ANGLE_TOLERANCE)
                   ? TurretConstants.CCW_90_ANGLE
                   : TurretConstants.CW_90_ANGLE;
       m_turret.setAngle(compareAngle);
