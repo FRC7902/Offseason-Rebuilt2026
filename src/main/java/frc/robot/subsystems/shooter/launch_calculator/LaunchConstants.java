@@ -25,26 +25,26 @@ public class LaunchConstants {
 
   // Hub shooting maps
   public static final InterpolatingTreeMap<Double, Angle> hoodAngleMap =
-    new InterpolatingTreeMap<>(
-      InverseInterpolator.forDouble(),
-      (start, end, t) -> start.plus(end.minus(start).times(t)));
+      new InterpolatingTreeMap<>(
+          InverseInterpolator.forDouble(),
+          (start, end, t) -> start.plus(end.minus(start).times(t)));
   public static final InterpolatingTreeMap<Double, AngularVelocity> flywheelSpeedMap =
-    new InterpolatingTreeMap<>(
-      InverseInterpolator.forDouble(),
-      (start, end, t) -> start.plus(end.minus(start).times(t)));
+      new InterpolatingTreeMap<>(
+          InverseInterpolator.forDouble(),
+          (start, end, t) -> start.plus(end.minus(start).times(t)));
   public static final InterpolatingDoubleTreeMap timeOfFlightMap = new InterpolatingDoubleTreeMap();
 
   // Passing Maps
   public static final InterpolatingTreeMap<Double, Angle> passingHoodAngleMap =
-    new InterpolatingTreeMap<>(
-      InverseInterpolator.forDouble(),
-      (start, end, t) -> start.plus(end.minus(start).times(t)));
+      new InterpolatingTreeMap<>(
+          InverseInterpolator.forDouble(),
+          (start, end, t) -> start.plus(end.minus(start).times(t)));
   public static final InterpolatingTreeMap<Double, AngularVelocity> passingFlywheelSpeedMap =
-    new InterpolatingTreeMap<>(
-      InverseInterpolator.forDouble(),
-      (start, end, t) -> start.plus(end.minus(start).times(t)));
+      new InterpolatingTreeMap<>(
+          InverseInterpolator.forDouble(),
+          (start, end, t) -> start.plus(end.minus(start).times(t)));
   public static final InterpolatingDoubleTreeMap passingTimeOfFlightMap =
-    new InterpolatingDoubleTreeMap();
+      new InterpolatingDoubleTreeMap();
 
   // Values
   static {
