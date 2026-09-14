@@ -88,8 +88,7 @@ public class RobotContainer {
      * Swerve drive subsystem and input streams
      */
     SwerveDriveSubsystem.createInstance(new File(Filesystem.getDeployDirectory(), "swerve"));
-    m_swerveDriveSubsystem =
-        SwerveDriveSubsystem.getInstance();
+    m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
     driveAngularVelocity =
         SwerveInputStream.of(
                 m_swerveDriveSubsystem.getSwerveDrive(),
