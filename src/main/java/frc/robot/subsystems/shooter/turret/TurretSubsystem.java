@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter.turret;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Second;
@@ -19,11 +20,14 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.FieldConstants;
+import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import java.util.function.Supplier;
 import yams.mechanisms.positional.Pivot;
 import yams.motorcontrollers.SmartMotorController;
@@ -50,11 +54,13 @@ public class TurretSubsystem extends SubsystemBase {
    * @param robotPose Current pose of the robot in the field coordinate system.
    * @return Field-relative pose of the turret mounting point.
    */
-  public Pose2d getPose(Pose2d robotPose) {
-    return robotPose.plus(
-        new Transform2d(
-            TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
-            TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
+  public Pose2d getPose() {
+    return SwerveDriveSubsystem.getInstance()
+        .getPose()
+        .plus(
+            new Transform2d(
+                TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
+                TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
   }
 
   /**
@@ -211,6 +217,16 @@ public class TurretSubsystem extends SubsystemBase {
         .orElse(false);
   }
 
+  public Distance getDistanceToHub() {
+    return Meters.of(
+        getPose()
+            .getTranslation()
+            .getDistance(
+                SwerveDriveSubsystem.getInstance().isRedAlliance()
+                    ? FieldConstants.RED_HUB_CENTER
+                    : FieldConstants.BLUE_HUB_CENTER));
+  }
+
   @Override
   public void periodic() {
     m_turret.updateTelemetry();
@@ -219,6 +235,8 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("TurretMech/position (deg)", getAngle().in(Degrees));
 
     SmartDashboard.putBoolean("TurretMech/isAtSetpoint", isAtSetpoint());
+
+    SmartDashboard.putNumber("TurretMech/distanceToHub (m)", getDistanceToHub().in(Meters));
   }
 
   @Override
