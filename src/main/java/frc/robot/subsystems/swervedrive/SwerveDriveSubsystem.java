@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -63,7 +64,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary
     // objects being created.
-    SwerveDriveTelemetry.verbosity = SwerveDriveTelemetry.TelemetryVerbosity.LOW;
+    SwerveDriveTelemetry.verbosity = SwerveDriveTelemetry.TelemetryVerbosity.POSE;
     try {
       swerveDrive =
           new SwerveParser(directory)
@@ -598,5 +599,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     localize();
+
+    // TODO: Remove these
+    SmartDashboard.putNumber("swerve/pose-x", getPose().getX());
+    SmartDashboard.putNumber("swerve/pose-y", getPose().getY());
   }
 }
