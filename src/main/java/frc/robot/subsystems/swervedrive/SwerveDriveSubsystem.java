@@ -33,13 +33,14 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
   private final SwerveDrive swerveDrive;
+  private static SwerveDriveSubsystem m_instance;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
    * @param directory Directory of swerve drive config files.
    */
-  public SwerveDriveSubsystem(File directory) {
+  private SwerveDriveSubsystem(File directory) {
     boolean blueAlliance = false;
     Pose2d startingPose =
         blueAlliance
@@ -77,6 +78,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // possible
 
     setupPathPlanner();
+  }
+
+  public static void createInstance(File swerve){
+    if(m_instance == null){
+      m_instance = new SwerveDriveSubsystem(swerve);
+    }
+  }
+
+  public static SwerveDriveSubsystem getInstance(){
+    return m_instance;
   }
 
   /** Setup AutoBuilder for PathPlanner. */
@@ -354,6 +365,19 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
     return swerveDrive.getPose();
+  }
+
+  public ChassisSpeeds getFieldSetpointVelocity() {
+    return swerveDrive.getFieldVelocity();
+  }
+
+  public Rotation2d getRotation() {
+    return swerveDrive.getPose().getRotation();
+  }
+
+  public static DriverStation.Alliance getAlliance() {
+    var alliance = DriverStation.getAlliance();
+    return alliance.orElse(null);
   }
 
   /**
