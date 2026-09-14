@@ -58,16 +58,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveSubsystem(File directory) {
     boolean blueAlliance = false;
     Pose2d startingPose =
-        blueAlliance
-            ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
-            : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
+      blueAlliance
+        ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
+        : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary
     // objects being created.
     SwerveDriveTelemetry.verbosity = SwerveDriveTelemetry.TelemetryVerbosity.POSE;
     try {
       swerveDrive =
-          new SwerveParser(directory)
-              .createSwerveDrive(SwerveDriveConstants.MAX_SPEED, startingPose);
+        new SwerveParser(directory)
+          .createSwerveDrive(SwerveDriveConstants.MAX_SPEED, startingPose);
       // Alternative method if you don't want to supply the conversion factor via JSON
       // files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed,
@@ -76,17 +76,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       throw new RuntimeException(e);
     }
     swerveDrive.setHeadingCorrection(
-        false); // Heading correction should only be used while controlling the robot
+      false); // Heading correction should only be used while controlling the robot
     // via angle.
     swerveDrive.setCosineCompensator(
-        false); // !SwerveDriveTelemetry.isSimulation); // Disables cosine compensation
+      false); // !SwerveDriveTelemetry.isSimulation); // Disables cosine compensation
     // for simulations since it causes discrepancies not seen in real life.
     swerveDrive.setAngularVelocityCompensation(
-        true, true,
-        0.1); // Correct for skew that gets worse as angular velocity increases. Start with a
+      true, true,
+      0.1); // Correct for skew that gets worse as angular velocity increases. Start with a
     // coefficient of 0.1.
     swerveDrive.setModuleEncoderAutoSynchronize(
-        false, 1); // Enable if you want to resynchronize your absolute encoders and motor encoders
+      false, 1); // Enable if you want to resynchronize your absolute encoders and motor encoders
     // periodically when they are not moving.
     // swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used
     // over the internal encoder and push the offsets onto it. Throws warning if not
@@ -115,51 +115,51 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       final boolean enableFeedforward = true;
       // Configure AutoBuilder last
       AutoBuilder.configure(
-          this::getPose,
-          // Robot pose supplier
-          this::resetOdometry,
-          // Method to reset odometry (will be called if your auto has a starting pose)
-          this::getRobotVelocity,
-          // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-          (speedsRobotRelative, moduleFeedForwards) -> {
-            if (enableFeedforward) {
-              swerveDrive.drive(
-                  speedsRobotRelative,
-                  swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative),
-                  moduleFeedForwards.linearForces());
-            } else {
-              swerveDrive.setChassisSpeeds(speedsRobotRelative);
-            }
-          },
-          // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
-          // optionally
-          // outputs individual module feedforwards
-          new PPHolonomicDriveController(
-              // PPHolonomicController is the built in path following controller for holonomic
-              // drive
-              // trains
-              new PIDConstants(5.0, 0.0, 0.0),
-              // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0)
-              // Rotation PID constants
-              ),
-          config,
-          // The robot configuration
-          () -> {
-            // Boolean supplier that controls when the path will be mirrored for the red
-            // alliance
-            // This will flip the path being followed to the red side of the field.
-            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+        this::getPose,
+        // Robot pose supplier
+        this::resetOdometry,
+        // Method to reset odometry (will be called if your auto has a starting pose)
+        this::getRobotVelocity,
+        // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        (speedsRobotRelative, moduleFeedForwards) -> {
+          if (enableFeedforward) {
+            swerveDrive.drive(
+              speedsRobotRelative,
+              swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative),
+              moduleFeedForwards.linearForces());
+          } else {
+            swerveDrive.setChassisSpeeds(speedsRobotRelative);
+          }
+        },
+        // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
+        // optionally
+        // outputs individual module feedforwards
+        new PPHolonomicDriveController(
+          // PPHolonomicController is the built in path following controller for holonomic
+          // drive
+          // trains
+          new PIDConstants(5.0, 0.0, 0.0),
+          // Translation PID constants
+          new PIDConstants(5.0, 0.0, 0.0)
+          // Rotation PID constants
+        ),
+        config,
+        // The robot configuration
+        () -> {
+          // Boolean supplier that controls when the path will be mirrored for the red
+          // alliance
+          // This will flip the path being followed to the red side of the field.
+          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-            var alliance = DriverStation.getAlliance();
-            if (alliance.isPresent()) {
-              return alliance.get() == DriverStation.Alliance.Red;
-            }
-            return false;
-          },
-          this
-          // Reference to this subsystem to set requirements
-          );
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        this
+        // Reference to this subsystem to set requirements
+      );
 
     } catch (Exception e) {
       // Handle exception as needed
@@ -173,10 +173,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private void setupLimelight() {
     m_limelight
-        .getSettings()
-        .withLimelightLEDMode(LEDMode.PipelineControl)
-        .withCameraOffset(Pose3d.kZero) // TODO: Update camera offset
-        .save();
+      .getSettings()
+      .withLimelightLEDMode(LEDMode.PipelineControl)
+      .withCameraOffset(Pose3d.kZero) // TODO: Update camera offset
+      .save();
 
     m_poseEstimator = m_limelight.createPoseEstimator(EstimationMode.MEGATAG2);
   }
@@ -188,10 +188,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command sysIdDriveMotorCommand() {
     return SwerveDriveTest.generateSysIdCommand(
-        SwerveDriveTest.setDriveSysIdRoutine(new Config(), this, swerveDrive, 12, true),
-        3.0,
-        5.0,
-        3.0);
+      SwerveDriveTest.setDriveSysIdRoutine(new Config(), this, swerveDrive, 12, true),
+      3.0,
+      5.0,
+      3.0);
   }
 
   /**
@@ -201,7 +201,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command sysIdAngleMotorCommand() {
     return SwerveDriveTest.generateSysIdCommand(
-        SwerveDriveTest.setAngleSysIdRoutine(new Config(), this, swerveDrive), 3.0, 5.0, 3.0);
+      SwerveDriveTest.setAngleSysIdRoutine(new Config(), this, swerveDrive), 3.0, 5.0, 3.0);
   }
 
   /**
@@ -220,9 +220,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command driveForward() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(1, 0), 0, false, false);
-        })
-        .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
+      swerveDrive.drive(new Translation2d(1, 0), 0, false, false);
+    })
+      .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
   /**
@@ -232,9 +232,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command driveBackward() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(-1, 0), 0, false, false);
-        })
-        .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
+      swerveDrive.drive(new Translation2d(-1, 0), 0, false, false);
+    })
+      .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
   /**
@@ -244,9 +244,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command driveLeft() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(0, 1), 0, false, false);
-        })
-        .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
+      swerveDrive.drive(new Translation2d(0, 1), 0, false, false);
+    })
+      .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
   /**
@@ -256,9 +256,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command driveRight() {
     return run(() -> {
-          swerveDrive.drive(new Translation2d(0, -1), 0, false, false);
-        })
-        .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
+      swerveDrive.drive(new Translation2d(0, -1), 0, false, false);
+    })
+      .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
   /**
@@ -270,21 +270,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    * @return Drive command.
    */
   public Command driveCommand(
-      DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
+    DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
     return run(
-        () -> {
-          // Make the robot move
-          swerveDrive.drive(
-              SwerveMath.scaleTranslation(
-                  new Translation2d(
-                      translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
-                      translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()),
-                  0.8),
-              Math.pow(angularRotationX.getAsDouble(), 3)
-                  * swerveDrive.getMaximumChassisAngularVelocity(),
-              true,
-              false);
-        });
+      () -> {
+        // Make the robot move
+        swerveDrive.drive(
+          SwerveMath.scaleTranslation(
+            new Translation2d(
+              translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
+              translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()),
+            0.8),
+          Math.pow(angularRotationX.getAsDouble(), 3)
+            * swerveDrive.getMaximumChassisAngularVelocity(),
+          true,
+          false);
+      });
   }
 
   /**
@@ -297,28 +297,28 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    * @return Drive command.
    */
   public Command driveCommand(
-      DoubleSupplier translationX,
-      DoubleSupplier translationY,
-      DoubleSupplier headingX,
-      DoubleSupplier headingY) {
+    DoubleSupplier translationX,
+    DoubleSupplier translationY,
+    DoubleSupplier headingX,
+    DoubleSupplier headingY) {
     // swerveDrive.setHeadingCorrection(true); // Normally you would want heading
     // correction for this kind of control.
     return run(
-        () -> {
-          Translation2d scaledInputs =
-              SwerveMath.scaleTranslation(
-                  new Translation2d(translationX.getAsDouble(), translationY.getAsDouble()), 0.8);
+      () -> {
+        Translation2d scaledInputs =
+          SwerveMath.scaleTranslation(
+            new Translation2d(translationX.getAsDouble(), translationY.getAsDouble()), 0.8);
 
-          // Make the robot move
-          driveFieldOriented(
-              swerveDrive.swerveController.getTargetSpeeds(
-                  scaledInputs.getX(),
-                  scaledInputs.getY(),
-                  headingX.getAsDouble(),
-                  headingY.getAsDouble(),
-                  swerveDrive.getOdometryHeading().getRadians(),
-                  swerveDrive.getMaximumChassisVelocity()));
-        });
+        // Make the robot move
+        driveFieldOriented(
+          swerveDrive.swerveController.getTargetSpeeds(
+            scaledInputs.getX(),
+            scaledInputs.getY(),
+            headingX.getAsDouble(),
+            headingY.getAsDouble(),
+            swerveDrive.getOdometryHeading().getRadians(),
+            swerveDrive.getMaximumChassisVelocity()));
+      });
   }
 
   /**
@@ -338,10 +338,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public void drive(Translation2d translation, double rotation, boolean fieldRelative) {
     swerveDrive.drive(
-        translation,
-        rotation,
-        fieldRelative,
-        false); // Open loop is disabled since it shouldn't be used most of the time.
+      translation,
+      rotation,
+      fieldRelative,
+      false); // Open loop is disabled since it shouldn't be used most of the time.
   }
 
   /**
@@ -360,9 +360,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(
-        () -> {
-          swerveDrive.driveFieldOriented(velocity.get());
-        });
+      () -> {
+        swerveDrive.driveFieldOriented(velocity.get());
+      });
   }
 
   /**
@@ -437,10 +437,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void zeroGyroWithAlliance() {
     if (isRedAlliance()) {
       swerveDrive.setGyroOffset(
-          swerveDrive
-              .getGyro()
-              .getRawRotation3d()
-              .minus(new Rotation3d(new Rotation2d(Degrees.of(180)))));
+        swerveDrive
+          .getGyro()
+          .getRawRotation3d()
+          .minus(new Rotation3d(new Rotation2d(Degrees.of(180)))));
 
       resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
     } else {
@@ -479,15 +479,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    * @return {@link ChassisSpeeds} which can be sent to the Swerve Drive.
    */
   public ChassisSpeeds getTargetSpeeds(
-      double xInput, double yInput, double headingX, double headingY) {
+    double xInput, double yInput, double headingX, double headingY) {
     Translation2d scaledInputs = SwerveMath.cubeTranslation(new Translation2d(xInput, yInput));
     return swerveDrive.swerveController.getTargetSpeeds(
-        scaledInputs.getX(),
-        scaledInputs.getY(),
-        headingX,
-        headingY,
-        getHeading().getRadians(),
-        SwerveDriveConstants.MAX_SPEED);
+      scaledInputs.getX(),
+      scaledInputs.getY(),
+      headingX,
+      headingY,
+      getHeading().getRadians(),
+      SwerveDriveConstants.MAX_SPEED);
   }
 
   /**
@@ -503,11 +503,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     Translation2d scaledInputs = SwerveMath.cubeTranslation(new Translation2d(xInput, yInput));
 
     return swerveDrive.swerveController.getTargetSpeeds(
-        scaledInputs.getX(),
-        scaledInputs.getY(),
-        angle.getRadians(),
-        getHeading().getRadians(),
-        SwerveDriveConstants.MAX_SPEED);
+      scaledInputs.getX(),
+      scaledInputs.getY(),
+      angle.getRadians(),
+      getHeading().getRadians(),
+      SwerveDriveConstants.MAX_SPEED);
   }
 
   /**
@@ -571,28 +571,28 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private void localize() {
     m_limelight
-        .getSettings()
-        .withRobotOrientation(
-            new Orientation3d(
-                swerveDrive.getGyroRotation3d(),
-                new AngularVelocity3d(
-                    RadiansPerSecond.of(swerveDrive.getRobotVelocity().omegaRadiansPerSecond),
-                    RadiansPerSecond.of(0),
-                    RadiansPerSecond.of(0))))
-        .save();
+      .getSettings()
+      .withRobotOrientation(
+        new Orientation3d(
+          swerveDrive.getGyroRotation3d(),
+          new AngularVelocity3d(
+            RadiansPerSecond.of(swerveDrive.getRobotVelocity().omegaRadiansPerSecond),
+            RadiansPerSecond.of(0),
+            RadiansPerSecond.of(0))))
+      .save();
 
     Optional<PoseEstimate> visionEstimate = m_poseEstimator.getPoseEstimate();
 
     visionEstimate.ifPresent(
-        (PoseEstimate poseEstimate) -> {
-          // Reject long-range or ambiguous reads before fusing.
-          if (poseEstimate.avgTagDist < 4
-              && poseEstimate.tagCount > 0
-              && poseEstimate.getMinTagAmbiguity() < 0.3) {
-            getSwerveDrive()
-                .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
-          }
-        });
+      (PoseEstimate poseEstimate) -> {
+        // Reject long-range or ambiguous reads before fusing.
+        if (poseEstimate.avgTagDist < 4
+          && poseEstimate.tagCount > 0
+          && poseEstimate.getMinTagAmbiguity() < 0.3) {
+          getSwerveDrive()
+            .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
+        }
+      });
   }
 
   @Override
