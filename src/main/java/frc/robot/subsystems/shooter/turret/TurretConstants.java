@@ -31,7 +31,7 @@ public class TurretConstants {
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(150.0, 0.0, 1)
-          .withSimClosedLoopController(42.65, 0.0, 3)
+          .withSimClosedLoopController(3, 0.0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(45)))
           .withIdleMode(MotorMode.BRAKE)
           .withMotorInverted(false)
@@ -40,7 +40,7 @@ public class TurretConstants {
           .withTelemetry(
               "TurretMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
                   // .withDataLogName("TurretMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
