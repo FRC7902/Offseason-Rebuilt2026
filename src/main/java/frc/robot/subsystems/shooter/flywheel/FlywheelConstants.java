@@ -32,14 +32,14 @@ public class FlywheelConstants {
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(0, 0, 0) // TODO
-          .withSimClosedLoopController(0, 0, 0)
+          .withClosedLoopController(1, 0, 0) 
+          .withSimClosedLoopController(1, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
           .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "ShooterFlywheelMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.HIGH)
                   // .withDataLogName("ShooterFlywheelMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -48,7 +48,7 @@ public class FlywheelConstants {
           .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
-          .withFeedforward(new SimpleMotorFeedforward(0.38435, 0.12, 0.010946))
+          .withFeedforward(new SimpleMotorFeedforward(0.38435, 0.125, 0.010946))
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.12269, 0))
           .withMomentOfInertia(Inches.of(4), Pounds.of(1));
 

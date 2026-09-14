@@ -86,36 +86,30 @@ public class RobotContainer {
      * Swerve drive subsystem and input streams
      */
     m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
-    driveAngularVelocity =
-        SwerveInputStream.of(
-                m_swerveDriveSubsystem.getSwerveDrive(),
-                this::getCurvedDriverLeftY,
-                this::getCurvedDriverLeftX)
-            .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
-            .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
-            .scaleTranslation(1.0)
-            .allianceRelativeControl(true);
-    driveSlowAngularVelocity =
-        driveAngularVelocity
-            .copy()
-            .scaleTranslation(SwerveDriveConstants.SLOW_MODE_TRANSLATION_SCALE)
-            .scaleRotation(SwerveDriveConstants.SLOW_MODE_ROTATION_SCALE);
-    driveDirectAngle =
-        driveAngularVelocity
-            .copy()
-            .withControllerHeadingAxis(m_driverController::getRightX, m_driverController::getRightY)
-            .headingWhile(true);
-    driveFieldOrientedAngularVelocity =
-        m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
-    driveSlowFieldOrientedAngularVelocity =
-        m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity);
+    driveAngularVelocity = SwerveInputStream.of(
+        m_swerveDriveSubsystem.getSwerveDrive(),
+        this::getCurvedDriverLeftY,
+        this::getCurvedDriverLeftX)
+        .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
+        .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
+        .scaleTranslation(1.0)
+        .allianceRelativeControl(true);
+    driveSlowAngularVelocity = driveAngularVelocity
+        .copy()
+        .scaleTranslation(SwerveDriveConstants.SLOW_MODE_TRANSLATION_SCALE)
+        .scaleRotation(SwerveDriveConstants.SLOW_MODE_ROTATION_SCALE);
+    driveDirectAngle = driveAngularVelocity
+        .copy()
+        .withControllerHeadingAxis(m_driverController::getRightX, m_driverController::getRightY)
+        .headingWhile(true);
+    driveFieldOrientedAngularVelocity = m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
+    driveSlowFieldOrientedAngularVelocity = m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity);
     driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
 
     // Publish the poses of the components to NetworkTables for visualization in 3D
-    posesPublisher =
-        NetworkTableInstance.getDefault()
-            .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
-            .publish();
+    posesPublisher = NetworkTableInstance.getDefault()
+        .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
+        .publish();
 
     // TODO: Enable data logging once USB stick is connected
     // Start data logging
@@ -135,12 +129,11 @@ public class RobotContainer {
     m_hoodSubsystem = new HoodSubsystem();
     m_turretSubsystem = new TurretSubsystem();
 
-    m_indexerSystem =
-        new IndexerSystem(
-            m_indexerBeltSubsystem,
-            m_feederSubsystem,
-            m_rollerFloorSubsystem,
-            m_verticalRollerSubsystem);
+    m_indexerSystem = new IndexerSystem(
+        m_indexerBeltSubsystem,
+        m_feederSubsystem,
+        m_rollerFloorSubsystem,
+        m_verticalRollerSubsystem);
     m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
     m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
 
@@ -186,7 +179,7 @@ public class RobotContainer {
                 Commands.parallel(
                     m_intakeSystem.shuffle(), // Shuffle hopper
                     m_indexerSystem.feedFuel() // Feed fuel to shooter
-                    )));
+                )));
 
     // Intake button is pressed, but shoot button is not pressed
     intakeTrigger
@@ -228,15 +221,15 @@ public class RobotContainer {
                     Commands.parallel(
                         m_intakeSystem.shuffle(), // Shuffle hopper
                         m_indexerSystem.feedFuel() // Feed fuel to shooter
-                        )));
+                    )))
+        .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Intake button is pressed, but manual shoot button is not pressed
     intakeTrigger
         .and(manualShootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
-        .onTrue(m_indexerSystem.storeFuel()) // Funnel fuel inside indexer
-        .whileTrue(driveSlowFieldOrientedAngularVelocity);
+        .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
 
     // Both intake button and manual shoot button are pressed
     intakeTrigger
@@ -256,7 +249,7 @@ public class RobotContainer {
     Pose3d hoodPose = m_hoodSubsystem.getPose3d(turretPose);
     Pose3d linearIntakePose = m_linearIntakeSubsystem.getPose3d();
 
-    posesPublisher.set(new Pose3d[] {linearIntakePose, turretPose, hoodPose, new Pose3d()});
+    posesPublisher.set(new Pose3d[] { linearIntakePose, turretPose, hoodPose, new Pose3d() });
   }
 
   public void calibrateLinearIntakePosition() {
