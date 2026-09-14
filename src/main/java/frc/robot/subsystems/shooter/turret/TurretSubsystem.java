@@ -54,11 +54,13 @@ public class TurretSubsystem extends SubsystemBase {
    * @param robotPose Current pose of the robot in the field coordinate system.
    * @return Field-relative pose of the turret mounting point.
    */
-  public Pose2d getPose(Pose2d robotPose) {
-    return robotPose.plus(
-        new Transform2d(
-            TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
-            TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
+  public Pose2d getPose() {
+    return SwerveDriveSubsystem.getInstance()
+        .getPose()
+        .plus(
+            new Transform2d(
+                TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
+                TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
   }
 
   /**
@@ -217,7 +219,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public Distance getDistanceToHub() {
     return Meters.of(
-        getPose(SwerveDriveSubsystem.getInstance().getPose())
+        getPose()
             .getTranslation()
             .getDistance(
                 SwerveDriveSubsystem.getInstance().isRedAlliance()
@@ -237,10 +239,8 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("TurretMech/distanceToHub (m)", getDistanceToHub().in(Meters));
 
     // TODO: Remove these
-    SmartDashboard.putNumber(
-        "TurretMech/pose-x", getPose(SwerveDriveSubsystem.getInstance().getPose()).getX());
-    SmartDashboard.putNumber(
-        "TurretMech/pose-y", getPose(SwerveDriveSubsystem.getInstance().getPose()).getY());
+    SmartDashboard.putNumber("TurretMech/pose-x", getPose().getX());
+    SmartDashboard.putNumber("TurretMech/pose-y", getPose().getY());
   }
 
   @Override
