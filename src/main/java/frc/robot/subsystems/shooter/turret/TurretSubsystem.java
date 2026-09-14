@@ -237,10 +237,6 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("TurretMech/isAtSetpoint", isAtSetpoint());
 
     SmartDashboard.putNumber("TurretMech/distanceToHub (m)", getDistanceToHub().in(Meters));
-
-    // TODO: Remove these
-    SmartDashboard.putNumber("TurretMech/pose-x", getPose().getX());
-    SmartDashboard.putNumber("TurretMech/pose-y", getPose().getY());
   }
 
   @Override
