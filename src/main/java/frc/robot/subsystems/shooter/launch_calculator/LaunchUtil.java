@@ -2,7 +2,6 @@ package frc.robot.subsystems.shooter.launch_calculator;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.*;
-import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.robotToLauncher;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*;
@@ -10,20 +9,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
-import frc.robot.subsystems.shooter.turret.TurretConstants;
+import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
 public class LaunchUtil {
   // Helpers
   public static Translation2d getPassingTarget() {
     return new Translation2d(xPassTarget, yPassTarget);
-  }
-
-  public static Pose2d getPose(Pose2d robotPose) {
-    return robotPose.plus(
-        new Transform2d(
-            TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
-            TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
   }
 
   public static Angle getTurretAngleToHub(Pose2d robotPose) {
@@ -33,7 +25,7 @@ public class LaunchUtil {
   }
 
   private static Angle getAngleToAllianceHub(Pose2d robotPose) {
-    Pose2d trueTurretPose = getPose(robotPose);
+    Pose2d trueTurretPose = TurretSubsystem.getPose();
     Translation2d allianceHub = getAllianceHubTranslation2d();
     Translation2d hubDelta = allianceHub.minus(trueTurretPose.getTranslation());
     return hubDelta.getAngle().getMeasure();

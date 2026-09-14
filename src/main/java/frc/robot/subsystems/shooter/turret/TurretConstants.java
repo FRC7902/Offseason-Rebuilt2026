@@ -45,8 +45,8 @@ public class TurretConstants {
                   // .withDataLogName("TurretMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40))
-          .withSupplyCurrentLimit(Amps.of(40))
+          .withStatorCurrentLimit(Amps.of(10))
+          .withSupplyCurrentLimit(Amps.of(10))
           .withSoftLimits(MIN_ANGLE, MAX_ANGLE)
           .withSimStartingPosition(Degrees.zero())
           .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01)); // TODO
