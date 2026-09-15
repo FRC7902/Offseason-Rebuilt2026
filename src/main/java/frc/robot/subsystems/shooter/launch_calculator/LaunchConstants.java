@@ -48,25 +48,25 @@ public class LaunchConstants {
 
   // Values
   static {
-    // Shooting TODO: Update Values
-    hoodAngleMap.put(1.4625, Degrees.of(14));
-    hoodAngleMap.put(2.1997, Degrees.of(20));
-    hoodAngleMap.put(2.8742, Degrees.of(25));
-    hoodAngleMap.put(3.4100, Degrees.of(30));
-    hoodAngleMap.put(3.6500, Degrees.of(28));
-    hoodAngleMap.put(4.0068, Degrees.of(25));
-    hoodAngleMap.put(4.3896, Degrees.of(26));
-    hoodAngleMap.put(4.7953, Degrees.of(30));
+    // Shooting
+    hoodAngleMap.put(2.0091656738548784, Degrees.of(0.0));
+    hoodAngleMap.put(2.267780124935476, Degrees.of(0.0));
+    hoodAngleMap.put(2.5035564845846334, Degrees.of(4));
+    hoodAngleMap.put(3.044637488210458, Degrees.of(5));
+    hoodAngleMap.put(3.5518793699088248, Degrees.of(5));
+    hoodAngleMap.put(5.058810145612536, Degrees.of(10));
+    hoodAngleMap.put(7.0124000271948253, Degrees.of(13));
 
-    flywheelSpeedMap.put(1.4625, RPM.of(3500));
-    flywheelSpeedMap.put(2.1997, RPM.of(3600));
-    flywheelSpeedMap.put(2.8742, RPM.of(3700));
-    flywheelSpeedMap.put(3.4100, RPM.of(3900));
-    flywheelSpeedMap.put(3.6500, RPM.of(3900));
-    flywheelSpeedMap.put(4.0068, RPM.of(4325));
-    flywheelSpeedMap.put(4.3896, RPM.of(4500));
-    flywheelSpeedMap.put(4.7953, RPM.of(4550));
+    flywheelSpeedMap.put(1.503106488548527, RPM.of(1700));
+    flywheelSpeedMap.put(2.0091656738548784, RPM.of(1900));
+    flywheelSpeedMap.put(2.267780124935476, RPM.of(2000));
+    flywheelSpeedMap.put(2.5035564845846334, RPM.of(2056));
+    flywheelSpeedMap.put(3.044637488210458, RPM.of(2100));
+    flywheelSpeedMap.put(3.5518793699088248, RPM.of(2350));
+    flywheelSpeedMap.put(5.058810145612536, RPM.of(2600));
+    flywheelSpeedMap.put(7.0124000271948253, RPM.of(3000));
 
+    //TODO: Update TOF based on `Thing` thread in #programming
     timeOfFlightMap.put(1.63, 1.017);
     timeOfFlightMap.put(2.40, 0.967);
     timeOfFlightMap.put(3.25, 1.19);
