@@ -43,11 +43,18 @@ public class LaunchUtil {
   }
 
   private static Angle wrapAngle(Angle angle) {
-    double degrees = angle.baseUnitMagnitude();
+    double degrees = angle.in(Degrees);
+    degrees = degrees % 360;
+    if (degrees < 0) degrees += 360;
 
-    degrees = ((degrees + 180) % 360 + 360) % 360 - 180;
-
-    return Angle.ofBaseUnits(degrees, Degrees);
+    if (degrees <= 190) {
+      return Degrees.of(degrees);
+    } else if (degrees >= 200) {
+      return Degrees.of(degrees - 360);
+    } else {
+      double clamped = (degrees - 190 < 200 - degrees) ? 190 : -160;
+      return Degrees.of(clamped);
+    }
   }
 
   public static ChassisSpeeds transformVelocity(
