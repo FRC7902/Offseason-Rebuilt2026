@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,6 +27,7 @@ import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
@@ -160,6 +163,16 @@ public class RobotContainer {
 
     Trigger intakeTrigger = m_driverController.L2();
     Trigger shootTrigger = m_driverController.R2();
+
+    m_driverController
+        .circle()
+        .onTrue(
+            Commands.runOnce(
+                () ->
+                    System.out.println(
+                        LaunchCalculator.getInstance().getParameters().turretAngle().in(Degrees)
+                            + " "
+                            + m_turretSubsystem.getAngle().in(Degrees))));
 
     m_driverController
         .options()

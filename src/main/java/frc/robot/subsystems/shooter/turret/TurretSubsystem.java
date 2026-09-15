@@ -54,7 +54,7 @@ public class TurretSubsystem extends SubsystemBase {
    * @param robotPose Current pose of the robot in the field coordinate system.
    * @return Field-relative pose of the turret mounting point.
    */
-  public Pose2d getPose() {
+  public static Pose2d getPose() {
     return SwerveDriveSubsystem.getInstance()
         .getPose()
         .plus(
