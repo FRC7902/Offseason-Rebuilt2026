@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter.launch_calculator;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.*;
+import static frc.robot.subsystems.shooter.turret.TurretConstants.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*;
@@ -9,6 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
@@ -43,17 +45,22 @@ public class LaunchUtil {
   }
 
   private static Angle wrapAngle(Angle angle) {
-    double degrees = angle.in(Degrees);
-    degrees = degrees % 360;
-    if (degrees < 0) degrees += 360;
+    Angle normalized = angle;
 
-    if (degrees <= 190) {
-      return Degrees.of(degrees);
-    } else if (degrees >= 200) {
-      return Degrees.of(degrees - 360);
+    if (normalized.lt(Degrees.of(0))) {
+      normalized = normalized.plus(FULL_ROTATION);
+    } else if (normalized.gte(FULL_ROTATION)) {
+      normalized = normalized.minus(FULL_ROTATION);
+    }
+
+    if (normalized.lte(MAX_ANGLE)) {
+      return normalized;
+    } else if (normalized.gte(DEAD_ZONE)) {
+      return normalized.minus(FULL_ROTATION);
     } else {
-      double clamped = (degrees - 190 < 200 - degrees) ? 190 : -160;
-      return Degrees.of(clamped);
+      Angle distanceToLow = normalized.minus(MAX_ANGLE);
+      Angle distanceToHigh = DEAD_ZONE.minus(normalized);
+      return distanceToLow.lt(distanceToHigh) ? MAX_ANGLE : MIN_ANGLE;
     }
   }
 
