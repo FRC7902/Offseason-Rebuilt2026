@@ -186,15 +186,15 @@ public class RobotContainer {
                 Commands.parallel(
                     m_intakeSystem.shuffle(), // Shuffle hopper
                     m_indexerSystem.feedFuel() // Feed fuel to shooter
-                    )));
+                    )))
+        .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Intake button is pressed, but shoot button is not pressed
     intakeTrigger
         .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
-        .onTrue(m_indexerSystem.storeFuel()) // Funnel fuel inside indexer
-        .whileTrue(driveSlowFieldOrientedAngularVelocity);
+        .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
 
     // Both intake button and shoot button are pressed
     intakeTrigger
