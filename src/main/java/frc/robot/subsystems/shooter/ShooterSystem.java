@@ -42,6 +42,7 @@ public class ShooterSystem extends SubsystemBase {
 
   public Command manualAimAndShoot() {
     return Commands.parallel(
+        // TODO: Set turret angle to 0
         m_hood.setAngle(HoodConstants.DEFAULT_ANGLE),
         m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM));
   }
