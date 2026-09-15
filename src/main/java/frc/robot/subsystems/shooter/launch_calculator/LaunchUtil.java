@@ -20,7 +20,7 @@ public class LaunchUtil {
 
   public static Angle getTurretAngleToHub(Pose2d robotPose) {
     Angle robotRotationCompensatedAngle =
-        getAngleToAllianceHub(robotPose).minus(robotPose.getRotation().getMeasure());
+        robotPose.getRotation().getMeasure().minus(getAngleToAllianceHub(robotPose));
     return wrapAngle(robotRotationCompensatedAngle);
   }
 

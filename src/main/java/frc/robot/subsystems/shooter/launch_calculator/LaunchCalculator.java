@@ -101,7 +101,7 @@ public class LaunchCalculator {
     Pose2d lookaheadRobotPose = lookaheadPose.transformBy(toTransform2d(robotToLauncher));
     Rotation2d driveAngle = getDriveAngleWithLauncherOffset(lookaheadRobotPose, target);
 
-    Angle turretAngle = getTurretAngleToHub(lookaheadRobotPose);
+    Angle turretAngle = getTurretAngleToHub(SwerveDriveSubsystem.getInstance().getPose());
 
     Angle hoodAngle =
         (passing
