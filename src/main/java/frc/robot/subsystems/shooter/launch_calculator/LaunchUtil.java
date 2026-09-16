@@ -26,9 +26,9 @@ public class LaunchUtil {
   }
 
   private static Angle getAngleToAllianceHub(Pose2d robotPose) {
-    Pose2d trueTurretPose = TurretSubsystem.getPose();
+    Pose2d turretPose = TurretSubsystem.getPose(robotPose);
     Translation2d allianceHub = getAllianceHubTranslation2d();
-    Translation2d hubDelta = allianceHub.minus(trueTurretPose.getTranslation());
+    Translation2d hubDelta = allianceHub.minus(turretPose.getTranslation());
     return hubDelta.getAngle().getMeasure();
   }
 

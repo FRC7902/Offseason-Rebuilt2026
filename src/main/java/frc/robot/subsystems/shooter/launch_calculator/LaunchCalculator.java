@@ -6,6 +6,8 @@ import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.*;
 
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,6 +21,13 @@ public class LaunchCalculator {
 
   private Angle lastHoodAngle;
   private Rotation2d lastDriveAngle;
+
+  private Pose2d lastLookaheadRobotPose = new Pose2d();
+
+  private final StructPublisher<Pose2d> lookaheadRobotPosePublisher =
+      NetworkTableInstance.getDefault()
+          .getStructTopic("/LaunchCalculator/LookaheadRobotPose", Pose2d.struct)
+          .publish();
 
   public static LaunchCalculator getInstance() {
     if (m_instance == null) {
@@ -99,6 +108,7 @@ public class LaunchCalculator {
     }
 
     Pose2d lookaheadRobotPose = lookaheadPose.transformBy(toTransform2d(robotToLauncher));
+    lastLookaheadRobotPose = lookaheadRobotPose;
     Rotation2d driveAngle = getDriveAngleWithLauncherOffset(lookaheadRobotPose, target);
 
     Angle turretAngle = getTurretAngleToHub(lookaheadRobotPose);
@@ -122,5 +132,9 @@ public class LaunchCalculator {
 
   public void clearLaunchingParameters() {
     latestParameters = null;
+  }
+
+  public void publishLookaheadRobotPose() {
+    lookaheadRobotPosePublisher.set(lastLookaheadRobotPose);
   }
 }
