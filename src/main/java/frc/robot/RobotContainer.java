@@ -154,16 +154,6 @@ public class RobotContainer {
     Trigger shootTrigger = m_driverController.R2();
 
     m_driverController
-        .circle()
-        .onTrue(
-            Commands.runOnce(
-                () ->
-                    System.out.println(
-                        LaunchCalculator.getInstance().getParameters().turretAngle().in(Degrees)
-                            + " "
-                            + m_turretSubsystem.getAngle().in(Degrees))));
-
-    m_driverController
         .options()
         .onTrue((Commands.runOnce(m_swerveDriveSubsystem::zeroGyroWithAlliance)));
     m_driverController.create().whileTrue(m_swerveDriveSubsystem.centerModulesCommand());
