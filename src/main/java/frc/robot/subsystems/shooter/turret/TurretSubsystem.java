@@ -161,7 +161,8 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public Pose3d getPose3d() {
-    // Temporarily use setpoint to simulate pose3d instead of measurement (due to YAMS simulation bug)
+    // Temporarily use setpoint to simulate pose3d instead of measurement (due to YAMS simulation
+    // bug)
     return new Pose3d(
         new Translation3d(0.144, -0.152, 0.359),
         new Rotation3d(0.0, 0.0, getAngleSetpoint().in(Radians)));
