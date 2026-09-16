@@ -31,7 +31,7 @@ import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
-import java.util.function.BooleanSupplier;
+import limelight.networktables.LimelightSettings.ImuMode;
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
@@ -329,5 +329,23 @@ public class RobotContainer {
             m_intakeSystem.stop()), // First extend the intake all the way to deploy kicker bar
         m_shooterSystem.stop(),
         m_indexerSystem.stop());
+  }
+
+  public void updateImuMode(ImuMode imuMode) {
+    SwerveDriveSubsystem.getInstance().getBackLimelight().getSettings().withImuMode(imuMode).save();
+    SwerveDriveSubsystem.getInstance().getFrontLimelight().getSettings().withImuMode(imuMode).save();
+  }
+
+  public void updateLimelightThrottle(double throttle) {
+    SwerveDriveSubsystem.getInstance()
+        .getBackLimelight()
+        .getSettings()
+        .withThrottle(throttle)
+        .save();
+    SwerveDriveSubsystem.getInstance()
+        .getFrontLimelight()
+        .getSettings()
+        .withThrottle(throttle)
+        .save();
   }
 }
