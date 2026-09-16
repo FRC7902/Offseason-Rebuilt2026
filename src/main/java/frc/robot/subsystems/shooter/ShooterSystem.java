@@ -9,6 +9,7 @@ import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodConstants;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class ShooterSystem extends SubsystemBase {
@@ -42,7 +43,8 @@ public class ShooterSystem extends SubsystemBase {
 
   public Command manualAimAndShoot() {
     return Commands.parallel(
-        // TODO: Set turret angle to 0
+        // Turret angle is set repeatedly to override the turret's default command
+        m_turret.setAngle(TurretConstants.DEFAULT_ANGLE).repeatedly(),
         m_hood.setAngle(HoodConstants.DEFAULT_ANGLE),
         m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM));
   }
