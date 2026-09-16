@@ -66,7 +66,7 @@ public class LaunchConstants {
     flywheelSpeedMap.put(5.058810145612536, RPM.of(2600));
     flywheelSpeedMap.put(7.0124000271948253, RPM.of(3000));
 
-    //TODO: Update TOF based on `Thing` thread in #programming
+    // TODO: Update TOF based on `Thing` thread in #programming
     timeOfFlightMap.put(1.63, 1.017);
     timeOfFlightMap.put(2.40, 0.967);
     timeOfFlightMap.put(3.25, 1.19);
