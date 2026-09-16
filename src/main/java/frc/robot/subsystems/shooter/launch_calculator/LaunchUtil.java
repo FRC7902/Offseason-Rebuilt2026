@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Constants;
+import frc.robot.FieldConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
@@ -38,9 +38,9 @@ public class LaunchUtil {
       alliance = DriverStation.getAlliance().get();
     }
     if (alliance == DriverStation.Alliance.Red) {
-      return Constants.RED_HUB_CENTER;
+      return FieldConstants.RED_HUB_CENTER;
     }
-    return Constants.BLUE_HUB_CENTER;
+    return FieldConstants.BLUE_HUB_CENTER;
   }
 
   private static Angle wrapAngle(Angle angle) {
@@ -107,8 +107,8 @@ public class LaunchUtil {
         passing
             ? getPassingTarget()
             : SwerveDriveSubsystem.getInstance().isRedAlliance()
-                ? Constants.RED_HUB_CENTER
-                : Constants.BLUE_HUB_CENTER;
+                ? FieldConstants.RED_HUB_CENTER
+                : FieldConstants.BLUE_HUB_CENTER;
 
     return new Pose2d(
         robotTranslation,

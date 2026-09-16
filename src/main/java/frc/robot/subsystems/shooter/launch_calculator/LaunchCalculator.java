@@ -11,7 +11,7 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Constants;
+import frc.robot.FieldConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
 public class LaunchCalculator {
@@ -62,8 +62,8 @@ public class LaunchCalculator {
     boolean alliance = SwerveDriveSubsystem.getInstance().isRedAlliance();
     boolean passing =
         (alliance)
-            ? (estimatedPose.getX() < Constants.RED_STARTING_LINE_X)
-            : (estimatedPose.getX() < Constants.BLUE_STARTING_LINE_X);
+            ? (estimatedPose.getX() < FieldConstants.RED_STARTING_LINE_X)
+            : (estimatedPose.getX() < FieldConstants.BLUE_STARTING_LINE_X);
     ChassisSpeeds robotRelativeVelocity = SwerveDriveSubsystem.getInstance().getRobotVelocity();
     estimatedPose =
         estimatedPose.exp(
@@ -74,7 +74,7 @@ public class LaunchCalculator {
     Translation2d target =
         passing
             ? getPassingTarget()
-            : alliance ? Constants.RED_HUB_CENTER : Constants.BLUE_HUB_CENTER;
+            : alliance ? FieldConstants.RED_HUB_CENTER : FieldConstants.BLUE_HUB_CENTER;
     Pose2d launcherPosition = estimatedPose; // .transformBy(robotToLauncher.Transform2d());
     double launcherToTargetDistance = target.getDistance(launcherPosition.getTranslation());
 
