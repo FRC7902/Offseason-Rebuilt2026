@@ -6,13 +6,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeRollerSubsystem extends SubsystemBase {
+  private static IntakeRollerSubsystem m_instance;
+
   /** PWM motor controller for the intake. */
   private final PWMTalonFX m_rollerMotor;
 
   /** Constructs the intake subsystem and initializes the motor controller. */
-  public IntakeRollerSubsystem() {
+  private IntakeRollerSubsystem() {
 
     m_rollerMotor = new PWMTalonFX(IntakeRollerConstants.PWM_ID);
+  }
+
+  public static IntakeRollerSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new IntakeRollerSubsystem();
+    }
+    return m_instance;
   }
 
   /**

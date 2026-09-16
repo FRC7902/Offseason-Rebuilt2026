@@ -19,6 +19,8 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class IndexerBeltSubsystem extends SubsystemBase {
+  private static IndexerBeltSubsystem m_instance;
+
   private final TalonFX m_indexerBeltLeaderMotor;
   private final TalonFX m_indexerBeltFollowerMotor;
   private final SmartMotorControllerConfig m_leaderMotorConfig;
@@ -27,7 +29,7 @@ public class IndexerBeltSubsystem extends SubsystemBase {
   private final SmartMotorController m_followerMotor;
   private final FlyWheel m_indexerBelt;
 
-  public IndexerBeltSubsystem() {
+  private IndexerBeltSubsystem() {
     m_indexerBeltLeaderMotor = new TalonFX(IndexerBeltConstants.LEADER_CAN_ID);
     m_indexerBeltFollowerMotor = new TalonFX(IndexerBeltConstants.FOLLOWER_CAN_ID);
     m_leaderMotorConfig = IndexerBeltConstants.LEADER_SMC_CONFIG.withSubsystem(this);
@@ -41,6 +43,13 @@ public class IndexerBeltSubsystem extends SubsystemBase {
             IndexerBeltConstants.LEADER_MOTOR,
             m_leaderMotorConfig.withLooselyCoupledFollowers(m_followerMotor));
     m_indexerBelt = new FlyWheel(IndexerBeltConstants.FLY_WHEEL_CONFIG, m_leaderMotor);
+  }
+
+  public static IndexerBeltSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new IndexerBeltSubsystem();
+    }
+    return m_instance;
   }
 
   /**

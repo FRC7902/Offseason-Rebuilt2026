@@ -19,16 +19,25 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class FeederSubsystem extends SubsystemBase {
+  private static FeederSubsystem m_instance;
+
   private final TalonFX m_feederMotor;
   private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
   private final FlyWheel m_feeder;
 
-  public FeederSubsystem() {
+  private FeederSubsystem() {
     m_feederMotor = new TalonFX(FeederConstants.CAN_ID);
     m_motorConfig = FeederConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_feederMotor, FeederConstants.MOTOR, m_motorConfig);
     m_feeder = new FlyWheel(FeederConstants.FLY_WHEEL_CONFIG, m_motor);
+  }
+
+  public static FeederSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new FeederSubsystem();
+    }
+    return m_instance;
   }
 
   /**

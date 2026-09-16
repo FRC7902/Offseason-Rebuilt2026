@@ -24,16 +24,25 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class HoodSubsystem extends SubsystemBase {
+  private static HoodSubsystem m_instance;
+
   private final TalonFX m_hoodMotor;
   private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
   private final Arm m_hood;
 
-  public HoodSubsystem() {
+  private HoodSubsystem() {
     m_hoodMotor = new TalonFX(HoodConstants.CAN_ID);
     m_motorConfig = HoodConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_hoodMotor, HoodConstants.MOTOR, m_motorConfig);
     m_hood = new Arm(HoodConstants.ARM_CONFIG, m_motor);
+  }
+
+  public static HoodSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new HoodSubsystem();
+    }
+    return m_instance;
   }
 
   /**

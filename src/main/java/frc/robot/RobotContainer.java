@@ -34,21 +34,13 @@ public class RobotContainer {
 
   private final CommandPS5Controller m_driverController;
 
-  private final IndexerBeltSubsystem m_indexerBeltSubsystem;
-  private final FeederSubsystem m_feederSubsystem;
-  private final RollerFloorSubsystem m_rollerFloorSubsystem;
-  private final VerticalRollerSubsystem m_verticalRollerSubsystem;
-
-  private final LinearIntakeSubsystem m_linearIntakeSubsystem;
-  private final IntakeRollerSubsystem m_intakeRollerSubsystem;
-
-  private final FlywheelSubsystem m_flywheelSubsystem;
-  private final HoodSubsystem m_hoodSubsystem;
-  private final TurretSubsystem m_turretSubsystem;
-
   private final IndexerSystem m_indexerSystem;
   private final IntakeSystem m_intakeSystem;
   private final ShooterSystem m_shooterSystem;
+
+  private final LinearIntakeSubsystem m_linearIntakeSubsystem;
+  private final HoodSubsystem m_hoodSubsystem;
+  private final TurretSubsystem m_turretSubsystem;
 
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
 
@@ -123,26 +115,23 @@ public class RobotContainer {
     // Include DriverStation data in the log
     // DriverStation.startDataLog(DataLogManager.getLog());
 
-    m_indexerBeltSubsystem = new IndexerBeltSubsystem();
-    m_feederSubsystem = new FeederSubsystem();
-    m_rollerFloorSubsystem = new RollerFloorSubsystem();
-    m_verticalRollerSubsystem = new VerticalRollerSubsystem();
-
-    m_linearIntakeSubsystem = new LinearIntakeSubsystem();
-    m_intakeRollerSubsystem = new IntakeRollerSubsystem();
-
-    m_flywheelSubsystem = new FlywheelSubsystem();
-    m_hoodSubsystem = new HoodSubsystem();
-    m_turretSubsystem = new TurretSubsystem();
+    m_linearIntakeSubsystem = LinearIntakeSubsystem.getInstance();
+    m_hoodSubsystem = HoodSubsystem.getInstance();
+    m_turretSubsystem = TurretSubsystem.getInstance();
 
     m_indexerSystem =
         new IndexerSystem(
-            m_indexerBeltSubsystem,
-            m_feederSubsystem,
-            m_rollerFloorSubsystem,
-            m_verticalRollerSubsystem);
-    m_intakeSystem = new IntakeSystem(m_linearIntakeSubsystem, m_intakeRollerSubsystem);
-    m_shooterSystem = new ShooterSystem(m_flywheelSubsystem, m_hoodSubsystem, m_turretSubsystem);
+            IndexerBeltSubsystem.getInstance(),
+            FeederSubsystem.getInstance(),
+            RollerFloorSubsystem.getInstance(),
+            VerticalRollerSubsystem.getInstance());
+    m_intakeSystem =
+        new IntakeSystem(LinearIntakeSubsystem.getInstance(), IntakeRollerSubsystem.getInstance());
+    m_shooterSystem =
+        new ShooterSystem(
+            FlywheelSubsystem.getInstance(),
+            HoodSubsystem.getInstance(),
+            TurretSubsystem.getInstance());
 
     // NamedCommands.registerCommand("extendAndIntake",
     // m_intakeSystem.extendAndIntake());
@@ -273,9 +262,6 @@ public class RobotContainer {
   }
 
   public Command stopAllSubsystems() {
-    return Commands.parallel(
-        m_intakeSystem.stop(),
-        m_shooterSystem.stop(),
-        m_indexerSystem.stop());
+    return Commands.parallel(m_intakeSystem.stop(), m_shooterSystem.stop(), m_indexerSystem.stop());
   }
 }

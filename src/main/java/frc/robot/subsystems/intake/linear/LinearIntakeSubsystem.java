@@ -27,6 +27,8 @@ import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.remote.TalonFXWrapper;
 
 public class LinearIntakeSubsystem extends SubsystemBase {
+  private static LinearIntakeSubsystem m_instance;
+
   private final TalonFX m_linearIntakeMotor;
   private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
@@ -42,7 +44,7 @@ public class LinearIntakeSubsystem extends SubsystemBase {
   private final Trigger m_leftRetractedTrigger;
   private final Trigger m_rightRetractedTrigger;
 
-  public LinearIntakeSubsystem() {
+  private LinearIntakeSubsystem() {
     m_linearIntakeMotor = new TalonFX(LinearIntakeConstants.CAN_ID);
     m_motorConfig = LinearIntakeConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_linearIntakeMotor, LinearIntakeConstants.MOTOR, m_motorConfig);
@@ -66,6 +68,13 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     m_rightExtendedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionExtended));
     m_leftRetractedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionRetracted));
     m_rightRetractedTrigger.onTrue(Commands.runOnce(this::setEncoderPositionRetracted));
+  }
+
+  public static LinearIntakeSubsystem getInstance() {
+    if (m_instance == null) {
+      m_instance = new LinearIntakeSubsystem();
+    }
+    return m_instance;
   }
 
   /**

@@ -13,7 +13,6 @@ import frc.robot.subsystems.shooter.turret.TurretConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class ShooterSystem extends SubsystemBase {
-
   private final FlywheelSubsystem m_flywheel;
   private final HoodSubsystem m_hood;
   private final TurretSubsystem m_turret;

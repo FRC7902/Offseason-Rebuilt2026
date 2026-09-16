@@ -13,7 +13,6 @@ import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerConstants;
 import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerSubsystem;
 
 public class IndexerSystem extends SubsystemBase {
-
   private final IndexerBeltSubsystem m_indexerBelt;
   private final FeederSubsystem m_feeder;
   private final RollerFloorSubsystem m_rollerFloor;

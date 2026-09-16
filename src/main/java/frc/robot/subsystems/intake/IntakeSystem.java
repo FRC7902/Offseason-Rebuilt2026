@@ -9,7 +9,6 @@ import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 
 public class IntakeSystem extends SubsystemBase {
-
   private final LinearIntakeSubsystem m_linearIntake;
   private final IntakeRollerSubsystem m_intakeRoller;
 
