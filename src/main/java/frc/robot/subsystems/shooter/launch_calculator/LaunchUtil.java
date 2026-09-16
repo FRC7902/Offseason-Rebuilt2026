@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
@@ -20,9 +21,19 @@ public class LaunchUtil {
   }
 
   public static Angle getTurretAngleToHub(Pose2d robotPose) {
+    Angle angleToAllianceHub = getAngleToAllianceHub(robotPose);
     Angle robotRotationCompensatedAngle =
-        getAngleToAllianceHub(robotPose).minus(robotPose.getRotation().getMeasure());
-    return wrapAngle(robotRotationCompensatedAngle);
+        angleToAllianceHub.minus(robotPose.getRotation().getMeasure());
+    Angle wrappedAngle = wrapAngle(robotRotationCompensatedAngle);
+
+    SmartDashboard.putNumber(
+        "LaunchCalculator/angleToAllianceHub (deg)", angleToAllianceHub.in(Degrees));
+    SmartDashboard.putNumber(
+        "LaunchCalculator/robotRotationCompensatedAngle (deg)",
+        robotRotationCompensatedAngle.in(Degrees));
+    SmartDashboard.putNumber("LaunchCalculator/wrappedTurretAngle (deg)", wrappedAngle.in(Degrees));
+
+    return wrappedAngle;
   }
 
   private static Angle getAngleToAllianceHub(Pose2d robotPose) {
