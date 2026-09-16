@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.utils.AutoHelper;
+import limelight.networktables.LimelightSettings.ImuMode;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -28,7 +29,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    // Sync internal IMU to external IMU when robot is disabled to avoid drift
+    m_robotContainer.updateImuMode(ImuMode.SyncInternalImu);
+    // Throttle Limelight when robot is disabled to reduce thermal output
+    m_robotContainer.updateLimelightThrottle(150);
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -90,6 +96,11 @@ public class Robot extends TimedRobot {
     // m_robotContainer.calibrateLinearIntakePosition();
 
     CommandScheduler.getInstance().schedule(m_robotContainer.stopAllSubsystems());
+
+    // Use internal IMU for autonomous to avoid drift from external IMU
+    m_robotContainer.updateImuMode(ImuMode.InternalImu);
+    // Disable Limelight throttle during autonomous to allow for full frame rate and reduce latency
+    m_robotContainer.updateLimelightThrottle(0);
 
     // Start the flywheel at the default RPM when teleop starts
     // CommandScheduler.getInstance().schedule(m_robotContainer.m_shooterSubsystem.startFlywheelDefaultRPM());

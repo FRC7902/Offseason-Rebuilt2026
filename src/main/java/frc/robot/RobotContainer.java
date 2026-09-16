@@ -28,6 +28,7 @@ import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+import limelight.networktables.LimelightSettings.ImuMode;
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
@@ -273,9 +274,14 @@ public class RobotContainer {
   }
 
   public Command stopAllSubsystems() {
-    return Commands.parallel(
-        m_intakeSystem.stop(),
-        m_shooterSystem.stop(),
-        m_indexerSystem.stop());
+    return Commands.parallel(m_intakeSystem.stop(), m_shooterSystem.stop(), m_indexerSystem.stop());
+  }
+
+  public void updateImuMode(ImuMode imuMode) {
+    SwerveDriveSubsystem.getInstance().getLimelight().getSettings().withImuMode(imuMode).save();
+  }
+
+  public void updateLimelightThrottle(double throttle) {
+    SwerveDriveSubsystem.getInstance().getLimelight().getSettings().withThrottle(throttle).save();
   }
 }

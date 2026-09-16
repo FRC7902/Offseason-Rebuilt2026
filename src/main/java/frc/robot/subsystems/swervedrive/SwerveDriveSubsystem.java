@@ -47,8 +47,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private static SwerveDriveSubsystem m_instance;
 
-  Limelight m_limelight = new Limelight("limelight"); // TODO: Update limelight name
-  LimelightPoseEstimator m_poseEstimator;
+  private Limelight m_limelight = new Limelight("limelight");
+  private LimelightPoseEstimator m_poseEstimator;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -593,6 +593,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                 .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
           }
         });
+  }
+
+  public Limelight getLimelight() {
+    return m_limelight;
   }
 
   @Override
