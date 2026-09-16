@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
     // Check the linear intake position and set the encoder position accordingly
     // m_robotContainer.calibrateLinearIntakePosition();
 
-    // CommandScheduler.getInstance().schedule(m_robotContainer.stopAllSubsystems());
+    CommandScheduler.getInstance().schedule(m_robotContainer.stopAllSubsystems());
 
     // Start the flywheel at the default RPM when teleop starts
     // CommandScheduler.getInstance().schedule(m_robotContainer.m_shooterSubsystem.startFlywheelDefaultRPM());

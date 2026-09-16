@@ -76,7 +76,7 @@ public class ShooterSystem extends SubsystemBase {
    *
    * @return command that stops all shooter subsystems and runs indefinitely until interrupted
    */
-  public Command stopShooting() {
+  public Command stop() {
     // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
     return Commands.parallel(m_flywheel.stop(), m_hood.setAngle(HoodConstants.MIN_ANGLE));
   }

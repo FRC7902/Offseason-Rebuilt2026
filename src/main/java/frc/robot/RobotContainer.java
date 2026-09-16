@@ -171,7 +171,7 @@ public class RobotContainer {
         .negate()
         .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.stop()) // Stop intaking
-        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_shooterSystem.stop()) // Stop shooting
         .onTrue(m_indexerSystem.stop()); // Stop indexing
 
     // Shoot button is pressed, but intake button is not pressed
@@ -193,7 +193,7 @@ public class RobotContainer {
     intakeTrigger
         .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_shooterSystem.stop()) // Stop shooting
         .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
 
     // Both intake button and shoot button are pressed
@@ -212,7 +212,7 @@ public class RobotContainer {
         .negate()
         .and(manualShootTrigger.negate())
         .onTrue(m_intakeSystem.stop()) // Stop intaking
-        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_shooterSystem.stop()) // Stop shooting
         .onTrue(m_indexerSystem.stop()); // Stop indexing
 
     // manual Shoot button is pressed, but intake button is not pressed
@@ -235,7 +235,7 @@ public class RobotContainer {
     intakeTrigger
         .and(manualShootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        .onTrue(m_shooterSystem.stopShooting()) // Stop shooting
+        .onTrue(m_shooterSystem.stop()) // Stop shooting
         .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
 
     // Both intake button and manual shoot button are pressed
@@ -270,5 +270,12 @@ public class RobotContainer {
     } else if (leftRetracted || rightRetracted) {
       m_linearIntakeSubsystem.setEncoderPositionRetracted();
     }
+  }
+
+  public Command stopAllSubsystems() {
+    return Commands.parallel(
+        m_intakeSystem.stop(),
+        m_shooterSystem.stop(),
+        m_indexerSystem.stop());
   }
 }
