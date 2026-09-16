@@ -22,12 +22,15 @@ public class LaunchUtil {
 
   public static Angle getTurretAngleToHub(Pose2d robotPose) {
     Angle angleToAllianceHub = getAngleToAllianceHub(robotPose);
-    Angle robotRotationCompensatedAngle =
-        angleToAllianceHub.minus(robotPose.getRotation().getMeasure());
+    // Turret's zero setpoint faces the back of the robot, i.e. the robot's heading + 180 deg.
+    Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
+    Angle robotRotationCompensatedAngle = angleToAllianceHub.minus(turretZeroFieldAngle);
     Angle wrappedAngle = wrapAngle(robotRotationCompensatedAngle);
 
     SmartDashboard.putNumber(
         "LaunchCalculator/angleToAllianceHub (deg)", angleToAllianceHub.in(Degrees));
+    SmartDashboard.putNumber(
+        "LaunchCalculator/turretZeroFieldAngle (deg)", turretZeroFieldAngle.in(Degrees));
     SmartDashboard.putNumber(
         "LaunchCalculator/robotRotationCompensatedAngle (deg)",
         robotRotationCompensatedAngle.in(Degrees));
@@ -55,13 +58,8 @@ public class LaunchUtil {
   }
 
   private static Angle wrapAngle(Angle angle) {
-    Angle normalized = angle;
-
-    if (normalized.lt(Degrees.of(0))) {
-      normalized = normalized.plus(FULL_ROTATION);
-    } else if (normalized.gte(FULL_ROTATION)) {
-      normalized = normalized.minus(FULL_ROTATION);
-    }
+    Angle normalized =
+        Degrees.of(MathUtil.inputModulus(angle.in(Degrees), 0, FULL_ROTATION.in(Degrees)));
 
     if (normalized.lte(MAX_ANGLE)) {
       return normalized;

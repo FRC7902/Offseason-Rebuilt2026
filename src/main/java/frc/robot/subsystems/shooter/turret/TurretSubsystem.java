@@ -161,7 +161,8 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public Pose3d getPose3d() {
-    // Temporarily use setpoint to simulate pose3d instead of measurement (due to YAMS simulation
+    // Temporarily use setpoint to simulate pose3d instead of measurement (due to
+    // YAMS simulation
     // bug)
     return new Pose3d(
         new Translation3d(0.144, -0.152, 0.359),
@@ -257,6 +258,10 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("TurretMech/isAtSetpoint", isAtSetpoint());
 
     SmartDashboard.putNumber("TurretMech/distanceToHub (m)", getDistanceToHub().in(Meters));
+
+    SmartDashboard.putNumber("TurretMech/turret-pose-x", getPose().getX());
+
+    SmartDashboard.putNumber("TurretMech/turret-pose-y", getPose().getY());
   }
 
   @Override
