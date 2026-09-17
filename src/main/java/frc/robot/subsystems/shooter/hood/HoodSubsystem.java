@@ -67,8 +67,18 @@ public class HoodSubsystem extends SubsystemBase {
     return m_hood.runTo(angle, HoodConstants.TOLERANCE);
   }
 
+  /**
+   * Continuously drives the hood toward the angle produced by the supplier, re-evaluating it every
+   * cycle. Unlike {@link #setAngle(Angle)}, this command never finishes, so it stays responsive to
+   * a setpoint that keeps changing (e.g. from {@link
+   * frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator}) for as long as it is
+   * scheduled.
+   *
+   * @param angle Supplier of the target angle, polled every cycle.
+   * @return Command that runs indefinitely, continuously updating the setpoint.
+   */
   public Command setAngle(Supplier<Angle> angle) {
-    return m_hood.runTo(angle, HoodConstants.TOLERANCE);
+    return m_hood.run(angle);
   }
   /**
    * Stops the hood by disabling closed-loop control and commanding zero duty cycle.
