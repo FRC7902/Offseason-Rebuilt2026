@@ -250,12 +250,12 @@ public class TurretSubsystem extends SubsystemBase {
 
   public Distance getDistanceToHub(Pose2d turretPose) {
     return Meters.of(
-      turretPose
-        .getTranslation()
-        .getDistance(
-          SwerveDriveSubsystem.getInstance().isRedAlliance()
-            ? FieldConstants.RED_HUB_CENTER
-            : FieldConstants.BLUE_HUB_CENTER));
+        turretPose
+            .getTranslation()
+            .getDistance(
+                SwerveDriveSubsystem.getInstance().isRedAlliance()
+                    ? FieldConstants.RED_HUB_CENTER
+                    : FieldConstants.BLUE_HUB_CENTER));
   }
 
   @Override

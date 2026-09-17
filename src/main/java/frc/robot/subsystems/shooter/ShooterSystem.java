@@ -35,9 +35,8 @@ public class ShooterSystem extends SubsystemBase {
     final var launchCalculator = LaunchCalculator.getInstance();
 
     return Commands.parallel(
-            m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
-            m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()))
-        .repeatedly();
+        m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
+        m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()));
   }
 
   public Command manualAimAndShoot() {

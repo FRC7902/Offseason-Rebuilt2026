@@ -14,7 +14,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.FieldConstants;
-import frc.robot.subsystems.shooter.turret.TurretConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
@@ -80,7 +79,8 @@ public class LaunchCalculator {
             ? getPassingTarget()
             : alliance ? FieldConstants.RED_HUB_CENTER : FieldConstants.BLUE_HUB_CENTER;
     Pose2d launcherPosition = TurretSubsystem.getPose(estimatedPose);
-    Distance launcherToTargetDistance = TurretSubsystem.getInstance().getDistanceToHub(launcherPosition);
+    Distance launcherToTargetDistance =
+        TurretSubsystem.getInstance().getDistanceToHub(launcherPosition);
 
     var robotVelocity = SwerveDriveSubsystem.getInstance().getFieldSetpointVelocity();
     var robotAngle = SwerveDriveSubsystem.getInstance().getRotation();
@@ -109,7 +109,8 @@ public class LaunchCalculator {
           new Pose2d(
               launcherPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
               launcherPosition.getRotation());
-      lookaheadLauncherToTargetDistance = TurretSubsystem.getInstance().getDistanceToHub(lookaheadPose);
+      lookaheadLauncherToTargetDistance =
+          TurretSubsystem.getInstance().getDistanceToHub(lookaheadPose);
     }
 
     Pose2d lookaheadRobotPose = lookaheadPose.transformBy(toTransform2d(robotToLauncher));
