@@ -234,6 +234,15 @@ public class RobotContainer {
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
+
+    /*
+     * Manual driving for swerve tuning
+     */
+
+    m_driverController.povUp().whileTrue(m_swerveDriveSubsystem.driveForward());
+    m_driverController.povDown().whileTrue(m_swerveDriveSubsystem.driveBackward());
+    m_driverController.povLeft().whileTrue(m_swerveDriveSubsystem.driveLeft());
+    m_driverController.povRight().whileTrue(m_swerveDriveSubsystem.driveRight());
   }
 
   public Command getAutonomousCommand() {
