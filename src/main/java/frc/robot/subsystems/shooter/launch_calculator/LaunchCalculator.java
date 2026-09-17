@@ -12,6 +12,7 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
@@ -92,6 +93,7 @@ public class LaunchCalculator {
             : timeOfFlightMap.get(launcherToTargetDistance);
     Pose2d lookaheadPose = launcherPosition;
     double lookaheadLauncherToTargetDistance = launcherToTargetDistance;
+    SmartDashboard.putNumber("launcherToTargetDistance", launcherToTargetDistance);
 
     for (int i = 0; i < 20; i++) {
       timeOfFlight =
