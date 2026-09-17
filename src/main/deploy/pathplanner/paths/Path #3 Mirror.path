@@ -5,6 +5,7 @@
       "anchor": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 6.4088111111111115,
         "y": 3.1969777777777777
       },
@@ -13,6 +14,8 @@
         "x": 5.707211111111112,
         "y": 1.7645444444444447
 =======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
         "x": 10.365055555555557,
         "y": 2.1932999999999994
       },
@@ -20,6 +23,7 @@
       "nextControl": {
         "x": 11.212822222222226,
         "y": 2.144577777777777
+<<<<<<< HEAD
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
 =======
         "x": 6.4088111111111115,
@@ -35,12 +39,15 @@
         "x": 5.707211111111112,
         "y": 1.7645444444444447
 >>>>>>> 3756957 (updated collision problems)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
       },
       "isLocked": false,
       "linkedName": "SecondPathEndMirror"
     },
     {
       "anchor": {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -51,12 +58,15 @@
         "x": 3.163911111111111,
         "y": 2.505122222222221
 =======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
         "x": 13.7951,
         "y": 2.310233333333333
       },
       "prevControl": {
         "x": 12.95707777777778,
         "y": 2.1348333333333325
+<<<<<<< HEAD
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
 =======
         "x": 2.3356333333333335,
@@ -74,6 +84,8 @@
         "x": 3.163911111111111,
         "y": 2.505122222222221
 >>>>>>> 3756957 (updated collision problems)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
       },
       "nextControl": null,
       "isLocked": false,
@@ -99,15 +111,19 @@
   "reversed": false,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "folder": "Final Paths Mirror",
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": -166.74528742235523
 =======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
   "folder": null,
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": 0.0
+<<<<<<< HEAD
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
 =======
   "folder": "Final Paths Mirror",
@@ -115,6 +131,8 @@
     "velocity": 2.0,
     "rotation": -166.74528742235523
 >>>>>>> 6d6b64e (FIxed issues with mirror)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
   },
   "useDefaultConstraints": true
 }

@@ -6,6 +6,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 4.011677777777778,
         "y": 7.435811111111111
       },
@@ -14,6 +15,8 @@
         "x": 5.011677777777779,
         "y": 7.435811111111111
 =======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
         "x": 4.634236804564908,
         "y": 7.327888730385164
       },
@@ -21,6 +24,7 @@
       "nextControl": {
         "x": 5.6342368045649085,
         "y": 7.327888730385164
+<<<<<<< HEAD
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
 =======
         "x": 4.625577777777778,
@@ -34,12 +38,15 @@
         "x": 5.011677777777779,
         "y": 7.435811111111111
 >>>>>>> 3756957 (updated collision problems)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         "x": 7.782777777777778,
@@ -49,12 +56,15 @@
         "x": 8.386933333333333,
         "y": 7.484533333333332
 =======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
         "x": 7.8315,
         "y": 5.9351666666666665
       },
       "prevControl": {
         "x": 8.206721112696147,
         "y": 7.216093913456966
+<<<<<<< HEAD
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
 =======
         "x": 7.782777777777778,
@@ -69,6 +79,8 @@
         "x": 8.386933333333333,
         "y": 7.484533333333332
 >>>>>>> 3756957 (updated collision problems)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
       },
       "nextControl": null,
       "isLocked": false,
@@ -82,6 +94,7 @@
   "globalConstraints": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "maxVelocity": 1.0,
 =======
     "maxVelocity": 3.0,
@@ -89,6 +102,9 @@
 =======
     "maxVelocity": 1.0,
 >>>>>>> 6d6b64e (FIxed issues with mirror)
+=======
+    "maxVelocity": 3.0,
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -100,6 +116,7 @@
     "rotation": -90.4074168793576
   },
   "reversed": false,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   "folder": "Final Paths",
@@ -123,4 +140,12 @@
 =======
   "useDefaultConstraints": false
 >>>>>>> 6d6b64e (FIxed issues with mirror)
+=======
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
 }

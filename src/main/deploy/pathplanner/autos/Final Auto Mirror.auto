@@ -5,6 +5,7 @@
     "data": {
       "commands": [
         {
+<<<<<<< HEAD
           "type": "deadline",
           "data": {
             "commands": [
@@ -27,6 +28,17 @@
                 }
               }
             ]
+=======
+          "type": "path",
+          "data": {
+            "pathName": "Path #1 Mirror"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "extendAndIntake"
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
           }
         },
         {
@@ -36,6 +48,7 @@
           }
         },
         {
+<<<<<<< HEAD
           "type": "parallel",
           "data": {
             "commands": [
@@ -71,12 +84,57 @@
                 }
               }
             ]
+=======
+          "type": "named",
+          "data": {
+            "name": "stopIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path #3 Mirror"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "storeFuel"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aimAndShoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "feedFuel"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopShooter"
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
           }
         }
       ]
     }
   },
   "resetOdom": true,
+<<<<<<< HEAD
   "folder": "FInal Autos",
+=======
+  "folder": null,
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
   "choreoAuto": false
 }
