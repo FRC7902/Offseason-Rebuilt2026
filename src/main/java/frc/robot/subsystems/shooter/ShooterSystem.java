@@ -1,9 +1,12 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
+import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelConstants;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodConstants;
@@ -80,8 +83,32 @@ public class ShooterSystem extends SubsystemBase {
     return Commands.parallel(m_flywheel.stop(), m_hood.setAngle(HoodConstants.MIN_ANGLE));
   }
 
+  private Angle getSafeTurretAngle() {
+    Angle currentAngle = m_turret.getAngle();
+
+    if (currentAngle.isNear(TurretConstants.ANGLE_180, TurretConstants.RIGHT_ANGLE_TOLERANCE)) {
+      return TurretConstants.ANGLE_180;
+    }
+
+    if (currentAngle.isNear(TurretConstants.DEFAULT_ANGLE, TurretConstants.RIGHT_ANGLE_TOLERANCE)) {
+      return TurretConstants.DEFAULT_ANGLE;
+    }
+
+    if (currentAngle.isNear(TurretConstants.CCW_90_ANGLE, TurretConstants.RIGHT_ANGLE_TOLERANCE)) {
+      return TurretConstants.CCW_90_ANGLE;
+    }
+
+    return TurretConstants.CW_90_ANGLE;
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("ShooterSystem/isShooterReady", isShooterReady());
+
+    if (LinearIntakeSubsystem.getInstance()
+        .getHeight()
+        .lt(LinearIntakeConstants.MIDPOINT_DISTANCE)) {
+      m_turret.setAngleSetpoint(getSafeTurretAngle());
+    }
   }
 }
