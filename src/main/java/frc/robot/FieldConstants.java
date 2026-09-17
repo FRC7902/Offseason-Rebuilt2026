@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import java.util.ArrayList;
@@ -21,6 +22,46 @@ public final class FieldConstants {
 
   public static final double BLUE_STARTING_LINE_X = 4.0218614;
   public static final double RED_STARTING_LINE_X = 12.519177399999998;
+
+  // Y-axis span of a trench crossing (matches the physical trench structure width), used to size
+  // hood safety zones. Each trench sits flush against its side wall, so its footprint runs from
+  // the wall inward by this amount.
+  private static final double TRENCH_WIDTH = Units.inchesToMeters(65.65);
+
+  // X-axis span of a hood safety zone, taken from the bump's width along X since the bump is
+  // aligned with the trench in X and extends at least as far, keeping the zone conservative.
+  private static final double TRENCH_SAFETY_ZONE_LENGTH = Units.inchesToMeters(44.4);
+
+  private static Rectangle2d trenchSafetyZone(
+      double hubCenterX, double nearWallY, double farWallY) {
+    return new Rectangle2d(
+        new Translation2d(hubCenterX - TRENCH_SAFETY_ZONE_LENGTH / 2.0, nearWallY),
+        new Translation2d(hubCenterX + TRENCH_SAFETY_ZONE_LENGTH / 2.0, farWallY));
+  }
+
+  /**
+   * Rectangular zones around each of the field's four trenches (two per hub, one against each side
+   * wall) where the hood must be kept down, since raising it would hit the trench bridge overhead.
+   */
+  public static final List<Rectangle2d> TRENCH_HOOD_SAFETY_ZONES =
+      List.of(
+          trenchSafetyZone(BLUE_HUB_CENTER.getX(), 0.0, TRENCH_WIDTH),
+          trenchSafetyZone(BLUE_HUB_CENTER.getX(), FIELD_WIDTH - TRENCH_WIDTH, FIELD_WIDTH),
+          trenchSafetyZone(RED_HUB_CENTER.getX(), 0.0, TRENCH_WIDTH),
+          trenchSafetyZone(RED_HUB_CENTER.getX(), FIELD_WIDTH - TRENCH_WIDTH, FIELD_WIDTH));
+
+  /**
+   * @param robotPosition center of the robot's pose
+   * @return true if the robot is inside a trench's hood safety zone
+   */
+  public static boolean isInTrenchHoodSafetyZone(Translation2d robotPosition) {
+    for (Rectangle2d zone : TRENCH_HOOD_SAFETY_ZONES) {
+      if (zone.contains(robotPosition)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   public static final List<Translation2d> FUEL_LOCATIONS =
       new ArrayList<>(
