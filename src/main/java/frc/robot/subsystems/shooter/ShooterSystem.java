@@ -107,7 +107,7 @@ public class ShooterSystem extends SubsystemBase {
 
     if (LinearIntakeSubsystem.getInstance()
         .getHeight()
-        .lt(LinearIntakeConstants.MIDPOINT_DISTANCE)) {
+        .lt(LinearIntakeConstants.MIDPOINT_DISTANCE.minus(LinearIntakeConstants.TOLERANCE))) {
       m_turret.setAngleSetpoint(getSafeTurretAngle());
     }
   }
