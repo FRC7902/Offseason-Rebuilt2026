@@ -1,5 +1,7 @@
 package frc.robot.subsystems.indexer;
 
+import static edu.wpi.first.units.Units.RPM;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -71,10 +73,13 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command storeFuel() {
     return Commands.parallel(
-        m_rollerFloor.setDutyCycle(RollerFloorConstants.STORING_DUTY_CYCLE),
-        m_indexerBelt.setDutyCycle(IndexerBeltConstants.STORING_DUTY_CYCLE),
-        m_verticalRoller.setDutyCycle(VerticalRollerConstants.STORING_DUTY_CYCLE),
-        m_feeder.stop());
+            m_rollerFloor.setDutyCycle(RollerFloorConstants.STORING_DUTY_CYCLE),
+            m_indexerBelt.setDutyCycle(IndexerBeltConstants.STORING_DUTY_CYCLE),
+            m_verticalRoller.setDutyCycle(VerticalRollerConstants.STORING_DUTY_CYCLE),
+            m_feeder.stop())
+        .withDeadline(
+            Commands.waitSeconds(0.5).until(() -> m_rollerFloor.getVelocity().lt(RPM.of(50))))
+        .andThen(stop());
   }
 
   /**
