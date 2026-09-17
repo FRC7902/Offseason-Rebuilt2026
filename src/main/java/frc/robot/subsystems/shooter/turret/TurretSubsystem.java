@@ -248,6 +248,16 @@ public class TurretSubsystem extends SubsystemBase {
                     : FieldConstants.BLUE_HUB_CENTER));
   }
 
+  public Distance getDistanceToHub(Pose2d turretPose) {
+    return Meters.of(
+      turretPose
+        .getTranslation()
+        .getDistance(
+          SwerveDriveSubsystem.getInstance().isRedAlliance()
+            ? FieldConstants.RED_HUB_CENTER
+            : FieldConstants.BLUE_HUB_CENTER));
+  }
+
   @Override
   public void periodic() {
     m_turret.updateTelemetry();
