@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter.launch_calculator;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.RPM;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.*;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.*;
 
@@ -113,17 +114,23 @@ public class LaunchCalculator {
 
     Angle turretAngle = getTurretAngleToHub(lookaheadRobotPose);
 
-    Angle hoodAngle =
-        (passing
-            ? passingHoodAngleMap.get(lookaheadLauncherToTargetDistance)
-            : hoodAngleMap.get(lookaheadLauncherToTargetDistance));
+    // Angle hoodAngle =
+    //     (passing
+    //         ? passingHoodAngleMap.get(lookaheadLauncherToTargetDistance)
+    //         : hoodAngleMap.get(lookaheadLauncherToTargetDistance));
+
+    Angle hoodAngle = Degrees.of(hoodAngleMap.get(lookaheadLauncherToTargetDistance));
+
     if (lastDriveAngle == null) lastDriveAngle = driveAngle;
     if (lastHoodAngle == null || Double.isNaN(lastHoodAngle.in(Degrees))) lastHoodAngle = hoodAngle;
 
+    // AngularVelocity flywheelVelocity =
+    //     passing
+    //         ? passingFlywheelSpeedMap.get(lookaheadLauncherToTargetDistance)
+    //         : flywheelSpeedMap.get(lookaheadLauncherToTargetDistance);
+
     AngularVelocity flywheelVelocity =
-        passing
-            ? passingFlywheelSpeedMap.get(lookaheadLauncherToTargetDistance)
-            : flywheelSpeedMap.get(lookaheadLauncherToTargetDistance);
+        RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance));
 
     latestParameters =
         new LaunchingParameters(turretAngle, hoodAngle, flywheelVelocity, timeOfFlight, passing);
