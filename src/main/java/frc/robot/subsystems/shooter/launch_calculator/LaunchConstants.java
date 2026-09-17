@@ -38,18 +38,21 @@ public class LaunchConstants {
 
     hoodAngleMap.put(3.5519, 5.0);
     flywheelSpeedMap.put(3.5519, 2350.0);
-    // timeOfFlightMap.put(3.5519, 1.947); TODO
+    timeOfFlightMap.put(3.5518795699888248, 1.947);
 
     // hoodAngleMap.put(2.5036, 4.0));
     // flywheelSpeedMap.put(2.5036, 2056);
+    //timeOfFlightMap.put(2.5035564845, 1.947);
 
     hoodAngleMap.put(5.0588, 10.0);
     flywheelSpeedMap.put(5.0588, 2600.0);
     timeOfFlightMap.put(5.0588, 1.204);
+    timeOfFlightMap.put(5.058810145612536, 1.204);
 
     hoodAngleMap.put(7.0124, 13.0);
     flywheelSpeedMap.put(7.0124, 3000.0);
     timeOfFlightMap.put(7.0124, 1.502);
+    timeOfFlightMap.put(7.012400071948293, 1.502);
 
     // Passing TODO: Update Values
     passingHoodAngleMap.put(4.8533, 40.0);
