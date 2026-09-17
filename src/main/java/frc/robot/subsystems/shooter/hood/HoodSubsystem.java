@@ -59,28 +59,34 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   /**
-   * Moves the hood to a fixed angle using the closed-loop controller. The trapezoidal profile ramps
-   * velocity so the hood does not slam into the setpoint.
+   * Continuously drives the hood to a fixed angle using the closed-loop controller (see {@link
+   * #setAngle(Supplier)}).
    *
    * @param angle Target angle. Must be within the configured soft limits.
-   * @return Command that runs until the hood reaches the target angle within tolerance.
+   * @return Command that runs until interrupted.
    */
   public Command setAngle(Angle angle) {
     return setAngle(() -> angle);
   }
 
   /**
-   * Moves the hood to the angle supplied on each execution, unless the robot is in a trench's hood
-   * safety zone, in which case the hood is forced to {@link HoodConstants#MIN_ANGLE} so it clears
-   * the trench bridge overhead.
+   * Continuously drives the hood toward the angle supplied on each scheduler cycle, unless the
+   * robot is in a trench's hood safety zone, in which case the hood is forced to {@link
+   * HoodConstants#MIN_ANGLE} so it clears the trench bridge overhead. Both the zone check and the
+   * supplied angle are re-evaluated every cycle (via {@link yams.mechanisms.positional.Arm#run},
+   * not {@code runTo}, which only samples a supplier once), so leaving the zone while this command
+   * is still scheduled immediately resumes driving to the intended angle.
+   *
+   * <p><strong>Do not bypass this method to command the hood.</strong> Any code path that sets the
+   * hood's closed-loop setpoint outside of {@link #setAngle(Angle)}/{@link #setAngle(Supplier)}
+   * (e.g. calling {@code m_hood.runTo(...)} or {@code m_hood.run(...)} directly) skips the trench
+   * safety check.
    *
    * @param angle Target angle. Must be within the configured soft limits.
-   * @return Command that runs until the hood reaches the target angle within tolerance.
+   * @return Command that runs until interrupted.
    */
   public Command setAngle(Supplier<Angle> angle) {
-    return m_hood.runTo(
-        () -> isInTrenchSafetyZone() ? HoodConstants.MIN_ANGLE : angle.get(),
-        HoodConstants.TOLERANCE);
+    return m_hood.run(() -> isInTrenchSafetyZone() ? HoodConstants.MIN_ANGLE : angle.get());
   }
 
   /**
