@@ -109,13 +109,15 @@ public class FlywheelSubsystem extends SubsystemBase {
 
   /**
    * Supplier-based velocity command, suitable for joystick-driven or dashboard-driven speed control
-   * where the setpoint changes each loop iteration.
+   * where the setpoint changes each loop iteration. Unlike {@link #setVelocity(AngularVelocity)},
+   * this command never finishes, so it keeps polling the supplier every cycle for as long as it is
+   * scheduled.
    *
    * @param speed Supplier of the desired angular velocity.
    * @return A command that continuously polls the supplier and updates the setpoint.
    */
   public Command setVelocity(Supplier<AngularVelocity> speed) {
-    return m_flywheel.runTo(speed, FlywheelConstants.TOLERANCE);
+    return m_flywheel.run(speed);
   }
 
   /**
