@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.FieldConstants;
+import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import java.util.function.Supplier;
 import yams.mechanisms.positional.Arm;
 import yams.motorcontrollers.SmartMotorController;
@@ -64,23 +66,32 @@ public class HoodSubsystem extends SubsystemBase {
    * @return Command that runs until the hood reaches the target angle within tolerance.
    */
   public Command setAngle(Angle angle) {
-    return m_hood.runTo(angle, HoodConstants.TOLERANCE);
+    return setAngle(() -> angle);
   }
 
   /**
-   * Continuously drives the hood toward the angle produced by the supplier, re-evaluating it every
-   * cycle. Unlike {@link #setAngle(Angle)}, this command never finishes, so it stays responsive to
-   * a setpoint that keeps changing (e.g. from {@link
-   * frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator}) for as long as it is
-   * scheduled.
+   * Moves the hood to the angle supplied on each execution, unless the robot is in a trench's hood
+   * safety zone, in which case the hood is forced to {@link HoodConstants#MIN_ANGLE} so it clears
+   * the trench bridge overhead.
    *
-   * @param angle Supplier of the target angle, polled every cycle.
-   * @return Command that runs indefinitely, continuously updating the setpoint.
+   * @param angle Target angle. Must be within the configured soft limits.
+   * @return Command that runs until the hood reaches the target angle within tolerance.
    */
   public Command setAngle(Supplier<Angle> angle) {
-    return m_hood.run(angle);
+    return m_hood.runTo(
+        () -> isInTrenchSafetyZone() ? HoodConstants.MIN_ANGLE : angle.get(),
+        HoodConstants.TOLERANCE);
   }
-  
+
+  /**
+   * @return true if the robot's pose is inside a trench's hood safety zone, where the hood must be
+   *     kept down to clear the trench bridge overhead
+   */
+  public boolean isInTrenchSafetyZone() {
+    return FieldConstants.isInTrenchHoodSafetyZone(
+        SwerveDriveSubsystem.getInstance().getPose().getTranslation());
+  }
+
   /**
    * Stops the hood by disabling closed-loop control and commanding zero duty cycle.
    *
@@ -168,17 +179,28 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   public boolean isHoodReadyToShoot() {
-    return isAtSetpoint(); // TODO: Add check for if robot is near trench. If so, return false.
+    return isAtSetpoint() && !isInTrenchSafetyZone();
   }
 
   @Override
   public void periodic() {
     m_hood.updateTelemetry();
 
+    // Backstop for when no command is actively driving the hood (e.g. a setpoint left over from
+    // before the robot entered the zone, or the hood never having been commanded this match).
+    // Subsystem periodic() runs before command execute() each cycle, so an active setAngle()
+    // command still wins the tug-of-war on its own via the same isInTrenchSafetyZone() check;
+    // this only takes over when nothing else is writing a setpoint this cycle.
+    boolean inTrenchSafetyZone = isInTrenchSafetyZone();
+    if (inTrenchSafetyZone) {
+      m_hood.setMechanismPositionSetpoint(HoodConstants.MIN_ANGLE);
+    }
+
     SmartDashboard.putNumber("HoodMech/setpoint (deg)", getAngleSetpoint().in(Degrees));
     SmartDashboard.putNumber("HoodMech/position (deg)", getAngle().in(Degrees));
 
     SmartDashboard.putBoolean("HoodMech/isAtSetpoint", isAtSetpoint());
+    SmartDashboard.putBoolean("HoodMech/isInTrenchSafetyZone", inTrenchSafetyZone);
   }
 
   @Override
