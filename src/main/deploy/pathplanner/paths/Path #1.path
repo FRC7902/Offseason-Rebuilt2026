@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 4.011677777777778,
         "y": 7.435811111111111
       },
@@ -10,18 +11,36 @@
       "nextControl": {
         "x": 5.011677777777779,
         "y": 7.435811111111111
+=======
+        "x": 4.634236804564908,
+        "y": 7.327888730385164
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.6342368045649085,
+        "y": 7.327888730385164
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 7.782777777777778,
         "y": 6.695233333333333
       },
       "prevControl": {
         "x": 8.386933333333333,
         "y": 7.484533333333332
+=======
+        "x": 7.8315,
+        "y": 5.9351666666666665
+      },
+      "prevControl": {
+        "x": 8.206721112696147,
+        "y": 7.216093913456966
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +52,11 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
+<<<<<<< HEAD
     "maxVelocity": 1.0,
+=======
+    "maxVelocity": 3.0,
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -45,10 +68,19 @@
     "rotation": -90.4074168793576
   },
   "reversed": false,
+<<<<<<< HEAD
   "folder": "Final Paths",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 0.0
   },
   "useDefaultConstraints": false
+=======
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
 }

@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 6.4088111111111115,
         "y": 3.1969777777777777
       },
@@ -10,18 +11,36 @@
       "nextControl": {
         "x": 5.707211111111112,
         "y": 1.7645444444444447
+=======
+        "x": 10.365055555555557,
+        "y": 2.1932999999999994
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 11.212822222222226,
+        "y": 2.144577777777777
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
       },
       "isLocked": false,
       "linkedName": "SecondPathEndMirror"
     },
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 2.3941000000000003,
         "y": 2.719499999999999
       },
       "prevControl": {
         "x": 3.163911111111111,
         "y": 2.505122222222221
+=======
+        "x": 13.7951,
+        "y": 2.310233333333333
+      },
+      "prevControl": {
+        "x": 12.95707777777778,
+        "y": 2.1348333333333325
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +64,17 @@
     "rotation": 21.31791227525004
   },
   "reversed": false,
+<<<<<<< HEAD
   "folder": "Final Paths Mirror",
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": -166.74528742235523
+=======
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": 0.0
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
   },
   "useDefaultConstraints": true
 }
