@@ -48,9 +48,14 @@
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD
         "x": 5.911844444444444,
         "y": 4.98021111111111
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 5.931333333333333,
+        "y": 5.8767
+>>>>>>> 0afa63c (updated collision problems)
       },
       "isLocked": false,
       "linkedName": "SecondPathEnd"
@@ -98,9 +103,14 @@
         "y": 5.340755555555555
       },
       "prevControl": {
+<<<<<<< HEAD
         "x": 3.701985112412266,
         "y": 5.205694487559935
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 3.5049666666666663,
+        "y": 5.525899999999999
+>>>>>>> 0afa63c (updated collision problems)
       },
       "nextControl": null,
       "isLocked": false,

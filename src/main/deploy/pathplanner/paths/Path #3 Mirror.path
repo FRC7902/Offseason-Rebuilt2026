@@ -48,15 +48,21 @@
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD
         "x": 4.947144444444445,
         "y": 2.134833333333333
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 5.707211111111112,
+        "y": 1.7645444444444447
+>>>>>>> 0afa63c (updated collision problems)
       },
       "isLocked": false,
       "linkedName": "SecondPathEndMirror"
     },
     {
       "anchor": {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -105,6 +111,14 @@
         "x": 3.046977777777778,
         "y": 2.534355555555554
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 2.3941000000000003,
+        "y": 2.719499999999999
+      },
+      "prevControl": {
+        "x": 3.163911111111111,
+        "y": 2.505122222222221
+>>>>>>> 0afa63c (updated collision problems)
       },
       "nextControl": null,
       "isLocked": false,

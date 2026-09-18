@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 3.9921888888888892,
         "y": 0.5952111111111105
       },
@@ -60,6 +61,15 @@
         "x": 5.664555555555561,
         "y": 0.5367444444444436
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 4.645066666666667,
+        "y": 0.5952111111111105
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.2236666666666665,
+        "y": 0.6244444444444435
+>>>>>>> 0afa63c (updated collision problems)
       },
       "isLocked": false,
       "linkedName": null
@@ -107,9 +117,14 @@
         "y": 1.5793999999990533
       },
       "prevControl": {
+<<<<<<< HEAD
         "x": 7.792522222226484,
         "y": -0.06741111111205811
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 7.802266666666666,
+        "y": 0.6634222222222217
+>>>>>>> 0afa63c (updated collision problems)
       },
       "nextControl": null,
       "isLocked": false,
