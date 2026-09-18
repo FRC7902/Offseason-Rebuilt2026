@@ -42,7 +42,7 @@ public class LaunchConstants {
 
     // hoodAngleMap.put(2.5036, 4.0));
     // flywheelSpeedMap.put(2.5036, 2056);
-    //timeOfFlightMap.put(2.5035564845, 1.947);
+    // timeOfFlightMap.put(2.5035564845, 1.947);
 
     hoodAngleMap.put(5.0588, 10.0);
     flywheelSpeedMap.put(5.0588, 2600.0);
