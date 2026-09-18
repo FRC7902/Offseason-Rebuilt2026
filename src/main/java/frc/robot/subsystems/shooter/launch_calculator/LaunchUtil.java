@@ -26,7 +26,8 @@ public class LaunchUtil {
     Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
     Angle robotRotationCompensatedAngle =
         angleToAllianceHub.minus(turretZeroFieldAngle).plus(Degrees.of(-3.4444567));
-    Angle wrappedAngle = wrapAngle(robotRotationCompensatedAngle);
+    Angle wrappedAngle =
+        wrapAngle(robotRotationCompensatedAngle, TurretSubsystem.getInstance().getAngle());
 
     SmartDashboard.putNumber(
         "LaunchCalculator/angleToAllianceHub (deg)", angleToAllianceHub.in(Degrees));
@@ -57,26 +58,25 @@ public class LaunchUtil {
     }
     return FieldConstants.BLUE_HUB_CENTER;
   }
-  
-  private static Angle abs(Angle angle){
+
+  private static Angle abs(Angle angle) {
     return angle.lt(Degrees.of(0)) ? angle.unaryMinus() : angle;
   }
 
   private static Angle wrapAngle(Angle target, Angle currentAngle) {
-    Angle normalized =
-        target;
+    Angle normalized = target;
 
-    while (normalized.gte(MAX_ANGLE)){
+    while (normalized.gte(MAX_ANGLE)) {
       normalized = normalized.minus(FULL_ROTATION);
     }
-    while (normalized.lt(MIN_ANGLE)){
+    while (normalized.lt(MIN_ANGLE)) {
       normalized = normalized.plus(FULL_ROTATION);
     }
     Angle alternate = normalized.plus(FULL_ROTATION);
-    if (alternate.lte(MAX_ANGLE)){
+    if (alternate.lte(MAX_ANGLE)) {
       Angle distanceToNormalized = abs(normalized.minus(currentAngle));
       Angle distToAlternate = abs(alternate.minus(currentAngle));
-      if(distToAlternate.lt(distanceToNormalized)){
+      if (distToAlternate.lt(distanceToNormalized)) {
         return alternate;
       }
     }
