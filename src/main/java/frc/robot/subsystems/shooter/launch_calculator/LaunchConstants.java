@@ -52,15 +52,23 @@ public class LaunchConstants {
     flywheelSpeedMap.put(7.0124, 3000.0);
     timeOfFlightMap.put(7.0124, 1.502);
 
-    // Passing TODO: Update Values
-    passingHoodAngleMap.put(4.8533, 40.0);
-    passingHoodAngleMap.put(16.00, 40.0);
+    // TODO: re-tune these values for passing
+    passingHoodAngleMap.put(4.8533, 43.3837);
+    passingHoodAngleMap.put(7.0573, 43.3837);
+    passingHoodAngleMap.put(10.2642, 43.3837);
+    passingHoodAngleMap.put(11.8006, 43.3837);
+    passingHoodAngleMap.put(13.0, 43.3837);
+    passingHoodAngleMap.put(14.0, 43.3837);
+    passingHoodAngleMap.put(15.0, 43.3837);
+    passingHoodAngleMap.put(16.0, 43.3837);
 
     passingFlywheelSpeedMap.put(4.8533, 3500.0);
     passingFlywheelSpeedMap.put(7.0573, 4600.0);
     passingFlywheelSpeedMap.put(10.2642, 5800.0);
     passingFlywheelSpeedMap.put(11.8006, 6300.0);
     passingFlywheelSpeedMap.put(13.0, 6300.0);
+    passingFlywheelSpeedMap.put(14.0, 6300.0);
+    passingFlywheelSpeedMap.put(15.0, 6300.0);
     passingFlywheelSpeedMap.put(16.0, 6300.0);
 
     passingTimeOfFlightMap.put(5.46, 1.27);
