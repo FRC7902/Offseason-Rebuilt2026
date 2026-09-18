@@ -24,7 +24,8 @@ public class LaunchUtil {
     Angle angleToAllianceHub = getAngleToAllianceHub(robotPose);
     // Turret's zero setpoint faces the back of the robot, i.e. the robot's heading + 180 deg.
     Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
-    Angle robotRotationCompensatedAngle = angleToAllianceHub.minus(turretZeroFieldAngle);
+    Angle robotRotationCompensatedAngle =
+        angleToAllianceHub.minus(turretZeroFieldAngle).plus(Degrees.of(-3.4444567));
     Angle wrappedAngle = wrapAngle(robotRotationCompensatedAngle);
 
     SmartDashboard.putNumber(
