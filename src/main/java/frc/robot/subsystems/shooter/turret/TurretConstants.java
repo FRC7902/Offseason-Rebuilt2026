@@ -23,9 +23,8 @@ public class TurretConstants {
   public static final int CAN_ID = 42;
 
   public static final Angle MAX_ANGLE = Degrees.of(190);
-  public static final Angle MIN_ANGLE = Degrees.of(-180);
+  public static final Angle MIN_ANGLE = Degrees.of(-190);
   public static final Angle FULL_ROTATION = Degrees.of(360);
-  public static final Angle DEAD_ZONE = Degrees.of(200);
 
   public static final Angle DEFAULT_ANGLE = Degrees.of(0);
 
