@@ -4,6 +4,7 @@
     {
       "anchor": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 7.782777777777778,
         "y": 6.695233333333333
       },
@@ -20,12 +21,22 @@
         "x": 7.8412444444401945,
         "y": 4.5611999999982995
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+        "x": 7.782777777777778,
+        "y": 6.695233333333333
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.792522222217972,
+        "y": 5.321266666664966
+>>>>>>> 6d6b64e (FIxed issues with mirror)
       },
       "isLocked": false,
       "linkedName": "FirstPathEnd"
     },
     {
       "anchor": {
+<<<<<<< HEAD
 <<<<<<< HEAD
         "x": 6.720633333333333,
         "y": 4.736599999999999
@@ -41,6 +52,14 @@
         "x": 8.49412222222222,
         "y": 0.7901000000000011
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+        "x": 6.720633333333333,
+        "y": 4.736599999999999
+      },
+      "prevControl": {
+        "x": 8.42591111111111,
+        "y": 3.1872333333333325
+>>>>>>> 6d6b64e (FIxed issues with mirror)
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,6 +68,7 @@
   ],
   "rotationTargets": [
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
       "waypointRelativePos": 0.26473029045643437,
       "rotationDegrees": -98.53594317563528
@@ -60,6 +80,14 @@
       "waypointRelativePos": 0.7111111111111069,
       "rotationDegrees": -98.53594317563528
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+      "waypointRelativePos": 0.26473029045643437,
+      "rotationDegrees": -98.53594317563528
+    },
+    {
+      "waypointRelativePos": 0.7809128630705446,
+      "rotationDegrees": 152.83643045680472
+>>>>>>> 6d6b64e (FIxed issues with mirror)
     }
   ],
   "constraintZones": [],
@@ -79,10 +107,14 @@
   },
   "reversed": false,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "folder": "Final Paths",
 =======
   "folder": null,
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+  "folder": "Final Paths",
+>>>>>>> 6d6b64e (FIxed issues with mirror)
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": -90.4074168793576

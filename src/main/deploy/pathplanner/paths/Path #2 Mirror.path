@@ -4,6 +4,7 @@
     {
       "anchor": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 7.812011111115373,
         "y": 1.5793999999990533
       },
@@ -20,12 +21,22 @@
         "x": 8.718244444440195,
         "y": 4.434522222220522
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+        "x": 7.812011111115373,
+        "y": 1.5793999999990533
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.685333333333334,
+        "y": 3.3333999999999993
+>>>>>>> 6d6b64e (FIxed issues with mirror)
       },
       "isLocked": false,
       "linkedName": "FirstPathEndMirror"
     },
     {
       "anchor": {
+<<<<<<< HEAD
 <<<<<<< HEAD
         "x": 6.4088111111111115,
         "y": 3.1969777777777777
@@ -41,6 +52,14 @@
         "x": 8.240766666666667,
         "y": 0.7023999999999988
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+        "x": 6.4088111111111115,
+        "y": 3.1969777777777777
+      },
+      "prevControl": {
+        "x": 8.64028888888889,
+        "y": 4.580688888888889
+>>>>>>> 6d6b64e (FIxed issues with mirror)
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,16 +69,22 @@
   "rotationTargets": [
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6d6b64e (FIxed issues with mirror)
       "waypointRelativePos": 0.2514522821576784,
       "rotationDegrees": 86.250682291982
     },
     {
       "waypointRelativePos": 0.8157676348547679,
       "rotationDegrees": -161.54151760785024
+<<<<<<< HEAD
 =======
       "waypointRelativePos": 0.7111111111111069,
       "rotationDegrees": -98.53594317563528
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+>>>>>>> 6d6b64e (FIxed issues with mirror)
     }
   ],
   "constraintZones": [],
@@ -76,6 +101,7 @@
   "goalEndState": {
     "velocity": 0.0,
 <<<<<<< HEAD
+<<<<<<< HEAD
     "rotation": -166.74528742235523
   },
   "reversed": false,
@@ -85,13 +111,20 @@
     "rotation": 89.43273359014202
 =======
     "rotation": 0.0
+=======
+    "rotation": -166.74528742235523
+>>>>>>> 6d6b64e (FIxed issues with mirror)
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Final Paths Mirror",
   "idealStartingState": {
     "velocity": 0.0,
+<<<<<<< HEAD
     "rotation": -90.4074168793576
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+    "rotation": 89.43273359014202
+>>>>>>> 6d6b64e (FIxed issues with mirror)
   },
   "useDefaultConstraints": false
 }
