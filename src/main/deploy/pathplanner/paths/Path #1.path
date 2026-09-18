@@ -4,6 +4,7 @@
     {
       "anchor": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 4.011677777777778,
         "y": 7.435811111111111
       },
@@ -20,6 +21,15 @@
         "x": 5.6342368045649085,
         "y": 7.327888730385164
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+        "x": 4.625577777777778,
+        "y": 7.435811111111111
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.625577777777779,
+        "y": 7.435811111111111
+>>>>>>> 3756957 (updated collision problems)
       },
       "isLocked": false,
       "linkedName": null
@@ -47,9 +57,14 @@
         "y": 6.695233333333333
       },
       "prevControl": {
+<<<<<<< HEAD
         "x": 8.4454,
         "y": 8.0692
 >>>>>>> 6d6b64e (FIxed issues with mirror)
+=======
+        "x": 8.386933333333333,
+        "y": 7.484533333333332
+>>>>>>> 3756957 (updated collision problems)
       },
       "nextControl": null,
       "isLocked": false,
