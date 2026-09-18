@@ -80,7 +80,7 @@ public class HoodSubsystem extends SubsystemBase {
   public Command setAngle(Supplier<Angle> angle) {
     return m_hood.run(angle);
   }
-  
+
   /**
    * Stops the hood by disabling closed-loop control and commanding zero duty cycle.
    *

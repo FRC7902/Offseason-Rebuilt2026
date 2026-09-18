@@ -22,8 +22,9 @@ public class TurretConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final int CAN_ID = 42;
 
-  public static final Angle MIN_ANGLE = Degrees.of(-160);
-  public static final Angle MAX_ANGLE = Degrees.of(190);
+  public static final Angle MAX_ANGLE = Degrees.of(180);
+  public static final Angle MIN_ANGLE = Degrees.of(-190);
+  public static final Angle FULL_ROTATION = Degrees.of(360);
 
   public static final Angle DEFAULT_ANGLE = Degrees.of(0);
 
@@ -32,10 +33,10 @@ public class TurretConstants {
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(150.0, 0.0, 1)
-          .withSimClosedLoopController(42.65, 0.0, 3)
+          .withSimClosedLoopController(20, 0.0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(45)))
           .withIdleMode(MotorMode.BRAKE)
-          .withMotorInverted(false)
+          .withMotorInverted(true)
           .withFeedforward(new SimpleMotorFeedforward(0.042757, 5.5173, 0.83544, 0.02))
           .withSimFeedforward(new SimpleMotorFeedforward(0.01025, 0.0, 0.0, 0.02))
           .withTelemetry(
@@ -57,5 +58,5 @@ public class TurretConstants {
           .withTelemetry("TurretMech", TelemetryVerbosity.LOW);
 
   public static final Transform3d ROBOT_TO_TURRET =
-      new Transform3d(-0.144, 0.152, -0.359, Rotation3d.kZero);
+      new Transform3d(-0.152, 0.144, 0.359, Rotation3d.kZero);
 }

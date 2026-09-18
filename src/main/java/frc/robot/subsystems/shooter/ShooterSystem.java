@@ -22,7 +22,7 @@ public class ShooterSystem extends SubsystemBase {
     m_hood = hood;
     m_turret = turret;
 
-    // m_turret.setDefaultCommand(aimTurret());
+    m_turret.setDefaultCommand(aimTurret());
   }
 
   /**
@@ -35,9 +35,8 @@ public class ShooterSystem extends SubsystemBase {
     final var launchCalculator = LaunchCalculator.getInstance();
 
     return Commands.parallel(
-            m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
-            m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()))
-        .repeatedly();
+        m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
+        m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()));
   }
 
   public Command manualAimAndShoot() {
@@ -54,9 +53,10 @@ public class ShooterSystem extends SubsystemBase {
    * @return command that indefinitely aims the turret to the calculated target angle
    */
   public Command aimTurret() {
-    return m_turret
-        .setAngle(() -> LaunchCalculator.getInstance().getParameters().turretAngle())
-        .repeatedly();
+    return Commands.run(
+        () ->
+            m_turret.setAngleSetpoint(LaunchCalculator.getInstance().getParameters().turretAngle()),
+        m_turret);
   }
 
   /**

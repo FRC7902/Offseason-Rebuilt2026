@@ -57,19 +57,27 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns the turret's estimated pose in the field frame based on the robot's pose and the fixed
-   * turret offset from the robot center.
+   * Returns the turret's estimated pose in the field frame based on the robot's current pose and
+   * the fixed turret offset from the robot center.
    *
-   * @param robotPose Current pose of the robot in the field coordinate system.
    * @return Field-relative pose of the turret mounting point.
    */
-  public Pose2d getPose() {
-    return SwerveDriveSubsystem.getInstance()
-        .getPose()
-        .plus(
-            new Transform2d(
-                TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
-                TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
+  public static Pose2d getPose() {
+    return getPose(SwerveDriveSubsystem.getInstance().getPose());
+  }
+
+  /**
+   * Returns the turret's estimated pose in the field frame based on the given robot pose and the
+   * fixed turret offset from the robot center.
+   *
+   * @param robotPose Pose of the robot in the field coordinate system.
+   * @return Field-relative pose of the turret mounting point.
+   */
+  public static Pose2d getPose(Pose2d robotPose) {
+    return robotPose.plus(
+        new Transform2d(
+            TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
+            TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
   }
 
   /**
@@ -153,8 +161,12 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public Pose3d getPose3d() {
+    // Temporarily use setpoint to simulate pose3d instead of measurement (due to
+    // YAMS simulation
+    // bug)
     return new Pose3d(
-        new Translation3d(0.144, -0.152, 0.359), new Rotation3d(0.0, 0.0, getAngle().in(Radians)));
+        new Translation3d(0.144, -0.152, 0.359),
+        new Rotation3d(0.0, 0.0, getAngleSetpoint().in(Radians)));
   }
 
   /**
@@ -236,6 +248,16 @@ public class TurretSubsystem extends SubsystemBase {
                     : FieldConstants.BLUE_HUB_CENTER));
   }
 
+  public Distance getDistanceToHub(Pose2d turretPose) {
+    return Meters.of(
+        turretPose
+            .getTranslation()
+            .getDistance(
+                SwerveDriveSubsystem.getInstance().isRedAlliance()
+                    ? FieldConstants.RED_HUB_CENTER
+                    : FieldConstants.BLUE_HUB_CENTER));
+  }
+
   @Override
   public void periodic() {
     m_turret.updateTelemetry();
@@ -246,6 +268,10 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("TurretMech/isAtSetpoint", isAtSetpoint());
 
     SmartDashboard.putNumber("TurretMech/distanceToHub (m)", getDistanceToHub().in(Meters));
+
+    SmartDashboard.putNumber("TurretMech/turret-pose-x", getPose().getX());
+
+    SmartDashboard.putNumber("TurretMech/turret-pose-y", getPose().getY());
   }
 
   @Override
