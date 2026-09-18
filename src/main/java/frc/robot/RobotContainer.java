@@ -139,7 +139,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("feedFuel", m_indexerSystem.feedFuel());
     NamedCommands.registerCommand("storeFuel", m_indexerSystem.storeFuel());
     NamedCommands.registerCommand("aimAndShoot", m_shooterSystem.aimAndShoot());
-    NamedCommands.registerCommand("stopShooter", m_shooterSystem.stop());
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
