@@ -6,6 +6,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 6.720633333333333,
         "y": 4.736599999999999
       },
@@ -41,12 +42,22 @@
 >>>>>>> 3756957 (updated collision problems)
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+=======
+        "x": 6.720633333333333,
+        "y": 4.736599999999999
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.911844444444444,
+        "y": 4.98021111111111
+>>>>>>> a6117bc (FIxed issues with mirror)
       },
       "isLocked": false,
       "linkedName": "SecondPathEnd"
     },
     {
       "anchor": {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -82,6 +93,14 @@
 >>>>>>> 3756957 (updated collision problems)
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+=======
+        "x": 2.579244444444445,
+        "y": 5.340755555555555
+      },
+      "prevControl": {
+        "x": 3.701985112412266,
+        "y": 5.205694487559935
+>>>>>>> a6117bc (FIxed issues with mirror)
       },
       "nextControl": null,
       "isLocked": false,
@@ -102,6 +121,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -126,6 +146,12 @@
 >>>>>>> 6d6b64e (FIxed issues with mirror)
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+=======
+    "rotation": -57.771242564901506
+  },
+  "reversed": false,
+  "folder": "Final Paths",
+>>>>>>> a6117bc (FIxed issues with mirror)
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": 177.7093899573615

@@ -145,6 +145,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("aimAndShoot", m_shooterSystem.aimAndShoot());
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
     NamedCommands.registerCommand("stopIntake", m_intakeSystem.stop());
     NamedCommands.registerCommand("feedFuel", m_indexerSystem.feedFuel());
@@ -156,6 +157,8 @@ public class RobotContainer {
 =======
     NamedCommands.registerCommand("stopShooter", m_shooterSystem.stop());
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+=======
+>>>>>>> a6117bc (FIxed issues with mirror)
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
