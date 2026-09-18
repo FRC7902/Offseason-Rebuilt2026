@@ -57,20 +57,30 @@ public class LaunchUtil {
     }
     return FieldConstants.BLUE_HUB_CENTER;
   }
+  
+  private static Angle abs(Angle angle){
+    return angle.lt(Degrees.of(0)) ? angle.unaryMinus() : angle;
+  }
 
-  private static Angle wrapAngle(Angle angle) {
+  private static Angle wrapAngle(Angle target, Angle currentAngle) {
     Angle normalized =
-        Degrees.of(MathUtil.inputModulus(angle.in(Degrees), 0, FULL_ROTATION.in(Degrees)));
+        target;
 
-    if (normalized.lte(MAX_ANGLE)) {
-      return normalized;
-    } else if (normalized.gte(DEAD_ZONE)) {
-      return normalized.minus(FULL_ROTATION);
-    } else {
-      Angle distanceToLow = normalized.minus(MAX_ANGLE);
-      Angle distanceToHigh = DEAD_ZONE.minus(normalized);
-      return distanceToLow.lt(distanceToHigh) ? MAX_ANGLE : MIN_ANGLE;
+    while (normalized.gte(MAX_ANGLE)){
+      normalized = normalized.minus(FULL_ROTATION);
     }
+    while (normalized.lt(MIN_ANGLE)){
+      normalized = normalized.plus(FULL_ROTATION);
+    }
+    Angle alternate = normalized.plus(FULL_ROTATION);
+    if (alternate.lte(MAX_ANGLE)){
+      Angle distanceToNormalized = abs(normalized.minus(currentAngle));
+      Angle distToAlternate = abs(alternate.minus(currentAngle));
+      if(distToAlternate.lt(distanceToNormalized)){
+        return alternate;
+      }
+    }
+    return normalized;
   }
 
   public static ChassisSpeeds transformVelocity(
