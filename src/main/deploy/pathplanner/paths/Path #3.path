@@ -3,6 +3,13 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 6.720633333333333,
         "y": 4.736599999999999
       },
@@ -10,18 +17,112 @@
       "nextControl": {
         "x": 5.931333333333333,
         "y": 5.8767
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+        "x": 6.291877777777778,
+        "y": 2.514866666666667
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.964355338879323,
+        "y": 2.2552414134765644
+<<<<<<< HEAD
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+        "x": 6.720633333333333,
+        "y": 4.736599999999999
+      },
+      "prevControl": null,
+      "nextControl": {
+<<<<<<< HEAD
+        "x": 5.911844444444444,
+        "y": 4.98021111111111
+>>>>>>> 6d6b64e (FIxed issues with mirror)
+=======
+        "x": 5.931333333333333,
+        "y": 5.8767
+>>>>>>> 3756957 (updated collision problems)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+=======
+        "x": 6.720633333333333,
+        "y": 4.736599999999999
+      },
+      "prevControl": null,
+      "nextControl": {
+<<<<<<< HEAD
+        "x": 5.911844444444444,
+        "y": 4.98021111111111
+>>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 5.931333333333333,
+        "y": 5.8767
+>>>>>>> 0afa63c (updated collision problems)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "isLocked": false,
       "linkedName": "SecondPathEnd"
     },
     {
       "anchor": {
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 2.579244444444445,
         "y": 5.340755555555555
       },
       "prevControl": {
         "x": 3.5049666666666663,
         "y": 5.525899999999999
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+        "x": 2.520777777777778,
+        "y": 2.514866666666667
+      },
+      "prevControl": {
+        "x": 3.6435184457456025,
+        "y": 2.3798055986710467
+<<<<<<< HEAD
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+        "x": 2.579244444444445,
+        "y": 5.340755555555555
+      },
+      "prevControl": {
+<<<<<<< HEAD
+        "x": 3.701985112412266,
+        "y": 5.205694487559935
+>>>>>>> 6d6b64e (FIxed issues with mirror)
+=======
+        "x": 3.5049666666666663,
+        "y": 5.525899999999999
+>>>>>>> 3756957 (updated collision problems)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+=======
+        "x": 2.579244444444445,
+        "y": 5.340755555555555
+      },
+      "prevControl": {
+<<<<<<< HEAD
+        "x": 3.701985112412266,
+        "y": 5.205694487559935
+>>>>>>> a6117bc (FIxed issues with mirror)
+=======
+        "x": 3.5049666666666663,
+        "y": 5.525899999999999
+>>>>>>> 0afa63c (updated collision problems)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,10 +148,43 @@
   },
   "goalEndState": {
     "velocity": 0.0,
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
     "rotation": -57.771242564901506
   },
   "reversed": false,
   "folder": "Final Paths",
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+    "rotation": 21.31791227525004
+  },
+  "reversed": false,
+  "folder": null,
+<<<<<<< HEAD
+>>>>>>> fefd7dc (Added new auto with mirror counterpart)
+=======
+    "rotation": -57.771242564901506
+  },
+  "reversed": false,
+  "folder": "Final Paths",
+>>>>>>> 6d6b64e (FIxed issues with mirror)
+=======
+>>>>>>> 6f73fbd (Added new auto with mirror counterpart)
+=======
+    "rotation": -57.771242564901506
+  },
+  "reversed": false,
+  "folder": "Final Paths",
+>>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": 177.7093899573615
