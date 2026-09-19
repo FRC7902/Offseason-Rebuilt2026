@@ -7,6 +7,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 7.812011111115373,
         "y": 1.5793999999990533
       },
@@ -14,6 +17,7 @@
       "nextControl": {
         "x": 7.685333333333334,
         "y": 3.3333999999999993
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
@@ -46,6 +50,8 @@
         "x": 7.685333333333334,
         "y": 3.3333999999999993
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "isLocked": false,
       "linkedName": "FirstPathEndMirror"
@@ -56,12 +62,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 6.4088111111111115,
         "y": 3.1969777777777777
       },
       "prevControl": {
         "x": 8.64028888888889,
         "y": 4.580688888888889
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
@@ -91,6 +101,8 @@
         "x": 8.64028888888889,
         "y": 4.580688888888889
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "nextControl": null,
       "isLocked": false,
@@ -103,16 +115,20 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6d6b64e (FIxed issues with mirror)
 =======
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       "waypointRelativePos": 0.2514522821576784,
       "rotationDegrees": 86.250682291982
     },
     {
       "waypointRelativePos": 0.8157676348547679,
       "rotationDegrees": -161.54151760785024
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -127,6 +143,8 @@
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
 =======
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
     }
   ],
   "constraintZones": [],
@@ -146,6 +164,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
     "rotation": -166.74528742235523
   },
   "reversed": false,
@@ -153,6 +174,7 @@
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 89.43273359014202
+<<<<<<< HEAD
 =======
     "rotation": 0.0
 =======
@@ -185,6 +207,8 @@
 =======
     "rotation": 89.43273359014202
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
   },
   "useDefaultConstraints": false
 }

@@ -7,6 +7,9 @@
         {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           "type": "deadline",
           "data": {
             "commands": [
@@ -21,6 +24,7 @@
                 "data": {
                   "name": "extendAndIntake"
                 }
+<<<<<<< HEAD
 <<<<<<< HEAD
               },
               {
@@ -69,6 +73,10 @@
               }
             ]
 >>>>>>> bbc368a (added new mid auto)
+=======
+              }
+            ]
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           }
         },
         {
@@ -81,12 +89,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
+<<<<<<< HEAD
                   "name": "stopIntake"
                 }
               },
@@ -128,6 +140,8 @@
               {
                 "type": "named",
                 "data": {
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
                   "name": "storeFuel"
                 }
               },
@@ -149,6 +163,7 @@
         {
           "type": "parallel",
           "data": {
+<<<<<<< HEAD
 <<<<<<< HEAD
             "pathName": "Path #3 Mirror"
           }
@@ -183,6 +198,8 @@
             "name": "stopShooter"
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
 =======
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
             "commands": [
               {
                 "type": "named",
@@ -197,13 +214,17 @@
                 }
               }
             ]
+<<<<<<< HEAD
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           }
         }
       ]
     }
   },
   "resetOdom": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   "folder": "FInal Autos",
@@ -213,5 +234,8 @@
 =======
   "folder": "FInal Autos",
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+  "folder": "FInal Autos",
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
   "choreoAuto": false
 }

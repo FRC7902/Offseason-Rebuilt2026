@@ -11,6 +11,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 3.9921888888888892,
         "y": 0.5952111111111105
       },
@@ -18,6 +21,7 @@
       "nextControl": {
         "x": 5.570788888888889,
         "y": 0.6244444444444435
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
@@ -74,6 +78,8 @@
         "x": 5.570788888888889,
         "y": 0.6244444444444435
 >>>>>>> 0afa63c (updated collision problems)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "isLocked": false,
       "linkedName": null
@@ -84,12 +90,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 7.812011111115373,
         "y": 1.5793999999990533
       },
       "prevControl": {
         "x": 7.802266666666666,
         "y": 0.6634222222222217
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
@@ -129,6 +139,8 @@
         "x": 7.802266666666666,
         "y": 0.6634222222222217
 >>>>>>> 0afa63c (updated collision problems)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "nextControl": null,
       "isLocked": false,
@@ -144,6 +156,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "maxVelocity": 1.0,
 =======
     "maxVelocity": 3.0,
@@ -157,6 +170,9 @@
 =======
     "maxVelocity": 1.0,
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+    "maxVelocity": 1.0,
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -169,6 +185,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
     "rotation": 89.43273359014202
   },
   "reversed": false,
@@ -178,6 +197,7 @@
     "rotation": -1.5074357587748468
   },
   "useDefaultConstraints": false
+<<<<<<< HEAD
 =======
     "rotation": -90.4074168793576
 =======
@@ -214,4 +234,6 @@
 =======
   "useDefaultConstraints": false
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
 }

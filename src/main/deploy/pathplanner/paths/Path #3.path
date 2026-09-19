@@ -7,6 +7,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 6.720633333333333,
         "y": 4.736599999999999
       },
@@ -14,6 +17,7 @@
       "nextControl": {
         "x": 5.931333333333333,
         "y": 5.8767
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
@@ -56,6 +60,8 @@
         "x": 5.931333333333333,
         "y": 5.8767
 >>>>>>> 0afa63c (updated collision problems)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "isLocked": false,
       "linkedName": "SecondPathEnd"
@@ -66,12 +72,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 2.579244444444445,
         "y": 5.340755555555555
       },
       "prevControl": {
         "x": 3.5049666666666663,
         "y": 5.525899999999999
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
@@ -111,6 +121,8 @@
         "x": 3.5049666666666663,
         "y": 5.525899999999999
 >>>>>>> 0afa63c (updated collision problems)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "nextControl": null,
       "isLocked": false,
@@ -140,10 +152,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
     "rotation": -57.771242564901506
   },
   "reversed": false,
   "folder": "Final Paths",
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
@@ -167,6 +183,8 @@
   "reversed": false,
   "folder": "Final Paths",
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+>>>>>>> bbc368a97dd6e03b9633231461defd432445d873
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": 177.7093899573615
