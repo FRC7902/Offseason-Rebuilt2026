@@ -36,7 +36,7 @@ public class RobotContainer {
 
   private final IndexerSystem m_indexerSystem;
   private final IntakeSystem m_intakeSystem;
-  private final ShooterSystem m_shooterSystem;
+  public final ShooterSystem m_shooterSystem;
 
   private final LinearIntakeSubsystem m_linearIntakeSubsystem;
   private final HoodSubsystem m_hoodSubsystem;
@@ -141,6 +141,10 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Do Nothing", Commands.none());
 
     configureBindings();
+  }
+
+  public Command setFlywheelDefaultSpeed() {
+    return m_shooterSystem.flywheelDefaultSpeed();
   }
 
   private void configureBindings() {
