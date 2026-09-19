@@ -6,13 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.pathplanner.lib.auto.NamedCommands;
-=======
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
