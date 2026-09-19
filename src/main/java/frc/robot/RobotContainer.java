@@ -235,6 +235,13 @@ public class RobotContainer {
         .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
+    Trigger outtakeTrigger = m_driverController.L1();
+
+    outtakeTrigger
+        .onTrue(m_intakeSystem.extendAndOuttake())
+        .onTrue(m_indexerSystem.reverseIndexer());
+
+    outtakeTrigger.onFalse(m_intakeSystem.stop()).onFalse(m_indexerSystem.stop());
     /*
      * Manual driving for swerve tuning
      */
