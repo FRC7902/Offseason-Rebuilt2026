@@ -1,0 +1,63 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.812011111115373,
+        "y": 1.5793999999990533
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.685333333333334,
+        "y": 3.3333999999999993
+      },
+      "isLocked": false,
+      "linkedName": "FirstPathEndMirror"
+    },
+    {
+      "anchor": {
+        "x": 6.4088111111111115,
+        "y": 3.1969777777777777
+      },
+      "prevControl": {
+        "x": 8.64028888888889,
+        "y": 4.580688888888889
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "SecondPathEndMirror"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.2514522821576784,
+      "rotationDegrees": 86.250682291982
+    },
+    {
+      "waypointRelativePos": 0.8157676348547679,
+      "rotationDegrees": -161.54151760785024
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 0.55,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": -166.74528742235523
+  },
+  "reversed": false,
+  "folder": "Final Paths Mirror",
+  "idealStartingState": {
+    "velocity": 0.0,
+    "rotation": 89.43273359014202
+  },
+  "useDefaultConstraints": false
+}
