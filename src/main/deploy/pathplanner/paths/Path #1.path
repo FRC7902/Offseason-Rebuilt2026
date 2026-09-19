@@ -8,6 +8,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 4.011677777777778,
         "y": 7.435811111111111
       },
@@ -43,11 +44,14 @@
 >>>>>>> 6f73fbd (Added new auto with mirror counterpart)
 =======
         "x": 4.625577777777778,
+=======
+        "x": 4.011677777777778,
+>>>>>>> 2ccc74d (fixed starting positions)
         "y": 7.435811111111111
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.625577777777779,
+        "x": 5.011677777777779,
         "y": 7.435811111111111
 >>>>>>> 0afa63c (updated collision problems)
       },
