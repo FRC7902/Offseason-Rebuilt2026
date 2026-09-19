@@ -28,7 +28,7 @@ public class FlywheelConstants {
   public static final AngularVelocity MAX_RPM = RPM.of(5785); // TODO
   public static final AngularVelocity DEFAULT_RPM = RPM.of(1700);
 
-  public static final AngularVelocity TOLERANCE = RPM.of(50);
+  public static final AngularVelocity TOLERANCE = RPM.of(100);
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()

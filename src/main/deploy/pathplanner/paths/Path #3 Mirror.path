@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.4088111111111115,
-        "y": 3.1969777777777777
+        "x": 6.127902298850575,
+        "y": 3.0017528735632184
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.707211111111112,
-        "y": 1.7645444444444447
+        "x": 5.808687739463603,
+        "y": 1.5232854406130274
       },
       "isLocked": false,
       "linkedName": "SecondPathEndMirror"
@@ -50,10 +50,10 @@
     "rotation": 21.31791227525004
   },
   "reversed": false,
-  "folder": "Final Paths Mirror",
+  "folder": null,
   "idealStartingState": {
     "velocity": 2.0,
-    "rotation": -166.74528742235523
+    "rotation": -15.945395900922861
   },
   "useDefaultConstraints": true
 }

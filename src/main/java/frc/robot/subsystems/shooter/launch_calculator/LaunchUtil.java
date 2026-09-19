@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
@@ -17,7 +18,20 @@ import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 public class LaunchUtil {
   // Helpers
   public static Translation2d getPassingTarget() {
-    return new Translation2d(xPassTarget, yPassTarget);
+    double robotY = SwerveDriveSubsystem.getInstance().getPose().getTranslation().getY();
+    if (robotY >= FieldConstants.FIELD_WIDTH / 2) {
+      if (DriverStation.getAlliance().get() == Alliance.Red) {
+        return FieldConstants.PASSING_UP_RED;
+      } else {
+        return FieldConstants.PASSING_UP_BLUE;
+      }
+    } else {
+      if (DriverStation.getAlliance().get() == Alliance.Red) {
+        return FieldConstants.PASSING_DOWN_RED;
+      } else {
+        return FieldConstants.PASSING_DOWN_BLUE;
+      }
+    }
   }
 
   public static Angle getTurretAngleToHub(Pose2d robotPose) {
@@ -39,6 +53,25 @@ public class LaunchUtil {
     SmartDashboard.putNumber("LaunchCalculator/wrappedTurretAngle (deg)", wrappedAngle.in(Degrees));
 
     return wrappedAngle;
+  }
+
+  public static Angle getTurretAngleToPassingTarget(Pose2d robotPose) {
+    Angle angleToPassingTarget = getAngleToPassingTarget(robotPose);
+    // Turret's zero setpoint faces the back of the robot, i.e. the robot's heading + 180 deg.
+    Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
+    Angle robotRotationCompensatedAngle =
+        angleToPassingTarget.minus(turretZeroFieldAngle).plus(Degrees.of(-3.4444567));
+    Angle wrappedAngle =
+        wrapAngle(robotRotationCompensatedAngle, TurretSubsystem.getInstance().getAngle());
+
+    return wrappedAngle;
+  }
+
+  private static Angle getAngleToPassingTarget(Pose2d robotPose) {
+    Pose2d turretPose = TurretSubsystem.getPose(robotPose);
+    Translation2d passingTarget = getPassingTarget();
+    Translation2d hubDelta = passingTarget.minus(turretPose.getTranslation());
+    return hubDelta.getAngle().getMeasure();
   }
 
   private static Angle getAngleToAllianceHub(Pose2d robotPose) {
@@ -118,20 +151,5 @@ public class LaunchUtil {
                     -1.0,
                     1.0)));
     return fieldToHubAngle.plus(hubAngle).plus(robotToLauncher.getRotation().toRotation2d());
-  }
-
-  public static Pose2d getStationaryAimedPose(Translation2d robotTranslation, boolean forceBlue) {
-    boolean passing = LaunchCalculator.getInstance().getParameters().passing();
-
-    Translation2d target =
-        passing
-            ? getPassingTarget()
-            : SwerveDriveSubsystem.getInstance().isRedAlliance()
-                ? FieldConstants.RED_HUB_CENTER
-                : FieldConstants.BLUE_HUB_CENTER;
-
-    return new Pose2d(
-        robotTranslation,
-        getDriveAngleWithLauncherOffset(new Pose2d(robotTranslation, Rotation2d.kZero), target));
   }
 }

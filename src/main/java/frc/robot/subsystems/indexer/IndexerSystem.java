@@ -30,7 +30,7 @@ public class IndexerSystem extends SubsystemBase {
   }
 
   public boolean isStuck() {
-    return m_rollerFloor.getVelocity().lt(RollerFloorConstants.FEEDING_SPEED.times(0.75));
+    return m_rollerFloor.getVelocity().lt(RollerFloorConstants.FEEDING_SPEED.times(0.25));
   }
 
   public boolean isReversing() {
@@ -53,9 +53,9 @@ public class IndexerSystem extends SubsystemBase {
                 Commands.parallel(
                         m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
                         m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED))
-                    .withTimeout(1),
+                    .withTimeout(0.5),
                 Commands.waitUntil(() -> isStuck()),
-                Commands.parallel(reverseIndexer()).withTimeout(0.2),
+                Commands.parallel(reverseIndexer()).withTimeout(0.1),
                 Commands.waitUntil(() -> isReversing()).withTimeout(1))
             .repeatedly(),
         m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),

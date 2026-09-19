@@ -3,37 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4562444444444447,
-        "y": 3.937555555555555
+        "x": 10.14328544061303,
+        "y": 5.143850574712644
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.579244444444445,
-        "y": 3.9180666666666664
+        "x": 11.386542145593872,
+        "y": 5.899885057471265
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RedEnd2Mirror"
     },
     {
       "anchor": {
-        "x": 1.7217333333333333,
-        "y": 3.937555555555555
+        "x": 14.251072796934865,
+        "y": 5.2698563218390815
       },
       "prevControl": {
-        "x": 2.6766888888888887,
-        "y": 3.9570444444444446
+        "x": 12.940613026819927,
+        "y": 5.673074712643679
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "FIrstPathEndMid"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6897241103558551,
+      "rotationDegrees": 0.8959643630588416
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -41,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": -142.8355251064884
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
