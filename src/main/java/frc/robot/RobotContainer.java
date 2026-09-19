@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.indexer.IndexerSystem;
@@ -26,6 +27,7 @@ import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.robot.subsystems.shooter.ShooterSystem;
 import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.hood.HoodSubsystem;
+import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
@@ -178,7 +180,10 @@ public class RobotContainer {
         .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
         .onTrue(
             Commands.sequence(
-                Commands.waitUntil(m_shooterSystem::isShooterReady),
+                new ConditionalCommand(
+                    Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
+                    Commands.none(),
+                    () -> LaunchCalculator.getInstance().getParameters().passing()),
                 m_indexerSystem.reverseIndexer().withTimeout(0.5),
                 Commands.parallel(
                     m_intakeSystem.shuffle(), // Shuffle hopper
@@ -197,8 +202,14 @@ public class RobotContainer {
     intakeTrigger
         .and(shootTrigger)
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        // .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
-        .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+        .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        .onTrue(
+            Commands.sequence(
+                new ConditionalCommand(
+                    Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
+                    Commands.none(),
+                    () -> LaunchCalculator.getInstance().getParameters().passing()),
+                m_indexerSystem.feedFuel())) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Manual Shoot Button Bindings

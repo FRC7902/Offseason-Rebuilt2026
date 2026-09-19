@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path #1 Mirror"
+                  "pathName": "Red Path #1 Mirror"
                 }
               },
               {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path #2 Mirror"
+            "pathName": "Red Path #2 Mirror"
           }
         },
         {
@@ -48,7 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path #3 Mirror"
+                  "pathName": "Red Path #3 Mirror"
                 }
               }
             ]
@@ -77,6 +77,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "FInal Autos",
+  "folder": null,
   "choreoAuto": false
 }

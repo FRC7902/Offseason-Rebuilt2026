@@ -1,12 +1,12 @@
 package frc.robot.subsystems.shooter.launch_calculator;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.shooter.hood.HoodConstants;
 
 public class LaunchConstants {
-  public static final double xPassTarget = Units.inchesToMeters(37);
-  public static final double yPassTarget = Units.inchesToMeters(65);
 
   // TODO: Fill in robotToLauncher
   public static final Transform3d robotToLauncher = new Transform3d();
@@ -53,23 +53,23 @@ public class LaunchConstants {
     timeOfFlightMap.put(7.0124, 1.502);
 
     // TODO: re-tune these values for passing
-    passingHoodAngleMap.put(4.8533, 43.3837);
-    passingHoodAngleMap.put(7.0573, 43.3837);
-    passingHoodAngleMap.put(10.2642, 43.3837);
-    passingHoodAngleMap.put(11.8006, 43.3837);
-    passingHoodAngleMap.put(13.0, 43.3837);
-    passingHoodAngleMap.put(14.0, 43.3837);
-    passingHoodAngleMap.put(15.0, 43.3837);
-    passingHoodAngleMap.put(16.0, 43.3837);
+    passingHoodAngleMap.put(4.8533, HoodConstants.MAX_ANGLE.in(Degrees));
+    passingHoodAngleMap.put(7.0573, HoodConstants.MAX_ANGLE.in(Degrees));
+    passingHoodAngleMap.put(10.2642, HoodConstants.MAX_ANGLE.in(Degrees));
+    passingHoodAngleMap.put(11.8006, HoodConstants.MAX_ANGLE.in(Degrees));
+    passingHoodAngleMap.put(13.0, HoodConstants.MAX_ANGLE.in(Degrees));
+    passingHoodAngleMap.put(14.0, HoodConstants.MAX_ANGLE.in(Degrees));
+    passingHoodAngleMap.put(15.0, HoodConstants.MAX_ANGLE.in(Degrees));
+    passingHoodAngleMap.put(16.0, HoodConstants.MAX_ANGLE.in(Degrees));
 
-    passingFlywheelSpeedMap.put(4.8533, 3500.0);
-    passingFlywheelSpeedMap.put(7.0573, 4600.0);
-    passingFlywheelSpeedMap.put(10.2642, 5800.0);
-    passingFlywheelSpeedMap.put(11.8006, 6300.0);
-    passingFlywheelSpeedMap.put(13.0, 6300.0);
-    passingFlywheelSpeedMap.put(14.0, 6300.0);
-    passingFlywheelSpeedMap.put(15.0, 6300.0);
-    passingFlywheelSpeedMap.put(16.0, 6300.0);
+    passingFlywheelSpeedMap.put(4.8533, 5785.0);
+    passingFlywheelSpeedMap.put(7.0573, 5785.0);
+    passingFlywheelSpeedMap.put(10.2642, 5785.0);
+    passingFlywheelSpeedMap.put(11.8006, 5785.0);
+    passingFlywheelSpeedMap.put(13.0, 5785.0);
+    passingFlywheelSpeedMap.put(14.0, 5785.0);
+    passingFlywheelSpeedMap.put(15.0, 5785.0);
+    passingFlywheelSpeedMap.put(16.0, 5785.0);
 
     passingTimeOfFlightMap.put(5.46, 1.27);
     passingTimeOfFlightMap.put(6.62, 1.39);

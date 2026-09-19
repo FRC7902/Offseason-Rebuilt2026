@@ -22,7 +22,7 @@ public class HoodConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final int CAN_ID = 0;
 
-  public static final Angle TOLERANCE = Degrees.of(0.5);
+  public static final Angle TOLERANCE = Degrees.of(1.0);
 
   public static final Angle MIN_ANGLE = Degrees.of(0);
   public static final Angle MAX_ANGLE = Degrees.of(24.3457);
@@ -43,8 +43,8 @@ public class HoodConstants {
                   // .withDataLogName("HoodMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40))
-          .withSupplyCurrentLimit(Amps.of(40))
+          .withStatorCurrentLimit(Amps.of(30))
+          .withSupplyCurrentLimit(Amps.of(30))
           .withMotorInverted(true)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new ArmFeedforward(0.353, 0.3, 13.076, 0.22999))

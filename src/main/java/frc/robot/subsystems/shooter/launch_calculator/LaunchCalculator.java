@@ -117,25 +117,28 @@ public class LaunchCalculator {
     lastLookaheadRobotPose = lookaheadRobotPose;
     Rotation2d driveAngle = getDriveAngleWithLauncherOffset(lookaheadRobotPose, target);
 
-    Angle turretAngle = getTurretAngleToHub(lookaheadRobotPose);
+    Angle turretAngle =
+        (passing
+            ? getTurretAngleToPassingTarget(lookaheadRobotPose)
+            : getTurretAngleToHub(lookaheadRobotPose));
 
-    // Angle hoodAngle =
-    //     (passing
-    //         ? passingHoodAngleMap.get(lookaheadLauncherToTargetDistance)
-    //         : hoodAngleMap.get(lookaheadLauncherToTargetDistance));
+    Angle hoodAngle =
+        (passing
+            ? Degrees.of(passingHoodAngleMap.get(lookaheadLauncherToTargetDistance.in(Meters)))
+            : Degrees.of(hoodAngleMap.get(lookaheadLauncherToTargetDistance.in(Meters))));
 
-    Angle hoodAngle = Degrees.of(hoodAngleMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
+    // Angle hoodAngle = Degrees.of(hoodAngleMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
 
     if (lastDriveAngle == null) lastDriveAngle = driveAngle;
     if (lastHoodAngle == null || Double.isNaN(lastHoodAngle.in(Degrees))) lastHoodAngle = hoodAngle;
 
-    // AngularVelocity flywheelVelocity =
-    //     passing
-    //         ? passingFlywheelSpeedMap.get(lookaheadLauncherToTargetDistance)
-    //         : flywheelSpeedMap.get(lookaheadLauncherToTargetDistance);
-
     AngularVelocity flywheelVelocity =
-        RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
+        passing
+            ? RPM.of(passingFlywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)))
+            : RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
+
+    // AngularVelocity flywheelVelocity =
+    //     RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
 
     latestParameters =
         new LaunchingParameters(turretAngle, hoodAngle, flywheelVelocity, timeOfFlight, passing);

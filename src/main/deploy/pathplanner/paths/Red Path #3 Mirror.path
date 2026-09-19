@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.0,
-        "y": 7.367752604166667
+        "x": 10.31969348659004,
+        "y": 3.152959770114943
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.0,
-        "y": 7.367752604166667
+        "x": 11.243735632181808,
+        "y": 1.8677011494315865
       },
       "isLocked": false,
-      "linkedName": "A1"
+      "linkedName": "RedEnd2"
     },
     {
       "anchor": {
-        "x": 6.152682508680556,
-        "y": 7.367752604166667
+        "x": 13.915057471264369,
+        "y": 2.539731800766283
       },
       "prevControl": {
-        "x": 5.152682508680556,
-        "y": 7.367752604166667
+        "x": 14.684868582375477,
+        "y": 2.325354022988505
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "A2"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4762437115707085,
+      "rotationDegrees": 2.3227220524158847
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -41,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": 155.4622715234222
   },
   "reversed": false,
-  "folder": "Example Paths",
+  "folder": null,
   "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 0.0
+    "velocity": 2.0,
+    "rotation": -15.945395900922861
   },
   "useDefaultConstraints": true
 }

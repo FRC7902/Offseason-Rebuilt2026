@@ -11,10 +11,17 @@ public final class FieldConstants {
 
   public static final Translation2d AUTO_AIM_OFFSET = new Translation2d(0.0, 0.0);
 
-  public static final Translation2d BLUE_HUB_CENTER =
-      new Translation2d(4.0218614 + Units.inchesToMeters(47.0) / 2.0, FIELD_WIDTH / 2);
-
+  public static final Translation2d BLUE_HUB_CENTER = new Translation2d(4.6187614, 4.0345);
   public static final Translation2d RED_HUB_CENTER = new Translation2d(11.9087646, 4.0345);
+
+  public static final Translation2d PASSING_UP_BLUE =
+      new Translation2d(4.6187614 / 2, 8.069 * 0.75);
+  public static final Translation2d PASSING_DOWN_BLUE =
+      new Translation2d(4.6187614 / 2, 8.069 * 0.25);
+  public static final Translation2d PASSING_UP_RED =
+      new Translation2d(11.9087646 + 4.6187614 / 2, 8.069 * 0.75);
+  public static final Translation2d PASSING_DOWN_RED =
+      new Translation2d(11.9087646 + 4.6187614 / 2, 8.069 * 0.25);
 
   public static final double HUB_HEIGHT = Units.inchesToMeters(72.0);
   public static final double HUB_WIDTH = Units.inchesToMeters(47.0);

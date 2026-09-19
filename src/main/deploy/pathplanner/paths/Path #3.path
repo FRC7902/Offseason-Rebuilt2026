@@ -50,7 +50,7 @@
     "rotation": -57.771242564901506
   },
   "reversed": false,
-  "folder": "Final Paths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": 177.7093899573615
