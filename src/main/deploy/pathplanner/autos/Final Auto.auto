@@ -19,6 +19,12 @@
                 "data": {
                   "name": "extendAndIntake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "storeFuel"
+                }
               }
             ]
           }
@@ -33,12 +39,6 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "storeFuel"
-                }
-              },
               {
                 "type": "named",
                 "data": {
