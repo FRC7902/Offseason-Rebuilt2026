@@ -19,6 +19,88 @@
                 "data": {
                   "name": "extendAndIntake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "storeFuel"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path #2 Mirror"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "stopIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path #3 Mirror"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedFuel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "aimAndShoot"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "FInal Autos",
+  "choreoAuto": false
+}
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path #1 Mirror"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "extendAndIntake"
+                }
               }
             ]
           }

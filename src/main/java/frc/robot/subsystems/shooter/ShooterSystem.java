@@ -22,7 +22,7 @@ public class ShooterSystem extends SubsystemBase {
     m_hood = hood;
     m_turret = turret;
 
-    // m_turret.setDefaultCommand(aimTurret());
+    m_turret.setDefaultCommand(aimTurret());
   }
 
   /**
@@ -35,9 +35,8 @@ public class ShooterSystem extends SubsystemBase {
     final var launchCalculator = LaunchCalculator.getInstance();
 
     return Commands.parallel(
-            m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
-            m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()))
-        .repeatedly();
+        m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
+        m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()));
   }
 
   public Command manualAimAndShoot() {
@@ -48,15 +47,20 @@ public class ShooterSystem extends SubsystemBase {
         m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM));
   }
 
+  public Command flywheelDefaultSpeed() {
+    return m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM);
+  }
+
   /**
    * Creates a command that sets the turret angle based on the current launch calculator parameters.
    *
    * @return command that indefinitely aims the turret to the calculated target angle
    */
   public Command aimTurret() {
-    return m_turret
-        .setAngle(() -> LaunchCalculator.getInstance().getParameters().turretAngle())
-        .repeatedly();
+    return Commands.run(
+        () ->
+            m_turret.setAngleSetpoint(LaunchCalculator.getInstance().getParameters().turretAngle()),
+        m_turret);
   }
 
   /**
@@ -77,7 +81,9 @@ public class ShooterSystem extends SubsystemBase {
    */
   public Command stop() {
     // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
-    return Commands.parallel(m_flywheel.stop(), m_hood.setAngle(HoodConstants.MIN_ANGLE));
+    return Commands.parallel(
+        m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM),
+        m_hood.setAngle(HoodConstants.MIN_ANGLE));
   }
 
   @Override

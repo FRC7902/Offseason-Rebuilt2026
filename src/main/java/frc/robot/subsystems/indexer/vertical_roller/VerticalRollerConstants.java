@@ -42,7 +42,7 @@ public class VerticalRollerConstants {
                   // .withDataLogName("VerticalRollerMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40)) // TODO
+          .withStatorCurrentLimit(Amps.of(20))
           .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))

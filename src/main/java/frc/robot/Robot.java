@@ -92,11 +92,14 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().schedule(m_robotContainer.stopAllSubsystems());
 
     // Start the flywheel at the default RPM when teleop starts
-    // CommandScheduler.getInstance().schedule(m_robotContainer.m_shooterSubsystem.startFlywheelDefaultRPM());
+    CommandScheduler.getInstance().schedule(m_robotContainer.setFlywheelDefaultSpeed());
   }
 
   @Override
   public void simulationPeriodic() {
     m_robotContainer.publishComponentPoses();
+    // SmartDashboard.putBoolean("passing",
+    // LaunchCalculator.getInstance().getParameters().passing());
+    LaunchCalculator.getInstance().publishLookaheadRobotPose();
   }
 }

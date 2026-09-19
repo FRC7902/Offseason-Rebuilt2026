@@ -599,4 +599,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void periodic() {
     localize();
   }
+
+  public ChassisSpeeds getFieldSetpointVelocity() {
+    return swerveDrive.getFieldVelocity();
+  }
+
+  public Rotation2d getRotation() {
+    return swerveDrive.getPose().getRotation();
+  }
 }
