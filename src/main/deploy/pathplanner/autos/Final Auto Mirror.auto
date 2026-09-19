@@ -55,6 +55,12 @@
                 "data": {
                   "name": "extendAndIntake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "storeFuel"
+                }
               }
             ]
 >>>>>>> a6117bc (FIxed issues with mirror)
