@@ -21,6 +21,7 @@
                 "data": {
                   "name": "extendAndIntake"
                 }
+<<<<<<< HEAD
               },
               {
                 "type": "named",
@@ -64,6 +65,10 @@
               }
             ]
 >>>>>>> a6117bc (FIxed issues with mirror)
+=======
+              }
+            ]
+>>>>>>> bbc368a (added new mid auto)
           }
         },
         {
@@ -73,6 +78,7 @@
           }
         },
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
           "type": "parallel",
@@ -113,6 +119,8 @@
 =======
           "type": "named",
 =======
+=======
+>>>>>>> bbc368a (added new mid auto)
           "type": "parallel",
 >>>>>>> a6117bc (FIxed issues with mirror)
           "data": {
