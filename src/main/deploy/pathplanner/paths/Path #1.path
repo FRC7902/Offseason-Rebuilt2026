@@ -5,6 +5,7 @@
       "anchor": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 4.011677777777778,
         "y": 7.435811111111111
       },
@@ -23,11 +24,14 @@
 >>>>>>> fefd7dc (Added new auto with mirror counterpart)
 =======
         "x": 4.625577777777778,
+=======
+        "x": 4.011677777777778,
+>>>>>>> d68f37f (fixed starting positions)
         "y": 7.435811111111111
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.625577777777779,
+        "x": 5.011677777777779,
         "y": 7.435811111111111
 >>>>>>> 3756957 (updated collision problems)
       },
