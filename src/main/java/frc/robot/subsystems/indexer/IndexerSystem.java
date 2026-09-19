@@ -78,7 +78,10 @@ public class IndexerSystem extends SubsystemBase {
             m_verticalRoller.setDutyCycle(VerticalRollerConstants.STORING_DUTY_CYCLE),
             m_feeder.stop())
         .withDeadline(
-            Commands.waitSeconds(0.5).until(() -> m_rollerFloor.getVelocity().lt(RPM.of(50))))
+            Commands.waitSeconds(0.5)
+                .andThen(
+                    Commands.waitUntil(
+                        () -> m_rollerFloor.getVelocity().lt(RPM.of(50)))))
         .andThen(stop());
   }
 
