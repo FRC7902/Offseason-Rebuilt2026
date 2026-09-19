@@ -29,6 +29,12 @@ public class IntakeSystem extends SubsystemBase {
         m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
   }
 
+  public Command extendAndOuttake() {
+    return Commands.parallel(
+        m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
+        m_intakeRoller.setSpeed(-IntakeRollerConstants.INTAKE_DUTY_CYCLE));
+  }
+
   /**
    * Creates a command that retracts the linear intake to the midpoint setpoint, then stops the
    * intake rollers once midpoint is reached.

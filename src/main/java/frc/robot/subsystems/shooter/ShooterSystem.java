@@ -47,6 +47,10 @@ public class ShooterSystem extends SubsystemBase {
         m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM));
   }
 
+  public Command flywheelDefaultSpeed() {
+    return m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM);
+  }
+
   /**
    * Creates a command that sets the turret angle based on the current launch calculator parameters.
    *
@@ -77,7 +81,9 @@ public class ShooterSystem extends SubsystemBase {
    */
   public Command stop() {
     // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
-    return Commands.parallel(m_flywheel.stop(), m_hood.setAngle(HoodConstants.MIN_ANGLE));
+    return Commands.parallel(
+        m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM),
+        m_hood.setAngle(HoodConstants.MIN_ANGLE));
   }
 
   @Override

@@ -36,7 +36,7 @@ public class RobotContainer {
 
   private final IndexerSystem m_indexerSystem;
   private final IntakeSystem m_intakeSystem;
-  private final ShooterSystem m_shooterSystem;
+  public final ShooterSystem m_shooterSystem;
 
   private final LinearIntakeSubsystem m_linearIntakeSubsystem;
   private final HoodSubsystem m_hoodSubsystem;
@@ -143,6 +143,10 @@ public class RobotContainer {
     configureBindings();
   }
 
+  public Command setFlywheelDefaultSpeed() {
+    return m_shooterSystem.flywheelDefaultSpeed();
+  }
+
   private void configureBindings() {
 
     m_swerveDriveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
@@ -235,6 +239,13 @@ public class RobotContainer {
         .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
+    Trigger outtakeTrigger = m_driverController.L1();
+
+    outtakeTrigger
+        .onTrue(m_intakeSystem.extendAndOuttake())
+        .onTrue(m_indexerSystem.reverseIndexer());
+
+    outtakeTrigger.onFalse(m_intakeSystem.stop()).onFalse(m_indexerSystem.stop());
     /*
      * Manual driving for swerve tuning
      */
