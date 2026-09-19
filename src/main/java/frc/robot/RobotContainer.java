@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
@@ -140,25 +139,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("feedFuel", m_indexerSystem.feedFuel());
     NamedCommands.registerCommand("storeFuel", m_indexerSystem.storeFuel());
     NamedCommands.registerCommand("aimAndShoot", m_shooterSystem.aimAndShoot());
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
-    NamedCommands.registerCommand("stopIntake", m_intakeSystem.stop());
-    NamedCommands.registerCommand("feedFuel", m_indexerSystem.feedFuel());
-    NamedCommands.registerCommand("storeFuel", m_indexerSystem.storeFuel());
-    NamedCommands.registerCommand("aimAndShoot", m_shooterSystem.aimAndShoot());
-    NamedCommands.registerCommand("stopShooter", m_shooterSystem.stop());
-=======
->>>>>>> 6d6b64e (FIxed issues with mirror)
-=======
-    NamedCommands.registerCommand("stopShooter", m_shooterSystem.stop());
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
->>>>>>> a6117bc (FIxed issues with mirror)
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
