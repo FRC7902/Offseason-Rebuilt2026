@@ -3,15 +3,6 @@
   "waypoints": [
     {
       "anchor": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 4.011677777777778,
         "y": 7.435811111111111
       },
@@ -19,108 +10,18 @@
       "nextControl": {
         "x": 5.011677777777779,
         "y": 7.435811111111111
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-        "x": 4.634236804564908,
-        "y": 7.327888730385164
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 5.6342368045649085,
-        "y": 7.327888730385164
-<<<<<<< HEAD
->>>>>>> fefd7dc (Added new auto with mirror counterpart)
-=======
-        "x": 4.625577777777778,
-=======
-        "x": 4.011677777777778,
->>>>>>> d68f37f (fixed starting positions)
-        "y": 7.435811111111111
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 5.011677777777779,
-        "y": 7.435811111111111
->>>>>>> 3756957 (updated collision problems)
-=======
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
-        "x": 4.625577777777778,
-=======
-        "x": 4.011677777777778,
->>>>>>> 2ccc74d (fixed starting positions)
-        "y": 7.435811111111111
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 5.011677777777779,
-        "y": 7.435811111111111
->>>>>>> 0afa63c (updated collision problems)
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
         "x": 7.782777777777778,
         "y": 6.695233333333333
       },
       "prevControl": {
         "x": 8.386933333333333,
         "y": 7.484533333333332
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-        "x": 7.8315,
-        "y": 5.9351666666666665
-      },
-      "prevControl": {
-        "x": 8.206721112696147,
-        "y": 7.216093913456966
-<<<<<<< HEAD
->>>>>>> fefd7dc (Added new auto with mirror counterpart)
-=======
-        "x": 7.782777777777778,
-        "y": 6.695233333333333
-      },
-      "prevControl": {
-<<<<<<< HEAD
-        "x": 8.4454,
-        "y": 8.0692
->>>>>>> 6d6b64e (FIxed issues with mirror)
-=======
-        "x": 8.386933333333333,
-        "y": 7.484533333333332
->>>>>>> 3756957 (updated collision problems)
-=======
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
-        "x": 7.782777777777778,
-        "y": 6.695233333333333
-      },
-      "prevControl": {
-<<<<<<< HEAD
-        "x": 8.4454,
-        "y": 8.0692
->>>>>>> a6117bc (FIxed issues with mirror)
-=======
-        "x": 8.386933333333333,
-        "y": 7.484533333333332
->>>>>>> 0afa63c (updated collision problems)
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
       },
       "nextControl": null,
       "isLocked": false,
@@ -132,27 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     "maxVelocity": 1.0,
-=======
-    "maxVelocity": 3.0,
->>>>>>> fefd7dc (Added new auto with mirror counterpart)
-=======
-    "maxVelocity": 1.0,
->>>>>>> 6d6b64e (FIxed issues with mirror)
-=======
-    "maxVelocity": 3.0,
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
-    "maxVelocity": 1.0,
->>>>>>> a6117bc (FIxed issues with mirror)
-=======
-    "maxVelocity": 1.0,
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -164,50 +45,10 @@
     "rotation": -90.4074168793576
   },
   "reversed": false,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
   "folder": "Final Paths",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 0.0
   },
   "useDefaultConstraints": false
-<<<<<<< HEAD
-=======
-  "folder": null,
-=======
-  "folder": "Final Paths",
->>>>>>> 6d6b64e (FIxed issues with mirror)
-  "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 0.0
-  },
-<<<<<<< HEAD
-  "useDefaultConstraints": true
->>>>>>> fefd7dc (Added new auto with mirror counterpart)
-=======
-  "useDefaultConstraints": false
->>>>>>> 6d6b64e (FIxed issues with mirror)
-=======
-  "folder": null,
-=======
-  "folder": "Final Paths",
->>>>>>> a6117bc (FIxed issues with mirror)
-  "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 0.0
-  },
-<<<<<<< HEAD
-  "useDefaultConstraints": true
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
-  "useDefaultConstraints": false
->>>>>>> a6117bc (FIxed issues with mirror)
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
 }

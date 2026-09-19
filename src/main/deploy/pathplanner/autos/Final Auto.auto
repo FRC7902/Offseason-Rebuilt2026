@@ -5,11 +5,6 @@
     "data": {
       "commands": [
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           "type": "deadline",
           "data": {
             "commands": [
@@ -26,44 +21,6 @@
                 }
               }
             ]
-<<<<<<< HEAD
-=======
-          "type": "path",
-          "data": {
-            "pathName": "Path #1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "extendAndIntake"
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Path #1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "extendAndIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "storeFuel"
-                }
-              }
-            ]
->>>>>>> a6117bc (FIxed issues with mirror)
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           }
         },
         {
@@ -73,11 +30,6 @@
           }
         },
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           "type": "parallel",
           "data": {
             "commands": [
@@ -119,107 +71,12 @@
                 }
               }
             ]
-<<<<<<< HEAD
-=======
-          "type": "named",
-=======
-          "type": "parallel",
->>>>>>> a6117bc (FIxed issues with mirror)
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "storeFuel"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "stopIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Path #3"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-<<<<<<< HEAD
-            "pathName": "Path #3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "storeFuel"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "aimAndShoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "feedFuel"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "stopShooter"
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedFuel"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "aimAndShoot"
-                }
-              }
-            ]
->>>>>>> a6117bc (FIxed issues with mirror)
-=======
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
           }
         }
       ]
     }
   },
   "resetOdom": true,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   "folder": "FInal Autos",
-=======
-  "folder": null,
->>>>>>> 6f73fbd (Added new auto with mirror counterpart)
-=======
-  "folder": "FInal Autos",
->>>>>>> a6117bc (FIxed issues with mirror)
-=======
-  "folder": "FInal Autos",
->>>>>>> bbc368a97dd6e03b9633231461defd432445d873
   "choreoAuto": false
 }
