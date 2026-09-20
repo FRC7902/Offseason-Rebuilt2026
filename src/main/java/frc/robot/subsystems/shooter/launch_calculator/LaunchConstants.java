@@ -62,14 +62,16 @@ public class LaunchConstants {
     passingHoodAngleMap.put(15.0, HoodConstants.MAX_ANGLE.in(Degrees));
     passingHoodAngleMap.put(16.0, HoodConstants.MAX_ANGLE.in(Degrees));
 
-    passingFlywheelSpeedMap.put(4.8533, 5785.0);
-    passingFlywheelSpeedMap.put(7.0573, 5785.0);
-    passingFlywheelSpeedMap.put(10.2642, 5785.0);
-    passingFlywheelSpeedMap.put(11.8006, 5785.0);
-    passingFlywheelSpeedMap.put(13.0, 5785.0);
-    passingFlywheelSpeedMap.put(14.0, 5785.0);
-    passingFlywheelSpeedMap.put(15.0, 5785.0);
-    passingFlywheelSpeedMap.put(16.0, 5785.0);
+    passingFlywheelSpeedMap.put(3.4350, 1800.0);
+    passingFlywheelSpeedMap.put(4.8533, 2000.0);
+    passingFlywheelSpeedMap.put(4.8533, 2000.0);
+    passingFlywheelSpeedMap.put(7.0573, 2200.0);
+    passingFlywheelSpeedMap.put(10.2642, 2400.0);
+    passingFlywheelSpeedMap.put(11.8006, 2600.0);
+    passingFlywheelSpeedMap.put(13.0, 2800.0);
+    passingFlywheelSpeedMap.put(14.0, 3000.0);
+    passingFlywheelSpeedMap.put(15.0, 3200.0);
+    passingFlywheelSpeedMap.put(16.0, 3400.0);
 
     passingTimeOfFlightMap.put(5.46, 1.27);
     passingTimeOfFlightMap.put(6.62, 1.39);
