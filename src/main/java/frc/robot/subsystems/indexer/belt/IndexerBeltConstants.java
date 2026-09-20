@@ -59,5 +59,5 @@ public class IndexerBeltConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withTelemetry("IndexerBeltMech", TelemetryVerbosity.LOW)
-          .withSpeedometerSimulation(RPM.of(3377));
+          .withSpeedometerSimulation(MAX_SPEED);
 }

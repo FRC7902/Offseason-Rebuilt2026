@@ -79,9 +79,7 @@ public class IndexerSystem extends SubsystemBase {
             m_feeder.stop())
         .withDeadline(
             Commands.waitSeconds(0.5)
-                .andThen(
-                    Commands.waitUntil(
-                        () -> m_rollerFloor.getVelocity().lt(RPM.of(50)))))
+                .andThen(Commands.waitUntil(() -> m_rollerFloor.getVelocity().lt(RPM.of(50)))))
         .andThen(stop());
   }
 

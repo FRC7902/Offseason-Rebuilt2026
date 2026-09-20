@@ -23,7 +23,9 @@ public class FeederConstants {
   public static final int CAN_ID = 4;
 
   public static final AngularVelocity TOLERANCE = RPM.of(30); // TODO
-  public static final AngularVelocity FEEDER_SPEED = RPM.of(3000);
+
+  private static final AngularVelocity MAX_SPEED = RPM.of(3718);
+  public static final AngularVelocity FEEDER_SPEED = MAX_SPEED;
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
 
@@ -52,5 +54,5 @@ public class FeederConstants {
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.999302))
           .withTelemetry("FeederMech", TelemetryVerbosity.LOW)
-          .withSpeedometerSimulation(RPM.of(3718));
+          .withSpeedometerSimulation(MAX_SPEED);
 }
