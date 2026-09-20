@@ -44,8 +44,8 @@ public class IndexerBeltConstants {
                   // .withDataLogName("IndexerBeltMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40)) // TODO
-          .withSupplyCurrentLimit(Amps.of(40)) // TODO
+          .withStatorCurrentLimit(Amps.of(60)) // TODO
+          .withSupplyCurrentLimit(Amps.of(60)) // TODO
           .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))

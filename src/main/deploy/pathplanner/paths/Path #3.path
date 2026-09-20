@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.931333333333333,
-        "y": 5.8767
+        "x": 5.525979695431472,
+        "y": 5.3655736040609145
       },
       "isLocked": false,
       "linkedName": "SecondPathEnd"
     },
     {
       "anchor": {
-        "x": 2.579244444444445,
-        "y": 5.340755555555555
+        "x": 1.9900609137055842,
+        "y": 5.687857868020306
       },
       "prevControl": {
-        "x": 3.5049666666666663,
-        "y": 5.525899999999999
+        "x": 4.49467005076141,
+        "y": 5.9364771573604065
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,16 +30,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6897241103558551,
-      "rotationDegrees": -178.59289826635492
+      "waypointRelativePos": 0.10756366400608199,
+      "rotationDegrees": 135.49999539034272
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -47,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -57.771242564901506
+    "rotation": 144.904183212974
   },
   "reversed": false,
-  "folder": null,
+  "folder": "LeftTrenchBumperSweep",
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": 177.7093899573615
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
