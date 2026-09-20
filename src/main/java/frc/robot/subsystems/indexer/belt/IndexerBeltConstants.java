@@ -23,9 +23,10 @@ public class IndexerBeltConstants {
   public static final int LEADER_CAN_ID = 1;
   public static final int FOLLOWER_CAN_ID = 53;
 
-  public static final AngularVelocity TOLERANCE = RPM.of(100); // TODO
+  private static final AngularVelocity MAX_SPEED = RPM.of(3377); // TODO
+  public static final AngularVelocity TOLERANCE = RPM.of(100);
 
-  public static final AngularVelocity FEEDING_SPEED = RPM.of(4000); // TODO
+  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
   public static final AngularVelocity STORING_SPEED = RPM.of(100); // TODO
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
