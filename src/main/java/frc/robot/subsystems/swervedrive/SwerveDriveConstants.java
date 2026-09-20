@@ -8,12 +8,12 @@ import edu.wpi.first.units.measure.Angle;
 
 public final class SwerveDriveConstants {
   public static final double MAX_SPEED =
-      Units.feetToMeters(16); // TODO: Try increasing this to see if it
+      Units.feetToMeters(10); // TODO: Try increasing this to see if it
   // does
   // anything
   public static final double DRIVER_TRANSLATION_STICK_CURVE_EXPONENT = 2.0;
-  public static final double SLOW_MODE_TRANSLATION_SCALE = 0.10;
-  public static final double SLOW_MODE_ROTATION_SCALE = 0.10;
+  public static final double SLOW_MODE_TRANSLATION_SCALE = 0.20;
+  public static final double SLOW_MODE_ROTATION_SCALE = 0.20;
 
   public static final double AUTO_AIM_VELOCITY_COMPENSATION_FACTOR = 1.2; // TODO
   public static final Angle AUTO_AIM_ANGLE_TARGET_ERROR = Degrees.of(2.5);

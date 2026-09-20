@@ -24,10 +24,10 @@ public class RollerFloorConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  private static final AngularVelocity MAX_SPEED_RPM =
+  private static final AngularVelocity MAX_SPEED =
       RPM.of(1619); // Theoretical max speed of the motor with gearing applied
 
-  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED_RPM.times(0.70); // 70% of max speed
+  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
   public static final double STORING_DUTY_CYCLE = 0.10;
 
   public static final AngularVelocity IS_REVERSING_SPEED_MIN = RPM.of(-500);
@@ -45,8 +45,8 @@ public class RollerFloorConstants {
                   // .withDataLogName("RollerFloorMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40)) // TODO
-          .withSupplyCurrentLimit(Amps.of(40)) // TODO
+          .withStatorCurrentLimit(Amps.of(60)) // TODO
+          .withSupplyCurrentLimit(Amps.of(60)) // TODO
           .withMotorInverted(true)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
@@ -57,5 +57,5 @@ public class RollerFloorConstants {
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
           .withTelemetry("RollerFloorMech", TelemetryVerbosity.LOW)
-          .withSpeedometerSimulation(MAX_SPEED_RPM);
+          .withSpeedometerSimulation(MAX_SPEED);
 }

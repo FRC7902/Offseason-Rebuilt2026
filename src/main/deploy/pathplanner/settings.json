@@ -3,7 +3,11 @@
   "robotLength": 0.686,
   "holonomicMode": true,
   "pathFolders": [
-    "Example Paths"
+    "Example Paths",
+    "LeftTrenchBumperSweep",
+    "Mid",
+    "mental illnesses",
+    "RightTrenchBumperSweep"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
@@ -16,7 +20,7 @@
   "robotTrackwidth": 0.546,
   "driveWheelRadius": 0.051,
   "driveGearing": 5.36,
-  "maxDriveSpeed": 5.27,
+  "maxDriveSpeed": 6.0,
   "driveMotorType": "falcon500FOC",
   "driveCurrentLimit": 50.0,
   "wheelCOF": 1.2,

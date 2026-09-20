@@ -57,8 +57,8 @@ public class IntakeSystem extends SubsystemBase {
    */
   public Command shuffle() {
     return Commands.sequence(
-            m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE),
-            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED))
+            m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE).withTimeout(0.25),
+            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(0.25))
         .repeatedly()
         .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
   }

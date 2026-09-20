@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.723620689655172,
-        "y": 6.6307183908045975
+        "x": 7.782777777777778,
+        "y": 6.695233333333333
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.733365134095367,
-        "y": 5.2567517241362305
+        "x": 7.792522222217972,
+        "y": 5.321266666664966
       },
       "isLocked": false,
-      "linkedName": "RedEnd1Mirror"
+      "linkedName": "FirstPathEnd"
     },
     {
       "anchor": {
-        "x": 10.14328544061303,
-        "y": 5.143850574712644
+        "x": 6.720633333333333,
+        "y": 4.736599999999999
       },
       "prevControl": {
-        "x": 8.312001915708814,
-        "y": 3.287365900383143
+        "x": 8.42591111111111,
+        "y": 3.1872333333333325
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RedEnd2Mirror"
+      "linkedName": "SecondPathEnd"
     }
   ],
   "rotationTargets": [
@@ -35,7 +35,7 @@
     },
     {
       "waypointRelativePos": 0.7809128630705446,
-      "rotationDegrees": 32.086684596583865
+      "rotationDegrees": 152.83643045680472
     }
   ],
   "constraintZones": [],
@@ -51,12 +51,12 @@
   },
   "goalEndState": {
     "velocity": 2.0,
-    "rotation": 0.0
+    "rotation": 177.7093899573615
   },
   "reversed": false,
-  "folder": "mental illnesses",
+  "folder": "LeftTrenchBumperSweep",
   "idealStartingState": {
-    "velocity": 0.0,
+    "velocity": 2.0,
     "rotation": -90.4074168793576
   },
   "useDefaultConstraints": false

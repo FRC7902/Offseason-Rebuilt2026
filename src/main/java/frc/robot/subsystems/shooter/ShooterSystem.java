@@ -74,6 +74,14 @@ public class ShooterSystem extends SubsystemBase {
     return m_flywheel.isAtSetpoint() && m_hood.isHoodReadyToShoot() && m_turret.isAtSetpoint();
   }
 
+  public boolean isTurretReady() {
+    return m_turret.isAtSetpoint();
+  }
+
+  public Command reverseFlywheel() {
+    return m_flywheel.setDutyCycle(-0.25);
+  }
+
   /**
    * Creates a command that stops the flywheel, hood, and turret subsystems.
    *

@@ -23,9 +23,10 @@ public class IndexerBeltConstants {
   public static final int LEADER_CAN_ID = 1;
   public static final int FOLLOWER_CAN_ID = 53;
 
-  public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
+  private static final AngularVelocity MAX_SPEED = RPM.of(3377); // TODO
+  public static final AngularVelocity TOLERANCE = RPM.of(100);
 
-  public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
   public static final AngularVelocity STORING_SPEED = RPM.of(100); // TODO
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
@@ -44,8 +45,8 @@ public class IndexerBeltConstants {
                   // .withDataLogName("IndexerBeltMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40)) // TODO
-          .withSupplyCurrentLimit(Amps.of(40)) // TODO
+          .withStatorCurrentLimit(Amps.of(60)) // TODO
+          .withSupplyCurrentLimit(Amps.of(60)) // TODO
           .withMotorInverted(false)
           .withClosedLoopRampRate(Seconds.of(0.25))
           .withOpenLoopRampRate(Seconds.of(0.25))
@@ -58,5 +59,5 @@ public class IndexerBeltConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withTelemetry("IndexerBeltMech", TelemetryVerbosity.LOW)
-          .withSpeedometerSimulation(RPM.of(3377));
+          .withSpeedometerSimulation(MAX_SPEED);
 }

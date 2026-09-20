@@ -32,7 +32,7 @@ public class TurretConstants {
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(150.0, 0.0, 1)
+          .withClosedLoopController(150.0, 0.0, 0.8)
           .withSimClosedLoopController(20, 0.0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(45)))
           .withIdleMode(MotorMode.BRAKE)

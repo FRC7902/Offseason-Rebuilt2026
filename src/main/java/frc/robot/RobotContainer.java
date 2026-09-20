@@ -182,12 +182,11 @@ public class RobotContainer {
             Commands.sequence(
                 new ConditionalCommand(
                     Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
-                    Commands.none(),
+                    Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 m_indexerSystem.reverseIndexer().withTimeout(0.5),
                 Commands.parallel(
-                    m_intakeSystem.shuffle(), // Shuffle hopper
-                    m_indexerSystem.feedFuel() // Feed fuel to shooter
+                    m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
                     )))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
@@ -207,7 +206,7 @@ public class RobotContainer {
             Commands.sequence(
                 new ConditionalCommand(
                     Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
-                    Commands.none(),
+                    Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 m_indexerSystem.feedFuel())) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
@@ -219,6 +218,7 @@ public class RobotContainer {
     intakeTrigger
         .negate()
         .and(manualShootTrigger.negate())
+        .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.stop()) // Stop intaking
         .onTrue(m_shooterSystem.stop()) // Stop shooting
         .onTrue(m_indexerSystem.stop()); // Stop indexing
@@ -227,6 +227,7 @@ public class RobotContainer {
     intakeTrigger
         .negate()
         .and(manualShootTrigger)
+        .and(shootTrigger.negate())
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(
             m_indexerSystem
@@ -234,14 +235,14 @@ public class RobotContainer {
                 .withTimeout(0.5)
                 .andThen(
                     Commands.parallel(
-                        m_intakeSystem.shuffle(), // Shuffle hopper
-                        m_indexerSystem.feedFuel() // Feed fuel to shooter
+                        m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
                         )))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Intake button is pressed, but manual shoot button is not pressed
     intakeTrigger
         .and(manualShootTrigger.negate())
+        .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.stop()) // Stop shooting
         .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
@@ -249,6 +250,7 @@ public class RobotContainer {
     // Both intake button and manual shoot button are pressed
     intakeTrigger
         .and(manualShootTrigger)
+        .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
@@ -297,6 +299,11 @@ public class RobotContainer {
   }
 
   public Command stopAllSubsystems() {
-    return Commands.parallel(m_intakeSystem.stop(), m_shooterSystem.stop(), m_indexerSystem.stop());
+    return Commands.parallel(
+        Commands.sequence(
+            m_intakeSystem.extendAndIntake().withTimeout(1),
+            m_intakeSystem.stop()), // First extend the intake all the way to deploy kicker bar
+        m_shooterSystem.stop(),
+        m_indexerSystem.stop());
   }
 }
