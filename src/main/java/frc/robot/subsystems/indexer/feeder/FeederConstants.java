@@ -23,7 +23,7 @@ public class FeederConstants {
   public static final int CAN_ID = 4;
 
   public static final AngularVelocity TOLERANCE = RPM.of(30); // TODO
-  public static final AngularVelocity FEEDER_SPEED = RPM.of(1500);
+  public static final AngularVelocity FEEDER_SPEED = RPM.of(3000);
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
 

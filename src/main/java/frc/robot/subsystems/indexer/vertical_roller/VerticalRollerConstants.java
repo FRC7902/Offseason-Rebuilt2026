@@ -23,7 +23,7 @@ public class VerticalRollerConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  public static final AngularVelocity FEEDING_SPEED = RPM.of(750); // TODO
+  public static final AngularVelocity FEEDING_SPEED = RPM.of(2000); // TODO
   public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
