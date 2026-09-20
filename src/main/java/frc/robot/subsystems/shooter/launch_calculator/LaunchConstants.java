@@ -33,24 +33,24 @@ public class LaunchConstants {
   // Values
   static {
     hoodAngleMap.put(1.9176, 0.0);
-    flywheelSpeedMap.put(1.9176, 1900.0);
+    flywheelSpeedMap.put(1.9176, 1750.0);
     timeOfFlightMap.put(1.9176, 0.9350);
 
     hoodAngleMap.put(2.5036, 4.0);
-    flywheelSpeedMap.put(2.5036, 2056.0);
+    flywheelSpeedMap.put(2.5036, 1900.0);
     timeOfFlightMap.put(2.5035564845, 1.07);
 
     hoodAngleMap.put(3.5519, 5.0);
-    flywheelSpeedMap.put(3.5519, 2350.0);
+    flywheelSpeedMap.put(3.5519, 2150.0);
     timeOfFlightMap.put(3.5519, 1.16);
 
-    hoodAngleMap.put(5.0588, 10.0);
-    flywheelSpeedMap.put(5.0588, 2600.0);
-    timeOfFlightMap.put(5.0588, 1.204);
+    hoodAngleMap.put(4.0, 7.0);
+    flywheelSpeedMap.put(4.0, 2256.0);
+    timeOfFlightMap.put(4.0, 1.185);
 
-    hoodAngleMap.put(7.0124, 13.0);
-    flywheelSpeedMap.put(7.0124, 3000.0);
-    timeOfFlightMap.put(7.0124, 1.502);
+    hoodAngleMap.put(5.0588, 10.0);
+    flywheelSpeedMap.put(5.0588, 2450.0);
+    timeOfFlightMap.put(5.0588, 1.204);
 
     // TODO: re-tune these values for passing
     passingHoodAngleMap.put(4.8533, HoodConstants.MAX_ANGLE.in(Degrees));
