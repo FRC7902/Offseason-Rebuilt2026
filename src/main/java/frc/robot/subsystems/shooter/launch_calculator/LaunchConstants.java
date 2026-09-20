@@ -64,7 +64,6 @@ public class LaunchConstants {
 
     passingFlywheelSpeedMap.put(3.4350, 1800.0);
     passingFlywheelSpeedMap.put(4.8533, 2000.0);
-    passingFlywheelSpeedMap.put(4.8533, 2000.0);
     passingFlywheelSpeedMap.put(7.0573, 2200.0);
     passingFlywheelSpeedMap.put(10.2642, 2400.0);
     passingFlywheelSpeedMap.put(11.8006, 2600.0);
