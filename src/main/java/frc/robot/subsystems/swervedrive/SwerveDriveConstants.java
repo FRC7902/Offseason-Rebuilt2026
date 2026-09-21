@@ -33,4 +33,14 @@ public final class SwerveDriveConstants {
       new Translation2d(15.973375 - 0.5, 2.01725);
   public static final Translation2d RED_RIGHT_FEEDING_TARGET =
       new Translation2d(15.973375 - 0.5, 6.05175);
+
+  public static final String LIMELIGHT_NAME = "limelight"; // TODO: Update limelight name
+
+  // Camera offset relative to robot center. TODO: Update camera offset
+  public static final double LIMELIGHT_FORWARD_OFFSET_METERS = 0;
+  public static final double LIMELIGHT_SIDE_OFFSET_METERS = 0;
+  public static final double LIMELIGHT_UP_OFFSET_METERS = 0;
+  public static final double LIMELIGHT_ROLL_DEGREES = 0;
+  public static final double LIMELIGHT_PITCH_DEGREES = 0;
+  public static final double LIMELIGHT_YAW_DEGREES = 0;
 }
