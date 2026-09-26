@@ -2,14 +2,10 @@ package frc.robot.subsystems.shooter.launch_calculator;
 
 import static edu.wpi.first.units.Units.Degrees;
 
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import frc.robot.subsystems.shooter.hood.HoodConstants;
 
 public class LaunchConstants {
-
-  // TODO: Fill in robotToLauncher
-  public static final Transform3d robotToLauncher = new Transform3d();
 
   // TODO: Requires actual values
   public static final double minDist = 0.1;

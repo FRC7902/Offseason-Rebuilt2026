@@ -14,6 +14,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.FieldConstants;
+import frc.robot.subsystems.shooter.turret.TurretConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
@@ -88,7 +89,9 @@ public class LaunchCalculator {
         DriverStation.isAutonomous()
             ? robotVelocity
             : transformVelocity(
-                robotVelocity, robotToLauncher.getTranslation().toTranslation2d(), robotAngle);
+                robotVelocity,
+                TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(),
+                robotAngle);
     double timeOfFlight =
         passing
             ? passingTimeOfFlightMap.get(launcherToTargetDistance.in(Meters))
@@ -113,7 +116,8 @@ public class LaunchCalculator {
           TurretSubsystem.getInstance().getDistanceToHub(lookaheadPose);
     }
 
-    Pose2d lookaheadRobotPose = lookaheadPose.transformBy(toTransform2d(robotToLauncher));
+    Pose2d lookaheadRobotPose =
+        lookaheadPose.transformBy(toTransform2d(TurretConstants.ROBOT_TO_TURRET).inverse());
     lastLookaheadRobotPose = lookaheadRobotPose;
     Rotation2d driveAngle = getDriveAngleWithLauncherOffset(lookaheadRobotPose, target);
 
