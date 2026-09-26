@@ -27,7 +27,7 @@ public class RollerFloorConstants {
   private static final AngularVelocity MAX_SPEED =
       RPM.of(1619); // Theoretical max speed of the motor with gearing applied
 
-  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
+  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED.times(0.7);
   public static final double STORING_DUTY_CYCLE = 0.10;
 
   public static final AngularVelocity IS_REVERSING_SPEED_MIN = RPM.of(-500);
