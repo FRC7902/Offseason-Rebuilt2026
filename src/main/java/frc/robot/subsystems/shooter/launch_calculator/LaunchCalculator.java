@@ -80,7 +80,9 @@ public class LaunchCalculator {
             : alliance ? FieldConstants.RED_HUB_CENTER : FieldConstants.BLUE_HUB_CENTER;
     Pose2d launcherPosition = TurretSubsystem.getPose(estimatedPose);
     Distance launcherToTargetDistance =
-        TurretSubsystem.getInstance().getDistanceToHub(launcherPosition);
+        passing
+            ? TurretSubsystem.getInstance().getDistanceToPassingTarget()
+            : TurretSubsystem.getInstance().getDistanceToHub(launcherPosition);
 
     var robotVelocity = SwerveDriveSubsystem.getInstance().getFieldSetpointVelocity();
     var robotAngle = SwerveDriveSubsystem.getInstance().getRotation();

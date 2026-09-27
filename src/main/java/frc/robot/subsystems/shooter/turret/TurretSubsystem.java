@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants;
+import frc.robot.subsystems.shooter.launch_calculator.LaunchUtil;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import java.util.function.Supplier;
 import yams.mechanisms.positional.Pivot;
@@ -256,6 +257,10 @@ public class TurretSubsystem extends SubsystemBase {
                 SwerveDriveSubsystem.getInstance().isRedAlliance()
                     ? FieldConstants.RED_HUB_CENTER
                     : FieldConstants.BLUE_HUB_CENTER));
+  }
+
+  public Distance getDistanceToPassingTarget() {
+    return Meters.of(getPose().getTranslation().getDistance(LaunchUtil.getPassingTarget()));
   }
 
   @Override
