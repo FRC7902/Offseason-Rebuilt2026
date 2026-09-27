@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
@@ -20,13 +19,13 @@ public class LaunchUtil {
   public static Translation2d getPassingTarget() {
     double robotY = SwerveDriveSubsystem.getInstance().getPose().getTranslation().getY();
     if (robotY >= FieldConstants.FIELD_WIDTH / 2) {
-      if (DriverStation.getAlliance().get() == Alliance.Red) {
+      if (SwerveDriveSubsystem.getInstance().isRedAlliance()) {
         return FieldConstants.PASSING_UP_RED;
       } else {
         return FieldConstants.PASSING_UP_BLUE;
       }
     } else {
-      if (DriverStation.getAlliance().get() == Alliance.Red) {
+      if (SwerveDriveSubsystem.getInstance().isRedAlliance()) {
         return FieldConstants.PASSING_DOWN_RED;
       } else {
         return FieldConstants.PASSING_DOWN_BLUE;
@@ -39,7 +38,9 @@ public class LaunchUtil {
     // Turret's zero setpoint faces the back of the robot, i.e. the robot's heading + 180 deg.
     Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
     Angle robotRotationCompensatedAngle =
-        angleToAllianceHub.minus(turretZeroFieldAngle).plus(Degrees.of(-3.444457));
+        angleToAllianceHub
+            .minus(turretZeroFieldAngle)
+            .plus(TurretSubsystem.getInstance().turretOffset);
     Angle wrappedAngle =
         wrapAngle(robotRotationCompensatedAngle, TurretSubsystem.getInstance().getAngle());
 
@@ -60,7 +61,9 @@ public class LaunchUtil {
     // Turret's zero setpoint faces the back of the robot, i.e. the robot's heading + 180 deg.
     Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
     Angle robotRotationCompensatedAngle =
-        angleToPassingTarget.minus(turretZeroFieldAngle).plus(Degrees.of(-3.4444567));
+        angleToPassingTarget
+            .minus(turretZeroFieldAngle)
+            .plus(TurretSubsystem.getInstance().turretOffset);
     Angle wrappedAngle =
         wrapAngle(robotRotationCompensatedAngle, TurretSubsystem.getInstance().getAngle());
 

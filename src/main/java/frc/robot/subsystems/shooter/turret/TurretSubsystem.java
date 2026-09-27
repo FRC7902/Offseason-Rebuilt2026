@@ -42,11 +42,14 @@ public class TurretSubsystem extends SubsystemBase {
   private final SmartMotorController m_motor;
   private final Pivot m_turret;
 
+  public Angle turretOffset;
+
   private TurretSubsystem() {
     m_turretMotor = new TalonFX(TurretConstants.CAN_ID);
     m_motorConfig = TurretConstants.SMC_CONFIG.withSubsystem(this);
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
+    turretOffset = Degrees.of(0);
   }
 
   public static TurretSubsystem getInstance() {
@@ -258,6 +261,18 @@ public class TurretSubsystem extends SubsystemBase {
                     : FieldConstants.BLUE_HUB_CENTER));
   }
 
+  public Command moveTurretOffsetLeft() {
+    return Commands.runOnce(() -> plusTurretOffset(-0.5));
+  }
+
+  public Command moveTurretOffsetRight() {
+    return Commands.runOnce(() -> plusTurretOffset(0.5));
+  }
+
+  public void plusTurretOffset(double measure) {
+      turretOffset.plus(Degrees.of(measure));
+  }
+
   @Override
   public void periodic() {
     m_turret.updateTelemetry();
@@ -270,6 +285,8 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("TurretMech/turret-pose-x", getPose().getX());
 
     SmartDashboard.putNumber("TurretMech/turret-pose-y", getPose().getY());
+
+    SmartDashboard.putNumber("TurretMech/turret-offset", turretOffset.in(Degrees));
   }
 
   @Override
