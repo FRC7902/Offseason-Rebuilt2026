@@ -25,14 +25,14 @@ public class FlywheelConstants {
   public static final int LEADER_CAN_ID = 18;
   public static final int FOLLOWER_CAN_ID = 25;
 
-  public static final AngularVelocity MAX_RPM = RPM.of(5785); // TODO
-  public static final AngularVelocity DEFAULT_RPM = RPM.of(1700);
+  public static final AngularVelocity MAX_RPM = RPM.of(5600); // tested running at max
+  public static final AngularVelocity DEFAULT_RPM = RPM.of(2000);
 
-  public static final AngularVelocity TOLERANCE = RPM.of(100);
+  public static final AngularVelocity TOLERANCE = RPM.of(50);
 
   public static final SmartMotorControllerConfig LEADER_SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withClosedLoopController(1, 0, 0)
+          .withClosedLoopController(0.3, 0, 0.0) // emil tuned this so you can blame him
           .withSimClosedLoopController(1, 0, 0)
           .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
           .withIdleMode(MotorMode.COAST)
@@ -44,10 +44,10 @@ public class FlywheelConstants {
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(80)) // TODO
-          .withSupplyCurrentLimit(Amps.of(30)) // TODO
+          .withSupplyCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false)
-          .withClosedLoopRampRate(Seconds.of(0.25))
-          .withOpenLoopRampRate(Seconds.of(0.25))
+          .withClosedLoopRampRate(Seconds.of(0.025))
+          .withOpenLoopRampRate(Seconds.of(0.025))
           .withFeedforward(new SimpleMotorFeedforward(0.38435, 0.125, 0.010946))
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.12269, 0))
           .withMomentOfInertia(Inches.of(4), Pounds.of(1));
