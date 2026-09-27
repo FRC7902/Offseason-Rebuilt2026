@@ -63,10 +63,11 @@ public class RobotContainer {
 
   SwerveInputStream driveAngularVelocity;
   SwerveInputStream driveSlowAngularVelocity;
+  SwerveInputStream drivePassingSlowAngularVelocity;
   SwerveInputStream driveDirectAngle;
 
   Command driveFieldOrientedAngularVelocity;
-  Command driveSlowFieldOrientedAngularVelocity;
+  ConditionalCommand driveSlowFieldOrientedAngularVelocity;
   Command driveFieldOrientedDirectAngle;
 
   private final StructArrayPublisher<Pose3d> posesPublisher;
@@ -95,6 +96,11 @@ public class RobotContainer {
             .copy()
             .scaleTranslation(SwerveDriveConstants.SLOW_MODE_TRANSLATION_SCALE)
             .scaleRotation(SwerveDriveConstants.SLOW_MODE_ROTATION_SCALE);
+    drivePassingSlowAngularVelocity = 
+        driveAngularVelocity
+          .copy()
+          .scaleTranslation(SwerveDriveConstants.PASSING_SLOW_MODE_TRANSLATION_SCALE)
+          .scaleRotation(SwerveDriveConstants.PASSING_SLOW_MODE_ROTATION_SCALE);
     driveDirectAngle =
         driveAngularVelocity
             .copy()
@@ -102,8 +108,11 @@ public class RobotContainer {
             .headingWhile(true);
     driveFieldOrientedAngularVelocity =
         m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
-    driveSlowFieldOrientedAngularVelocity =
-        m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity);
+    driveSlowFieldOrientedAngularVelocity = new ConditionalCommand(
+        m_swerveDriveSubsystem.driveFieldOriented(drivePassingSlowAngularVelocity),
+        m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity),
+        () -> LaunchCalculator.getInstance().getParameters().passing());
+
     driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
 
     // Publish the poses of the components to NetworkTables for visualization in 3D
