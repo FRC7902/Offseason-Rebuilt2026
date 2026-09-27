@@ -23,7 +23,7 @@ public class VerticalRollerConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  private static final AngularVelocity MAX_SPEED = RPM.of(1619);
+  private static final AngularVelocity MAX_SPEED = RPM.of(2500);
   public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
   public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
 
@@ -45,8 +45,8 @@ public class VerticalRollerConstants {
                   .withNetworkTables(!DriverStation.isFMSAttached()))
           .withStatorCurrentLimit(Amps.of(20))
           .withMotorInverted(false)
-          .withClosedLoopRampRate(Seconds.of(0.25))
-          .withOpenLoopRampRate(Seconds.of(0.25))
+          .withClosedLoopRampRate(Seconds.of(0.10))
+          .withOpenLoopRampRate(Seconds.of(0.10))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.4382, 0));
 

@@ -23,7 +23,7 @@ public class IndexerBeltConstants {
   public static final int LEADER_CAN_ID = 1;
   public static final int FOLLOWER_CAN_ID = 53;
 
-  private static final AngularVelocity MAX_SPEED = RPM.of(3377); // TODO
+  private static final AngularVelocity MAX_SPEED = RPM.of(3000); // TODO
   public static final AngularVelocity TOLERANCE = RPM.of(100);
 
   public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
@@ -48,8 +48,8 @@ public class IndexerBeltConstants {
           .withStatorCurrentLimit(Amps.of(60)) // TODO
           .withSupplyCurrentLimit(Amps.of(60)) // TODO
           .withMotorInverted(false)
-          .withClosedLoopRampRate(Seconds.of(0.25))
-          .withOpenLoopRampRate(Seconds.of(0.25))
+          .withClosedLoopRampRate(Seconds.of(0.10))
+          .withOpenLoopRampRate(Seconds.of(0.10))
           .withFeedforward(new SimpleMotorFeedforward(0.35, 0.217, 0))
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.21, 0));
 

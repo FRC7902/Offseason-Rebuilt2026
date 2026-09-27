@@ -24,7 +24,7 @@ public class FeederConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(30); // TODO
 
-  private static final AngularVelocity MAX_SPEED = RPM.of(3718);
+  private static final AngularVelocity MAX_SPEED = RPM.of(3000);
   public static final AngularVelocity FEEDER_SPEED = MAX_SPEED;
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
@@ -45,8 +45,8 @@ public class FeederConstants {
           .withStatorCurrentLimit(Amps.of(40)) // TODO
           .withSupplyCurrentLimit(Amps.of(40)) // TODO
           .withMotorInverted(false)
-          .withClosedLoopRampRate(Seconds.of(0.25))
-          .withOpenLoopRampRate(Seconds.of(0.25))
+          .withClosedLoopRampRate(Seconds.of(0.10))
+          .withOpenLoopRampRate(Seconds.of(0.10))
           .withFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557)) // TODO
           .withSimFeedforward(new SimpleMotorFeedforward(0.01, 0.192, 1));
 

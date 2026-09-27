@@ -24,10 +24,9 @@ public class RollerFloorConstants {
 
   public static final AngularVelocity TOLERANCE = RPM.of(10); // TODO
 
-  private static final AngularVelocity MAX_SPEED =
-      RPM.of(1619); // Theoretical max speed of the motor with gearing applied
+  private static final AngularVelocity MAX_SPEED = RPM.of(1200);
 
-  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED.times(0.7);
+  public static final AngularVelocity FEEDING_SPEED = MAX_SPEED.times(0.75);
   public static final double STORING_DUTY_CYCLE = 0.10;
 
   public static final AngularVelocity IS_REVERSING_SPEED_MIN = RPM.of(-500);
@@ -48,8 +47,8 @@ public class RollerFloorConstants {
           .withStatorCurrentLimit(Amps.of(60)) // TODO
           .withSupplyCurrentLimit(Amps.of(60)) // TODO
           .withMotorInverted(true)
-          .withClosedLoopRampRate(Seconds.of(0.25))
-          .withOpenLoopRampRate(Seconds.of(0.25))
+          .withClosedLoopRampRate(Seconds.of(0.10))
+          .withOpenLoopRampRate(Seconds.of(0.10))
           .withFeedforward(new SimpleMotorFeedforward(0.35, 0.43, 0.0))
           .withSimFeedforward(new SimpleMotorFeedforward(0.0102, 0.4382, 0));
 
