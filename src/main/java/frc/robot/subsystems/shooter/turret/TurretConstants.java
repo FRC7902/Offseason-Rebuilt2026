@@ -22,9 +22,12 @@ public class TurretConstants {
   public static final DCMotor MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final int CAN_ID = 42;
 
-  public static final Angle MAX_ANGLE = Degrees.of(180);
-  public static final Angle MIN_ANGLE = Degrees.of(-190);
   public static final Angle FULL_ROTATION = Degrees.of(360);
+  public static final Angle WRAP_POINT = Degrees.of(160);
+  public static final Angle THRESHOLD = Degrees.of(10);
+
+  public static final Angle MAX_ANGLE = WRAP_POINT.plus(THRESHOLD);
+  public static final Angle MIN_ANGLE = WRAP_POINT.minus(FULL_ROTATION).minus(THRESHOLD);
 
   public static final Angle DEFAULT_ANGLE = Degrees.of(0);
 
