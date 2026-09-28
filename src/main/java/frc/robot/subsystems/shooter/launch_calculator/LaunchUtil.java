@@ -25,7 +25,7 @@ public class LaunchUtil {
           ? FieldConstants.PASSING_UP_RED
           : FieldConstants.PASSING_UP_BLUE;
     } else {
-      return (alliance == Alliance.Blue)
+      return (alliance == Alliance.Red)
           ? FieldConstants.PASSING_DOWN_RED
           : FieldConstants.PASSING_DOWN_BLUE;
     }
