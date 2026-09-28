@@ -93,27 +93,42 @@ public class LaunchUtil {
   }
 
   private static Angle abs(Angle angle) {
-    return angle.lt(Degrees.of(0)) ? angle.unaryMinus() : angle;
+    double deg = angle.in(Degrees);
+    return deg < 0 ? Degrees.of(-deg) : angle;
   }
 
   private static Angle wrapAngle(Angle target, Angle currentAngle) {
+    //normalize target angle between min angle and max angle
     Angle normalized = target;
-
     while (normalized.gte(MAX_ANGLE)) {
       normalized = normalized.minus(FULL_ROTATION);
     }
     while (normalized.lt(MIN_ANGLE)) {
       normalized = normalized.plus(FULL_ROTATION);
     }
-    Angle alternate = normalized.plus(FULL_ROTATION);
-    if (alternate.lte(MAX_ANGLE)) {
-      Angle distanceToNormalized = abs(normalized.minus(currentAngle));
-      Angle distToAlternate = abs(alternate.minus(currentAngle));
-      if (distToAlternate.lt(distanceToNormalized)) {
-        return alternate;
+
+    Angle best = normalized;
+    Angle bestDist = abs(normalized.minus(currentAngle));
+
+    //check if lower end representation of target is closer
+    Angle plusAlt = normalized.plus(FULL_ROTATION);
+    if (plusAlt.lte(MAX_ANGLE)) {
+      Angle d = abs(plusAlt.minus(currentAngle));
+      if (d.lt(bestDist)) {
+        best = plusAlt;
+        bestDist = d;
       }
     }
-    return normalized;
+    //check if higher end representation of target is closer
+    Angle minusAlt = normalized.minus(FULL_ROTATION);
+    if (minusAlt.gte(MIN_ANGLE)) {
+      Angle d = abs(minusAlt.minus(currentAngle));
+      if (d.lt(bestDist)) {
+        best = minusAlt;
+      }
+    }
+
+    return best;
   }
 
   public static ChassisSpeeds transformVelocity(
