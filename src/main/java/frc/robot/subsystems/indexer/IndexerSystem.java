@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.RPM;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.indexer.belt.IndexerBeltConstants;
 import frc.robot.subsystems.indexer.belt.IndexerBeltSubsystem;
 import frc.robot.subsystems.indexer.feeder.FeederConstants;
@@ -51,16 +52,19 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command feedFuel() {
     return Commands.parallel(
+        Commands.deadline(
+          Commands.waitSeconds(0.5),
+          m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
+          m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE)
+        ),
         Commands.sequence(
                 Commands.parallel(
-                        m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
                         m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED))
                     .withTimeout(1),
                 Commands.waitUntil(() -> isStuck()),
                 Commands.parallel(reverseIndexer()).withTimeout(0.1),
                 Commands.waitUntil(() -> isReversing()).withTimeout(1))
             .repeatedly(),
-        m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
         m_verticalRoller.setDutyCycle(VerticalRollerConstants.FEEDING_DUTY_CYCLE));
   }
 
