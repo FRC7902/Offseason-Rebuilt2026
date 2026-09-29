@@ -272,8 +272,8 @@ public class RobotContainer {
     // m_driverController.povLeft().whileTrue(m_swerveDriveSubsystem.driveLeft());
     // m_driverController.povRight().whileTrue(m_swerveDriveSubsystem.driveRight());
 
-    m_driverController.button(1).onTrue(m_turretSubsystem.moveTurretOffsetLeft());
-    m_driverController.button(2).onTrue(m_turretSubsystem.moveTurretOffsetRight());
+    m_driverController.povLeft().onTrue(m_turretSubsystem.moveTurretOffsetLeft());
+    m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
   }
 
   public Command getAutonomousCommand() {
