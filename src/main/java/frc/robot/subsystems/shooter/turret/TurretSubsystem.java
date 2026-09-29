@@ -270,7 +270,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void plusTurretOffset(double measure) {
-      turretOffset.plus(Degrees.of(measure));
+    turretOffset = turretOffset.plus(Degrees.of(measure));
   }
 
   @Override
