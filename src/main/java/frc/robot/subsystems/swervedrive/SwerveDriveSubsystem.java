@@ -177,7 +177,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_limelightA
         .getSettings()
         .withLimelightLEDMode(LEDMode.PipelineControl)
-        .withCameraOffset(Pose3d.kZero) // TODO: Update camera offset
         .save();
 
     m_poseEstimatorA = m_limelightA.createPoseEstimator(EstimationMode.MEGATAG1);
@@ -185,7 +184,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_limelightB
         .getSettings()
         .withLimelightLEDMode(LEDMode.PipelineControl)
-        .withCameraOffset(Pose3d.kZero) // TODO: Update camera offset
         .save();
 
     m_poseEstimatorA = m_limelightB.createPoseEstimator(EstimationMode.MEGATAG1);
