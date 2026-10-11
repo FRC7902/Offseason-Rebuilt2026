@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path #1 Mirror"
+                  "pathName": "LEFT1 dash to neutral"
                 }
               },
               {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path #2 Mirror"
+            "pathName": "LEFT2 swerve through left neutral"
           }
         },
         {
@@ -48,7 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path #3 Mirror"
+                  "pathName": "LEFT3 dash behind left trench"
                 }
               }
             ]

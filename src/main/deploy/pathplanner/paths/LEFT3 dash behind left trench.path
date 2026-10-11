@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 10.14328544061303,
-        "y": 5.143850574712644
+        "x": 6.720633333333333,
+        "y": 4.736599999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 11.386542145593872,
-        "y": 5.899885057471265
+        "x": 5.525979695431472,
+        "y": 5.3655736040609145
       },
       "isLocked": false,
-      "linkedName": "RedEnd2Mirror"
+      "linkedName": "SecondPathEnd"
     },
     {
       "anchor": {
-        "x": 14.251072796934865,
-        "y": 5.2698563218390815
+        "x": 1.9900609137055842,
+        "y": 5.687857868020306
       },
       "prevControl": {
-        "x": 12.940613026819927,
-        "y": 5.673074712643679
+        "x": 4.49467005076141,
+        "y": 5.9364771573604065
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,16 +30,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6897241103558551,
-      "rotationDegrees": 0.8959643630588416
+      "waypointRelativePos": 0.10756366400608199,
+      "rotationDegrees": 135.49999539034275
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -47,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -142.8355251064884
+    "rotation": 144.904183212974
   },
   "reversed": false,
-  "folder": "mental illnesses",
+  "folder": "LEFT paths",
   "idealStartingState": {
     "velocity": 2.0,
-    "rotation": 0.0
+    "rotation": 177.7093899573615
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

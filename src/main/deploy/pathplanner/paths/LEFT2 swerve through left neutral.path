@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 11.456010152284264,
-        "y": 0.6694314720812189
+        "y": 0.6694314720812198
       },
       "isLocked": false,
       "linkedName": "FirstPathEnd"
@@ -61,7 +61,7 @@
     "rotation": 177.7093899573615
   },
   "reversed": false,
-  "folder": "LeftTrenchBumperSweep",
+  "folder": "LEFT paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.4074168793576
