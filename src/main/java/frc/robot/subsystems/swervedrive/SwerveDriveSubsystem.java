@@ -10,7 +10,6 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -47,9 +46,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private static SwerveDriveSubsystem m_instance;
 
-  Limelight m_limelightA = new Limelight("limelightA"); // TODO: Update limelight name
+  Limelight m_limelightA = new Limelight("limelight-a"); // TODO: Update limelight name
   LimelightPoseEstimator m_poseEstimatorA;
-  Limelight m_limelightB = new Limelight("limelightB"); // TODO: Update limelight name
+  Limelight m_limelightB = new Limelight("limelight-c"); // TODO: Update limelight name
   LimelightPoseEstimator m_poseEstimatorB;
 
   /**
@@ -174,19 +173,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   private void setupLimelight() {
-    m_limelightA
-        .getSettings()
-        .withLimelightLEDMode(LEDMode.PipelineControl)
-        .save();
+    m_limelightA.getSettings().withLimelightLEDMode(LEDMode.PipelineControl).save();
 
     m_poseEstimatorA = m_limelightA.createPoseEstimator(EstimationMode.MEGATAG1);
 
-    m_limelightB
-        .getSettings()
-        .withLimelightLEDMode(LEDMode.PipelineControl)
-        .save();
+    m_limelightB.getSettings().withLimelightLEDMode(LEDMode.PipelineControl).save();
 
-    m_poseEstimatorA = m_limelightB.createPoseEstimator(EstimationMode.MEGATAG1);
+    m_poseEstimatorB = m_limelightB.createPoseEstimator(EstimationMode.MEGATAG1);
   }
 
   /**
@@ -602,7 +595,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           }
         });
 
-        m_limelightB
+    m_limelightB
         .getSettings()
         .withRobotOrientation(
             new Orientation3d(
