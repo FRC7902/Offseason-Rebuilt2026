@@ -19,7 +19,8 @@ public class LaunchUtil {
   // Helpers
   public static Translation2d getPassingTarget() {
     double robotY = SwerveDriveSubsystem.getInstance().getPose().getTranslation().getY();
-    Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue); // this makes it not crash during sim
+    Alliance alliance =
+        DriverStation.getAlliance().orElse(Alliance.Blue); // this makes it not crash during sim
     if (robotY >= FieldConstants.FIELD_WIDTH / 2) {
       return (alliance == Alliance.Red)
           ? FieldConstants.PASSING_UP_RED
