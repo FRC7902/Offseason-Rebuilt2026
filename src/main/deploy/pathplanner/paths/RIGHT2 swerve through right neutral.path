@@ -61,7 +61,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "RightTrenchBumperSweep",
+  "folder": "RIGHT paths",
   "idealStartingState": {
     "velocity": 6.0,
     "rotation": 89.43273359014202
