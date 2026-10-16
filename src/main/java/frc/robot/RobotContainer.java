@@ -96,11 +96,11 @@ public class RobotContainer {
             .copy()
             .scaleTranslation(SwerveDriveConstants.SLOW_MODE_TRANSLATION_SCALE)
             .scaleRotation(SwerveDriveConstants.SLOW_MODE_ROTATION_SCALE);
-    drivePassingSlowAngularVelocity = 
+    drivePassingSlowAngularVelocity =
         driveAngularVelocity
-          .copy()
-          .scaleTranslation(SwerveDriveConstants.PASSING_SLOW_MODE_TRANSLATION_SCALE)
-          .scaleRotation(SwerveDriveConstants.PASSING_SLOW_MODE_ROTATION_SCALE);
+            .copy()
+            .scaleTranslation(SwerveDriveConstants.PASSING_SLOW_MODE_TRANSLATION_SCALE)
+            .scaleRotation(SwerveDriveConstants.PASSING_SLOW_MODE_ROTATION_SCALE);
     driveDirectAngle =
         driveAngularVelocity
             .copy()
@@ -108,10 +108,11 @@ public class RobotContainer {
             .headingWhile(true);
     driveFieldOrientedAngularVelocity =
         m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
-    driveSlowFieldOrientedAngularVelocity = new ConditionalCommand(
-        m_swerveDriveSubsystem.driveFieldOriented(drivePassingSlowAngularVelocity),
-        m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity),
-        () -> LaunchCalculator.getInstance().getParameters().passing());
+    driveSlowFieldOrientedAngularVelocity =
+        new ConditionalCommand(
+            m_swerveDriveSubsystem.driveFieldOriented(drivePassingSlowAngularVelocity),
+            m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity),
+            () -> LaunchCalculator.getInstance().getParameters().passing());
 
     driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
 
@@ -278,8 +279,11 @@ public class RobotContainer {
 
     m_driverController.povUp().whileTrue(m_swerveDriveSubsystem.driveForward());
     m_driverController.povDown().whileTrue(m_swerveDriveSubsystem.driveBackward());
-    m_driverController.povLeft().whileTrue(m_swerveDriveSubsystem.driveLeft());
-    m_driverController.povRight().whileTrue(m_swerveDriveSubsystem.driveRight());
+    // m_driverController.povLeft().whileTrue(m_swerveDriveSubsystem.driveLeft());
+    // m_driverController.povRight().whileTrue(m_swerveDriveSubsystem.driveRight());
+
+    m_driverController.povLeft().onTrue(m_turretSubsystem.moveTurretOffsetLeft());
+    m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
   }
 
   public Command getAutonomousCommand() {
