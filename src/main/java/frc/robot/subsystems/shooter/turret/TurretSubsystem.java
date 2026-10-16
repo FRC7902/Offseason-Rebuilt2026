@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -40,11 +41,13 @@ public class TurretSubsystem extends SubsystemBase {
   private final TalonFX m_turretMotor;
   private final SmartMotorControllerConfig m_motorConfig;
   private final SmartMotorController m_motor;
+  private final CANcoder m_cancoder;
   private final Pivot m_turret;
 
   private TurretSubsystem() {
     m_turretMotor = new TalonFX(TurretConstants.CAN_ID);
-    m_motorConfig = TurretConstants.SMC_CONFIG.withSubsystem(this);
+    m_cancoder = new CANcoder(0); //TODO
+    m_motorConfig = TurretConstants.SMC_CONFIG.withSubsystem(this).withExternalEncoder(m_cancoder);
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
   }
