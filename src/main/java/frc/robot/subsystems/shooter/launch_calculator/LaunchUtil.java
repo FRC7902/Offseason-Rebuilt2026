@@ -96,7 +96,7 @@ public class LaunchUtil {
   }
 
   private static Angle wrapAngle(Angle target, Angle currentAngle) {
-    //normalize target angle between min angle and max angle
+    // normalize target angle between min angle and max angle
     Angle normalized = target;
     while (normalized.gte(MAX_ANGLE)) {
       normalized = normalized.minus(FULL_ROTATION);
@@ -108,7 +108,7 @@ public class LaunchUtil {
     Angle best = normalized;
     Angle bestDist = abs(normalized.minus(currentAngle));
 
-    //check if lower end representation of target is closer
+    // check if lower end representation of target is closer
     Angle plusAlt = normalized.plus(FULL_ROTATION);
     if (plusAlt.lte(MAX_ANGLE)) {
       Angle d = abs(plusAlt.minus(currentAngle));
@@ -117,7 +117,7 @@ public class LaunchUtil {
         bestDist = d;
       }
     }
-    //check if higher end representation of target is closer
+    // check if higher end representation of target is closer
     Angle minusAlt = normalized.minus(FULL_ROTATION);
     if (minusAlt.gte(MIN_ANGLE)) {
       Angle d = abs(minusAlt.minus(currentAngle));
