@@ -30,6 +30,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import java.util.function.Supplier;
+import yams.gearing.GearBox;
+import yams.gearing.MechanismGearing;
 import yams.mechanisms.positional.Pivot;
 import yams.motorcontrollers.SmartMotorController;
 import yams.motorcontrollers.SmartMotorControllerConfig;
@@ -46,8 +48,13 @@ public class TurretSubsystem extends SubsystemBase {
 
   private TurretSubsystem() {
     m_turretMotor = new TalonFX(TurretConstants.CAN_ID);
-    m_cancoder = new CANcoder(0); //TODO
-    m_motorConfig = TurretConstants.SMC_CONFIG.withSubsystem(this).withExternalEncoder(m_cancoder);
+    m_cancoder = new CANcoder(6);
+    m_motorConfig =
+        TurretConstants.SMC_CONFIG
+            .withSubsystem(this)
+            .withExternalEncoder(m_cancoder)
+            .withExternalEncoderGearing(new MechanismGearing(GearBox.fromStages("3:5")))
+            .withExternalEncoderZeroOffset(Degrees.of(44.3f * 3f / 5f));
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
   }
