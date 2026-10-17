@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.418555555555556,
+        "y": 4.483244444444444
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.720633333333332,
+        "y": 5.701299999999999
+      },
+      "isLocked": false,
+      "linkedName": "2Sweep6"
+    },
+    {
+      "anchor": {
+        "x": 2.481799999996994,
+        "y": 5.379733333338646
+      },
+      "prevControl": {
+        "x": 5.132288888885883,
+        "y": 5.642833333338648
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -1.8087393228147455
+  },
+  "reversed": false,
+  "folder": "2 time sweep LEFT paths",
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": 79.99202019855889
+  },
+  "useDefaultConstraints": true
+}
