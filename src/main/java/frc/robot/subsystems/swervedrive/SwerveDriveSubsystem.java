@@ -589,7 +589,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           // Reject long-range or ambiguous reads before fusing.
           if (poseEstimate.avgTagDist < 4
               && poseEstimate.tagCount > 1
-              && poseEstimate.getMinTagAmbiguity() < 0.3) {
+              && poseEstimate.getMinTagAmbiguity() < 0.2) {
             getSwerveDrive()
                 .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
           }
@@ -613,7 +613,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           // Reject long-range or ambiguous reads before fusing.
           if (poseEstimate.avgTagDist < 4
               && poseEstimate.tagCount > 1
-              && poseEstimate.getMinTagAmbiguity() < 0.3) {
+              && poseEstimate.getMinTagAmbiguity() < 0.2) {
             getSwerveDrive()
                 .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
           }
