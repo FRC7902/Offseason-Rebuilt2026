@@ -3,11 +3,11 @@
   "robotLength": 0.686,
   "holonomicMode": true,
   "pathFolders": [
-    "Example Paths",
-    "LEFT paths",
+    "1 time sweep LEFT paths",
+    "1 time sweep RIGHT paths",
+    "2 time sweep LEFT paths",
     "MID paths",
-    "RIGHT paths",
-    "mental illnesses"
+    "2 time sweep RIGHT paths"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

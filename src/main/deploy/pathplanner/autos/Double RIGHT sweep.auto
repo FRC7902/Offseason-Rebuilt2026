@@ -1,0 +1,163 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DOUBLE1 RIGHT dash to neutral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "extendAndIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "storeFuel"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DOUBLE2 RIGHT swerve through neutral"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "stopIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DOUBLE3 RIGHT dash through bump"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedFuel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "aimAndShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DOUBLE4 RIGHT dash to neutral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "extendAndIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "storeFuel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "stopShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DOUBLE5 RIGHT swerve in neutral"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "stopIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DOUBLE6 RIGHT swerve over bump"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedFuel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "aimAndShoot"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
