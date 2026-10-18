@@ -98,9 +98,8 @@ public class Robot extends TimedRobot {
 
     CommandScheduler.getInstance().schedule(m_robotContainer.stopAllSubsystems());
 
-    // Use internal IMU for autonomous to avoid drift from external IMU
+    // Use the internal IMU and disable Limelight throttling in enabled modes.
     m_robotContainer.updateImuMode(ImuMode.InternalImu);
-    // Disable Limelight throttle during autonomous to allow for full frame rate and reduce latency
     m_robotContainer.updateLimelightThrottle(0);
 
     // Start the flywheel at the default RPM when teleop starts
