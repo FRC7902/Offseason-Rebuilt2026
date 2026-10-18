@@ -40,7 +40,9 @@ public class IndexerSystem extends SubsystemBase {
   }
 
   public Command reverseIndexer() {
-    return Commands.parallel(m_rollerFloor.setDutyCycle(-1), m_indexerBelt.setDutyCycle(-1));
+    return m_rollerFloor
+        .setDutyCycle(-1)
+        .alongWith(m_verticalRoller.setDutyCycle(VerticalRollerConstants.ANTI_JAM_DUTY_CYCLE));
   }
 
   /**
