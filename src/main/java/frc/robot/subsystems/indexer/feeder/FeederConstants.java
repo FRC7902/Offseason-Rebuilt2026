@@ -14,7 +14,6 @@ import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
-import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class FeederConstants {
@@ -38,7 +37,7 @@ public class FeederConstants {
           .withTelemetry(
               "FeederMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("FeederMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -53,6 +52,6 @@ public class FeederConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.999302))
-          .withTelemetry("FeederMech", TelemetryVerbosity.LOW)
+          // .withTelemetry("FeederMech", TelemetryVerbosity.LOW)
           .withSpeedometerSimulation(MAX_SPEED);
 }
