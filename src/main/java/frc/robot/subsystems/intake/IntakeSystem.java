@@ -18,6 +18,15 @@ public class IntakeSystem extends SubsystemBase {
   }
 
   /**
+   * Creates a command that extends the linear intake to fully extended position
+   *
+   * @return command that runs the linear intake to full extension
+   */
+  public Command extend() {
+    return m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED);
+  }
+
+  /**
    * Creates a command that extends the linear intake to its fully extended setpoint while running
    * the intake rollers.
    *

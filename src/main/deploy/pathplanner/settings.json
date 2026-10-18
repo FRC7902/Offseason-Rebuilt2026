@@ -3,11 +3,11 @@
   "robotLength": 0.686,
   "holonomicMode": true,
   "pathFolders": [
-    "Example Paths",
-    "LEFT paths",
+    "1 time sweep LEFT paths",
+    "1 time sweep RIGHT paths",
+    "2 time sweep LEFT paths",
     "MID paths",
-    "RIGHT paths",
-    "mental illnesses"
+    "2 time sweep RIGHT paths"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
@@ -22,7 +22,7 @@
   "driveGearing": 5.36,
   "maxDriveSpeed": 6.0,
   "driveMotorType": "falcon500FOC",
-  "driveCurrentLimit": 50.0,
+  "driveCurrentLimit": 40.0,
   "wheelCOF": 1.2,
   "flModuleX": 0.276225,
   "flModuleY": 0.276225,

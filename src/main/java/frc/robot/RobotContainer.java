@@ -315,7 +315,7 @@ public class RobotContainer {
   public Command stopAllSubsystems() {
     return Commands.parallel(
         Commands.sequence(
-            m_intakeSystem.extendAndIntake().withTimeout(1),
+            m_intakeSystem.extend().withTimeout(1),
             m_intakeSystem.stop()), // First extend the intake all the way to deploy kicker bar
         m_shooterSystem.stop(),
         m_indexerSystem.stop());
