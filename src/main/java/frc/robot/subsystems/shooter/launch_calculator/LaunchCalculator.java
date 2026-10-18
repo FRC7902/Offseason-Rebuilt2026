@@ -1,10 +1,27 @@
 package frc.robot.subsystems.shooter.launch_calculator;
 
-import static edu.wpi.first.units.Units.*;
-import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.*;
-import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.*;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.RPM;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.flywheelSpeedMap;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.hoodAngleMap;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.passingFlywheelSpeedMap;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.passingHoodAngleMap;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.passingTimeOfFlightMap;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.phaseDelay;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.robotToLauncher;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.timeOfFlightMap;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.getDriveAngleWithLauncherOffset;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.getPassingTarget;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.getTurretAngleToHub;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.getTurretAngleToPassingTarget;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.toTransform2d;
+import static frc.robot.subsystems.shooter.launch_calculator.LaunchUtil.transformVelocity;
 
-import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
@@ -48,13 +65,13 @@ public class LaunchCalculator {
 
   private LaunchingParameters latestParameters = null;
 
-  public static double getMinTimeOfFlight() {
-    return timeOfFlightMap.get(minDist);
-  }
+  // public static double getMinTimeOfFlight() {
+  //   return timeOfFlightMap.get(minDist);
+  // }
 
-  public static double getMaxTimeOfFlight() {
-    return timeOfFlightMap.get(maxDist);
-  }
+  // public static double getMaxTimeOfFlight() {
+  //   return timeOfFlightMap.get(maxDist);
+  // }
 
   public LaunchingParameters getParameters() {
     if (latestParameters != null) {
@@ -103,8 +120,10 @@ public class LaunchCalculator {
               ? passingTimeOfFlightMap.get(lookaheadLauncherToTargetDistance.in(Meters))
               : timeOfFlightMap.get(lookaheadLauncherToTargetDistance.in(Meters));
       double effectiveTOF = timeOfFlight;
-      double offsetX = launcherVelocity.vxMetersPerSecond * effectiveTOF;
-      double offsetY = launcherVelocity.vyMetersPerSecond * effectiveTOF;
+      double offsetX =
+          launcherVelocity.vxMetersPerSecond * effectiveTOF * LaunchConstants.lookaheadMultiplier;
+      double offsetY =
+          launcherVelocity.vyMetersPerSecond * effectiveTOF * LaunchConstants.lookaheadMultiplier;
       lookaheadPose =
           new Pose2d(
               launcherPosition.getTranslation().plus(new Translation2d(offsetX, offsetY)),
