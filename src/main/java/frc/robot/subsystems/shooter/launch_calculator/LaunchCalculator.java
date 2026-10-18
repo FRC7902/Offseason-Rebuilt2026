@@ -25,6 +25,8 @@ public class LaunchCalculator {
   private Angle lastHoodAngle;
   private Rotation2d lastDriveAngle;
 
+  private Rotation2d usableRotation = Rotation2d.fromDegrees(0.0);
+
   private Pose2d lastLookaheadRobotPose = new Pose2d();
 
   private final StructPublisher<Pose2d> lookaheadRobotPosePublisher =
@@ -61,7 +63,13 @@ public class LaunchCalculator {
       return latestParameters;
     }
 
-    Pose2d estimatedPose = SwerveDriveSubsystem.getInstance().getPose();
+    Pose2d initialPose = SwerveDriveSubsystem.getInstance().getPose();
+    if (Math.abs(initialPose.getRotation().minus(usableRotation).getDegrees())
+        > LaunchConstants.ROTATION_DELTA_THRESHOLD) {
+      usableRotation = initialPose.getRotation();
+    }
+    Pose2d estimatedPose =
+        new Pose2d(SwerveDriveSubsystem.getInstance().getPose().getTranslation(), usableRotation);
     boolean alliance = SwerveDriveSubsystem.getInstance().isRedAlliance();
     boolean passing =
         (alliance)

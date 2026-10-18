@@ -13,8 +13,10 @@ public class LaunchConstants {
 
   // TODO: Requires actual values
   public static final double minDist = 0.1;
-  public static final double maxDist = 5;
+  public static final double maxDist = 2;
   public static final double phaseDelay = 0.03;
+
+  public static final int ROTATION_DELTA_THRESHOLD = 5; // TODO
 
   // Hub shooting maps
   public static final InterpolatingDoubleTreeMap hoodAngleMap = new InterpolatingDoubleTreeMap();
