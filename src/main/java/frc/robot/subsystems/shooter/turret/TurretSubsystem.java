@@ -272,11 +272,11 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public Command moveTurretOffsetLeft() {
-    return Commands.runOnce(() -> plusTurretOffset(-0.5));
+    return Commands.runOnce(() -> plusTurretOffset(2));
   }
 
   public Command moveTurretOffsetRight() {
-    return Commands.runOnce(() -> plusTurretOffset(0.5));
+    return Commands.runOnce(() -> plusTurretOffset(-2));
   }
 
   public void plusTurretOffset(double measure) {

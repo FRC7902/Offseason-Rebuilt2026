@@ -14,7 +14,6 @@ import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.ArmConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
-import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class HoodConstants {
@@ -39,7 +38,7 @@ public class HoodConstants {
           .withTelemetry(
               "HoodMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("HoodMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -54,6 +53,6 @@ public class HoodConstants {
   public static final ArmConfig ARM_CONFIG =
       new ArmConfig()
           .withLength(Meters.of(0.135)) // TODO
-          .withHardLimits(MIN_ANGLE, MAX_ANGLE)
-          .withTelemetry("HoodMech", TelemetryVerbosity.LOW);
+          .withHardLimits(MIN_ANGLE, MAX_ANGLE);
+  // .withTelemetry("HoodMech", TelemetryVerbosity.LOW);
 }

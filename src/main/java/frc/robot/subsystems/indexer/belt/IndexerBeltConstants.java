@@ -13,7 +13,6 @@ import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
-import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class IndexerBeltConstants {
@@ -41,7 +40,7 @@ public class IndexerBeltConstants {
           .withTelemetry(
               "IndexerBeltMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("IndexerBeltMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -58,6 +57,6 @@ public class IndexerBeltConstants {
 
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
-          .withTelemetry("IndexerBeltMech", TelemetryVerbosity.LOW)
+          // .withTelemetry("IndexerBeltMech", TelemetryVerbosity.LOW)
           .withSpeedometerSimulation(MAX_SPEED);
 }

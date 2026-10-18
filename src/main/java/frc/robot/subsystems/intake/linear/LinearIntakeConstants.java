@@ -20,7 +20,6 @@ import yams.mechanisms.config.ElevatorConfig;
 import yams.mechanisms.config.MechanismPositionConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
-import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class LinearIntakeConstants {
@@ -36,8 +35,8 @@ public class LinearIntakeConstants {
   public static final Distance TOLERANCE = Meters.of(0.01);
 
   public static final Distance FULLY_RETRACTED = Meters.zero();
-  public static final Distance FULLY_EXTENDED = Meters.of(0.2634);
-  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.1365);
+  public static final Distance FULLY_EXTENDED = Meters.of(0.2630);
+  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.1430);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
@@ -51,7 +50,7 @@ public class LinearIntakeConstants {
           .withTelemetry(
               "LinearIntakeMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("LinearIntakeMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -73,7 +72,7 @@ public class LinearIntakeConstants {
   public static final ElevatorConfig ELEVATOR_CONFIG =
       new ElevatorConfig()
           .withHardLimits(FULLY_RETRACTED, FULLY_EXTENDED)
-          .withTelemetry("LinearIntakeMech", TelemetryVerbosity.LOW)
+          // .withTelemetry("LinearIntakeMech", TelemetryVerbosity.LOW)
           .withMechanismPositionConfig(ROBOT_TO_MECHANISM)
           .withAngle(MECHANISM_ANGLE)
           .withCarriageWeight(Pounds.of(7.933));

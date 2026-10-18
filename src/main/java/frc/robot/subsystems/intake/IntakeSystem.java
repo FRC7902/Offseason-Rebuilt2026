@@ -18,6 +18,15 @@ public class IntakeSystem extends SubsystemBase {
   }
 
   /**
+   * Creates a command that extends the linear intake to fully extended position
+   *
+   * @return command that runs the linear intake to full extension
+   */
+  public Command extend() {
+    return m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED);
+  }
+
+  /**
    * Creates a command that extends the linear intake to its fully extended setpoint while running
    * the intake rollers.
    *
@@ -57,8 +66,8 @@ public class IntakeSystem extends SubsystemBase {
    */
   public Command shuffle() {
     return Commands.sequence(
-            m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE).withTimeout(0.25),
-            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(0.25))
+            m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE).withTimeout(1),
+            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
         .repeatedly()
         .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
   }

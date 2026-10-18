@@ -277,11 +277,12 @@ public class RobotContainer {
      * Manual driving for swerve tuning
      */
 
-    m_driverController.povUp().whileTrue(m_swerveDriveSubsystem.driveForward());
-    m_driverController.povDown().whileTrue(m_swerveDriveSubsystem.driveBackward());
+    // m_driverController.povUp().whileTrue(m_swerveDriveSubsystem.driveForward());
+    // m_driverController.povDown().whileTrue(m_swerveDriveSubsystem.driveBackward());
     // m_driverController.povLeft().whileTrue(m_swerveDriveSubsystem.driveLeft());
     // m_driverController.povRight().whileTrue(m_swerveDriveSubsystem.driveRight());
 
+    // Turret manual offset adjustment
     m_driverController.povLeft().onTrue(m_turretSubsystem.moveTurretOffsetLeft());
     m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
   }
@@ -314,7 +315,7 @@ public class RobotContainer {
   public Command stopAllSubsystems() {
     return Commands.parallel(
         Commands.sequence(
-            m_intakeSystem.extendAndIntake().withTimeout(1),
+            m_intakeSystem.extend().withTimeout(1),
             m_intakeSystem.stop()), // First extend the intake all the way to deploy kicker bar
         m_shooterSystem.stop(),
         m_indexerSystem.stop());

@@ -14,7 +14,6 @@ import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
-import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class RollerFloorConstants {
@@ -41,7 +40,7 @@ public class RollerFloorConstants {
           .withTelemetry(
               "RollerFloorMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("RollerFloorMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -56,6 +55,6 @@ public class RollerFloorConstants {
   public static final FlyWheelConfig FLY_WHEEL_CONFIG =
       new FlyWheelConfig()
           .withDiameter(Inches.of(1.25))
-          .withTelemetry("RollerFloorMech", TelemetryVerbosity.LOW)
+          // .withTelemetry("RollerFloorMech", TelemetryVerbosity.LOW)
           .withSpeedometerSimulation(MAX_SPEED);
 }
