@@ -14,7 +14,6 @@ import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.PivotConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig;
 import yams.motorcontrollers.SmartMotorControllerConfig.MotorMode;
-import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.telemetry.SmartMotorControllerTelemetryConfig;
 
 public class TurretConstants {
@@ -23,7 +22,7 @@ public class TurretConstants {
   public static final int CAN_ID = 42;
 
   public static final Angle FULL_ROTATION = Degrees.of(360);
-  public static final Angle WRAP_POINT = Degrees.of(145);
+  public static final Angle WRAP_POINT = Degrees.of(165);
   public static final Angle THRESHOLD = Degrees.of(10);
 
   public static final Angle MAX_ANGLE = WRAP_POINT.plus(THRESHOLD); // 155
@@ -45,7 +44,7 @@ public class TurretConstants {
           .withTelemetry(
               "TurretMotor",
               new SmartMotorControllerTelemetryConfig()
-                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("TurretMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
@@ -56,9 +55,8 @@ public class TurretConstants {
           .withMomentOfInertia(yams.units.YUnits.PoundSquareInches.of(0.01)); // TODO
 
   public static final PivotConfig PIVOT_CONFIG =
-      new PivotConfig()
-          .withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE)
-          .withTelemetry("TurretMech", TelemetryVerbosity.LOW);
+      new PivotConfig().withHardLimits(TurretConstants.MIN_ANGLE, TurretConstants.MAX_ANGLE);
+  // .withTelemetry("TurretMech", TelemetryVerbosity.LOW);
 
   public static final Transform3d ROBOT_TO_TURRET =
       new Transform3d(-0.152, 0.144, 0.359, Rotation3d.kZero);
