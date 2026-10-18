@@ -25,7 +25,7 @@ public class LaunchCalculator {
   private Angle lastHoodAngle;
   private Rotation2d lastDriveAngle;
 
-  private Rotation2d usableRotation = Rotation2d.fromDegrees(0.0);
+  private Angle usableTurretAngle = Degrees.of(0);
 
   private Pose2d lastLookaheadRobotPose = new Pose2d();
 
@@ -63,13 +63,7 @@ public class LaunchCalculator {
       return latestParameters;
     }
 
-    Pose2d initialPose = SwerveDriveSubsystem.getInstance().getPose();
-    if (Math.abs(initialPose.getRotation().minus(usableRotation).getDegrees())
-        > LaunchConstants.ROTATION_DELTA_THRESHOLD) {
-      usableRotation = initialPose.getRotation();
-    }
-    Pose2d estimatedPose =
-        new Pose2d(SwerveDriveSubsystem.getInstance().getPose().getTranslation(), usableRotation);
+    Pose2d estimatedPose = SwerveDriveSubsystem.getInstance().getPose();
     boolean alliance = SwerveDriveSubsystem.getInstance().isRedAlliance();
     boolean passing =
         (alliance)
@@ -125,10 +119,16 @@ public class LaunchCalculator {
     lastLookaheadRobotPose = lookaheadRobotPose;
     Rotation2d driveAngle = getDriveAngleWithLauncherOffset(lookaheadRobotPose, target);
 
-    Angle turretAngle =
+    Angle initalTurretAngle =
         (passing
             ? getTurretAngleToPassingTarget(lookaheadRobotPose)
             : getTurretAngleToHub(lookaheadRobotPose));
+
+    if (initalTurretAngle.minus(usableTurretAngle).abs(Degree)
+        > LaunchConstants.TURRET_ANGLE_DELTA_THRESHOLD) {
+      usableTurretAngle = initalTurretAngle;
+    }
+    Angle turretAngle = usableTurretAngle;
 
     Angle hoodAngle =
         (passing

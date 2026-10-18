@@ -16,7 +16,7 @@ public class LaunchConstants {
   public static final double maxDist = 2;
   public static final double phaseDelay = 0.03;
 
-  public static final int ROTATION_DELTA_THRESHOLD = 5; // TODO
+  public static final int TURRET_ANGLE_DELTA_THRESHOLD = 2; // TODO
 
   // Hub shooting maps
   public static final InterpolatingDoubleTreeMap hoodAngleMap = new InterpolatingDoubleTreeMap();
