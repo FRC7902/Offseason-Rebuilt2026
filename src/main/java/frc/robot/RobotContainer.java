@@ -96,11 +96,11 @@ public class RobotContainer {
             .copy()
             .scaleTranslation(SwerveDriveConstants.SLOW_MODE_TRANSLATION_SCALE)
             .scaleRotation(SwerveDriveConstants.SLOW_MODE_ROTATION_SCALE);
-    drivePassingSlowAngularVelocity = 
+    drivePassingSlowAngularVelocity =
         driveAngularVelocity
-          .copy()
-          .scaleTranslation(SwerveDriveConstants.PASSING_SLOW_MODE_TRANSLATION_SCALE)
-          .scaleRotation(SwerveDriveConstants.PASSING_SLOW_MODE_ROTATION_SCALE);
+            .copy()
+            .scaleTranslation(SwerveDriveConstants.PASSING_SLOW_MODE_TRANSLATION_SCALE)
+            .scaleRotation(SwerveDriveConstants.PASSING_SLOW_MODE_ROTATION_SCALE);
     driveDirectAngle =
         driveAngularVelocity
             .copy()
@@ -108,10 +108,11 @@ public class RobotContainer {
             .headingWhile(true);
     driveFieldOrientedAngularVelocity =
         m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
-    driveSlowFieldOrientedAngularVelocity = new ConditionalCommand(
-        m_swerveDriveSubsystem.driveFieldOriented(drivePassingSlowAngularVelocity),
-        m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity),
-        () -> LaunchCalculator.getInstance().getParameters().passing());
+    driveSlowFieldOrientedAngularVelocity =
+        new ConditionalCommand(
+            m_swerveDriveSubsystem.driveFieldOriented(drivePassingSlowAngularVelocity),
+            m_swerveDriveSubsystem.driveFieldOriented(driveSlowAngularVelocity),
+            () -> LaunchCalculator.getInstance().getParameters().passing());
 
     driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
 
