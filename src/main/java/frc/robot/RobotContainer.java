@@ -333,7 +333,11 @@ public class RobotContainer {
 
   public void updateImuMode(ImuMode imuMode) {
     SwerveDriveSubsystem.getInstance().getBackLimelight().getSettings().withImuMode(imuMode).save();
-    SwerveDriveSubsystem.getInstance().getFrontLimelight().getSettings().withImuMode(imuMode).save();
+    SwerveDriveSubsystem.getInstance()
+        .getFrontLimelight()
+        .getSettings()
+        .withImuMode(imuMode)
+        .save();
   }
 
   public void updateLimelightThrottle(double throttle) {
