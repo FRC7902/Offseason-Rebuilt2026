@@ -277,11 +277,12 @@ public class RobotContainer {
      * Manual driving for swerve tuning
      */
 
-    m_driverController.povUp().whileTrue(m_swerveDriveSubsystem.driveForward());
-    m_driverController.povDown().whileTrue(m_swerveDriveSubsystem.driveBackward());
+    // m_driverController.povUp().whileTrue(m_swerveDriveSubsystem.driveForward());
+    // m_driverController.povDown().whileTrue(m_swerveDriveSubsystem.driveBackward());
     // m_driverController.povLeft().whileTrue(m_swerveDriveSubsystem.driveLeft());
     // m_driverController.povRight().whileTrue(m_swerveDriveSubsystem.driveRight());
 
+    // Turret manual offset adjustment
     m_driverController.povLeft().onTrue(m_turretSubsystem.moveTurretOffsetLeft());
     m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
   }
