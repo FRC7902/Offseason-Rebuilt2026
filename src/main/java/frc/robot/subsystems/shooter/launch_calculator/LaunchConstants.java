@@ -16,6 +16,8 @@ public class LaunchConstants {
   public static final double maxDist = 5;
   public static final double phaseDelay = 0.03;
 
+  public static final double lookaheadMultiplier = 0.9;
+
   // Hub shooting maps
   public static final InterpolatingDoubleTreeMap hoodAngleMap = new InterpolatingDoubleTreeMap();
   public static final InterpolatingDoubleTreeMap flywheelSpeedMap =

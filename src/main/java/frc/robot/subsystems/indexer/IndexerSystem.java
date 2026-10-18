@@ -40,7 +40,9 @@ public class IndexerSystem extends SubsystemBase {
   }
 
   public Command reverseIndexer() {
-    return Commands.parallel(m_rollerFloor.setDutyCycle(-1), m_indexerBelt.setDutyCycle(-1));
+    return m_rollerFloor
+        .setDutyCycle(-1)
+        .alongWith(m_verticalRoller.setDutyCycle(VerticalRollerConstants.ANTI_JAM_DUTY_CYCLE));
   }
 
   /**
@@ -50,20 +52,22 @@ public class IndexerSystem extends SubsystemBase {
    * @return command that runs indefinitely until interrupted
    */
   public Command feedFuel() {
-    return Commands.parallel(
-        Commands.sequence(
-            Commands.deadline(
+    return Commands.sequence(
+        Commands.deadline(
                 Commands.waitSeconds(0.5),
                 m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
-                m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE)),
-            Commands.sequence(
-                    Commands.parallel(m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED))
-                        .withTimeout(1),
-                    Commands.waitUntil(() -> isStuck()),
-                    Commands.parallel(reverseIndexer()).withTimeout(0.1),
-                    Commands.waitUntil(() -> isReversing()).withTimeout(1))
-                .repeatedly()),
-        m_verticalRoller.setDutyCycle(VerticalRollerConstants.FEEDING_DUTY_CYCLE));
+                m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE))
+            .andThen(
+                Commands.sequence(
+                        Commands.parallel(
+                                m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
+                                m_verticalRoller.setDutyCycle(
+                                    VerticalRollerConstants.FEEDING_DUTY_CYCLE))
+                            .withTimeout(1),
+                        Commands.waitUntil(() -> isStuck()),
+                        Commands.parallel(reverseIndexer()).withTimeout(0.1),
+                        Commands.waitUntil(() -> isReversing()).withTimeout(1))
+                    .repeatedly()));
   }
 
   /**
