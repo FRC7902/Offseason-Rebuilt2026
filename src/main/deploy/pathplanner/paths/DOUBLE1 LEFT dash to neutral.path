@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 8.711989847715735,
-        "y": 6.129847715736041
+        "x": 8.076629441624366,
+        "y": 5.991725888324874
       },
       "prevControl": {
-        "x": 8.926367625493512,
-        "y": 7.679214382402707
+        "x": 8.693573604060916,
+        "y": 7.805725888324874
       },
       "nextControl": null,
       "isLocked": false,
@@ -52,7 +52,7 @@
   "reversed": false,
   "folder": "2 time sweep LEFT paths",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 0.1,
     "rotation": 0.0
   },
   "useDefaultConstraints": true
