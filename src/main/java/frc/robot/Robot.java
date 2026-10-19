@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
+import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.robot.utils.AutoHelper;
 
 public class Robot extends TimedRobot {
@@ -51,6 +52,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
+
+    SwerveDriveSubsystem.getInstance().zeroGyroWithAlliance();
   }
 
   @Override
