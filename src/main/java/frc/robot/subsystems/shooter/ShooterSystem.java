@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -36,7 +37,8 @@ public class ShooterSystem extends SubsystemBase {
 
     return Commands.parallel(
         m_hood.setAngle(() -> launchCalculator.getParameters().hoodAngle()),
-        m_flywheel.setVelocity(() -> launchCalculator.getParameters().flywheelSpeed()));
+        m_flywheel.setVelocity(
+            () -> addFlywheelOffset(launchCalculator.getParameters().flywheelSpeed())));
   }
 
   public Command manualAimAndShoot() {
@@ -44,11 +46,19 @@ public class ShooterSystem extends SubsystemBase {
         // Turret angle is set repeatedly to override the turret's default command
         m_turret.setAngle(TurretConstants.DEFAULT_ANGLE).repeatedly(),
         m_hood.setAngle(HoodConstants.DEFAULT_ANGLE),
-        m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM));
+        m_flywheel.setVelocity(() -> addFlywheelOffset(FlywheelConstants.DEFAULT_RPM)));
   }
 
   public Command flywheelDefaultSpeed() {
-    return m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM);
+    return m_flywheel.setVelocity(() -> addFlywheelOffset(FlywheelConstants.DEFAULT_RPM));
+  }
+
+  public Command moveFlywheelOffsetUp() {
+    return m_flywheel.moveFlywheelOffsetUp();
+  }
+
+  public Command moveFlywheelOffsetDown() {
+    return m_flywheel.moveFlywheelOffsetDown();
   }
 
   /**
@@ -90,8 +100,12 @@ public class ShooterSystem extends SubsystemBase {
   public Command stop() {
     // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
     return Commands.parallel(
-        m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM),
+        m_flywheel.setVelocity(() -> addFlywheelOffset(FlywheelConstants.DEFAULT_RPM)),
         m_hood.setAngle(HoodConstants.MIN_ANGLE));
+  }
+
+  private AngularVelocity addFlywheelOffset(AngularVelocity speed) {
+    return speed.plus(m_flywheel.flywheelOffset);
   }
 
   @Override

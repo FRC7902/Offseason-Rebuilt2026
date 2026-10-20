@@ -285,6 +285,10 @@ public class RobotContainer {
     // Turret manual offset adjustment
     m_driverController.povLeft().onTrue(m_turretSubsystem.moveTurretOffsetLeft());
     m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
+
+    // Flywheel manual offset adjustment
+    m_driverController.povUp().onTrue(m_shooterSystem.moveFlywheelOffsetUp());
+    m_driverController.povDown().onTrue(m_shooterSystem.moveFlywheelOffsetDown());
   }
 
   public Command getAutonomousCommand() {
