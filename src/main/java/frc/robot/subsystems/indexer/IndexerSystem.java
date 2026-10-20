@@ -39,10 +39,8 @@ public class IndexerSystem extends SubsystemBase {
     return m_rollerFloor.getVelocity().lt(RollerFloorConstants.IS_REVERSING_SPEED_MIN);
   }
 
-  public Command reverseIndexer() {
-    return m_rollerFloor
-        .setDutyCycle(-1)
-        .alongWith(m_verticalRoller.setDutyCycle(VerticalRollerConstants.ANTI_JAM_DUTY_CYCLE));
+  public Command reverseRollerFloor() {
+    return m_rollerFloor.setDutyCycle(-1);
   }
 
   /**
@@ -53,19 +51,19 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command feedFuel() {
     return Commands.sequence(
-        Commands.deadline(
-                Commands.waitSeconds(0.5),
+        Commands.parallel(
                 m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
-                m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE))
+                m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
+                m_verticalRoller.setDutyCycle(VerticalRollerConstants.OUTTAKE_DUTY_CYCLE),
+                m_rollerFloor.setDutyCycle(-1))
+            .withDeadline(Commands.waitSeconds(0.5))
             .andThen(
                 Commands.sequence(
-                        Commands.parallel(
-                                m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
-                                m_verticalRoller.setDutyCycle(
-                                    VerticalRollerConstants.FEEDING_DUTY_CYCLE))
+                        m_rollerFloor
+                            .setVelocity(RollerFloorConstants.FEEDING_SPEED)
                             .withTimeout(1),
                         Commands.waitUntil(() -> isStuck()),
-                        Commands.parallel(reverseIndexer()).withTimeout(0.1),
+                        Commands.parallel(reverseRollerFloor()).withTimeout(0.1),
                         Commands.waitUntil(() -> isReversing()).withTimeout(1))
                     .repeatedly()));
   }
