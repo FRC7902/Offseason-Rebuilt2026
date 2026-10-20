@@ -194,7 +194,6 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
-                m_indexerSystem.reverseIndexer().withTimeout(0.5),
                 Commands.parallel(
                     m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
                     )))
@@ -240,13 +239,8 @@ public class RobotContainer {
         .and(shootTrigger.negate())
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(
-            m_indexerSystem
-                .reverseIndexer()
-                .withTimeout(0.5)
-                .andThen(
-                    Commands.parallel(
-                        m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
-                        )))
+            m_intakeSystem.shuffle().alongWith(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+            )
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Intake button is pressed, but manual shoot button is not pressed
@@ -270,7 +264,7 @@ public class RobotContainer {
 
     outtakeTrigger
         .onTrue(m_intakeSystem.extendAndOuttake())
-        .onTrue(m_indexerSystem.reverseIndexer());
+        .onTrue(m_indexerSystem.reverseRollerFloor());
 
     outtakeTrigger.onFalse(m_intakeSystem.stop()).onFalse(m_indexerSystem.stop());
     /*

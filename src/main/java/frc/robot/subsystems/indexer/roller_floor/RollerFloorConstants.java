@@ -29,7 +29,7 @@ public class RollerFloorConstants {
   public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
   public static final double STORING_DUTY_CYCLE = 0.10;
 
-  public static final AngularVelocity IS_REVERSING_SPEED_MIN = RPM.of(-500);
+  public static final AngularVelocity IS_REVERSING_SPEED_MIN = RPM.of(-250);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
