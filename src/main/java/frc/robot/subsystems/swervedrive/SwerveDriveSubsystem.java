@@ -9,6 +9,7 @@ import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -590,6 +591,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           if (poseEstimate.avgTagDist < 4
               && poseEstimate.tagCount > 1
               && poseEstimate.getMinTagAmbiguity() < 0.2) {
+
+            // Set the standard deviation of the vision measurement based on the average tag
+            // distance. This will help the pose estimator weigh the vision measurement
+            // appropriately.
+            double scalar =
+                SwerveDriveConstants.BASE_STD_DEV * Math.pow(poseEstimate.avgTagDist, 2);
+            getSwerveDrive().setVisionMeasurementStdDevs(VecBuilder.fill(scalar, scalar, 9999999));
+
             getSwerveDrive()
                 .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
           }
@@ -614,6 +623,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           if (poseEstimate.avgTagDist < 4
               && poseEstimate.tagCount > 1
               && poseEstimate.getMinTagAmbiguity() < 0.2) {
+
+            // Set the standard deviation of the vision measurement based on the average tag
+            // distance. This will help the pose estimator weigh the vision measurement
+            // appropriately.
+            double scalar =
+                SwerveDriveConstants.BASE_STD_DEV * Math.pow(poseEstimate.avgTagDist, 2);
+            getSwerveDrive().setVisionMeasurementStdDevs(VecBuilder.fill(scalar, scalar, 9999999));
+
             getSwerveDrive()
                 .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
           }
