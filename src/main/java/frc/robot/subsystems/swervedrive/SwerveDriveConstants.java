@@ -35,4 +35,6 @@ public final class SwerveDriveConstants {
       new Translation2d(15.973375 - 0.5, 2.01725);
   public static final Translation2d RED_RIGHT_FEEDING_TARGET =
       new Translation2d(15.973375 - 0.5, 6.05175);
+
+  public static final double BASE_STD_DEV = 0.5;
 }
