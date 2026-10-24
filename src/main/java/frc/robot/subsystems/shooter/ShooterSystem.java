@@ -71,7 +71,7 @@ public class ShooterSystem extends SubsystemBase {
    *     aimed correctly
    */
   public boolean isShooterReady() {
-    return m_flywheel.isAtSetpoint() && m_hood.isHoodReadyToShoot() && m_turret.isAtSetpoint();
+    return m_flywheel.isAtSetpoint() && m_hood.isHoodReadyToShoot();
   }
 
   public boolean isTurretReady() {

@@ -27,6 +27,7 @@ public class FeederConstants {
   public static final AngularVelocity FEEDER_SPEED = MAX_SPEED;
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;
+  public static final double REVERSE_DUTY_CYCLE = -1.0;
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
