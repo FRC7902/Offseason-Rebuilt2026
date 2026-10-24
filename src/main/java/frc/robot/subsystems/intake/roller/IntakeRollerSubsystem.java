@@ -1,5 +1,6 @@
 package frc.robot.subsystems.intake.roller;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -9,12 +10,12 @@ public class IntakeRollerSubsystem extends SubsystemBase {
   private static IntakeRollerSubsystem m_instance;
 
   /** PWM motor controller for the intake. */
-  private final PWMTalonFX m_rollerMotor;
+  private final TalonFX m_rollerMotor;
 
   /** Constructs the intake subsystem and initializes the motor controller. */
   private IntakeRollerSubsystem() {
 
-    m_rollerMotor = new PWMTalonFX(IntakeRollerConstants.PWM_ID);
+    m_rollerMotor = new TalonFX(IntakeRollerConstants.CAN_ID);
   }
 
   public static IntakeRollerSubsystem getInstance() {
