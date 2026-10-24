@@ -50,7 +50,7 @@ public class LinearIntakeConstants {
           .withTelemetry(
               "LinearIntakeMotor",
               new SmartMotorControllerTelemetryConfig()
-                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("LinearIntakeMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))

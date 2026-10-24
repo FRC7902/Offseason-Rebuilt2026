@@ -44,7 +44,7 @@ public class TurretConstants {
           .withTelemetry(
               "TurretMotor",
               new SmartMotorControllerTelemetryConfig()
-                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("TurretMotor") // TODO: Enable data logging once USB stick is
                   // connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))

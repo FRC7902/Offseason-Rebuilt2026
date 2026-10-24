@@ -40,7 +40,7 @@ public class RollerFloorConstants {
           .withTelemetry(
               "RollerFloorMotor",
               new SmartMotorControllerTelemetryConfig()
-                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("RollerFloorMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))

@@ -115,7 +115,7 @@ public class LaunchCalculator {
     Distance lookaheadLauncherToTargetDistance = launcherToTargetDistance;
     SmartDashboard.putNumber("launcherToTargetDistance", launcherToTargetDistance.in(Meters));
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 10; i++) {
       timeOfFlight =
           passing
               ? passingTimeOfFlightMap.get(lookaheadLauncherToTargetDistance.in(Meters))

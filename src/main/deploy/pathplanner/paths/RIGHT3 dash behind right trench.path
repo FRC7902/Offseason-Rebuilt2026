@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.903512690355329,
-        "y": 2.1795634517766507
+        "x": 4.752497461928934,
+        "y": 2.529472081218275
       },
       "isLocked": false,
       "linkedName": "SecondPathEndMirror"
@@ -42,7 +42,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 6.0,
+    "maxVelocity": 5.0,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -54,10 +54,10 @@
     "rotation": -147.52880770915155
   },
   "reversed": false,
-  "folder": "RIGHT paths",
+  "folder": null,
   "idealStartingState": {
-    "velocity": 9999.0,
-    "rotation": 180.0
+    "velocity": 5.0,
+    "rotation": -135.0
   },
   "useDefaultConstraints": false
 }
