@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter.launch_calculator;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Radians;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.flywheelSpeedMap;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.fudgeFactor;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.hoodAngleMap;
@@ -144,17 +145,21 @@ public class LaunchCalculator {
 
     Angle cosineFudgeFactor =
         Degrees.of(
-            Math.cos(
-                    SwerveDriveSubsystem.getInstance()
-                        .getPose()
-                        .getTranslation()
-                        .minus(target)
-                        .getAngle()
-                        .minus(SwerveDriveSubsystem.getInstance().getRotation())
-                        .getRadians())
+            Math.sin(
+                    TurretSubsystem.getPose()
+                            .getTranslation()
+                            .minus(target)
+                            .getAngle()
+                            .minus(SwerveDriveSubsystem.getInstance().getRotation())
+                            .getRadians()
+                        - Degrees.of(90).in(Radians))
                 * LaunchConstants.fudgeFactor);
     Angle distanceFudgeFactor =
-        Degrees.of(lookaheadLauncherToTargetDistance.magnitude() / 7.0 * fudgeFactor);
+        Degrees.of(
+            lookaheadLauncherToTargetDistance.magnitude()
+                / 7.0
+                * fudgeFactor
+                * 0); // TODO: Multiplied by 0 to disable
 
     turretAngle = turretAngle.plus(cosineFudgeFactor);
     if (cosineFudgeFactor.gt(Degrees.of(0))) {
