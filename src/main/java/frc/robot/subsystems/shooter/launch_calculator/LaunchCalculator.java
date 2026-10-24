@@ -144,7 +144,14 @@ public class LaunchCalculator {
 
     Angle cosineFudgeFactor =
         Degrees.of(
-            Math.cos(SwerveDriveSubsystem.getInstance().getRotation().getRadians())
+            Math.cos(
+                    SwerveDriveSubsystem.getInstance()
+                        .getPose()
+                        .getTranslation()
+                        .minus(target)
+                        .getAngle()
+                        .minus(SwerveDriveSubsystem.getInstance().getRotation())
+                        .getRadians())
                 * LaunchConstants.fudgeFactor);
     Angle distanceFudgeFactor =
         Degrees.of(lookaheadLauncherToTargetDistance.magnitude() / 7.0 * fudgeFactor);
