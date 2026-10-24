@@ -150,6 +150,7 @@ public class LaunchCalculator {
                         .getTranslation()
                         .minus(target)
                         .getAngle()
+                        .minus(SwerveDriveSubsystem.getInstance().getRotation())
                         .getRadians())
                 * LaunchConstants.fudgeFactor);
     Angle distanceFudgeFactor =
