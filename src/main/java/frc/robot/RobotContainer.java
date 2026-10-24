@@ -47,6 +47,8 @@ public class RobotContainer {
 
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
 
+  private Trigger turretLost;
+
   private double applyDriverTranslationStickCurve(double input) {
     return Math.copySign(
         Math.pow(Math.abs(input), SwerveDriveConstants.DRIVER_TRANSLATION_STICK_CURVE_EXPONENT),
@@ -146,9 +148,11 @@ public class RobotContainer {
             HoodSubsystem.getInstance(),
             TurretSubsystem.getInstance());
 
+    turretLost = new Trigger (()-> !m_shooterSystem.isTurretReady()).debounce(0.1);
+
     NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
     NamedCommands.registerCommand("stopIntake", m_intakeSystem.stop());
-    NamedCommands.registerCommand("feedFuel", m_indexerSystem.feedFuel());
+    NamedCommands.registerCommand("feedFuel", gatedFeed(false));
     NamedCommands.registerCommand("storeFuel", m_indexerSystem.storeFuel());
     NamedCommands.registerCommand("aimAndShoot", m_shooterSystem.aimAndShoot());
 
@@ -161,6 +165,17 @@ public class RobotContainer {
 
   public Command setFlywheelDefaultSpeed() {
     return m_shooterSystem.flywheelDefaultSpeed();
+  }
+
+  private Command gatedFeed(boolean shuffleIntake) {
+    Command feed =
+      shuffleIntake
+        ? Commands.parallel(m_intakeSystem.shuffle(), m_indexerSystem.feedFuel())
+        : m_indexerSystem.feedFuel();
+    return Commands.repeatingSequence(
+      m_indexerSystem.stop().until(m_shooterSystem::isTurretReady),
+      feed.until(turretLost),
+      m_indexerSystem.reverseBeltAndFeeder().withTimeout(0.2));
   }
 
   private void configureBindings() {
@@ -195,9 +210,7 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 m_indexerSystem.reverseIndexer().withTimeout(0.5),
-                Commands.parallel(
-                    m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
-                    )))
+              gatedFeed(true)))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Intake button is pressed, but shoot button is not pressed
@@ -218,7 +231,7 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
-                m_indexerSystem.feedFuel())) // Feed fuel to shooter
+                gatedFeed(false)))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Manual Shoot Button Bindings
