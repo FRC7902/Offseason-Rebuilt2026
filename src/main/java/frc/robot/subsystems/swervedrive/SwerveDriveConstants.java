@@ -8,7 +8,7 @@ import edu.wpi.first.units.measure.Angle;
 
 public final class SwerveDriveConstants {
   public static final double MAX_SPEED =
-      Units.feetToMeters(10); // TODO: Try increasing this to see if it
+      Units.feetToMeters(12); // TODO: Try increasing this to see if it
   // does
   // anything
   public static final double DRIVER_TRANSLATION_STICK_CURVE_EXPONENT = 2.0;
@@ -35,4 +35,6 @@ public final class SwerveDriveConstants {
       new Translation2d(15.973375 - 0.5, 2.01725);
   public static final Translation2d RED_RIGHT_FEEDING_TARGET =
       new Translation2d(15.973375 - 0.5, 6.05175);
+
+  public static final double BASE_STD_DEV = 0.5;
 }

@@ -2,13 +2,13 @@ package frc.robot.subsystems.swervedrive;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meter;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -21,18 +21,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import frc.robot.utils.LimelightHelpers;
+import frc.robot.utils.LimelightHelpers.PoseEstimate;
 import java.io.File;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-import limelight.Limelight;
-import limelight.networktables.AngularVelocity3d;
-import limelight.networktables.LimelightPoseEstimator;
-import limelight.networktables.LimelightPoseEstimator.EstimationMode;
-import limelight.networktables.LimelightSettings.LEDMode;
-import limelight.networktables.Orientation3d;
-import limelight.networktables.PoseEstimate;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -46,10 +40,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private static SwerveDriveSubsystem m_instance;
 
-  Limelight m_limelightA = new Limelight("limelight-a"); // TODO: Update limelight name
-  LimelightPoseEstimator m_poseEstimatorA;
-  Limelight m_limelightB = new Limelight("limelight-c"); // TODO: Update limelight name
-  LimelightPoseEstimator m_poseEstimatorB;
+  private static final String LIMELIGHT_A_NAME = "limelight-a";
+  private static final String LIMELIGHT_B_NAME = "limelight-c";
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -173,13 +165,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   private void setupLimelight() {
-    m_limelightA.getSettings().withLimelightLEDMode(LEDMode.PipelineControl).save();
-
-    m_poseEstimatorA = m_limelightA.createPoseEstimator(EstimationMode.MEGATAG1);
-
-    m_limelightB.getSettings().withLimelightLEDMode(LEDMode.PipelineControl).save();
-
-    m_poseEstimatorB = m_limelightB.createPoseEstimator(EstimationMode.MEGATAG1);
+    LimelightHelpers.setLEDMode_PipelineControl(LIMELIGHT_A_NAME);
+    LimelightHelpers.setLEDMode_PipelineControl(LIMELIGHT_B_NAME);
   }
 
   /**
@@ -571,53 +558,24 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   private void localize() {
-    m_limelightA
-        .getSettings()
-        .withRobotOrientation(
-            new Orientation3d(
-                swerveDrive.getGyroRotation3d(),
-                new AngularVelocity3d(
-                    RadiansPerSecond.of(swerveDrive.getRobotVelocity().omegaRadiansPerSecond),
-                    RadiansPerSecond.of(0),
-                    RadiansPerSecond.of(0))))
-        .save();
+    addLimelightMeasurement(LIMELIGHT_A_NAME);
+    addLimelightMeasurement(LIMELIGHT_B_NAME);
+  }
 
-    Optional<PoseEstimate> visionEstimateA = m_poseEstimatorA.getPoseEstimate();
+  private void addLimelightMeasurement(String limelightName) {
+    PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightName);
+    double minTagAmbiguity =
+        Arrays.stream(poseEstimate.rawFiducials)
+            .mapToDouble(fiducial -> fiducial.ambiguity)
+            .min()
+            .orElse(Double.POSITIVE_INFINITY);
 
-    visionEstimateA.ifPresent(
-        (PoseEstimate poseEstimate) -> {
-          // Reject long-range or ambiguous reads before fusing.
-          if (poseEstimate.avgTagDist < 4
-              && poseEstimate.tagCount > 1
-              && poseEstimate.getMinTagAmbiguity() < 0.2) {
-            getSwerveDrive()
-                .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
-          }
-        });
-
-    m_limelightB
-        .getSettings()
-        .withRobotOrientation(
-            new Orientation3d(
-                swerveDrive.getGyroRotation3d(),
-                new AngularVelocity3d(
-                    RadiansPerSecond.of(swerveDrive.getRobotVelocity().omegaRadiansPerSecond),
-                    RadiansPerSecond.of(0),
-                    RadiansPerSecond.of(0))))
-        .save();
-
-    Optional<PoseEstimate> visionEstimateB = m_poseEstimatorB.getPoseEstimate();
-
-    visionEstimateB.ifPresent(
-        (PoseEstimate poseEstimate) -> {
-          // Reject long-range or ambiguous reads before fusing.
-          if (poseEstimate.avgTagDist < 4
-              && poseEstimate.tagCount > 1
-              && poseEstimate.getMinTagAmbiguity() < 0.2) {
-            getSwerveDrive()
-                .addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
-          }
-        });
+    // Reject long-range or ambiguous reads before fusing.
+    if (poseEstimate.avgTagDist < 4 && poseEstimate.tagCount > 1 && minTagAmbiguity < 0.2) {
+      double scalar = SwerveDriveConstants.BASE_STD_DEV * Math.pow(poseEstimate.avgTagDist, 2);
+      swerveDrive.setVisionMeasurementStdDevs(VecBuilder.fill(scalar, scalar, 9999999));
+      swerveDrive.addVisionMeasurement(poseEstimate.pose, poseEstimate.timestampSeconds);
+    }
   }
 
   @Override
