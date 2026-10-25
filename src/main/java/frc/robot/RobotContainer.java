@@ -295,6 +295,9 @@ public class RobotContainer {
     m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
     m_driverController.povUp().onTrue(m_flywheelSubsystem.increaseFlywheelOffsetSpeed());
     m_driverController.povDown().onTrue(m_flywheelSubsystem.decreaseFlywheelOffsetSpeed());
+
+    m_driverController.square().onTrue(m_swerveDriveSubsystem.setSpeedCommand(true));
+    m_driverController.cross().onTrue(m_swerveDriveSubsystem.setSpeedCommand(false));
   }
 
   public Command getAutonomousCommand() {
