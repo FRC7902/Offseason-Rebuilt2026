@@ -84,8 +84,8 @@ public class LaunchCalculator {
     boolean alliance = SwerveDriveSubsystem.getInstance().isRedAlliance();
     boolean passing =
         (alliance)
-            ? (estimatedPose.getX() < FieldConstants.RED_STARTING_LINE_X)
-            : (estimatedPose.getX() > FieldConstants.BLUE_STARTING_LINE_X);
+            ? (estimatedPose.getX() < FieldConstants.RED_HUB_CENTER.getX())
+            : (estimatedPose.getX() > FieldConstants.BLUE_HUB_CENTER.getX());
     ChassisSpeeds robotRelativeVelocity = SwerveDriveSubsystem.getInstance().getRobotVelocity();
     estimatedPose =
         estimatedPose.exp(
