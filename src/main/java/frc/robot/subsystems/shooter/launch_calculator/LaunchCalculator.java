@@ -31,6 +31,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.FieldConstants;
+import frc.robot.subsystems.shooter.flywheel.FlywheelSubsystem;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
@@ -165,9 +166,10 @@ public class LaunchCalculator {
     if (lastHoodAngle == null || Double.isNaN(lastHoodAngle.in(Degrees))) lastHoodAngle = hoodAngle;
 
     AngularVelocity flywheelVelocity =
-        passing
-            ? RPM.of(passingFlywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)))
-            : RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
+        (passing
+                ? RPM.of(passingFlywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)))
+                : RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters))))
+            .plus(FlywheelSubsystem.getInstance().flywheelOffset);
 
     // AngularVelocity flywheelVelocity =
     //     RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)));

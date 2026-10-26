@@ -45,6 +45,7 @@ public class RobotContainer {
   private final LinearIntakeSubsystem m_linearIntakeSubsystem;
   private final HoodSubsystem m_hoodSubsystem;
   private final TurretSubsystem m_turretSubsystem;
+  private final FlywheelSubsystem m_flywheelSubsystem;
 
   private final SwerveDriveSubsystem m_swerveDriveSubsystem;
 
@@ -132,6 +133,7 @@ public class RobotContainer {
     m_linearIntakeSubsystem = LinearIntakeSubsystem.getInstance();
     m_hoodSubsystem = HoodSubsystem.getInstance();
     m_turretSubsystem = TurretSubsystem.getInstance();
+    m_flywheelSubsystem = FlywheelSubsystem.getInstance();
 
     m_indexerSystem =
         new IndexerSystem(
@@ -291,6 +293,8 @@ public class RobotContainer {
     // Turret manual offset adjustment
     m_driverController.povLeft().onTrue(m_turretSubsystem.moveTurretOffsetLeft());
     m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
+    m_driverController.povUp().onTrue(m_flywheelSubsystem.increaseFlywheelOffsetSpeed());
+    m_driverController.povDown().onTrue(m_flywheelSubsystem.decreaseFlywheelOffsetSpeed());
   }
 
   public Command getAutonomousCommand() {
