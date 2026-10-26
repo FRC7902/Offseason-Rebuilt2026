@@ -13,14 +13,17 @@ import frc.robot.subsystems.indexer.roller_floor.RollerFloorConstants;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
 import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerConstants;
 import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerSubsystem;
+import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 
 public class IndexerSystem extends SubsystemBase {
   private final IndexerBeltSubsystem m_indexerBelt;
   private final FeederSubsystem m_feeder;
   private final RollerFloorSubsystem m_rollerFloor;
   private final VerticalRollerSubsystem m_verticalRoller;
+  private final HoodSubsystem m_hoodSubsystem;
 
   public IndexerSystem(
+      HoodSubsystem hoodSubsystem,
       IndexerBeltSubsystem indexerBelt,
       FeederSubsystem feeder,
       RollerFloorSubsystem rollerFloor,
@@ -29,6 +32,7 @@ public class IndexerSystem extends SubsystemBase {
     m_feeder = feeder;
     m_rollerFloor = rollerFloor;
     m_verticalRoller = verticalRoller;
+    m_hoodSubsystem = hoodSubsystem;
   }
 
   public boolean isStuck() {
@@ -47,12 +51,14 @@ public class IndexerSystem extends SubsystemBase {
 
   /**
    * Creates a command that runs the roller floor, indexer belt, and feeder simultaneously to move
-   * fuel through the indexer system.
+   * fuel through the indexer system. Will not run when hood lowered in hood safety mode.
    *
    * @return command that runs indefinitely until interrupted
    */
   public Command feedFuel() {
-    return Commands.sequence(
+    return Commands.either(
+      stop(),
+      Commands.sequence(
         Commands.deadline(
                 Commands.waitSeconds(0.5),
                 m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
@@ -67,7 +73,9 @@ public class IndexerSystem extends SubsystemBase {
                         Commands.waitUntil(() -> isStuck()),
                         Commands.parallel(reverseIndexer()).withTimeout(0.1),
                         Commands.waitUntil(() -> isReversing()).withTimeout(1))
-                    .repeatedly()));
+                    .repeatedly())),
+      () -> m_hoodSubsystem.isInTrenchSafetyZone()
+    );
   }
 
   /**

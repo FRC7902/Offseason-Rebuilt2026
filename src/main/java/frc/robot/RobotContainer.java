@@ -134,6 +134,7 @@ public class RobotContainer {
 
     m_indexerSystem =
         new IndexerSystem(
+            HoodSubsystem.getInstance(),
             IndexerBeltSubsystem.getInstance(),
             FeederSubsystem.getInstance(),
             RollerFloorSubsystem.getInstance(),
