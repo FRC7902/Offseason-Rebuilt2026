@@ -57,25 +57,33 @@ public class IndexerSystem extends SubsystemBase {
    */
   public Command feedFuel() {
     return Commands.either(
-      stop(),
-      Commands.sequence(
-        Commands.deadline(
-                Commands.waitSeconds(0.5),
-                m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
-                m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE))
-            .andThen(
-                Commands.sequence(
-                        Commands.parallel(
-                                m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
-                                m_verticalRoller.setDutyCycle(
-                                    VerticalRollerConstants.FEEDING_DUTY_CYCLE))
-                            .withTimeout(1),
-                        Commands.waitUntil(() -> isStuck()),
-                        Commands.parallel(reverseIndexer()).withTimeout(0.1),
-                        Commands.waitUntil(() -> isReversing()).withTimeout(1))
-                    .repeatedly())),
-      () -> m_hoodSubsystem.isInTrenchSafetyZone()
-    );
+            Commands.deadline(
+                Commands.waitUntil(() -> !m_hoodSubsystem.isInTrenchSafetyZone()),
+                stop()), // stop needs end condition, this ends once robot exits trench
+            Commands.sequence( // feed fuel normally
+                    Commands.deadline(
+                            Commands.waitSeconds(0.5),
+                            m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
+                            m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE))
+                        .andThen(
+                            Commands.sequence(
+                                    Commands.parallel(
+                                            m_rollerFloor.setVelocity(
+                                                RollerFloorConstants.FEEDING_SPEED),
+                                            m_verticalRoller.setDutyCycle(
+                                                VerticalRollerConstants.FEEDING_DUTY_CYCLE))
+                                        .withTimeout(1),
+                                    Commands.waitUntil(() -> isStuck()),
+                                    Commands.parallel(reverseIndexer()).withTimeout(0.1),
+                                    Commands.waitUntil(() -> isReversing()).withTimeout(1))
+                                .repeatedly()))
+                .onlyWhile(
+                    () ->
+                        !m_hoodSubsystem
+                            .isInTrenchSafetyZone()), // finish when driving into trench so
+            // .repeatedly picks the stop() branch
+            () -> m_hoodSubsystem.isInTrenchSafetyZone()) // condition if robot is in trench
+        .repeatedly();
   }
 
   /**
