@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -44,8 +45,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private static final String LIMELIGHT_A_NAME = "limelight-a";
   private static final String LIMELIGHT_B_NAME = "limelight-c";
   private boolean fastMode = false;
-
-  
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -92,9 +91,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     setupPathPlanner();
     setupLimelight();
   }
-  
+
   public Command setSpeedCommand(boolean s) {
     return Commands.runOnce(() -> fastMode = s);
+  }
+
+  public boolean getSpeedMode() {
+    return fastMode;
   }
 
   public static SwerveDriveSubsystem getInstance() {
@@ -257,8 +260,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         .finallyDo(() -> swerveDrive.drive(new Translation2d(0, 0), 0, false, false));
   }
 
-  
-
   /**
    * Command to drive the robot using translative values and heading as angular velocity.
    *
@@ -277,7 +278,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
                   new Translation2d(
                       translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
                       translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()),
-                  fastMode ? 1.0 : 0.8),
+                  0.8),
               Math.pow(angularRotationX.getAsDouble(), 3)
                   * swerveDrive.getMaximumChassisAngularVelocity(),
               true,
@@ -590,6 +591,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("fastMode", fastMode);
     localize();
   }
 

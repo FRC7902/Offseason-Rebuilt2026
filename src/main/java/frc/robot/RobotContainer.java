@@ -64,6 +64,7 @@ public class RobotContainer {
   }
 
   SwerveInputStream driveAngularVelocity;
+  SwerveInputStream driveFastAngularVelocity;
   SwerveInputStream driveSlowAngularVelocity;
   SwerveInputStream drivePassingSlowAngularVelocity;
   SwerveInputStream driveDirectAngle;
@@ -91,8 +92,9 @@ public class RobotContainer {
                 this::getCurvedDriverLeftX)
             .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
             .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
-            .scaleTranslation(1.0)
+            .scaleTranslation(0.8)
             .allianceRelativeControl(true);
+    driveFastAngularVelocity = driveAngularVelocity.copy().scaleTranslation(1.0);
     driveSlowAngularVelocity =
         driveAngularVelocity
             .copy()
@@ -109,7 +111,12 @@ public class RobotContainer {
             .withControllerHeadingAxis(m_driverController::getRightX, m_driverController::getRightY)
             .headingWhile(true);
     driveFieldOrientedAngularVelocity =
-        m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
+        m_swerveDriveSubsystem.driveFieldOriented(
+            () ->
+                m_swerveDriveSubsystem.getSpeedMode()
+                    ? driveFastAngularVelocity.get()
+                    : driveAngularVelocity.get());
+
     driveSlowFieldOrientedAngularVelocity =
         new ConditionalCommand(
             m_swerveDriveSubsystem.driveFieldOriented(drivePassingSlowAngularVelocity),

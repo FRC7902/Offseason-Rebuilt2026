@@ -8,7 +8,7 @@ import edu.wpi.first.units.measure.Angle;
 
 public final class SwerveDriveConstants {
   public static final double MAX_SPEED =
-      Units.feetToMeters(12); // TODO: Try increasing this to see if it
+      Units.feetToMeters(15); // TODO: Try increasing this to see if it
   // does
   // anything
 
