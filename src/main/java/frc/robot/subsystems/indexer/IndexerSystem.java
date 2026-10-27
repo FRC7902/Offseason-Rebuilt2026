@@ -20,10 +20,8 @@ public class IndexerSystem extends SubsystemBase {
   private final FeederSubsystem m_feeder;
   private final RollerFloorSubsystem m_rollerFloor;
   private final VerticalRollerSubsystem m_verticalRoller;
-  private final HoodSubsystem m_hoodSubsystem;
 
   public IndexerSystem(
-      HoodSubsystem hoodSubsystem,
       IndexerBeltSubsystem indexerBelt,
       FeederSubsystem feeder,
       RollerFloorSubsystem rollerFloor,
@@ -32,7 +30,6 @@ public class IndexerSystem extends SubsystemBase {
     m_feeder = feeder;
     m_rollerFloor = rollerFloor;
     m_verticalRoller = verticalRoller;
-    m_hoodSubsystem = hoodSubsystem;
   }
 
   public boolean isStuck() {
@@ -58,7 +55,7 @@ public class IndexerSystem extends SubsystemBase {
   public Command feedFuel() {
     return Commands.either(
             Commands.deadline(
-                Commands.waitUntil(() -> !m_hoodSubsystem.isInTrenchSafetyZone()),
+                Commands.waitUntil(() -> HoodSubsystem.getInstance().isInTrenchSafetyZone()),
                 stop()), // stop needs end condition, this ends once robot exits trench
             Commands.sequence( // feed fuel normally
                     Commands.deadline(
@@ -78,11 +75,9 @@ public class IndexerSystem extends SubsystemBase {
                                     Commands.waitUntil(() -> isReversing()).withTimeout(1))
                                 .repeatedly()))
                 .onlyWhile(
-                    () ->
-                        !m_hoodSubsystem
-                            .isInTrenchSafetyZone()), // finish when driving into trench so
+                    () -> HoodSubsystem.getInstance().isInTrenchSafetyZone()), // finish when driving into trench so
             // .repeatedly picks the stop() branch
-            () -> m_hoodSubsystem.isInTrenchSafetyZone()) // condition if robot is in trench
+            () -> HoodSubsystem.getInstance().isInTrenchSafetyZone()) // condition if robot is in trench
         .repeatedly();
   }
 
