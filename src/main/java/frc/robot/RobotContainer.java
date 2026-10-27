@@ -92,9 +92,9 @@ public class RobotContainer {
                 this::getCurvedDriverLeftX)
             .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
             .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
-            .scaleTranslation(0.8)
+            .scaleTranslation(SwerveDriveConstants.NORMAL_SPEED_MULTIPLIER)
             .allianceRelativeControl(true);
-    driveFastAngularVelocity = driveAngularVelocity.copy().scaleTranslation(1.0);
+    driveFastAngularVelocity = driveAngularVelocity.copy().scaleTranslation(SwerveDriveConstants.FAST_SPEED_MULTIPLIER);
     driveSlowAngularVelocity =
         driveAngularVelocity
             .copy()
