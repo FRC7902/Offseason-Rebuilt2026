@@ -3,9 +3,7 @@ package frc.robot.subsystems.shooter.launch_calculator;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Radians;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.flywheelSpeedMap;
-import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.fudgeFactor;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.hoodAngleMap;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.passingFlywheelSpeedMap;
 import static frc.robot.subsystems.shooter.launch_calculator.LaunchConstants.passingHoodAngleMap;
@@ -116,7 +114,7 @@ public class LaunchCalculator {
     Distance lookaheadLauncherToTargetDistance = launcherToTargetDistance;
     SmartDashboard.putNumber("launcherToTargetDistance", launcherToTargetDistance.in(Meters));
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 10; i++) {
       timeOfFlight =
           passing
               ? passingTimeOfFlightMap.get(lookaheadLauncherToTargetDistance.in(Meters))
@@ -145,28 +143,16 @@ public class LaunchCalculator {
 
     Angle cosineFudgeFactor =
         Degrees.of(
-            Math.sin(
-                    TurretSubsystem.getPose()
-                            .getTranslation()
-                            .minus(target)
-                            .getAngle()
-                            .minus(SwerveDriveSubsystem.getInstance().getRotation())
-                            .getRadians()
-                        - Degrees.of(90).in(Radians))
+            Math.cos(
+                    TurretSubsystem.getPose(SwerveDriveSubsystem.getInstance().getPose())
+                        .getTranslation()
+                        .minus(target)
+                        .getAngle()
+                        .minus(SwerveDriveSubsystem.getInstance().getRotation())
+                        .getRadians())
                 * LaunchConstants.fudgeFactor);
-    Angle distanceFudgeFactor =
-        Degrees.of(
-            lookaheadLauncherToTargetDistance.magnitude()
-                / 7.0
-                * fudgeFactor
-                * 0); // TODO: Multiplied by 0 to disable
 
-    turretAngle = turretAngle.plus(cosineFudgeFactor);
-    if (cosineFudgeFactor.gt(Degrees.of(0))) {
-      turretAngle = turretAngle.minus(distanceFudgeFactor);
-    } else {
-      turretAngle = turretAngle.plus(distanceFudgeFactor);
-    }
+    turretAngle = turretAngle.minus(cosineFudgeFactor);
 
     Angle hoodAngle =
         (passing

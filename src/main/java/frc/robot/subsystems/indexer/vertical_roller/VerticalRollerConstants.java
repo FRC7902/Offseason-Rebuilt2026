@@ -27,9 +27,9 @@ public class VerticalRollerConstants {
   public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
 
   // Positive is outtake, negative is intake direction
-  public static final double FEEDING_DUTY_CYCLE = -0.10;
-  public static final double ANTI_JAM_DUTY_CYCLE = 0.10;
-  public static final double STORING_DUTY_CYCLE = 0.2;
+  public static final double FEEDING_DUTY_CYCLE = -0.4;
+  public static final double ANTI_JAM_DUTY_CYCLE = 0.4;
+  public static final double STORING_DUTY_CYCLE = 0.4;
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
@@ -40,7 +40,7 @@ public class VerticalRollerConstants {
           .withTelemetry(
               "VerticalRollerMotor",
               new SmartMotorControllerTelemetryConfig()
-                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("VerticalRollerMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))

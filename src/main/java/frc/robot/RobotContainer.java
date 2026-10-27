@@ -31,6 +31,7 @@ import frc.robot.subsystems.shooter.launch_calculator.LaunchCalculator;
 import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+import java.util.function.BooleanSupplier;
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
@@ -167,8 +168,13 @@ public class RobotContainer {
 
     m_swerveDriveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
 
-    Trigger intakeTrigger = m_driverController.L2();
-    Trigger shootTrigger = m_driverController.R2();
+    BooleanSupplier isL2PastThreshold =
+        () -> m_driverController.getL2Axis() > Constants.DRIVER_CONTROLLER_TRIGGER_THRESHOLD;
+    BooleanSupplier isR2PastThreshold =
+        () -> m_driverController.getR2Axis() > Constants.DRIVER_CONTROLLER_TRIGGER_THRESHOLD;
+
+    Trigger intakeTrigger = new Trigger(isL2PastThreshold);
+    Trigger shootTrigger = new Trigger(isR2PastThreshold);
 
     m_driverController
         .options()

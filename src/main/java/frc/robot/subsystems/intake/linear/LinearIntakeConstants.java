@@ -50,12 +50,12 @@ public class LinearIntakeConstants {
           .withTelemetry(
               "LinearIntakeMotor",
               new SmartMotorControllerTelemetryConfig()
-                  // .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
+                  .withTelemetryVerbosity(SmartMotorControllerConfig.TelemetryVerbosity.LOW)
                   // .withDataLogName("LinearIntakeMotor") // TODO: Enable data logging once USB
                   // stick is connected
                   .withNetworkTables(!DriverStation.isFMSAttached()))
-          .withStatorCurrentLimit(Amps.of(40)) // TODO
-          .withSupplyCurrentLimit(Amps.of(10)) // TODO
+          .withStatorCurrentLimit(Amps.of(60)) // TODO
+          .withSupplyCurrentLimit(Amps.of(20)) // TODO
           .withMotorInverted(false)
           .withFeedforward(new ElevatorFeedforward(0.28544, -0.047288, 0.64354, 0.028718))
           .withSimFeedforward(new ElevatorFeedforward(0, 0.1998, 0, 0))

@@ -56,7 +56,7 @@ public class TurretSubsystem extends SubsystemBase {
             .withSubsystem(this)
             .withExternalEncoder(m_cancoder)
             .withExternalEncoderGearing(new MechanismGearing(GearBox.fromStages("3:5")))
-            .withExternalEncoderZeroOffset(Degrees.of(44.3f * 3f / 5f));
+            .withExternalEncoderZeroOffset(Degrees.of(164.3f * 3f / 5f));
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
     turretOffset = Degrees.of(0);
