@@ -31,6 +31,8 @@ public class FlywheelSubsystem extends SubsystemBase {
   private final SmartMotorController m_followerMotor;
   private final FlyWheel m_flywheel;
 
+  public AngularVelocity flywheelOffset;
+
   private FlywheelSubsystem() {
     m_flywheelLeaderMotor = new TalonFX(FlywheelConstants.LEADER_CAN_ID);
     m_flywheelFollowerMotor = new TalonFX(FlywheelConstants.FOLLOWER_CAN_ID);
@@ -45,6 +47,7 @@ public class FlywheelSubsystem extends SubsystemBase {
             FlywheelConstants.LEADER_MOTOR,
             m_leaderMotorConfig.withLooselyCoupledFollowers(m_followerMotor));
     m_flywheel = new FlyWheel(FlywheelConstants.FLY_WHEEL_CONFIG, m_leaderMotor);
+    flywheelOffset = RPM.of(0);
   }
 
   public static FlywheelSubsystem getInstance() {
@@ -214,6 +217,18 @@ public class FlywheelSubsystem extends SubsystemBase {
         .orElse(false);
   }
 
+  public Command increaseFlywheelOffsetSpeed() {
+    return Commands.runOnce(() -> plusFlywheelOffset(50));
+  }
+
+  public Command decreaseFlywheelOffsetSpeed() {
+    return Commands.runOnce(() -> plusFlywheelOffset(-50));
+  }
+
+  public void plusFlywheelOffset(double measure) {
+    flywheelOffset = flywheelOffset.plus(RPM.of(measure));
+  }
+
   @Override
   public void periodic() {
     m_flywheel.updateTelemetry();
@@ -222,6 +237,8 @@ public class FlywheelSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ShooterFlywheelMech/velocity (RPM)", getVelocity().in(RPM));
 
     SmartDashboard.putBoolean("ShooterFlywheelMech/isAtSetpoint", isAtSetpoint());
+    SmartDashboard.putNumber(
+        "ShooterFlywheelMech/flywheelOffset (RPM)", flywheelOffset.baseUnitMagnitude());
   }
 
   @Override
