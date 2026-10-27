@@ -237,7 +237,8 @@ public class FlywheelSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ShooterFlywheelMech/velocity (RPM)", getVelocity().in(RPM));
 
     SmartDashboard.putBoolean("ShooterFlywheelMech/isAtSetpoint", isAtSetpoint());
-    SmartDashboard.putNumber("goon", flywheelOffset.baseUnitMagnitude());
+    SmartDashboard.putNumber(
+        "ShooterFlywheelMech/flywheelOffset (RPM)", flywheelOffset.baseUnitMagnitude());
   }
 
   @Override
