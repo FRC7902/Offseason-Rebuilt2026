@@ -37,15 +37,15 @@ public class LaunchConstants {
   // Values
   static {
     hoodAngleMap.put(1.9176, 0.0);
-    flywheelSpeedMap.put(1.9176, 1850.0);
+    flywheelSpeedMap.put(1.9176, 1750.0);
     timeOfFlightMap.put(1.9176, 0.9350);
 
     hoodAngleMap.put(2.5036, 4.0);
-    flywheelSpeedMap.put(2.5036, 2000.0);
+    flywheelSpeedMap.put(2.5036, 1900.0);
     timeOfFlightMap.put(2.5035564845, 1.07);
 
     hoodAngleMap.put(3.5519, 5.0);
-    flywheelSpeedMap.put(3.5519, 2150.0);
+    flywheelSpeedMap.put(3.5519, 2100.0);
     timeOfFlightMap.put(3.5519, 1.16);
 
     hoodAngleMap.put(4.0, 7.0);
