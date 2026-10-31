@@ -36,7 +36,8 @@ public class LinearIntakeConstants {
 
   public static final Distance FULLY_RETRACTED = Meters.zero();
   public static final Distance FULLY_EXTENDED = Meters.of(0.2630);
-  public static final Distance MIDPOINT_DISTANCE = Meters.of(0.220);
+  public static final Distance SHORT_SHUFFLE_DISTANCE = Meters.of(0.220);
+  public static final Distance FULL_SHUFFLE_DISTANCE = Meters.of (0.18); // TODO
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()

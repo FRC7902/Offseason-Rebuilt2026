@@ -1,5 +1,7 @@
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -7,6 +9,7 @@ import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
+import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 
 public class IntakeSystem extends SubsystemBase {
   private final LinearIntakeSubsystem m_linearIntake;
@@ -52,7 +55,7 @@ public class IntakeSystem extends SubsystemBase {
    */
   public Command stop() {
     return Commands.sequence(
-        m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE), m_intakeRoller.stop());
+        m_linearIntake.setHeight(LinearIntakeConstants.SHORT_SHUFFLE_DISTANCE), m_intakeRoller.stop());
   }
 
   /**
@@ -61,12 +64,16 @@ public class IntakeSystem extends SubsystemBase {
    * <p>If the linear intake starts farther extended than midpoint, the command runs the intake
    * rollers until the intake retracts back to midpoint. Otherwise, intake rollers should not be
    * running.
+   * 
+   * If absolute value of turret angle is above [x, figure this out] intake will do smaller shuffle. Otherwise
+   * it'll do a larger shuffle.
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
   public Command shuffle() {
+    Angle turretAngle = Units.Degrees.of(Math.abs(TurretSubsystem.getInstance().getAngle().in(Units.Degrees)));
     return Commands.sequence(
-            m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE).withTimeout(1),
+            m_linearIntake.setHeight(LinearIntakeConstants.SHORT_SHUFFLE_DISTANCE).withTimeout(1),
             m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
         .repeatedly()
         .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
