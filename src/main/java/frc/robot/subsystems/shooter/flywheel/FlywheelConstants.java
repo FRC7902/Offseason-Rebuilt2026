@@ -26,6 +26,7 @@ public class FlywheelConstants {
 
   public static final AngularVelocity MAX_RPM = RPM.of(5785); // TODO
   public static final AngularVelocity DEFAULT_RPM = RPM.of(1700);
+  public static final AngularVelocity DEFAULT_OFFSET_RPM = RPM.of(0);
 
   public static final AngularVelocity TOLERANCE = RPM.of(100);
 

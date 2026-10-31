@@ -29,6 +29,7 @@ public class TurretConstants {
   public static final Angle MIN_ANGLE = WRAP_POINT.minus(FULL_ROTATION).minus(THRESHOLD); // -205
 
   public static final Angle DEFAULT_ANGLE = Degrees.of(0);
+  public static final Angle DEFAULT_OFFSET_ANGLE = Degrees.of(0);
 
   public static final Angle TOLERANCE = Degrees.of(1);
 

@@ -59,7 +59,7 @@ public class TurretSubsystem extends SubsystemBase {
             .withExternalEncoderZeroOffset(Degrees.of(164.3f * 3f / 5f));
     m_motor = new TalonFXWrapper(m_turretMotor, TurretConstants.MOTOR, m_motorConfig);
     m_turret = new Pivot(TurretConstants.PIVOT_CONFIG, m_motor);
-    turretOffset = Degrees.of(0);
+    turretOffset = TurretConstants.DEFAULT_OFFSET_ANGLE;
   }
 
   public static TurretSubsystem getInstance() {
@@ -277,6 +277,10 @@ public class TurretSubsystem extends SubsystemBase {
 
   public Command moveTurretOffsetRight() {
     return Commands.runOnce(() -> plusTurretOffset(-2));
+  }
+
+  public Command resetTurretOffset() {
+    return Commands.runOnce(() -> turretOffset = TurretConstants.DEFAULT_OFFSET_ANGLE);
   }
 
   public void plusTurretOffset(double measure) {
