@@ -48,13 +48,19 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "MID2 swerve to depot"
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "MID2 swerve to depot"
+                  "pathName": "MID3 drive to depot"
                 }
               },
               {
@@ -70,6 +76,18 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MID4 back out"
           }
         },
         {
