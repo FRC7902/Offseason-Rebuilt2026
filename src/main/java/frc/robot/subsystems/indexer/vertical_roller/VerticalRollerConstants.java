@@ -27,9 +27,9 @@ public class VerticalRollerConstants {
   public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
 
   // Positive is outtake, negative is intake direction
-  public static final double INTAKE_DUTY_CYCLE = -0.10;
-  public static final double OUTTAKE_DUTY_CYCLE = 0.10;
-  public static final double STORING_DUTY_CYCLE = 0.20;
+  public static final double INTAKE_DUTY_CYCLE = -0.40;
+  public static final double OUTTAKE_DUTY_CYCLE = 0.40;
+  public static final double STORING_DUTY_CYCLE = 0.40;
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
