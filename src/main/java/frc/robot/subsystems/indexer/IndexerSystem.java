@@ -56,7 +56,7 @@ public class IndexerSystem extends SubsystemBase {
                 m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
                 m_verticalRoller.setDutyCycle(VerticalRollerConstants.OUTTAKE_DUTY_CYCLE),
                 m_rollerFloor.setDutyCycle(-1))
-            .withDeadline(Commands.waitSeconds(0.5))
+            .withDeadline(Commands.waitSeconds(0.25))
             .andThen(
                 Commands.sequence(
                         m_rollerFloor

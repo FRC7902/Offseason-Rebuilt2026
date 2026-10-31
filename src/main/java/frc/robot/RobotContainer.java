@@ -300,7 +300,7 @@ public class RobotContainer {
 
     m_driverController.square().onTrue(m_swerveDriveSubsystem.setSpeedCommand(true));
     m_driverController.cross().onTrue(m_swerveDriveSubsystem.setSpeedCommand(false));
-    
+
     m_driverController
         .triangle()
         .onTrue(m_turretSubsystem.resetTurretOffset())
