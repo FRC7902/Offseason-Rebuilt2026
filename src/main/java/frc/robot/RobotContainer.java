@@ -94,7 +94,8 @@ public class RobotContainer {
             .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
             .scaleTranslation(SwerveDriveConstants.NORMAL_SPEED_MULTIPLIER)
             .allianceRelativeControl(true);
-    driveFastAngularVelocity = driveAngularVelocity.copy().scaleTranslation(SwerveDriveConstants.FAST_SPEED_MULTIPLIER);
+    driveFastAngularVelocity =
+        driveAngularVelocity.copy().scaleTranslation(SwerveDriveConstants.FAST_SPEED_MULTIPLIER);
     driveSlowAngularVelocity =
         driveAngularVelocity
             .copy()
