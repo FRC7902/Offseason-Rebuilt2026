@@ -64,6 +64,7 @@ public class RobotContainer {
   }
 
   SwerveInputStream driveAngularVelocity;
+  SwerveInputStream driveFastAngularVelocity;
   SwerveInputStream driveSlowAngularVelocity;
   SwerveInputStream drivePassingSlowAngularVelocity;
   SwerveInputStream driveDirectAngle;
@@ -91,8 +92,10 @@ public class RobotContainer {
                 this::getCurvedDriverLeftX)
             .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
             .deadband(Constants.DRIVER_CONTROLLER_DEADBAND)
-            .scaleTranslation(1.0)
+            .scaleTranslation(SwerveDriveConstants.NORMAL_SPEED_MULTIPLIER)
             .allianceRelativeControl(true);
+    driveFastAngularVelocity =
+        driveAngularVelocity.copy().scaleTranslation(SwerveDriveConstants.FAST_SPEED_MULTIPLIER);
     driveSlowAngularVelocity =
         driveAngularVelocity
             .copy()
@@ -109,7 +112,12 @@ public class RobotContainer {
             .withControllerHeadingAxis(m_driverController::getRightX, m_driverController::getRightY)
             .headingWhile(true);
     driveFieldOrientedAngularVelocity =
-        m_swerveDriveSubsystem.driveFieldOriented(driveAngularVelocity);
+        m_swerveDriveSubsystem.driveFieldOriented(
+            () ->
+                m_swerveDriveSubsystem.getSpeedMode()
+                    ? driveFastAngularVelocity.get()
+                    : driveAngularVelocity.get());
+
     driveSlowFieldOrientedAngularVelocity =
         new ConditionalCommand(
             m_swerveDriveSubsystem.driveFieldOriented(drivePassingSlowAngularVelocity),
@@ -295,6 +303,9 @@ public class RobotContainer {
     m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
     m_driverController.povUp().onTrue(m_flywheelSubsystem.increaseFlywheelOffsetSpeed());
     m_driverController.povDown().onTrue(m_flywheelSubsystem.decreaseFlywheelOffsetSpeed());
+
+    m_driverController.square().onTrue(m_swerveDriveSubsystem.setSpeedCommand(true));
+    m_driverController.cross().onTrue(m_swerveDriveSubsystem.setSpeedCommand(false));
   }
 
   public Command getAutonomousCommand() {
