@@ -13,6 +13,7 @@ import frc.robot.subsystems.indexer.roller_floor.RollerFloorConstants;
 import frc.robot.subsystems.indexer.roller_floor.RollerFloorSubsystem;
 import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerConstants;
 import frc.robot.subsystems.indexer.vertical_roller.VerticalRollerSubsystem;
+import frc.robot.subsystems.shooter.hood.HoodSubsystem;
 
 public class IndexerSystem extends SubsystemBase {
   private final IndexerBeltSubsystem m_indexerBelt;
@@ -47,27 +48,37 @@ public class IndexerSystem extends SubsystemBase {
 
   /**
    * Creates a command that runs the roller floor, indexer belt, and feeder simultaneously to move
-   * fuel through the indexer system.
+   * fuel through the indexer system. Will not run when hood lowered in hood safety mode.
    *
    * @return command that runs indefinitely until interrupted
    */
   public Command feedFuel() {
-    return Commands.sequence(
-        Commands.deadline(
-                Commands.waitSeconds(0.5),
-                m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
-                m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE))
-            .andThen(
-                Commands.sequence(
-                        Commands.parallel(
-                                m_rollerFloor.setVelocity(RollerFloorConstants.FEEDING_SPEED),
-                                m_verticalRoller.setDutyCycle(
-                                    VerticalRollerConstants.FEEDING_DUTY_CYCLE))
-                            .withTimeout(1),
-                        Commands.waitUntil(() -> isStuck()),
-                        Commands.parallel(reverseIndexer()).withTimeout(0.1),
-                        Commands.waitUntil(() -> isReversing()).withTimeout(1))
-                    .repeatedly()));
+    return Commands.either(
+            Commands.deadline(
+                Commands.waitUntil(() -> HoodSubsystem.getInstance().isInTrenchSafetyZone()),
+                stop()), // stop needs end condition, this ends once robot exits trench
+            Commands.sequence( // feed fuel normally
+                    Commands.deadline(
+                            Commands.waitSeconds(0.5),
+                            m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
+                            m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE))
+                        .andThen(
+                            Commands.sequence(
+                                    Commands.parallel(
+                                            m_rollerFloor.setVelocity(
+                                                RollerFloorConstants.FEEDING_SPEED),
+                                            m_verticalRoller.setDutyCycle(
+                                                VerticalRollerConstants.FEEDING_DUTY_CYCLE))
+                                        .withTimeout(1),
+                                    Commands.waitUntil(() -> isStuck()),
+                                    Commands.parallel(reverseIndexer()).withTimeout(0.1),
+                                    Commands.waitUntil(() -> isReversing()).withTimeout(1))
+                                .repeatedly()))
+                .onlyWhile(
+                    () -> HoodSubsystem.getInstance().isInTrenchSafetyZone()), // finish when driving into trench so
+            // .repeatedly picks the stop() branch
+            () -> HoodSubsystem.getInstance().isInTrenchSafetyZone()) // condition if robot is in trench
+        .repeatedly();
   }
 
   /**
