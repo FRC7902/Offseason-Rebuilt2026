@@ -18,7 +18,7 @@ public class LaunchConstants {
 
   public static final double lookaheadMultiplier = 0.9;
 
-  public static final double fudgeFactor = 10;
+  public static final double fudgeFactor = 7;
 
   // Hub shooting maps
   public static final InterpolatingDoubleTreeMap hoodAngleMap = new InterpolatingDoubleTreeMap();
