@@ -47,7 +47,7 @@ public class FlywheelSubsystem extends SubsystemBase {
             FlywheelConstants.LEADER_MOTOR,
             m_leaderMotorConfig.withLooselyCoupledFollowers(m_followerMotor));
     m_flywheel = new FlyWheel(FlywheelConstants.FLY_WHEEL_CONFIG, m_leaderMotor);
-    flywheelOffset = RPM.of(0);
+    flywheelOffset = FlywheelConstants.DEFAULT_OFFSET_RPM;
   }
 
   public static FlywheelSubsystem getInstance() {
@@ -223,6 +223,10 @@ public class FlywheelSubsystem extends SubsystemBase {
 
   public Command decreaseFlywheelOffsetSpeed() {
     return Commands.runOnce(() -> plusFlywheelOffset(-50));
+  }
+
+  public Command resetFlywheelOffset() {
+    return Commands.runOnce(() -> flywheelOffset = FlywheelConstants.DEFAULT_OFFSET_RPM);
   }
 
   public void plusFlywheelOffset(double measure) {

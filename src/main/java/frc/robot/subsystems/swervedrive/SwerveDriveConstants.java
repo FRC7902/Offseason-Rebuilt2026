@@ -7,7 +7,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 
 public final class SwerveDriveConstants {
-  public static final double MAX_SPEED = Units.feetToMeters(15); // TODO: tune max value
+  public static final double MAX_SPEED = Units.feetToMeters(15); // Tx3ODO: tune max value
 
   public static final double NORMAL_SPEED_MULTIPLIER = 0.65;
   public static final double FAST_SPEED_MULTIPLIER = 1.0;
