@@ -39,6 +39,12 @@ public class IndexerSystem extends SubsystemBase {
     return m_rollerFloor.getVelocity().lt(RollerFloorConstants.IS_REVERSING_SPEED_MIN);
   }
 
+  public Command reverseBeltAndFeeder() {
+    return Commands.parallel(
+      m_indexerBelt.setDutyCycle(IndexerBeltConstants.REVERSE_DUTY_CYCLE),
+      m_feeder.setDutyCycle(FeederConstants.REVERSE_DUTY_CYCLE));
+  }
+
   public Command reverseIndexer() {
     return m_rollerFloor
         .setDutyCycle(-1)
