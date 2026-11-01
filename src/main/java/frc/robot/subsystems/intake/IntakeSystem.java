@@ -70,10 +70,21 @@ public class IntakeSystem extends SubsystemBase {
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
-  public Command shuffle() {
-    Angle turretAngle = Units.Degrees.of(Math.abs(TurretSubsystem.getInstance().getAngle().in(Units.Degrees)));
+  // public Command shuffle() {
+    
+  // }
+
+  public Command shuffleShort() {
     return Commands.sequence(
             m_linearIntake.setHeight(LinearIntakeConstants.SHORT_SHUFFLE_DISTANCE).withTimeout(1),
+            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
+        .repeatedly()
+        .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
+  }
+
+  public Command shuffleLong() {
+    return Commands.sequence(
+            m_linearIntake.setHeight(LinearIntakeConstants.FULL_SHUFFLE_DISTANCE).withTimeout(1),
             m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
         .repeatedly()
         .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));

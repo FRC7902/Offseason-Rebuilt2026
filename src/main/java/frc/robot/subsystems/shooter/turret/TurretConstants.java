@@ -33,6 +33,8 @@ public class TurretConstants {
 
   public static final Angle TOLERANCE = Degrees.of(1);
 
+  public static final Angle MAX_SAFE_SHUFFLE_ANGLE_ABS = Degrees.of(10); // TODO 
+
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withClosedLoopController(150.0, 0.0, 0.8)

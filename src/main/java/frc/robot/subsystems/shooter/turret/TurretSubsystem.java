@@ -20,6 +20,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,6 +30,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
@@ -285,6 +288,10 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void plusTurretOffset(double measure) {
     turretOffset = turretOffset.plus(Degrees.of(measure));
+  }
+
+  public BooleanSupplier isApproachingLimit() {
+    return ()-> Math.abs(getAngleSetpoint().in(Degrees)) >= TurretConstants.MAX_SAFE_SHUFFLE_ANGLE_ABS.in(Degrees);
   }
 
   @Override
