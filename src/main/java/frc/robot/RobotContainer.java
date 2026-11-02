@@ -174,14 +174,6 @@ public class RobotContainer {
     return m_shooterSystem.flywheelDefaultSpeed();
   }
 
-  public Command switchShuffle() {
-    return Commands.either(
-      m_intakeSystem.shuffleShort(),
-      m_intakeSystem.shuffleLong(),
-      m_turretSubsystem.isApproachingLimit()
-    );
-  }
-
   private void configureBindings() {
 
     m_swerveDriveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
@@ -219,7 +211,7 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 Commands.parallel(
-                    switchShuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
+                    m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
                     )))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
@@ -263,7 +255,7 @@ public class RobotContainer {
         .and(shootTrigger.negate())
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(
-            switchShuffle().alongWith(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+            m_intakeSystem.shuffle().alongWith(m_indexerSystem.feedFuel()) // Feed fuel to shooter
             )
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
@@ -308,6 +300,8 @@ public class RobotContainer {
 
     m_driverController.square().onTrue(m_swerveDriveSubsystem.setSpeedCommand(true));
     m_driverController.cross().onTrue(m_swerveDriveSubsystem.setSpeedCommand(false));
+
+    m_driverController.circle().onTrue(Commands.runOnce(() -> m_intakeSystem.toggleShuffle(), m_intakeSystem));
 
     m_driverController
         .triangle()

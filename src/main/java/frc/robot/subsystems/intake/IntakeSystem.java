@@ -14,6 +14,7 @@ import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 public class IntakeSystem extends SubsystemBase {
   private final LinearIntakeSubsystem m_linearIntake;
   private final IntakeRollerSubsystem m_intakeRoller;
+  private boolean isFullShuffle = false;
 
   public IntakeSystem(LinearIntakeSubsystem linearIntake, IntakeRollerSubsystem intakeRoller) {
     m_linearIntake = linearIntake;
@@ -74,17 +75,24 @@ public class IntakeSystem extends SubsystemBase {
     
   // }
 
-  public Command shuffleShort() {
-    return Commands.sequence(
-            m_linearIntake.setHeight(LinearIntakeConstants.SHORT_SHUFFLE_DISTANCE).withTimeout(1),
-            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
-        .repeatedly()
-        .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
+  public void toggleShuffle() {
+    isFullShuffle = !isFullShuffle;
   }
 
-  public Command shuffleLong() {
-    return Commands.sequence(
+  public boolean getIsFullShuffle() {
+    return isFullShuffle;
+  }
+
+  public Command shuffle() {
+    return isFullShuffle ?
+    Commands.sequence(
             m_linearIntake.setHeight(LinearIntakeConstants.FULL_SHUFFLE_DISTANCE).withTimeout(1),
+            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
+        .repeatedly()
+        .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE))
+
+        : Commands.sequence(
+            m_linearIntake.setHeight(LinearIntakeConstants.SHORT_SHUFFLE_DISTANCE).withTimeout(1),
             m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
         .repeatedly()
         .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
