@@ -14,12 +14,14 @@ import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 public class IntakeSystem extends SubsystemBase {
   private final LinearIntakeSubsystem m_linearIntake;
   private final IntakeRollerSubsystem m_intakeRoller;
-  private boolean isFullShuffle = false;
+  private static boolean isFullShuffle = false;
 
   public IntakeSystem(LinearIntakeSubsystem linearIntake, IntakeRollerSubsystem intakeRoller) {
     m_linearIntake = linearIntake;
     m_intakeRoller = intakeRoller;
   }
+
+  
 
   /**
    * Creates a command that extends the linear intake to fully extended position
@@ -79,7 +81,8 @@ public class IntakeSystem extends SubsystemBase {
     isFullShuffle = !isFullShuffle;
   }
 
-  public boolean getIsFullShuffle() {
+  // returns true if linear intake will do full shuffle range
+  public static boolean getIsFullShuffle() {
     return isFullShuffle;
   }
 

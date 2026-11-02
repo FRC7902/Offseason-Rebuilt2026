@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
+import frc.robot.subsystems.intake.IntakeSystem;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
@@ -145,6 +146,13 @@ public class TurretSubsystem extends SubsystemBase {
    * @return Command that runs until the turret reaches the target angle within tolerance.
    */
   public Command setAngle(Angle angle) {
+    if (IntakeSystem.getIsFullShuffle()) {
+      if (angle.gte(TurretConstants.MAX_SAFE_SHUFFLE_ANGLE_ABS))
+        return m_turret.runTo(TurretConstants.MAX_SAFE_SHUFFLE_ANGLE_ABS, TurretConstants.TOLERANCE);
+      else if (angle.lte(TurretConstants.MAX_SAFE_SHUFFLE_ANGLE_ABS.negate()))
+        return m_turret.runTo(TurretConstants.MAX_SAFE_SHUFFLE_ANGLE_ABS.negate(), TurretConstants.TOLERANCE);
+    }
+    
     return m_turret.runTo(angle, TurretConstants.TOLERANCE);
   }
 
