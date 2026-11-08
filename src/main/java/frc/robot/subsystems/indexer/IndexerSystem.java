@@ -1,7 +1,10 @@
 package frc.robot.subsystems.indexer;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.InchesPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -43,19 +46,39 @@ public class IndexerSystem extends SubsystemBase {
     return m_rollerFloor.setDutyCycle(-1);
   }
 
+  public Command indexerbeltSync(LinearVelocity flywheelSpeed)
+  {
+    return (m_feeder.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/FeederConstants.CIRCUMFERENCE.in(Inches)/60)));
+  }
+
+  public Command feederSync(LinearVelocity flywheelSpeed)
+  {
+    return (m_verticalRoller.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/VerticalRollerConstants.CIRCUMFERENCE.in(Inches)/60)));
+  }
+
+  public Command verticalrollerSync(LinearVelocity flywheelSpeed)
+  {
+    return (m_verticalRoller.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/VerticalRollerConstants.CIRCUMFERENCE.in(Inches)/60)));
+  }
+
+  public Command rollerfloorSync(LinearVelocity flywheelSpeed)
+  {
+    return (m_rollerFloor.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/RollerFloorConstants.CIRCUMFERENCE.in(Inches)/60)));
+  }
+
   /**
    * Creates a command that runs the roller floor, indexer belt, and feeder simultaneously to move
    * fuel through the indexer system.
    *
    * @return command that runs indefinitely until interrupted
    */
-  public Command feedFuel() {
+  public Command feedFuel(LinearVelocity flywheelSpeed) {
     return Commands.sequence(
         Commands.parallel(
-                m_indexerBelt.setDutyCycle(IndexerBeltConstants.FEEDING_DUTY_CYCLE),
-                m_feeder.setDutyCycle(FeederConstants.FEEDING_DUTY_CYCLE),
-                m_verticalRoller.setDutyCycle(VerticalRollerConstants.OUTTAKE_DUTY_CYCLE),
-                m_rollerFloor.setDutyCycle(-1))
+                indexerbeltSync(flywheelSpeed),
+                feederSync(flywheelSpeed),
+                verticalrollerSync(flywheelSpeed),
+                rollerfloorSync(flywheelSpeed))
             .withDeadline(Commands.waitSeconds(0.25))
             .andThen(
                 Commands.sequence(

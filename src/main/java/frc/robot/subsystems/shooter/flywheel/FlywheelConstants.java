@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
@@ -23,8 +24,8 @@ public class FlywheelConstants {
   public static final DCMotor FOLLOWER_MOTOR = DCMotor.getKrakenX60Foc(1);
   public static final int LEADER_CAN_ID = 18;
   public static final int FOLLOWER_CAN_ID = 25;
-
-  public static final AngularVelocity MAX_RPM = RPM.of(5785); // TODO
+  public static final Distance CIRCUMFERENCE = Inches.of(12.56);
+  public static final AngularVelocity MAX_RPM = RPM.of(5496);
   public static final AngularVelocity DEFAULT_RPM = RPM.of(1700);
   public static final AngularVelocity DEFAULT_OFFSET_RPM = RPM.of(0);
 

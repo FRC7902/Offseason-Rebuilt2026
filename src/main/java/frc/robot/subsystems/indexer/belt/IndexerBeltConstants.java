@@ -1,12 +1,18 @@
 package frc.robot.subsystems.indexer.belt;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.InchesPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Seconds;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.LinearVelocityUnit;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
@@ -21,8 +27,9 @@ public class IndexerBeltConstants {
   public static final DCMotor FOLLOWER_MOTOR = DCMotor.getKrakenX44Foc(1);
   public static final int LEADER_CAN_ID = 1;
   public static final int FOLLOWER_CAN_ID = 53;
-
-  private static final AngularVelocity MAX_SPEED = RPM.of(3377); // TODO
+  public static final Distance CIRCUMFERENCE = Inches.of(5.2);
+  private static final AngularVelocity MAX_SPEED = RPM.of(3060);
+  public static final LinearVelocity Surface_Speed = InchesPerSecond.of(216);
   public static final AngularVelocity TOLERANCE = RPM.of(100);
 
   public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
