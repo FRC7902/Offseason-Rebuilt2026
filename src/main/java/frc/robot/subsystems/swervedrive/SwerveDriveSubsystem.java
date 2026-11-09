@@ -589,6 +589,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
   }
 
+  public Limelight getBackLimelight() {
+    return m_limelightA;
+  }
+
+  public Limelight getFrontLimelight() {
+    return m_limelightB;
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("fastMode", fastMode);
