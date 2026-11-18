@@ -9,6 +9,7 @@ import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -64,6 +65,15 @@ public class FlywheelSubsystem extends SubsystemBase {
    */
   public AngularVelocity getVelocity() {
     return m_flywheel.getSpeed();
+  }
+
+  /**
+   * Returns the current flywheel linear velocity as measured by the motor encoder.
+   *
+   * @return Current flywheel linear velocity.
+   */
+  public LinearVelocity getLinearVelocity() {
+    return m_flywheel.getLinearVelocity();
   }
 
   /**

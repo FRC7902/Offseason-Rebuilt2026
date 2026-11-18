@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
@@ -25,7 +26,7 @@ public class VerticalRollerConstants {
   private static final AngularVelocity MAX_SPEED = RPM.of(1619);
   public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
   public static final AngularVelocity STORING_SPEED = RPM.of(200); // TODO
-
+  public static final Distance CIRCUMFERENCE = Inches.of(7.555);
   // Positive is outtake, negative is intake direction
   public static final double INTAKE_DUTY_CYCLE = -0.40;
   public static final double OUTTAKE_DUTY_CYCLE = 0.40;

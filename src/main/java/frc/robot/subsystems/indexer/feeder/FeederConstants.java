@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
@@ -20,10 +21,10 @@ public class FeederConstants {
 
   public static final DCMotor MOTOR = DCMotor.getKrakenX60Foc(1);
   public static final int CAN_ID = 4;
-
+  public static final Distance CIRCUMFERENCE = Inches.of(6.28);
   public static final AngularVelocity TOLERANCE = RPM.of(30); // TODO
 
-  private static final AngularVelocity MAX_SPEED = RPM.of(3718);
+  private static final AngularVelocity MAX_SPEED = RPM.of(3600);
   public static final AngularVelocity FEEDER_SPEED = MAX_SPEED;
 
   public static final double FEEDING_DUTY_CYCLE = 1.0;

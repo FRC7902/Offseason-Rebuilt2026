@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
@@ -28,7 +29,7 @@ public class RollerFloorConstants {
 
   public static final AngularVelocity FEEDING_SPEED = MAX_SPEED;
   public static final double STORING_DUTY_CYCLE = 0.10;
-
+  public static final Distance CIRCUMFERENCE = Inches.of(3.925);
   public static final AngularVelocity IS_REVERSING_SPEED_MIN = RPM.of(-250);
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
