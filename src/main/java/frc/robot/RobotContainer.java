@@ -159,7 +159,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("extendAndIntake", m_intakeSystem.extendAndIntake());
     NamedCommands.registerCommand("stopIntake", m_intakeSystem.stop());
-    NamedCommands.registerCommand("feedFuel", m_indexerSystem.feedFuel());
+    NamedCommands.registerCommand(
+        "feedFuel", m_indexerSystem.feedFuel(m_flywheelSubsystem.getLinearVelocity()));
     NamedCommands.registerCommand("storeFuel", m_indexerSystem.storeFuel());
     NamedCommands.registerCommand("aimAndShoot", m_shooterSystem.aimAndShoot());
 
@@ -211,7 +212,9 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 Commands.parallel(
-                    m_intakeSystem.shuffle(), m_indexerSystem.feedFuel(m_shooterSystem.getFlywheelVelocity()) // Feed fuel to shooter
+                    m_intakeSystem.shuffle(),
+                    m_indexerSystem.feedFuel(
+                        m_shooterSystem.getFlywheelVelocity()) // Feed fuel to shooter
                     )))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
@@ -233,7 +236,8 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
-                m_indexerSystem.feedFuel(m_shooterSystem.getFlywheelVelocity()))) // Feed fuel to shooter
+                m_indexerSystem.feedFuel(
+                    m_shooterSystem.getFlywheelVelocity()))) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Manual Shoot Button Bindings
@@ -255,7 +259,11 @@ public class RobotContainer {
         .and(shootTrigger.negate())
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(
-            m_intakeSystem.shuffle().alongWith(m_indexerSystem.feedFuel(m_shooterSystem.getFlywheelVelocity())) // Feed fuel to shooter
+            m_intakeSystem
+                .shuffle()
+                .alongWith(
+                    m_indexerSystem.feedFuel(
+                        m_shooterSystem.getFlywheelVelocity())) // Feed fuel to shooter
             )
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
@@ -273,7 +281,8 @@ public class RobotContainer {
         .and(shootTrigger.negate())
         .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
-        .onTrue(m_indexerSystem.feedFuel(m_shooterSystem.getFlywheelVelocity())) // Feed fuel to shooter
+        .onTrue(
+            m_indexerSystem.feedFuel(m_shooterSystem.getFlywheelVelocity())) // Feed fuel to shooter
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     Trigger outtakeTrigger = m_driverController.L1();

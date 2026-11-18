@@ -46,24 +46,33 @@ public class IndexerSystem extends SubsystemBase {
     return m_rollerFloor.setDutyCycle(-1);
   }
 
-  public Command indexerbeltSync(LinearVelocity flywheelSpeed)
-  {
-    return (m_feeder.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/FeederConstants.CIRCUMFERENCE.in(Inches)/60)));
+  public Command indexerbeltSync(LinearVelocity flywheelSpeed) {
+    return (m_feeder.setVelocity(
+        RPM.of(flywheelSpeed.in(InchesPerSecond) / FeederConstants.CIRCUMFERENCE.in(Inches) / 60)));
   }
 
-  public Command feederSync(LinearVelocity flywheelSpeed)
-  {
-    return (m_verticalRoller.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/VerticalRollerConstants.CIRCUMFERENCE.in(Inches)/60)));
+  public Command feederSync(LinearVelocity flywheelSpeed) {
+    return (m_verticalRoller.setVelocity(
+        RPM.of(
+            flywheelSpeed.in(InchesPerSecond)
+                / VerticalRollerConstants.CIRCUMFERENCE.in(Inches)
+                / 60)));
   }
 
-  public Command verticalrollerSync(LinearVelocity flywheelSpeed)
-  {
-    return (m_verticalRoller.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/VerticalRollerConstants.CIRCUMFERENCE.in(Inches)/60)));
+  public Command verticalrollerSync(LinearVelocity flywheelSpeed) {
+    return (m_verticalRoller.setVelocity(
+        RPM.of(
+            flywheelSpeed.in(InchesPerSecond)
+                / VerticalRollerConstants.CIRCUMFERENCE.in(Inches)
+                / 60)));
   }
 
-  public Command rollerfloorSync(LinearVelocity flywheelSpeed)
-  {
-    return (m_rollerFloor.setVelocity(RPM.of(flywheelSpeed.in(InchesPerSecond)/RollerFloorConstants.CIRCUMFERENCE.in(Inches)/60)));
+  public Command rollerfloorSync(LinearVelocity flywheelSpeed) {
+    return (m_rollerFloor.setVelocity(
+        RPM.of(
+            flywheelSpeed.in(InchesPerSecond)
+                / RollerFloorConstants.CIRCUMFERENCE.in(Inches)
+                / 60)));
   }
 
   /**

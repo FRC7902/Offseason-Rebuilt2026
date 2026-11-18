@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.InchesPerSecond;
 import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -32,7 +31,8 @@ public class ShooterSystem extends SubsystemBase {
   }
 
   public LinearVelocity getFlywheelVelocity() {
-    return InchesPerSecond.of(FlywheelConstants.CIRCUMFERENCE.in(Inches) * (m_flywheel.getVelocity().in(RPM)/60));
+    return InchesPerSecond.of(
+        FlywheelConstants.CIRCUMFERENCE.in(Inches) * (m_flywheel.getVelocity().in(RPM) / 60));
   }
 
   /**
