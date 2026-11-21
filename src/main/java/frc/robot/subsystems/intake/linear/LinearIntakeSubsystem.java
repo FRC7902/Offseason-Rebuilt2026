@@ -77,55 +77,22 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     return m_instance;
   }
 
-  /**
-   * Open-loop duty-cycle command for manual control or testing. Positive duty cycle raises the
-   * carriage; negative lowers it.
-   *
-   * @param dutyCycle Fraction of bus voltage, [-1.0, 1.0].
-   * @return Command that runs until interrupted.
-   */
   public Command setDutyCycle(double dutyCycle) {
     return m_linearIntake.set(dutyCycle);
   }
 
-  /**
-   * Closed-loop height command. Profiles to the target using the trapezoidal constraints defined in
-   * motorConfig, then holds the carriage at that height via the PID controller.
-   *
-   * @param height Target carriage height in meters, clamped by soft limits [0, 2 m].
-   * @return Command that runs until the carriage reaches the target height within the tolerance
-   */
   public Command setHeight(Distance height) {
     return m_linearIntake.runTo(height, LinearIntakeConstants.TOLERANCE);
   }
 
-  /**
-   * Supplier-based closed-loop height command. Profiles to the target using the trapezoidal
-   * constraints defined in motorConfig, then holds the carriage at that height via the PID
-   * controller.
-   *
-   * @param heightSupplier
-   * @return Command that runs until the carriage reaches the target height within the tolerance
-   */
   public Command setHeight(Supplier<Distance> heightSupplier) {
     return m_linearIntake.runTo(heightSupplier, LinearIntakeConstants.TOLERANCE);
   }
 
-  /**
-   * Returns the current height of the linear intake carriage as measured by the motor encoder.
-   *
-   * @return Current height of the linear intake carriage.
-   */
   public Distance getHeight() {
     return m_linearIntake.getHeight();
   }
 
-  /**
-   * Returns the current height setpoint of the linear intake, if one is active. If no setpoint is
-   * active, returns zero.
-   *
-   * @return Current height setpoint of the linear intake.
-   */
   private Distance getHeightSetpoint() {
     return m_linearIntake
         .getMechanismSetpoint()
@@ -142,38 +109,23 @@ public class LinearIntakeSubsystem extends SubsystemBase {
         new Rotation3d());
   }
 
-  /**
-   * Stops the linear intake by disabling closed-loop control and commanding zero duty cycle.
-   *
-   * @return A one-shot command that stops the mechanism.
-   */
   public Command stop() {
     return this.runOnce(() -> m_motor.stopClosedLoopController()).andThen(setDutyCycle(0));
   }
 
-  /**
-   * Runs a SysId routine on the linear intake mechanism. This command will run a series of
-   * quasistatic and dynamic tests, logging the results to the Phoenix SignalLogger. The routine
-   * will stop the closed-loop controller before starting and restart it after finishing.
-   *
-   * @return A command that runs the SysId routine.
-   */
   public Command sysId() {
     final VoltageOut m_voltReq = new VoltageOut(0.0);
 
     final SysIdRoutine m_sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
-                // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
-                // per second if left null.
+
                 Volts.of(0.5).per(Second),
-                // The step voltage output used for dynamic test routines. Defaults to 7 volts
-                // if left null.
+
                 Volts.of(1),
-                // Safety timeout for the test routine commands. Defaults to 10 seconds if
-                // left null.
+
                 Seconds.of(3),
-                // Log state with Phoenix SignalLogger class
+
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
                 (volts) -> m_linearIntakeMotor.setControl(m_voltReq.withOutput(volts.in(Volts))),
@@ -243,14 +195,6 @@ public class LinearIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("LinearIntakeMech/setpoint (m)", getHeightSetpoint().in(Meters));
     SmartDashboard.putNumber("LinearIntakeMech/position (m)", getHeight().in(Meters));
 
-    // SmartDashboard.putBoolean(
-    //     "LinearIntakeMech/leftExtendedLimitSwitch", getLeftExtendedLimitSwitch());
-    // SmartDashboard.putBoolean(
-    //     "LinearIntakeMech/leftRetractedLimitSwitch", getLeftRetractedLimitSwitch());
-    // SmartDashboard.putBoolean(
-    //     "LinearIntakeMech/rightExtendedLimitSwitch", getRightExtendedLimitSwitch());
-    // SmartDashboard.putBoolean(
-    //     "LinearIntakeMech/rightRetractedLimitSwitch", getRightRetractedLimitSwitch());
   }
 
   @Override

@@ -43,12 +43,6 @@ public class IndexerSystem extends SubsystemBase {
     return m_rollerFloor.setDutyCycle(-1);
   }
 
-  /**
-   * Creates a command that runs the roller floor, indexer belt, and feeder simultaneously to move
-   * fuel through the indexer system.
-   *
-   * @return command that runs indefinitely until interrupted
-   */
   public Command feedFuel() {
     return Commands.sequence(
         Commands.parallel(
@@ -68,13 +62,6 @@ public class IndexerSystem extends SubsystemBase {
                     .repeatedly()));
   }
 
-  /**
-   * Creates a command that runs the roller floor indefinitely while maintaining a lower duty cycle
-   * for the indexer belt and leaving the feeder off to store fuel without feeding it through the
-   * system.
-   *
-   * @return command that runs indefinitely until interrupted
-   */
   public Command storeFuel() {
     return Commands.parallel(
             m_rollerFloor.setDutyCycle(RollerFloorConstants.STORING_DUTY_CYCLE),
@@ -87,11 +74,6 @@ public class IndexerSystem extends SubsystemBase {
         .andThen(stop());
   }
 
-  /**
-   * Creates a command that stops all motors in the indexer system.
-   *
-   * @return command that runs indefinitely until interrupted
-   */
   public Command stop() {
     return Commands.parallel(
         m_rollerFloor.stop(), m_indexerBelt.stop(), m_feeder.stop(), m_verticalRoller.stop());

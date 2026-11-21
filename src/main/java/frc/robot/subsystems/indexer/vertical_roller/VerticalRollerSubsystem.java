@@ -36,71 +36,30 @@ public class VerticalRollerSubsystem extends SubsystemBase {
     return m_instance;
   }
 
-  /** Returns the current vertical roller angular velocity as measured by the motor encoder. */
   public AngularVelocity getVelocity() {
     return m_verticalRoller.getSpeed();
   }
 
-  /**
-   * Returns the current vertical roller velocity setpoint, if one is active. If no setpoint is
-   * active, returns zero.
-   *
-   * @return Current vertical roller velocity setpoint.
-   */
   private AngularVelocity getVelocitySetpoint() {
     return m_verticalRoller.getMechanismSetpointVelocity().orElse(RPM.of(0));
   }
 
-  /**
-   * Runs the vertical roller at a fixed target velocity. The closed-loop controller and feedforward
-   * maintain this speed continuously until the command ends.
-   *
-   * @param speed Desired angular velocity at the vertical roller (after gearing).
-   * @return A command that runs until the vertical roller reaches the target speed within
-   *     tolerance.
-   */
   public Command setVelocity(AngularVelocity speed) {
     return m_verticalRoller.runTo(speed, VerticalRollerConstants.TOLERANCE);
   }
 
-  /**
-   * Drives the vertical roller in open-loop at a fixed duty cycle.
-   *
-   * @param dutyCycle Output fraction in [-1, 1].
-   * @return A command that applies the given duty cycle while scheduled.
-   */
   public Command setDutyCycle(double dutyCycle) {
     return m_verticalRoller.set(dutyCycle);
   }
 
-  /**
-   * Supplier-based velocity command, suitable for joystick-driven or dashboard-driven speed control
-   * where the setpoint changes each loop iteration.
-   *
-   * @param speed Supplier of the desired angular velocity.
-   * @return A command that runs until the vertical roller reaches the target speed setpoint. The
-   *     setpoint is continuously polled from the supplier, allowing for dynamic speed changes.
-   */
   public Command setVelocity(Supplier<AngularVelocity> speed) {
     return m_verticalRoller.runTo(speed, VerticalRollerConstants.TOLERANCE);
   }
 
-  /**
-   * Supplier-based duty-cycle command, mirroring {@link #setVelocity(Supplier)} for open-loop use
-   * cases.
-   *
-   * @param dutyCycle Supplier of the output fraction in [-1, 1].
-   * @return A command that continuously polls the supplier.
-   */
   public Command setDutyCycle(Supplier<Double> dutyCycle) {
     return m_verticalRoller.set(dutyCycle);
   }
 
-  /**
-   * Stops the vertical roller by disabling closed-loop control and commanding zero duty cycle.
-   *
-   * @return A one-shot command that stops the mechanism.
-   */
   public Command stop() {
     return this.runOnce(() -> m_motor.stopClosedLoopController()).andThen(setDutyCycle(0));
   }

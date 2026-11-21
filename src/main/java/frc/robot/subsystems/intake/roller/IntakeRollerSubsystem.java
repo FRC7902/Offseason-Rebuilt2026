@@ -12,24 +12,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeRollerSubsystem extends SubsystemBase {
   private static IntakeRollerSubsystem m_instance;
 
-  /** PWM motor controller for the intake. */
   private final TalonFX m_rollerMotor;
 
   private final CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs();
 
-  /** Constructs the intake subsystem and initializes the motor controller. */
   private IntakeRollerSubsystem() {
     m_rollerMotor = new TalonFX(IntakeRollerConstants.CAN_ID);
 
     TalonFXConfiguration toConfigure = new TalonFXConfiguration();
     m_currentLimits
-        .withSupplyCurrentLowerLimit(Amps.of(40)) // Default limit of 70 A
-        .withSupplyCurrentLimit(Amps.of(40)) // Reduce the limit to 40 A if we've limited to 70 A...
-        .withSupplyCurrentLimitEnable(true); // And enable it
+        .withSupplyCurrentLowerLimit(Amps.of(40))
+        .withSupplyCurrentLimit(Amps.of(40))
+        .withSupplyCurrentLimitEnable(true);
 
     m_currentLimits
-        .withStatorCurrentLimit(Amps.of(40)) // Limit stator current to 120 A
-        .withStatorCurrentLimitEnable(true); // And enable it
+        .withStatorCurrentLimit(Amps.of(40))
+        .withStatorCurrentLimitEnable(true);
 
     toConfigure.CurrentLimits = m_currentLimits;
 
@@ -43,16 +41,10 @@ public class IntakeRollerSubsystem extends SubsystemBase {
     return m_instance;
   }
 
-  /**
-   * Sets the intake motor speed.
-   *
-   * @param speed the desired motor output (-1.0 to 1.0)
-   */
   public Command setSpeed(double speed) {
     return this.runOnce(() -> m_rollerMotor.set(speed));
   }
 
-  /** Stops the intake motor. */
   public Command stop() {
     return this.runOnce(() -> m_rollerMotor.stopMotor());
   }

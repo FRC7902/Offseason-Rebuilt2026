@@ -52,47 +52,20 @@ public class IndexerBeltSubsystem extends SubsystemBase {
     return m_instance;
   }
 
-  /**
-   * Returns the current indexer belt angular velocity as measured by the motor encoder.
-   *
-   * @return Current indexer belt speed.
-   */
   public AngularVelocity getVelocity() {
     return m_indexerBelt.getSpeed();
   }
 
-  /**
-   * Returns the current indexer belt velocity setpoint, if one is active. If no setpoint is active,
-   * returns zero.
-   *
-   * @return Current indexer belt velocity setpoint.
-   */
   private AngularVelocity getVelocitySetpoint() {
     return m_indexerBelt.getMechanismSetpointVelocity().orElse(RPM.of(0));
   }
 
-  /**
-   * Runs the indexer belt at a fixed target velocity. The closed-loop controller and feedforward
-   * maintain this speed continuously until the command ends.
-   *
-   * @param speed Desired angular velocity at the indexer belt (after gearing).
-   * @return A command that holds the given speed while scheduled.
-   */
   public Command setVelocity(AngularVelocity speed) {
     return m_indexerBelt.runTo(speed, IndexerBeltConstants.TOLERANCE);
   }
 
-  /**
-   * Drives the indexer belt in open-loop at a fixed duty cycle.
-   *
-   * @param dutyCycle Output fraction in [-1, 1].
-   * @return A command that applies the given duty cycle while scheduled.
-   */
   public Command setDutyCycle(double dutyCycle) {
-    /*
-     * Since duty cycle is not automatically applied to the follower motor,
-     * apply the same duty cycle to both motors in parallel.
-     */
+
     return Commands.parallel(
             Commands.startRun(
                     m_leaderMotor::stopClosedLoopController,
@@ -105,29 +78,12 @@ public class IndexerBeltSubsystem extends SubsystemBase {
         .withName(this.getName() + " SetDutyCycle");
   }
 
-  /**
-   * Supplier-based velocity command, suitable for joystick-driven or dashboard-driven speed control
-   * where the setpoint changes each loop iteration.
-   *
-   * @param speed Supplier of the desired angular velocity.
-   * @return A command that continuously polls the supplier and updates the setpoint.
-   */
   public Command setVelocity(Supplier<AngularVelocity> speed) {
     return m_indexerBelt.runTo(speed, IndexerBeltConstants.TOLERANCE);
   }
 
-  /**
-   * Supplier-based duty-cycle command, mirroring {@link #setVelocity(Supplier)} for open-loop use
-   * cases.
-   *
-   * @param dutyCycle Supplier of the output fraction in [-1, 1].
-   * @return A command that continuously polls the supplier.
-   */
   public Command setDutyCycle(Supplier<Double> dutyCycle) {
-    /*
-     * Since duty cycle is not automatically applied to the follower motor,
-     * apply the same duty cycle to both motors in parallel.
-     */
+
     return Commands.parallel(
             Commands.startRun(
                     m_leaderMotor::stopClosedLoopController,
@@ -140,39 +96,23 @@ public class IndexerBeltSubsystem extends SubsystemBase {
         .withName(this.getName() + " SetDutyCycle");
   }
 
-  /**
-   * Stops the indexer belt by disabling closed-loop control and commanding zero duty cycle.
-   *
-   * @return A one-shot command that stops the mechanism.
-   */
   public Command stop() {
     return this.runOnce(() -> m_leaderMotor.stopClosedLoopController()).andThen(setDutyCycle(0));
   }
 
-  /**
-   * Runs a SysId routine on the indexer belt mechanism. This command will run a series of
-   * quasistatic and dynamic tests, logging the results to the Phoenix SignalLogger. The routine
-   * will stop the closed-loop controller before starting and restart it after finishing. The
-   * routine will also log the state of the test to the SignalLogger.
-   *
-   * @return A command that runs the SysId routine.
-   */
   public Command sysId() {
     final VoltageOut m_voltReq = new VoltageOut(0.0);
 
     final SysIdRoutine m_sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
-                // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
-                // per second if left null.
+
                 null,
-                // The step voltage output used for dynamic test routines. Defaults to 7 volts
-                // if left null.
+
                 null,
-                // Safety timeout for the test routine commands. Defaults to 10 seconds if
-                // left null.
+
                 null,
-                // Log state with Phoenix SignalLogger class
+
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
                 (volts) ->

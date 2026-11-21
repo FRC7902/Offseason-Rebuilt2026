@@ -69,23 +69,10 @@ public class TurretSubsystem extends SubsystemBase {
     return m_instance;
   }
 
-  /**
-   * Returns the turret's estimated pose in the field frame based on the robot's current pose and
-   * the fixed turret offset from the robot center.
-   *
-   * @return Field-relative pose of the turret mounting point.
-   */
   public static Pose2d getPose() {
     return getPose(SwerveDriveSubsystem.getInstance().getPose());
   }
 
-  /**
-   * Returns the turret's estimated pose in the field frame based on the given robot pose and the
-   * fixed turret offset from the robot center.
-   *
-   * @param robotPose Pose of the robot in the field coordinate system.
-   * @return Field-relative pose of the turret mounting point.
-   */
   public static Pose2d getPose(Pose2d robotPose) {
     return robotPose.plus(
         new Transform2d(
@@ -93,74 +80,37 @@ public class TurretSubsystem extends SubsystemBase {
             TurretConstants.ROBOT_TO_TURRET.getRotation().toRotation2d()));
   }
 
-  /**
-   * Computes the turret's linear and angular velocity in the field frame from the robot's chassis
-   * motion and the turret's own motor rotation rate.
-   *
-   * @param robotVelocity Current chassis velocity in the robot frame.
-   * @param robotAngle Current robot heading used to rotate the turret offset into the field frame.
-   * @return Turret velocity in field coordinates.
-   */
   public ChassisSpeeds getVelocity(ChassisSpeeds robotVelocity, Angle robotAngle) {
     Translation2d rRobot =
-        TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d(); // in robot frame
+        TurretConstants.ROBOT_TO_TURRET.getTranslation().toTranslation2d();
     Translation2d rWorld =
-        rRobot.rotateBy(Rotation2d.fromRadians(robotAngle.in(Radians))); // rotate into field
-    // frame
+        rRobot.rotateBy(Rotation2d.fromRadians(robotAngle.in(Radians)));
 
-    double omega = robotVelocity.omegaRadiansPerSecond; // robot yaw rate (rad/s)
+    double omega = robotVelocity.omegaRadiansPerSecond;
 
-    // rotational linear velocity at turret (v_rot = ω × r_world)
     double vRotX = -omega * rWorld.getY();
     double vRotY = omega * rWorld.getX();
 
-    // final turret linear velocity in field frame
     double turretVx = robotVelocity.vxMetersPerSecond + vRotX;
     double turretVy = robotVelocity.vyMetersPerSecond + vRotY;
 
-    // turret angular velocity in field frame
     double turretOmega = omega + m_motor.getMechanismVelocity().in(RadiansPerSecond);
 
     return new ChassisSpeeds(turretVx, turretVy, turretOmega);
   }
 
-  /**
-   * Drives the turret in open-loop at the given duty cycle.
-   *
-   * @param dutyCycle Output fraction in [-1, 1]. Positive values move the turret in the positive
-   *     direction.
-   * @return Command that runs while scheduled and stops when interrupted.
-   */
   public Command setDutyCycle(double dutyCycle) {
     return m_turret.set(dutyCycle);
   }
 
-  /**
-   * Moves the turret to a fixed angular setpoint using the closed-loop controller.
-   *
-   * @param angle Target turret angle.
-   * @return Command that runs until the turret reaches the target angle within tolerance.
-   */
   public Command setAngle(Angle angle) {
     return m_turret.runTo(angle, TurretConstants.TOLERANCE);
   }
 
-  /**
-   * Moves the turret to a variable angular setpoint using the closed-loop controller. The target
-   * angle is continuously polled from the supplier, allowing for dynamic aiming.
-   *
-   * @param angle
-   * @return Command that runs until the turret reaches the target angle within tolerance.
-   */
   public Command setAngle(Supplier<Angle> angle) {
     return m_turret.runTo(angle, TurretConstants.TOLERANCE);
   }
 
-  /**
-   * Sets the turret's mechanism position setpoint without creating a command.
-   *
-   * @param measure Desired turret angle reference.
-   */
   public void setAngleSetpoint(Angle measure) {
     m_turret.setMechanismPositionSetpoint(measure);
   }
@@ -174,46 +124,29 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public Pose3d getPose3d() {
-    // Temporarily use setpoint to simulate pose3d instead of measurement (due to
-    // YAMS simulation
-    // bug)
+
     return new Pose3d(
         new Translation3d(0.144, -0.152, 0.359),
         new Rotation3d(0.0, 0.0, getAngleSetpoint().in(Radians)));
   }
 
-  /**
-   * Stops the turret by disabling closed-loop control and commanding zero duty cycle.
-   *
-   * @return A one-shot command that stops the mechanism.
-   */
   public Command stop() {
     return this.runOnce(() -> m_motor.stopClosedLoopController()).andThen(setDutyCycle(0));
   }
 
-  /**
-   * Runs a SysId routine on the turret mechanism. This command will run a series of quasistatic and
-   * dynamic tests, logging the results to the Phoenix SignalLogger. The routine will stop the
-   * closed-loop controller before starting and restart it after finishing.
-   *
-   * @return A command that runs the SysId routine.
-   */
   public Command sysId() {
     final VoltageOut m_voltReq = new VoltageOut(0.0);
 
     final SysIdRoutine m_sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
-                // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
-                // per second if left null.
+
                 Volts.of(1).per(Second),
-                // The step voltage output used for dynamic test routines. Defaults to 7 volts
-                // if left null.
+
                 Volts.of(1),
-                // Safety timeout for the test routine commands. Defaults to 10 seconds if
-                // left null.
+
                 Seconds.of(3),
-                // Log state with Phoenix SignalLogger class
+
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
                 (volts) -> m_turretMotor.setControl(m_voltReq.withOutput(volts.in(Volts))),

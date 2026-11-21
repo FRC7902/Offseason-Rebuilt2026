@@ -66,13 +66,7 @@ public class LaunchCalculator {
 
   private LaunchingParameters latestParameters = null;
 
-  // public static double getMinTimeOfFlight() {
-  //   return timeOfFlightMap.get(minDist);
-  // }
 
-  // public static double getMaxTimeOfFlight() {
-  //   return timeOfFlightMap.get(maxDist);
-  // }
 
   public LaunchingParameters getParameters() {
     if (latestParameters != null) {
@@ -160,7 +154,6 @@ public class LaunchCalculator {
             ? Degrees.of(passingHoodAngleMap.get(lookaheadLauncherToTargetDistance.in(Meters)))
             : Degrees.of(hoodAngleMap.get(lookaheadLauncherToTargetDistance.in(Meters))));
 
-    // Angle hoodAngle = Degrees.of(hoodAngleMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
 
     if (lastDriveAngle == null) lastDriveAngle = driveAngle;
     if (lastHoodAngle == null || Double.isNaN(lastHoodAngle.in(Degrees))) lastHoodAngle = hoodAngle;
@@ -171,8 +164,6 @@ public class LaunchCalculator {
                 : RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters))))
             .plus(FlywheelSubsystem.getInstance().flywheelOffset);
 
-    // AngularVelocity flywheelVelocity =
-    //     RPM.of(flywheelSpeedMap.get(lookaheadLauncherToTargetDistance.in(Meters)));
 
     latestParameters =
         new LaunchingParameters(turretAngle, hoodAngle, flywheelVelocity, timeOfFlight, passing);

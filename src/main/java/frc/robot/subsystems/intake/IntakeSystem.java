@@ -17,21 +17,10 @@ public class IntakeSystem extends SubsystemBase {
     m_intakeRoller = intakeRoller;
   }
 
-  /**
-   * Creates a command that extends the linear intake to fully extended position
-   *
-   * @return command that runs the linear intake to full extension
-   */
   public Command extend() {
     return m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED);
   }
 
-  /**
-   * Creates a command that extends the linear intake to its fully extended setpoint while running
-   * the intake rollers.
-   *
-   * @return command that runs until the linear intake is fully extended
-   */
   public Command extendAndIntake() {
     return Commands.parallel(
         m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED),
@@ -44,26 +33,11 @@ public class IntakeSystem extends SubsystemBase {
         m_intakeRoller.setSpeed(-IntakeRollerConstants.INTAKE_DUTY_CYCLE));
   }
 
-  /**
-   * Creates a command that retracts the linear intake to the midpoint setpoint, then stops the
-   * intake rollers once midpoint is reached.
-   *
-   * @return command that runs until the linear intake is retracted and the rollers are stopped
-   */
   public Command stop() {
     return Commands.sequence(
         m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE), m_intakeRoller.stop());
   }
 
-  /**
-   * Creates a command that shuffles the hopper by repeatedly moving the linear intake in and out.
-   *
-   * <p>If the linear intake starts farther extended than midpoint, the command runs the intake
-   * rollers until the intake retracts back to midpoint. Otherwise, intake rollers should not be
-   * running.
-   *
-   * @return command that runs indefinitely until interrupted, shuffling the hopper
-   */
   public Command shuffle() {
     return Commands.sequence(
             m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE).withTimeout(1),

@@ -47,89 +47,40 @@ public class HoodSubsystem extends SubsystemBase {
     return m_instance;
   }
 
-  /**
-   * Drives the hood open-loop at the given duty cycle. Useful for manual adjustment and as a safe
-   * default command.
-   *
-   * @param dutyCycle Output fraction in [-1, 1]; positive moves the hood in the positive direction.
-   * @return Command that runs while scheduled and stops when interrupted.
-   */
   public Command setDutyCycle(double dutyCycle) {
     return m_hood.set(dutyCycle);
   }
 
-  /**
-   * Continuously drives the hood to a fixed angle using the closed-loop controller (see {@link
-   * #setAngle(Supplier)}).
-   *
-   * @param angle Target angle. Must be within the configured soft limits.
-   * @return Command that runs until interrupted.
-   */
   public Command setAngle(Angle angle) {
     return setAngle(() -> angle);
   }
 
-  /**
-   * Continuously drives the hood toward the angle supplied on each scheduler cycle, unless the
-   * robot is in a trench's hood safety zone, in which case the hood is forced to {@link
-   * HoodConstants#MIN_ANGLE} so it clears the trench bridge overhead. Both the zone check and the
-   * supplied angle are re-evaluated every cycle (via {@link yams.mechanisms.positional.Arm#run},
-   * not {@code runTo}, which only samples a supplier once), so leaving the zone while this command
-   * is still scheduled immediately resumes driving to the intended angle.
-   *
-   * <p><strong>Do not bypass this method to command the hood.</strong> Any code path that sets the
-   * hood's closed-loop setpoint outside of {@link #setAngle(Angle)}/{@link #setAngle(Supplier)}
-   * (e.g. calling {@code m_hood.runTo(...)} or {@code m_hood.run(...)} directly) skips the trench
-   * safety check.
-   *
-   * @param angle Target angle. Must be within the configured soft limits.
-   * @return Command that runs until interrupted.
-   */
   public Command setAngle(Supplier<Angle> angle) {
     return m_hood.run(() -> isInTrenchSafetyZone() ? HoodConstants.MIN_ANGLE : angle.get());
   }
 
-  /**
-   * @return true if the robot's pose is inside a trench's hood safety zone, where the hood must be
-   *     kept down to clear the trench bridge overhead
-   */
   public boolean isInTrenchSafetyZone() {
     return FieldConstants.isInTrenchHoodSafetyZone(
         SwerveDriveSubsystem.getInstance().getPose().getTranslation());
   }
 
-  /**
-   * Stops the hood by disabling closed-loop control and commanding zero duty cycle.
-   *
-   * @return A one-shot command that stops the mechanism.
-   */
   public Command stop() {
     return this.runOnce(() -> m_motor.stopClosedLoopController()).andThen(setDutyCycle(0));
   }
 
-  /**
-   * Runs a SysId routine on the hood mechanism. This command will run a series of quasistatic and
-   * dynamic tests, logging the results to the Phoenix SignalLogger. The routine will stop the
-   * closed-loop controller before starting and restart it after finishing.
-   *
-   * @return A command that runs the SysId routine.
-   */
   public Command sysId() {
     final VoltageOut m_voltReq = new VoltageOut(0.0);
 
     final SysIdRoutine m_sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
-                // The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
-                // per second if left null.
+
                 Volts.of(0.5).per(Seconds),
-                // The step voltage output used for dynamic test routines. Defaults to 7 volts
-                // if left null.
+
                 Volts.of(0.5),
-                // Safety timeout for the test routine commands. Defaults to 10 seconds if
-                // left null.
+
                 Seconds.of(3),
-                // Log state with Phoenix SignalLogger class
+
                 (state) -> SignalLogger.writeString("state", state.toString())),
             new SysIdRoutine.Mechanism(
                 (volts) -> m_hoodMotor.setControl(m_voltReq.withOutput(volts.in(Volts))),
@@ -192,11 +143,6 @@ public class HoodSubsystem extends SubsystemBase {
   public void periodic() {
     m_hood.updateTelemetry();
 
-    // Backstop for when no command is actively driving the hood (e.g. a setpoint left over from
-    // before the robot entered the zone, or the hood never having been commanded this match).
-    // Subsystem periodic() runs before command execute() each cycle, so an active setAngle()
-    // command still wins the tug-of-war on its own via the same isInTrenchSafetyZone() check;
-    // this only takes over when nothing else is writing a setpoint this cycle.
     boolean inTrenchSafetyZone = isInTrenchSafetyZone();
     if (inTrenchSafetyZone) {
       m_hood.setMechanismPositionSetpoint(HoodConstants.MIN_ANGLE);

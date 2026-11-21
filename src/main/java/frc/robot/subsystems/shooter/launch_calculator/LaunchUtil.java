@@ -16,11 +16,10 @@ import frc.robot.subsystems.shooter.turret.TurretSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveDriveSubsystem;
 
 public class LaunchUtil {
-  // Helpers
   public static Translation2d getPassingTarget() {
     double robotY = SwerveDriveSubsystem.getInstance().getPose().getTranslation().getY();
     Alliance alliance =
-        DriverStation.getAlliance().orElse(Alliance.Blue); // this makes it not crash during sim
+        DriverStation.getAlliance().orElse(Alliance.Blue);
     if (robotY >= FieldConstants.FIELD_WIDTH / 2) {
       return (alliance == Alliance.Red)
           ? FieldConstants.PASSING_UP_RED
@@ -34,7 +33,6 @@ public class LaunchUtil {
 
   public static Angle getTurretAngleToHub(Pose2d robotPose) {
     Angle angleToAllianceHub = getAngleToAllianceHub(robotPose);
-    // Turret's zero setpoint faces the back of the robot, i.e. the robot's heading + 180 deg.
     Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
     Angle robotRotationCompensatedAngle =
         angleToAllianceHub
@@ -57,7 +55,6 @@ public class LaunchUtil {
 
   public static Angle getTurretAngleToPassingTarget(Pose2d robotPose) {
     Angle angleToPassingTarget = getAngleToPassingTarget(robotPose);
-    // Turret's zero setpoint faces the back of the robot, i.e. the robot's heading + 180 deg.
     Angle turretZeroFieldAngle = robotPose.getRotation().getMeasure().plus(Degrees.of(180));
     Angle robotRotationCompensatedAngle =
         angleToPassingTarget
@@ -100,7 +97,6 @@ public class LaunchUtil {
   }
 
   private static Angle wrapAngle(Angle target, Angle currentAngle) {
-    // normalize target angle between min angle and max angle
     Angle normalized = target;
     while (normalized.gte(MAX_ANGLE)) {
       normalized = normalized.minus(FULL_ROTATION);
@@ -112,7 +108,6 @@ public class LaunchUtil {
     Angle best = normalized;
     Angle bestDist = abs(normalized.minus(currentAngle));
 
-    // check if lower end representation of target is closer
     Angle plusAlt = normalized.plus(FULL_ROTATION);
     if (plusAlt.lte(MAX_ANGLE)) {
       Angle d = abs(plusAlt.minus(currentAngle));
@@ -121,7 +116,6 @@ public class LaunchUtil {
         bestDist = d;
       }
     }
-    // check if higher end representation of target is closer
     Angle minusAlt = normalized.minus(FULL_ROTATION);
     if (minusAlt.gte(MIN_ANGLE)) {
       Angle d = abs(minusAlt.minus(currentAngle));
@@ -152,7 +146,7 @@ public class LaunchUtil {
     Rotation3d r = transform3d.getRotation();
 
     Translation2d translation2d = new Translation2d(t.getX(), t.getY());
-    Rotation2d rotation2d = new Rotation2d(r.getZ()); // yaw only
+    Rotation2d rotation2d = new Rotation2d(r.getZ());
 
     return new Transform2d(translation2d, rotation2d);
   }

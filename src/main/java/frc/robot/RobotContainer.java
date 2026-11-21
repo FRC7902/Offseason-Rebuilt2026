@@ -1,6 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+
 
 package frc.robot;
 
@@ -81,9 +79,6 @@ public class RobotContainer {
 
     m_driverController = new CommandPS5Controller(Constants.DRIVER_CONTROLLER_PORT);
 
-    /*
-     * Swerve drive subsystem and input streams
-     */
     m_swerveDriveSubsystem = SwerveDriveSubsystem.getInstance();
     driveAngularVelocity =
         SwerveInputStream.of(
@@ -126,17 +121,10 @@ public class RobotContainer {
 
     driveFieldOrientedDirectAngle = m_swerveDriveSubsystem.driveFieldOriented(driveDirectAngle);
 
-    // Publish the poses of the components to NetworkTables for visualization in 3D
     posesPublisher =
         NetworkTableInstance.getDefault()
             .getStructArrayTopic("/3D/ComponentPoses", Pose3d.struct)
             .publish();
-
-    // TODO: Enable data logging once USB stick is connected
-    // Start data logging
-    // DataLogManager.start();
-    // Include DriverStation data in the log
-    // DriverStation.startDataLog(DataLogManager.getLog());
 
     m_linearIntakeSubsystem = LinearIntakeSubsystem.getInstance();
     m_hoodSubsystem = HoodSubsystem.getInstance();
@@ -191,19 +179,17 @@ public class RobotContainer {
         .onTrue((Commands.runOnce(m_swerveDriveSubsystem::zeroGyroWithAlliance)));
     m_driverController.create().whileTrue(m_swerveDriveSubsystem.centerModulesCommand());
 
-    // Neither intake button nor shoot button is pressed
     intakeTrigger
         .negate()
         .and(shootTrigger.negate())
-        .onTrue(m_intakeSystem.stop()) // Stop intaking
-        .onTrue(m_shooterSystem.stop()) // Stop shooting
-        .onTrue(m_indexerSystem.stop()); // Stop indexing
+        .onTrue(m_intakeSystem.stop())
+        .onTrue(m_shooterSystem.stop())
+        .onTrue(m_indexerSystem.stop());
 
-    // Shoot button is pressed, but intake button is not pressed
     intakeTrigger
         .negate()
         .and(shootTrigger)
-        .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        .onTrue(m_shooterSystem.aimAndShoot())
         .onTrue(
             Commands.sequence(
                 new ConditionalCommand(
@@ -211,69 +197,62 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 Commands.parallel(
-                    m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
+                    m_intakeSystem.shuffle(), m_indexerSystem.feedFuel()
                     )))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
-    // Intake button is pressed, but shoot button is not pressed
     intakeTrigger
         .and(shootTrigger.negate())
-        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        .onTrue(m_shooterSystem.stop()) // Stop shooting
-        .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
+        .onTrue(m_intakeSystem.extendAndIntake())
+        .onTrue(m_shooterSystem.stop())
+        .onTrue(m_indexerSystem.storeFuel());
 
-    // Both intake button and shoot button are pressed
     intakeTrigger
         .and(shootTrigger)
-        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        .onTrue(m_shooterSystem.aimAndShoot()) // Aim and shoot
+        .onTrue(m_intakeSystem.extendAndIntake())
+        .onTrue(m_shooterSystem.aimAndShoot())
         .onTrue(
             Commands.sequence(
                 new ConditionalCommand(
                     Commands.waitUntil(m_shooterSystem::isShooterReady).withTimeout(2),
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
-                m_indexerSystem.feedFuel())) // Feed fuel to shooter
+                m_indexerSystem.feedFuel()))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
-    // Manual Shoot Button Bindings
     Trigger manualShootTrigger = m_driverController.R1();
 
-    // Neither intake button nor manual shoot button is pressed
     intakeTrigger
         .negate()
         .and(manualShootTrigger.negate())
         .and(shootTrigger.negate())
-        .onTrue(m_intakeSystem.stop()) // Stop intaking
-        .onTrue(m_shooterSystem.stop()) // Stop shooting
-        .onTrue(m_indexerSystem.stop()); // Stop indexing
+        .onTrue(m_intakeSystem.stop())
+        .onTrue(m_shooterSystem.stop())
+        .onTrue(m_indexerSystem.stop());
 
-    // manual Shoot button is pressed, but intake button is not pressed
     intakeTrigger
         .negate()
         .and(manualShootTrigger)
         .and(shootTrigger.negate())
-        .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
+        .onTrue(m_shooterSystem.manualAimAndShoot())
         .onTrue(
-            m_intakeSystem.shuffle().alongWith(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+            m_intakeSystem.shuffle().alongWith(m_indexerSystem.feedFuel())
             )
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
-    // Intake button is pressed, but manual shoot button is not pressed
     intakeTrigger
         .and(manualShootTrigger.negate())
         .and(shootTrigger.negate())
-        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        .onTrue(m_shooterSystem.stop()) // Stop shooting
-        .onTrue(m_indexerSystem.storeFuel()); // Funnel fuel inside indexer
+        .onTrue(m_intakeSystem.extendAndIntake())
+        .onTrue(m_shooterSystem.stop())
+        .onTrue(m_indexerSystem.storeFuel());
 
-    // Both intake button and manual shoot button are pressed
     intakeTrigger
         .and(manualShootTrigger)
         .and(shootTrigger.negate())
-        .onTrue(m_intakeSystem.extendAndIntake()) // Extend and intake
-        .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
-        .onTrue(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+        .onTrue(m_intakeSystem.extendAndIntake())
+        .onTrue(m_shooterSystem.manualAimAndShoot())
+        .onTrue(m_indexerSystem.feedFuel())
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     Trigger outtakeTrigger = m_driverController.L1();
@@ -283,16 +262,7 @@ public class RobotContainer {
         .onTrue(m_indexerSystem.reverseRollerFloor());
 
     outtakeTrigger.onFalse(m_intakeSystem.stop()).onFalse(m_indexerSystem.stop());
-    /*
-     * Manual driving for swerve tuning
-     */
 
-    // m_driverController.povUp().whileTrue(m_swerveDriveSubsystem.driveForward());
-    // m_driverController.povDown().whileTrue(m_swerveDriveSubsystem.driveBackward());
-    // m_driverController.povLeft().whileTrue(m_swerveDriveSubsystem.driveLeft());
-    // m_driverController.povRight().whileTrue(m_swerveDriveSubsystem.driveRight());
-
-    // Turret manual offset adjustment
     m_driverController.povLeft().onTrue(m_turretSubsystem.moveTurretOffsetLeft());
     m_driverController.povRight().onTrue(m_turretSubsystem.moveTurretOffsetRight());
     m_driverController.povUp().onTrue(m_flywheelSubsystem.increaseFlywheelOffsetSpeed());
@@ -336,7 +306,7 @@ public class RobotContainer {
     return Commands.parallel(
         Commands.sequence(
             m_intakeSystem.extend().withTimeout(1),
-            m_intakeSystem.stop()), // First extend the intake all the way to deploy kicker bar
+            m_intakeSystem.stop()),
         m_shooterSystem.stop(),
         m_indexerSystem.stop());
   }

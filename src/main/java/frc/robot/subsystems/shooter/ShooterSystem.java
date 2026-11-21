@@ -25,12 +25,6 @@ public class ShooterSystem extends SubsystemBase {
     m_turret.setDefaultCommand(aimTurret());
   }
 
-  /**
-   * Creates a command that sets the flywheel speed and hood angle based on the current launch
-   * calculator parameters.
-   *
-   * @return command that indefinitely aims the shooter and runs the flywheel
-   */
   public Command aimAndShoot() {
     final var launchCalculator = LaunchCalculator.getInstance();
 
@@ -41,7 +35,7 @@ public class ShooterSystem extends SubsystemBase {
 
   public Command manualAimAndShoot() {
     return Commands.parallel(
-        // Turret angle is set repeatedly to override the turret's default command
+
         m_turret.setAngle(TurretConstants.DEFAULT_ANGLE).repeatedly(),
         m_hood.setAngle(HoodConstants.DEFAULT_ANGLE),
         m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM));
@@ -51,11 +45,6 @@ public class ShooterSystem extends SubsystemBase {
     return m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM);
   }
 
-  /**
-   * Creates a command that sets the turret angle based on the current launch calculator parameters.
-   *
-   * @return command that indefinitely aims the turret to the calculated target angle
-   */
   public Command aimTurret() {
     return Commands.run(
         () ->
@@ -63,13 +52,6 @@ public class ShooterSystem extends SubsystemBase {
         m_turret);
   }
 
-  /**
-   * Returns whether the shooter is ready to fire based on flywheel speed, hood angle, and turret
-   * alignment.
-   *
-   * @return true if the flywheel is at speed, the hood is at the target angle, and the turret is
-   *     aimed correctly
-   */
   public boolean isShooterReady() {
     return m_flywheel.isAtSetpoint() && m_hood.isHoodReadyToShoot() && m_turret.isAtSetpoint();
   }
@@ -82,13 +64,8 @@ public class ShooterSystem extends SubsystemBase {
     return m_flywheel.setDutyCycle(-0.25);
   }
 
-  /**
-   * Creates a command that stops the flywheel, hood, and turret subsystems.
-   *
-   * @return command that stops all shooter subsystems and runs indefinitely until interrupted
-   */
   public Command stop() {
-    // TODO: Change behaviour to slow flyweheel down to default speed, and lower hood to safe angle
+
     return Commands.parallel(
         m_flywheel.setVelocity(FlywheelConstants.DEFAULT_RPM),
         m_hood.setAngle(HoodConstants.MIN_ANGLE));
