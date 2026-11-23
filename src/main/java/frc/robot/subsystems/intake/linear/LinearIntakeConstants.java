@@ -58,12 +58,12 @@ public class LinearIntakeConstants {
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 10))
+          .withMechanismCircumference(Inches.of(1.5).times(Math.PI))
           .withClosedLoopController(5, 0, 0)
           .withSimClosedLoopController(25, 0, 0.3)
           .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5))
           .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(8.1)))
           .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "LinearIntakeMotor",
