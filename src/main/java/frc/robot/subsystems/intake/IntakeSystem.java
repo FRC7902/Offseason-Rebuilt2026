@@ -60,15 +60,22 @@ public class IntakeSystem extends SubsystemBase {
 
   private Command createSetpointSequence(Distance[] setpoints) {
     return Commands.sequence(
-        Arrays.stream(setpoints).map(m_linearIntake::setHeight).toArray(Command[]::new));
+        Arrays.stream(setpoints)
+            .map(
+                d ->
+                    m_linearIntake
+                        .setHeight(d)
+                        .withTimeout(LinearIntakeConstants.SHUFFLE_STEP_TIMEOUT_SECONDS))
+            .toArray(Command[]::new));
   }
 
   /**
    * Creates a command that shuffles the hopper by repeatedly moving the linear intake in and out.
    *
-   * <p>If the linear intake starts farther extended than midpoint, the command runs the intake
-   * rollers until the intake retracts back to midpoint. Otherwise, intake rollers should not be
-   * running.
+   * <p>The intake height doubles as a hopper-fill estimate: a full hopper physically blocks
+   * retraction, so the intake stays extended. Each cycle picks a shuffle stage from the current
+   * height (first / second / repeating). Every step has a timeout so a blocked carriage cannot hang
+   * the sequence. This command does not run the intake rollers.
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
