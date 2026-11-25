@@ -211,7 +211,8 @@ public class RobotContainer {
                     Commands.waitUntil(m_shooterSystem::isTurretReady).withTimeout(1),
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 Commands.parallel(
-                    m_intakeSystem.shuffle(), m_indexerSystem.feedFuel() // Feed fuel to shooter
+                    m_intakeSystem.getShuffleCommand(),
+                    m_indexerSystem.feedFuel() // Feed fuel to shooter
                     )))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
@@ -255,7 +256,9 @@ public class RobotContainer {
         .and(shootTrigger.negate())
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(
-            m_intakeSystem.shuffle().alongWith(m_indexerSystem.feedFuel()) // Feed fuel to shooter
+            m_intakeSystem
+                .getShuffleCommand()
+                .alongWith(m_indexerSystem.feedFuel()) // Feed fuel to shooter
             )
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 

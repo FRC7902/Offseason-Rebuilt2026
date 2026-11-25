@@ -1,5 +1,6 @@
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -7,6 +8,8 @@ import frc.robot.subsystems.intake.linear.LinearIntakeConstants;
 import frc.robot.subsystems.intake.linear.LinearIntakeSubsystem;
 import frc.robot.subsystems.intake.roller.IntakeRollerConstants;
 import frc.robot.subsystems.intake.roller.IntakeRollerSubsystem;
+import java.util.Arrays;
+import java.util.function.BooleanSupplier;
 
 public class IntakeSystem extends SubsystemBase {
   private final LinearIntakeSubsystem m_linearIntake;
@@ -55,20 +58,42 @@ public class IntakeSystem extends SubsystemBase {
         m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE), m_intakeRoller.stop());
   }
 
+  private Command createSetpointSequence(Distance[] setpoints) {
+    return Commands.sequence(
+        Arrays.stream(setpoints)
+            .map(
+                d ->
+                    m_linearIntake
+                        .setHeight(d)
+                        .withTimeout(LinearIntakeConstants.SHUFFLE_STEP_TIMEOUT_SECONDS))
+            .toArray(Command[]::new));
+  }
+
   /**
    * Creates a command that shuffles the hopper by repeatedly moving the linear intake in and out.
    *
-   * <p>If the linear intake starts farther extended than midpoint, the command runs the intake
-   * rollers until the intake retracts back to midpoint. Otherwise, intake rollers should not be
-   * running.
+   * <p>The intake height doubles as a hopper-fill estimate: a full hopper physically blocks
+   * retraction, so the intake stays extended. Each cycle picks a shuffle stage from the current
+   * height (first / second / repeating). Every step has a timeout so a blocked carriage cannot hang
+   * the sequence. This command does not run the intake rollers.
    *
    * @return command that runs indefinitely until interrupted, shuffling the hopper
    */
-  public Command shuffle() {
-    return Commands.sequence(
-            m_linearIntake.setHeight(LinearIntakeConstants.MIDPOINT_DISTANCE).withTimeout(1),
-            m_linearIntake.setHeight(LinearIntakeConstants.FULLY_EXTENDED).withTimeout(1))
-        .repeatedly()
-        .alongWith(m_intakeRoller.setSpeed(IntakeRollerConstants.INTAKE_DUTY_CYCLE));
+  public Command getShuffleCommand() {
+    Command firstShuffle = createSetpointSequence(LinearIntakeConstants.FIRST_SHUFFLE_DISTANCES);
+    Command secondShuffle = createSetpointSequence(LinearIntakeConstants.SECOND_SHUFFLE_DISTANCES);
+    Command repeatingShuffle =
+        createSetpointSequence(LinearIntakeConstants.REPEATING_SHUFFLE_DISTANCES);
+
+    BooleanSupplier isAtLeastHalf =
+        () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.MIDPOINT_DISTANCE);
+
+    BooleanSupplier isAtLeastNearRetracted =
+        () -> m_linearIntake.getHeight().gte(LinearIntakeConstants.NEAR_FULLY_RETRACTED);
+
+    Command secondaryShuffle =
+        Commands.either(secondShuffle, repeatingShuffle, isAtLeastNearRetracted);
+
+    return Commands.either(firstShuffle, secondaryShuffle, isAtLeastHalf).repeatedly();
   }
 }

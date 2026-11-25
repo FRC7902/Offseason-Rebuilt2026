@@ -34,18 +34,42 @@ public class LinearIntakeConstants {
 
   public static final Distance TOLERANCE = Meters.of(0.01);
 
+  /**
+   * Max time each shuffle step may run. A step that times out means the carriage was blocked (e.g.
+   * hopper full), so the shuffle re-reads the height and picks the next stage.
+   */
+  public static final double SHUFFLE_STEP_TIMEOUT_SECONDS = 1.0; // TODO tune on robot
+
   public static final Distance FULLY_RETRACTED = Meters.zero();
   public static final Distance FULLY_EXTENDED = Meters.of(0.2630);
   public static final Distance MIDPOINT_DISTANCE = Meters.of(0.220);
+  public static final Distance NEAR_FULLY_RETRACTED = Inches.of(2.9219); // TODO
+  public static final Distance SHUFFLE_MIDPOINT = Inches.of(8.7656); // TODO
+
+  public static final Distance[] FIRST_SHUFFLE_DISTANCES = { // TODO
+    SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
+  };
+
+  public static final Distance[] SECOND_SHUFFLE_DISTANCES = { // TODO
+    NEAR_FULLY_RETRACTED,
+    MIDPOINT_DISTANCE,
+    NEAR_FULLY_RETRACTED,
+    MIDPOINT_DISTANCE,
+    FULLY_RETRACTED
+  };
+
+  public static final Distance[] REPEATING_SHUFFLE_DISTANCES = { // TODO
+    FULLY_RETRACTED, NEAR_FULLY_RETRACTED
+  };
 
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
-          .withMechanismCircumference(Meters.of(Inches.of(0.25).in(Meters) * 10))
+          .withMechanismCircumference(Inches.of(1.5).times(Math.PI)) // 1.5 in pitch diameter
           .withClosedLoopController(5, 0, 0)
           .withSimClosedLoopController(25, 0, 0.3)
           .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5))
           .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)
-          .withGearing(new MechanismGearing(GearBox.fromReductionStages(5.0625)))
+          .withGearing(new MechanismGearing(GearBox.fromReductionStages(8.1)))
           .withIdleMode(MotorMode.COAST)
           .withTelemetry(
               "LinearIntakeMotor",
