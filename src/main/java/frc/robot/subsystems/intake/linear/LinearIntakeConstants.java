@@ -41,10 +41,10 @@ public class LinearIntakeConstants {
   public static final double SHUFFLE_STEP_TIMEOUT_SECONDS = 1.0; // TODO tune on robot
 
   public static final Distance FULLY_RETRACTED = Meters.zero();
-  public static final Distance FULLY_EXTENDED = Meters.of(0.2630);
+  public static final Distance FULLY_EXTENDED = Meters.of(0.266128);
   public static final Distance MIDPOINT_DISTANCE = Meters.of(0.220);
-  public static final Distance NEAR_FULLY_RETRACTED = Inches.of(2.9219); // TODO
-  public static final Distance SHUFFLE_MIDPOINT = Inches.of(8.7656); // TODO
+  public static final Distance NEAR_FULLY_RETRACTED = Meters.of(0.0742); // TODO
+  public static final Distance SHUFFLE_MIDPOINT = Meters.of(0.2226437); // TODO
 
   public static final Distance[] FIRST_SHUFFLE_DISTANCES = { // TODO
     SHUFFLE_MIDPOINT, FULLY_EXTENDED, MIDPOINT_DISTANCE, SHUFFLE_MIDPOINT, NEAR_FULLY_RETRACTED
@@ -65,7 +65,7 @@ public class LinearIntakeConstants {
   public static final SmartMotorControllerConfig SMC_CONFIG =
       new SmartMotorControllerConfig()
           .withMechanismCircumference(Inches.of(1.5).times(Math.PI)) // 1.5 in pitch diameter
-          .withClosedLoopController(5, 0, 0)
+          .withClosedLoopController(100, 0, 0)
           .withSimClosedLoopController(25, 0, 0.3)
           .withTrapezoidalProfile(MetersPerSecond.of(1.5), MetersPerSecondPerSecond.of(1.5))
           .withSoftLimits(FULLY_RETRACTED, FULLY_EXTENDED)

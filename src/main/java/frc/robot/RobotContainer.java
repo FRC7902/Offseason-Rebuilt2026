@@ -212,8 +212,8 @@ public class RobotContainer {
                     () -> LaunchCalculator.getInstance().getParameters().passing()),
                 Commands.parallel(
                     m_intakeSystem.getShuffleCommand(),
-                    m_indexerSystem.feedFuel() // Feed fuel to shooter
-                    )))
+                    m_indexerSystem.feedFuel(), // Feed fuel to shooter
+                    IntakeRollerSubsystem.getInstance().stop())))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Intake button is pressed, but shoot button is not pressed
@@ -256,10 +256,11 @@ public class RobotContainer {
         .and(shootTrigger.negate())
         .onTrue(m_shooterSystem.manualAimAndShoot()) // Aim and shoot
         .onTrue(
-            m_intakeSystem
-                .getShuffleCommand()
-                .alongWith(m_indexerSystem.feedFuel()) // Feed fuel to shooter
-            )
+            Commands.parallel(
+                m_intakeSystem
+                    .getShuffleCommand()
+                    .alongWith(m_indexerSystem.feedFuel()), // Feed fuel to shooter
+                IntakeRollerSubsystem.getInstance().stop()))
         .whileTrue(driveSlowFieldOrientedAngularVelocity);
 
     // Intake button is pressed, but manual shoot button is not pressed
